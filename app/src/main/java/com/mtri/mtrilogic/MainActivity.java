@@ -1,0 +1,52 @@
+package com.mtri.mtrilogic;
+
+import android.support.v4.app.FragmentManager;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+
+import com.mtri.abstracts.Fragmentable;
+import com.mtri.adapters.FragmentableAdapter;
+import com.mtri.mtrilogic.fragments.ExpandableFragment;
+import com.mtri.mtrilogic.fragments.InflatableFragment;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener{
+    private List<Fragmentable> fragmentables;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        FragmentManager manager = getSupportFragmentManager();
+        fragmentables = new ArrayList<>();
+        FragmentableAdapter adapter = new FragmentableAdapter(manager, fragmentables);
+        ViewPager pager = findViewById(R.id.pager);
+        pager.setAdapter(adapter);
+        pager.addOnPageChangeListener(this);
+
+        if(savedInstanceState == null){
+            fragmentables.add(InflatableFragment.getInstance("Inflatable",0));
+            fragmentables.add(ExpandableFragment.getInstance("Expandable",1));
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void onPageScrolled(int i, float v, int i1){
+
+    }
+
+    @Override
+    public void onPageSelected(int position){
+        setTitle(fragmentables.get(position).getPageTitle());
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int i){
+
+    }
+}
