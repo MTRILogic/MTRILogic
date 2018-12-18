@@ -13,12 +13,11 @@ import com.mtri.mtrilogic.R;
 import com.mtri.mtrilogic.models.ChildModel;
 import com.mtri.views.SquareImageView;
 
-public class ChildItem extends ExpandableChild implements View.OnClickListener{
-    private ChildModel model;
+public class ChildItem extends ExpandableChild<ChildModel> implements View.OnClickListener{
+    //private static final String TAG = "ChildItemTAG";
 
-    public ChildItem(OnNotifyDataSetChangedListener listener, long id, boolean selectable, ChildModel model){
-        super(listener,id,selectable);
-        this.model = model;
+    public ChildItem(OnNotifyDataSetChangedListener listener, ChildModel model, long id, boolean selectable){
+        super(listener,model,id,selectable);
     }
 
     @Override
@@ -41,11 +40,6 @@ public class ChildItem extends ExpandableChild implements View.OnClickListener{
         holder.chkChild.setOnClickListener(this);
         holder.ivwIcon.setImageResource(model.getIcon());
         return view;
-    }
-
-    @Override
-    public ChildModel getModel(){
-        return model;
     }
 
     @Override

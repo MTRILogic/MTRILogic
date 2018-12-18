@@ -6,16 +6,21 @@ import android.view.ViewGroup;
 
 import com.mtri.interfaces.OnNotifyDataSetChangedListener;
 
-public abstract class Expandable{
+public abstract class Expandable<M extends Modelable>{
     protected OnNotifyDataSetChangedListener listener;
-    private long id;
+    protected M model;
+    protected long id;
 
     public abstract View getExpandableView(boolean b, View view, ViewGroup parent, Context context);
-    public abstract Object getModel();
 
-    Expandable(OnNotifyDataSetChangedListener listener,long id){
+    Expandable(OnNotifyDataSetChangedListener listener, M model, long id){
         this.listener = listener;
+        this.model = model;
         this.id = id;
+    }
+
+    public M getModel(){
+        return model;
     }
 
     public long getItemId(){

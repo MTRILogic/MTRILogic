@@ -28,6 +28,10 @@ public class ExpandableFragment extends Fragmentable implements OnNotifyDataSetC
         return fragment;
     }
 
+    public ExpandableFragment(){
+        idx = 0;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
@@ -35,24 +39,22 @@ public class ExpandableFragment extends Fragmentable implements OnNotifyDataSetC
         View view = inflater.inflate(R.layout.fragment_expandable,container,false);
         ExpandableListView lvwItems = view.findViewById(R.id.lvw_items);
         lvwItems.setAdapter(adapter);
-        idx = 0;
         return view;
     }
 
     @Override
     public void onStart(){
         super.onStart();
-        super.onStart();
         for(int y = 0; y < 5; y++){
             GroupModel groupModel = new GroupModel();
             groupModel.setTitle(getString(R.string.title_count,y));
-            adapter.addGroup("book" + y,new GroupItem(this,idx++, groupModel));
+            adapter.addGroup("book" + y,new GroupItem(this,groupModel,idx++));
             for(int x = 0; x < 5; x++){
                 ChildModel childModel = new ChildModel();
                 childModel.setTitle(getString(R.string.title_count,x));
                 childModel.setContent(getString(R.string.content));
                 childModel.setIcon(R.mipmap.ic_launcher);
-                adapter.addChild("book" + y,new ChildItem(this,idx++,true,childModel));
+                adapter.addChild("book" + y,new ChildItem(this,childModel,idx++,true));
             }
         }
         adapter.notifyDataSetChanged();

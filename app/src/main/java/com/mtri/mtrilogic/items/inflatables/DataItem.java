@@ -7,14 +7,15 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.mtri.abstracts.Inflatable;
+import com.mtri.interfaces.OnNotifyDataSetChangedListener;
 import com.mtri.mtrilogic.R;
 import com.mtri.mtrilogic.models.DataModel;
 import com.mtri.views.SquareImageView;
 
 public class DataItem extends Inflatable<DataModel>{
 
-    public DataItem(long id, DataModel model){
-        super(model,id);
+    public DataItem(OnNotifyDataSetChangedListener listener, DataModel model, long id){
+        super(listener,model,id);
     }
 
     @Override

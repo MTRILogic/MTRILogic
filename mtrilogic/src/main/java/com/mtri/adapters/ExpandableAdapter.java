@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ExpandableAdapter extends BaseExpandableListAdapter{
-    private Map<String,ExpandableGroup> groupMap;
+    private Map<String,ExpandableGroup<?>> groupMap;
     private List<String> keys;
     private Context context;
 
@@ -24,14 +24,14 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
         keys = new ArrayList<>();
     }
 
-    public void addGroup(String key, ExpandableGroup group){
+    public void addGroup(String key, ExpandableGroup<?> group){
         if(!groupMap.containsKey(key)){
             groupMap.put(key,group);
             keys.add(key);
         }
     }
 
-    public void addChild(String key, ExpandableChild child){
+    public void addChild(String key, ExpandableChild<?> child){
         if(groupMap.containsKey(key)){
             getExpandableGroup(key).getChildList().add(child);
         }
@@ -48,12 +48,12 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
     }
 
     @Override
-    public ExpandableGroup getGroup(int groupPosition){
+    public ExpandableGroup<?> getGroup(int groupPosition){
         return getExpandableGroup(keys.get(groupPosition));
     }
 
     @Override
-    public ExpandableChild getChild(int groupPosition, int childPosition){
+    public ExpandableChild<?> getChild(int groupPosition, int childPosition){
         return getGroup(groupPosition).getChildList().get(childPosition);
     }
 
@@ -87,7 +87,7 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
         return getChild(groupPosition,childPosition).isSelectable();
     }
 
-    private ExpandableGroup getExpandableGroup(String key){
+    private ExpandableGroup<?> getExpandableGroup(String key){
         return groupMap.get(key);
     }
 }

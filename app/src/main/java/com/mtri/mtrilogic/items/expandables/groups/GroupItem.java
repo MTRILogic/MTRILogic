@@ -1,7 +1,6 @@
 package com.mtri.mtrilogic.items.expandables.groups;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,18 +14,15 @@ import com.mtri.mtrilogic.R;
 import com.mtri.mtrilogic.models.ChildModel;
 import com.mtri.mtrilogic.models.GroupModel;
 
-public class GroupItem extends ExpandableGroup implements View.OnClickListener{
-    private static final String TAG = "GroupItemTAG";
-    private GroupModel model;
+public class GroupItem extends ExpandableGroup<GroupModel> implements View.OnClickListener{
+    //private static final String TAG = "GroupItemTAG";
 
-    public GroupItem(OnNotifyDataSetChangedListener listener, long id, GroupModel model){
-        super(listener,id);
-        this.model = model;
+    public GroupItem(OnNotifyDataSetChangedListener listener, GroupModel model, long id){
+        super(listener,model,id);
     }
 
     @Override
     public View getExpandableView(boolean b, View view, ViewGroup parent, Context context){
-        Log.d(TAG, "getExpandableView: " + b);
         ViewHolder holder = null;
         if(view != null){
             Object tag = view.getTag();
@@ -43,11 +39,6 @@ public class GroupItem extends ExpandableGroup implements View.OnClickListener{
         holder.chkGroup.setChecked(model.isChecked());
         holder.chkGroup.setOnClickListener(this);
         return view;
-    }
-
-    @Override
-    public GroupModel getModel(){
-        return model;
     }
 
     @Override

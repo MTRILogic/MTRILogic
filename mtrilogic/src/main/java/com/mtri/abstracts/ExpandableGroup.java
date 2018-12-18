@@ -5,15 +5,15 @@ import com.mtri.interfaces.OnNotifyDataSetChangedListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class ExpandableGroup extends Expandable{
-    private List<ExpandableChild> childList;
+public abstract class ExpandableGroup<M extends Modelable> extends Expandable<M>{
+    private List<ExpandableChild<?>> childList;
 
-    public ExpandableGroup(OnNotifyDataSetChangedListener listener, long id){
-        super(listener,id);
+    public ExpandableGroup(OnNotifyDataSetChangedListener listener, M model, long id){
+        super(listener,model,id);
         childList = new ArrayList<>();
     }
 
-    public List<ExpandableChild> getChildList(){
+    public List<ExpandableChild<?>> getChildList(){
         return childList;
     }
 }
