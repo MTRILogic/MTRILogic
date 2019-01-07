@@ -1,5 +1,5 @@
 package com.mtri.interfaces;
 
-public interface OnNotifyDataSetChangedListener{
+public interface OnAdapterChangedListener{
     void onNotifyDataSetChanged();
 }

@@ -10,10 +10,10 @@ import com.mtri.abstracts.Inflatable;
 import java.util.List;
 
 public class InflatableAdapter extends BaseAdapter{
-    private List<Inflatable<?>> items;
+    private List<Inflatable> items;
     private Context context;
 
-    public InflatableAdapter(List<Inflatable<?>> items, Context context){
+    public InflatableAdapter(List<Inflatable> items, Context context){
         this.items = items;
         this.context = context;
     }
@@ -24,7 +24,7 @@ public class InflatableAdapter extends BaseAdapter{
     }
 
     @Override
-    public Inflatable<?> getItem(int position){
+    public Inflatable getItem(int position){
         return items.get(position);
     }
 

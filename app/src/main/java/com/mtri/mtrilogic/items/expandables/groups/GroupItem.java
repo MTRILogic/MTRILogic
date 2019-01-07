@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.mtri.abstracts.ExpandableChild;
 import com.mtri.abstracts.ExpandableGroup;
-import com.mtri.interfaces.OnNotifyDataSetChangedListener;
+import com.mtri.interfaces.OnAdapterChangedListener;
 import com.mtri.mtrilogic.R;
 import com.mtri.mtrilogic.models.ChildModel;
 import com.mtri.mtrilogic.models.GroupModel;
@@ -17,7 +17,7 @@ import com.mtri.mtrilogic.models.GroupModel;
 public class GroupItem extends ExpandableGroup<GroupModel> implements View.OnClickListener{
     //private static final String TAG = "GroupItemTAG";
 
-    public GroupItem(OnNotifyDataSetChangedListener listener, GroupModel model, long id){
+    public GroupItem(OnAdapterChangedListener listener, GroupModel model, long id){
         super(listener,model,id);
     }
 

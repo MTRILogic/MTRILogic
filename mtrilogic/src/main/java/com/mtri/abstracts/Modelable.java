@@ -4,23 +4,23 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public abstract class Modelable implements Parcelable{
-    private int classId;
+    private int viewType;
 
-    public Modelable(int classId){
-        this.classId = classId;
+    public Modelable(int viewType){
+        this.viewType = viewType;
     }
 
     public Modelable(Parcel src){
-        classId = src.readInt();
+        viewType = src.readInt();
     }
 
-    public int getClassId(){
-        return classId;
+    public int getViewType(){
+        return viewType;
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags){
-        dest.writeInt(classId);
+        dest.writeInt(viewType);
     }
 
     @Override

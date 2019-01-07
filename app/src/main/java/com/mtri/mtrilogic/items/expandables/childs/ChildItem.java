@@ -8,7 +8,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.mtri.abstracts.ExpandableChild;
-import com.mtri.interfaces.OnNotifyDataSetChangedListener;
+import com.mtri.interfaces.OnAdapterChangedListener;
 import com.mtri.mtrilogic.R;
 import com.mtri.mtrilogic.models.ChildModel;
 import com.mtri.views.SquareImageView;
@@ -16,7 +16,7 @@ import com.mtri.views.SquareImageView;
 public class ChildItem extends ExpandableChild<ChildModel> implements View.OnClickListener{
     //private static final String TAG = "ChildItemTAG";
 
-    public ChildItem(OnNotifyDataSetChangedListener listener, ChildModel model, long id, boolean selectable){
+    public ChildItem(OnAdapterChangedListener listener, ChildModel model, long id, boolean selectable){
         super(listener,model,id,selectable);
     }
 

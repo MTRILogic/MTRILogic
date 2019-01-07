@@ -10,14 +10,14 @@ import android.widget.ExpandableListView;
 
 import com.mtri.abstracts.Fragmentable;
 import com.mtri.adapters.ExpandableAdapter;
-import com.mtri.interfaces.OnNotifyDataSetChangedListener;
+import com.mtri.interfaces.OnAdapterChangedListener;
 import com.mtri.mtrilogic.R;
 import com.mtri.mtrilogic.items.expandables.childs.ChildItem;
 import com.mtri.mtrilogic.items.expandables.groups.GroupItem;
 import com.mtri.mtrilogic.models.ChildModel;
 import com.mtri.mtrilogic.models.GroupModel;
 
-public class ExpandableFragment extends Fragmentable implements OnNotifyDataSetChangedListener{
+public class ExpandableFragment extends Fragmentable implements OnAdapterChangedListener{
     private ExpandableAdapter adapter;
     private long idx;
 
@@ -28,10 +28,6 @@ public class ExpandableFragment extends Fragmentable implements OnNotifyDataSetC
         return fragment;
     }
 
-    public ExpandableFragment(){
-        idx = 0;
-    }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
@@ -39,25 +35,25 @@ public class ExpandableFragment extends Fragmentable implements OnNotifyDataSetC
         View view = inflater.inflate(R.layout.fragment_expandable,container,false);
         ExpandableListView lvwItems = view.findViewById(R.id.lvw_items);
         lvwItems.setAdapter(adapter);
-        return view;
-    }
-
-    @Override
-    public void onStart(){
-        super.onStart();
-        for(int y = 0; y < 5; y++){
-            GroupModel groupModel = new GroupModel();
-            groupModel.setTitle(getString(R.string.title_count,y));
-            adapter.addGroup("book" + y,new GroupItem(this,groupModel,idx++));
-            for(int x = 0; x < 5; x++){
-                ChildModel childModel = new ChildModel();
-                childModel.setTitle(getString(R.string.title_count,x));
-                childModel.setContent(getString(R.string.content));
-                childModel.setIcon(R.mipmap.ic_launcher);
-                adapter.addChild("book" + y,new ChildItem(this,childModel,idx++,true));
+        if(savedInstanceState == null){
+            idx = 0;
+            for(int y = 0; y < 5; y++){
+                GroupModel groupModel = new GroupModel();
+                groupModel.setTitle(getString(R.string.title_count,y));
+                adapter.addGroup("book" + y,new GroupItem(this,groupModel,idx++));
+                for(int x = 0; x < 5; x++){
+                    ChildModel childModel = new ChildModel();
+                    childModel.setTitle(getString(R.string.title_count,x));
+                    childModel.setContent(getString(R.string.content));
+                    childModel.setIcon(R.mipmap.ic_launcher);
+                    adapter.addChild("book" + y,new ChildItem(this,childModel,idx++,true));
+                }
+            }
+            if(idx > 0){
+                adapter.notifyDataSetChanged();
             }
         }
-        adapter.notifyDataSetChanged();
+        return view;
     }
 
     @Override
