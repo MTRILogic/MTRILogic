@@ -15,7 +15,7 @@ import com.mtrilogic.abstracts.Recyclable;
 import com.mtrilogic.adapters.RecyclableAdapter;
 import com.mtrilogic.interfaces.OnClickPositionListener;
 import com.mtrilogic.interfaces.OnMakeToastListener;
-import com.mtrilogic.interfaces.OnNewHolderListener;
+import com.mtrilogic.interfaces.OnViewTypeAndHolderListener;
 import com.mtrilogic.interfaces.OnNotifyDataSetChangedListener;
 import com.mtrilogic.sampleapp.R;
 import com.mtrilogic.sampleapp.holders.RecyclableHolder;
@@ -25,7 +25,7 @@ import com.mtrilogic.sampleapp.models.DataModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecyclableFragment extends Fragmentable implements OnNotifyDataSetChangedListener, OnNewHolderListener, OnClickPositionListener{
+public class RecyclableFragment extends Fragmentable implements OnNotifyDataSetChangedListener, OnViewTypeAndHolderListener, OnClickPositionListener{
     private OnMakeToastListener listener;
     private List<Recyclable> items;
     private RecyclableAdapter adapter;
@@ -94,6 +94,11 @@ public class RecyclableFragment extends Fragmentable implements OnNotifyDataSetC
                 return new RecyclableHolder(view,this);
         }
         return null;
+    }
+
+    @Override
+    public int onGetViewType(int position){
+        return 0; // we return the id of the only type to return for this sample
     }
 
     @Override

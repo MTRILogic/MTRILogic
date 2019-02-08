@@ -7,13 +7,15 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.mtrilogic.abstracts.Fragmentable;
 import com.mtrilogic.abstracts.Inflatable;
 import com.mtrilogic.adapters.InflatableAdapter;
+import com.mtrilogic.interfaces.OnMakeToastListener;
 import com.mtrilogic.interfaces.OnNotifyDataSetChangedListener;
-import com.mtrilogic.interfaces.ViewTypeListener;
+import com.mtrilogic.interfaces.OnGetViewTypeAndCountListener;
 import com.mtrilogic.sampleapp.R;
 import com.mtrilogic.sampleapp.items.inflatables.InflatableItem;
 import com.mtrilogic.sampleapp.models.DataModel;
@@ -21,7 +23,8 @@ import com.mtrilogic.sampleapp.models.DataModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InflatableFragment extends Fragmentable implements OnNotifyDataSetChangedListener, ViewTypeListener{
+public class InflatableFragment extends Fragmentable implements OnNotifyDataSetChangedListener, OnGetViewTypeAndCountListener, AdapterView.OnItemClickListener{
+    private OnMakeToastListener listener;
     private List<Inflatable> items;
     private InflatableAdapter adapter;
     private long idx;
@@ -33,6 +36,20 @@ public class InflatableFragment extends Fragmentable implements OnNotifyDataSetC
         return fragment;
     }
 
+    @Override
+    public void onAttach(Context context){
+        super.onAttach(context);
+        if(context instanceof OnMakeToastListener){
+            listener = (OnMakeToastListener)context;
+        }
+    }
+
+    @Override
+    public void onDetach(){
+        listener = null;
+        super.onDetach();
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
@@ -42,6 +59,7 @@ public class InflatableFragment extends Fragmentable implements OnNotifyDataSetC
         View view = inflater.inflate(R.layout.fragment_inflatable,container,false);
         ListView lvwItems = view.findViewById(R.id.lvw_items);
         lvwItems.setAdapter(adapter);
+        lvwItems.setOnItemClickListener(this);
         if(savedInstanceState == null){
             idx = 0;
             for(int i = 0; i < 10; i++){
@@ -66,12 +84,17 @@ public class InflatableFragment extends Fragmentable implements OnNotifyDataSetC
     }
 
     @Override
-    public int getItemViewType(int position){
-        return 0;
+    public int onGetViewTypeCount(){
+        return 1;//the number of types to return
     }
 
     @Override
-    public int getViewTypeCount(){
-        return 1;
+    public int onGetViewType(int position){
+        return 0;//the id of the only type used in this sample
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id){
+        listener.onMakeToast("Item " + position);
     }
 }

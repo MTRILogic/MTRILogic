@@ -6,16 +6,16 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.mtrilogic.abstracts.Inflatable;
-import com.mtrilogic.interfaces.ViewTypeListener;
+import com.mtrilogic.interfaces.OnGetViewTypeAndCountListener;
 
 import java.util.List;
 
 public class InflatableAdapter extends BaseAdapter{
-    private ViewTypeListener listener;
+    private OnGetViewTypeAndCountListener listener;
     private List<Inflatable> items;
     private Context context;
 
-    public InflatableAdapter(List<Inflatable> items, Context context, ViewTypeListener listener){
+    public InflatableAdapter(List<Inflatable> items, Context context, OnGetViewTypeAndCountListener listener){
         this.items = items;
         this.context = context;
         this.listener = listener;
@@ -43,11 +43,11 @@ public class InflatableAdapter extends BaseAdapter{
 
     @Override
     public int getViewTypeCount(){
-        return listener.getViewTypeCount();
+        return listener.onGetViewTypeCount();
     }
 
     @Override
     public int getItemViewType(int position){
-        return listener.getItemViewType(position);
+        return listener.onGetViewType(position);
     }
 }
