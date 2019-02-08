@@ -1,4 +1,4 @@
-package com.mtri.mtrilogic;
+package com.mtrilogic.sampleapp;
 
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
@@ -6,12 +6,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.mtri.abstracts.Fragmentable;
-import com.mtri.adapters.FragmentableAdapter;
-import com.mtri.interfaces.OnMakeToastListener;
-import com.mtri.mtrilogic.fragments.ExpandableFragment;
-import com.mtri.mtrilogic.fragments.InflatableFragment;
-import com.mtri.mtrilogic.fragments.RecyclableFragment;
+import com.mtrilogic.abstracts.Fragmentable;
+import com.mtrilogic.adapters.FragmentableAdapter;
+import com.mtrilogic.interfaces.OnMakeToastListener;
+import com.mtrilogic.sampleapp.fragments.ExpandableFragment;
+import com.mtrilogic.sampleapp.fragments.InflatableFragment;
+import com.mtrilogic.sampleapp.fragments.RecyclableFragment;
 
 import java.util.ArrayList;
 import java.util.List;
