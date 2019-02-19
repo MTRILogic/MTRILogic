@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:padding="5dp">
+    android:paddingStart="?android:attr/expandableListPreferredChildPaddingLeft"
+    android:padding="5dp"
+    tools:ignore="RtlSymmetry">
 
     <com.mtrilogic.views.SquareImageView
         android:id="@+id/ivw_icon"

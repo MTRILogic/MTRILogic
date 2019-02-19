@@ -6,13 +6,12 @@ import android.content.DialogInterface;
 
 import com.mtrilogic.interfaces.OnDialogDoneListener;
 
+@SuppressWarnings("unused")
 public abstract class Dialogable extends Dialog implements DialogInterface.OnClickListener{
     protected OnDialogDoneListener listener;
-    protected int classId;
 
-    public Dialogable(Context context, OnDialogDoneListener listener, int classId){
+    public Dialogable(Context context, OnDialogDoneListener listener){
         super(context);
         this.listener = listener;
-        this.classId = classId;
     }
 }

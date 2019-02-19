@@ -12,28 +12,38 @@ import android.widget.ListView;
 
 import com.mtrilogic.abstracts.Fragmentable;
 import com.mtrilogic.abstracts.Inflatable;
+import com.mtrilogic.abstracts.Modelable;
 import com.mtrilogic.adapters.InflatableAdapter;
+import com.mtrilogic.interfaces.ID;
+import com.mtrilogic.interfaces.InflatableAdapterListener;
+import com.mtrilogic.interfaces.InflatableListener;
 import com.mtrilogic.interfaces.OnMakeToastListener;
-import com.mtrilogic.interfaces.OnNotifyDataSetChangedListener;
-import com.mtrilogic.interfaces.OnGetViewTypeAndCountListener;
 import com.mtrilogic.sampleapp.R;
-import com.mtrilogic.sampleapp.items.inflatables.InflatableItem;
+import com.mtrilogic.sampleapp.items.inflatables.InflatableImageItem;
+import com.mtrilogic.sampleapp.items.inflatables.InflatableDataItem;
 import com.mtrilogic.sampleapp.models.DataModel;
+import com.mtrilogic.sampleapp.models.ImageModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class InflatableFragment extends Fragmentable implements OnNotifyDataSetChangedListener, OnGetViewTypeAndCountListener, AdapterView.OnItemClickListener{
+public class InflatableFragment extends Fragmentable implements AdapterView.OnItemClickListener, InflatableListener, InflatableAdapterListener{
+    //private static final String TAG = "InflatableFragmentTAG";
     private OnMakeToastListener listener;
-    private List<Inflatable> items;
+    private List<Modelable> models;
     private InflatableAdapter adapter;
-    private long idx;
+    private String pageTitle;
+    private long itemId, idx;
 
-    public static InflatableFragment getInstance(String title, long id){
+    public static InflatableFragment getInstance(String pageTitle, long itemId){
         InflatableFragment fragment = new InflatableFragment();
-        fragment.setPageTitle(title);
-        fragment.setItemId(id);
+        fragment.pageTitle = pageTitle;
+        fragment.itemId = itemId;
         return fragment;
+    }
+
+    public InflatableFragment(){
+        models = new ArrayList<>();
     }
 
     @Override
@@ -50,51 +60,86 @@ public class InflatableFragment extends Fragmentable implements OnNotifyDataSetC
         super.onDetach();
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+        loadModelList();
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
-        Context context = getContext();
-        items = new ArrayList<>();
-        adapter = new InflatableAdapter(items,context,this);
+        adapter = new InflatableAdapter(this,models,2);
         View view = inflater.inflate(R.layout.fragment_inflatable,container,false);
         ListView lvwItems = view.findViewById(R.id.lvw_items);
         lvwItems.setAdapter(adapter);
         lvwItems.setOnItemClickListener(this);
-        if(savedInstanceState == null){
-            idx = 0;
-            for(int i = 0; i < 10; i++){
-                DataModel model = new DataModel();
-                model.setTitle(getString(R.string.title_count,i));
-                model.setContent(getString(R.string.content));
-                model.setIcon(R.mipmap.ic_launcher_round);
-                if(items.add(new InflatableItem(this,idx,model))){
-                    idx++;
-                }
-            }
-            if(idx > 0){
-                adapter.notifyDataSetChanged();
-            }
-        }
         return view;
     }
 
     @Override
-    public void onNotifyDataSetChanged(){
-        adapter.notifyDataSetChanged();
+    public String getPageTitle(){
+        return pageTitle;
     }
 
     @Override
-    public int onGetViewTypeCount(){
-        return 1;//the number of types to return
-    }
-
-    @Override
-    public int onGetViewType(int position){
-        return 0;//the id of the only type used in this sample
+    public long getItemId(){
+        return itemId;
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-        listener.onMakeToast("Item " + position);
+        listener.onMakeToast("Item [" + position + "] clicked");
+    }
+
+    @Override
+    public Inflatable getInflatableItem(int viewType){
+        Context context = getContext();
+        switch(viewType){
+            case ID.NORMAL.DATA:
+                return new InflatableDataItem(context,this);
+            case ID.NORMAL.IMAGE:
+                return new InflatableImageItem(context,this);
+            default:
+                return null;
+        }
+    }
+
+    @Override
+    public InflatableAdapter getInflatableAdapter(){
+        return adapter;
+    }
+
+    @Override
+    public void onMakeToast(String line){
+        listener.onMakeToast(line);
+    }
+
+    private void loadModelList(){
+        Context context = getContext();
+        String[] links; int n = 0;
+        if(context != null){
+            links = context.getResources().getStringArray(R.array.links);
+        }else {
+            links = new String[5];
+        }
+        for(int i = 0; i < 10; i++){
+            if(i % 2 == 0){
+                DataModel model = new DataModel(idx);
+                model.setTitle(getString(R.string.title_count,i));
+                model.setContent(getString(R.string.content));
+                model.setIcon(R.mipmap.ic_launcher_round);
+                if(models.add(model)){
+                    idx++;
+                }
+            }else {
+                ImageModel model = new ImageModel(idx);
+                model.setImageLink(links[n++]);
+                model.setRating((int)(Math.random() * 5) + 1);
+                if(models.add(model)){
+                    idx++;
+                }
+            }
+        }
     }
 }

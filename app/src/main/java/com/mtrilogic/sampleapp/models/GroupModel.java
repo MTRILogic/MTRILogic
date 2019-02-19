@@ -19,9 +19,21 @@ public class GroupModel extends Modelable{
     };
 
     private String title;
-    private boolean checked;
+    private int viewType;
+    private boolean checked, enabled;
+    private long itemId;
 
-    public GroupModel(){}
+    @SuppressWarnings("unused")
+    public GroupModel(){
+        this(0);
+    }
+
+    @SuppressWarnings("WeakerAccess")
+    public GroupModel(long itemId){
+        this.itemId = itemId;
+        viewType = 0;
+        enabled = true;
+    }
 
     public boolean isChecked(){
         return checked;
@@ -39,14 +51,40 @@ public class GroupModel extends Modelable{
         this.title = title;
     }
 
-    private GroupModel(Parcel src){
-        checked = src.readInt() != 0;
-        title = src.readString();
+    @Override
+    public boolean isEnabled(){
+        return enabled;
+    }
+
+    @SuppressWarnings("unused")
+    public void setEnabled(boolean enabled){
+        this.enabled = enabled;
+    }
+
+    @Override
+    public int getViewType(){
+        return viewType;
+    }
+
+    @Override
+    public long getItemId(){
+        return itemId;
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags){
-        dest.writeInt(checked ? 1 : 0);
         dest.writeString(title);
+        dest.writeInt(checked ? 1 : 0);
+        dest.writeInt(enabled ? 1 : 0);
+        dest.writeInt(viewType);
+        dest.writeLong(itemId);
+    }
+
+    private GroupModel(Parcel src){
+        title = src.readString();
+        checked = src.readInt() != 0;
+        enabled = src.readInt() != 0;
+        viewType = src.readInt();
+        itemId = src.readLong();
     }
 }

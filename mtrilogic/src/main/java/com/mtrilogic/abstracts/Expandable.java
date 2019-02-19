@@ -4,26 +4,26 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.mtrilogic.interfaces.OnNotifyDataSetChangedListener;
+import com.mtrilogic.interfaces.Bindable;
+import com.mtrilogic.interfaces.ExpandableAdapterListener;
 
-public abstract class Expandable<M extends Modelable>{
-    protected OnNotifyDataSetChangedListener listener;
-    protected M model;
-    protected long id;
+public abstract class Expandable implements Bindable{
+    protected boolean expanded, lastChild;
+    protected ExpandableAdapterListener listener;
+    protected Context context;
 
-    public abstract View getExpandableView(boolean b, View view, ViewGroup parent, Context context);
+    public abstract View getExpandableView(ViewGroup parent);
 
-    Expandable(OnNotifyDataSetChangedListener listener, M model, long id){
+    public Expandable(Context context, ExpandableAdapterListener listener){
+        this.context = context;
         this.listener = listener;
-        this.model = model;
-        this.id = id;
     }
 
-    public M getModel(){
-        return model;
+    public void setExpanded(boolean expanded){
+        this.expanded = expanded;
     }
 
-    public long getItemId(){
-        return id;
+    public void setLastChild(boolean lastChild){
+        this.lastChild = lastChild;
     }
 }

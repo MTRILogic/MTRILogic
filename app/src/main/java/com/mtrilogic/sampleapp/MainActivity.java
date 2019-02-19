@@ -1,9 +1,12 @@
 package com.mtrilogic.sampleapp;
 
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
 import com.mtrilogic.abstracts.Fragmentable;
@@ -18,11 +21,19 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener, OnMakeToastListener{
     private List<Fragmentable> fragmentables;
+    private ActionBar actionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        actionBar = getSupportActionBar();
+        if(actionBar != null){
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         FragmentManager manager = getSupportFragmentManager();
         fragmentables = new ArrayList<>();
@@ -30,6 +41,8 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         ViewPager pager = findViewById(R.id.pager);
         pager.setAdapter(adapter);
         pager.addOnPageChangeListener(this);
+        TabLayout tabs = findViewById(R.id.tabs);
+        tabs.setupWithViewPager(pager);
 
         if(savedInstanceState == null){
             fragmentables.add(InflatableFragment.getInstance("Inflatable",0));
@@ -46,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
 
     @Override
     public void onPageSelected(int position){
-        setTitle(fragmentables.get(position).getPageTitle());
+        actionBar.setTitle(fragmentables.get(position).getPageTitle());
     }
 
     @Override

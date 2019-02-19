@@ -11,31 +11,39 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mtrilogic.abstracts.Fragmentable;
+import com.mtrilogic.abstracts.Modelable;
 import com.mtrilogic.abstracts.Recyclable;
 import com.mtrilogic.adapters.RecyclableAdapter;
-import com.mtrilogic.interfaces.OnClickPositionListener;
+import com.mtrilogic.interfaces.ID;
 import com.mtrilogic.interfaces.OnMakeToastListener;
-import com.mtrilogic.interfaces.OnViewTypeAndHolderListener;
-import com.mtrilogic.interfaces.OnNotifyDataSetChangedListener;
+import com.mtrilogic.interfaces.RecyclableAdapterListener;
+import com.mtrilogic.interfaces.RecyclableListener;
 import com.mtrilogic.sampleapp.R;
-import com.mtrilogic.sampleapp.holders.RecyclableHolder;
-import com.mtrilogic.sampleapp.items.recyclables.RecyclableItem;
+import com.mtrilogic.sampleapp.items.recyclables.RecyclableDataItem;
+import com.mtrilogic.sampleapp.items.recyclables.RecyclableImageItem;
 import com.mtrilogic.sampleapp.models.DataModel;
+import com.mtrilogic.sampleapp.models.ImageModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecyclableFragment extends Fragmentable implements OnNotifyDataSetChangedListener, OnViewTypeAndHolderListener, OnClickPositionListener{
+public class RecyclableFragment extends Fragmentable implements RecyclableListener, RecyclableAdapterListener{
+    //private static final String TAG = "RecyclableFragmentTAG";
     private OnMakeToastListener listener;
-    private List<Recyclable> items;
+    private List<Modelable> models;
     private RecyclableAdapter adapter;
-    private long idx;
+    private String pageTitle;
+    private long itemId, idx;
 
-    public static RecyclableFragment getInstance(String title, long id){
+    public static RecyclableFragment getInstance(String pageTitle, long itemId){
         RecyclableFragment fragment = new RecyclableFragment();
-        fragment.setPageTitle(title);
-        fragment.setItemId(id);
+        fragment.pageTitle = pageTitle;
+        fragment.itemId = itemId;
         return fragment;
+    }
+
+    public RecyclableFragment(){
+        models = new ArrayList<>();
     }
 
     @Override
@@ -52,57 +60,91 @@ public class RecyclableFragment extends Fragmentable implements OnNotifyDataSetC
         super.onDetach();
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+        loadModelList();
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
         Context context = getContext();
-        items = new ArrayList<>();
-        adapter = new RecyclableAdapter(this,items,context);
+        adapter = new RecyclableAdapter(this,models);
         View view = inflater.inflate(R.layout.fragment_recyclable,container,false);
         RecyclerView lvwItems = view.findViewById(R.id.lvw_items);
         lvwItems.setLayoutManager(new LinearLayoutManager(context));
         lvwItems.setAdapter(adapter);
-        if(savedInstanceState == null){
-            idx = 0;
-            for(int i = 0; i < 10; i++){
-                DataModel model = new DataModel();
-                model.setTitle(getString(R.string.title_count,i));
-                model.setContent(getString(R.string.content));
-                model.setIcon(R.mipmap.ic_launcher_round);
-                RecyclableItem item = new RecyclableItem(this,idx,model);
-                if(items.add(item)){
-                    idx++;
-                }
-            }
-            if(idx > 0){
-                adapter.notifyDataSetChanged();
-            }
-        }
         return view;
     }
 
+    public void setPageTitle(String pageTitle){
+        this.pageTitle = pageTitle;
+    }
+
+    public void setItemId(long itemId){
+        this.itemId = itemId;
+    }
+
+    //Fragmentable
     @Override
-    public void onNotifyDataSetChanged(){
-        adapter.notifyDataSetChanged();
+    public String getPageTitle(){
+        return pageTitle;
     }
 
     @Override
-    public RecyclerView.ViewHolder onNewHolder(ViewGroup parent, int viewType){
+    public long getItemId(){
+        return itemId;
+    }
+
+    //RecyclableListener
+    @Override
+    public Recyclable getRecyclableItem(int viewType){
+        Context context = getContext();
         switch(viewType){
-            case 0:
-                View view = LayoutInflater.from(getContext()).inflate(R.layout.item_data,parent,false);
-                return new RecyclableHolder(view,this);
+            case ID.NORMAL.DATA:
+                return new RecyclableDataItem(context,this);
+            case ID.NORMAL.IMAGE:
+                return new RecyclableImageItem(context,this);
         }
         return null;
     }
 
     @Override
-    public int onGetViewType(int position){
-        return 0; // we return the id of the only type to return for this sample
+    public RecyclableAdapter getRecyclableAdapter(){
+        return adapter;
     }
 
     @Override
-    public void onClickPosition(View view, int position){
-        listener.onMakeToast("Item " + position);
+    public void onMakeToast(String line){
+        listener.onMakeToast(line);
+    }
+
+    private void loadModelList(){
+        Context context = getContext();
+        String[] links; int n = 0;
+        if(context != null){
+            links = context.getResources().getStringArray(R.array.links);
+        }else {
+            links = new String[5];
+        }
+        for(int i = 0; i < 10; i++){
+            if(i % 2 == 0){
+                DataModel model = new DataModel(idx);
+                model.setTitle(getString(R.string.title_count,i));
+                model.setContent(getString(R.string.content));
+                model.setIcon(R.mipmap.ic_launcher_round);
+                if(models.add(model)){
+                    idx++;
+                }
+            }else {
+                ImageModel model = new ImageModel(idx);
+                model.setImageLink(links[n++]);
+                model.setRating((int)(Math.random() * 5) + 1);
+                if(models.add(model)){
+                    idx++;
+                }
+            }
+        }
     }
 }

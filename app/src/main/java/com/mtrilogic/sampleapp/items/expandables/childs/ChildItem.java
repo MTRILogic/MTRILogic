@@ -1,62 +1,73 @@
 package com.mtrilogic.sampleapp.items.expandables.childs;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import com.mtrilogic.abstracts.ExpandableChild;
-import com.mtrilogic.interfaces.OnNotifyDataSetChangedListener;
+import com.mtrilogic.abstracts.Expandable;
+import com.mtrilogic.abstracts.Modelable;
+import com.mtrilogic.interfaces.ExpandableAdapterListener;
 import com.mtrilogic.sampleapp.R;
 import com.mtrilogic.sampleapp.models.ChildModel;
 import com.mtrilogic.views.SquareImageView;
 
-public class ChildItem extends ExpandableChild<ChildModel> implements View.OnClickListener{
-    //private static final String TAG = "ChildItemTAG";
+public class ChildItem extends Expandable implements View.OnClickListener{
+    @SuppressWarnings("unused")
+    private static final String TAG = "ChildItemTAG";
+    private TextView lblTitle, lblContent;
+    private CheckBox chkChild;
+    private SquareImageView ivwIcon;
+    private ChildModel model;
 
-    public ChildItem(OnNotifyDataSetChangedListener listener, ChildModel model, long id, boolean selectable){
-        super(listener,model,id,selectable);
+    @SuppressWarnings("unused")
+    public ChildItem(Context context){
+        this(context,(ExpandableAdapterListener)context);
+    }
+
+    public ChildItem(Context context, ExpandableAdapterListener listener){
+        super(context,listener);
     }
 
     @Override
-    public View getExpandableView(boolean b, View view, ViewGroup parent, Context context){
-        ViewHolder holder = null;
-        if(view != null){
-            Object tag = view.getTag();
-            if(tag instanceof ViewHolder){
-                holder = (ViewHolder)tag;
-            }
-        }
-        if(holder == null){
-            view = LayoutInflater.from(context).inflate(R.layout.item_child,parent,false);
-            holder = new ViewHolder(view);
-            view.setTag(holder);
-        }
-        holder.lblTitle.setText(model.getTitle());
-        holder.lblContent.setText(model.getContent());
-        holder.chkChild.setChecked(model.isChecked());
-        holder.chkChild.setOnClickListener(this);
-        holder.ivwIcon.setImageResource(model.getIcon());
+    public View getExpandableView(ViewGroup parent){
+        View view = LayoutInflater.from(context).inflate(getLayoutResource(),parent,false);
+        lblTitle = view.findViewById(R.id.lbl_title);
+        lblContent = view.findViewById(R.id.lbl_content);
+        ivwIcon = view.findViewById(R.id.ivw_icon);
+        chkChild = view.findViewById(R.id.chk_child);
+        chkChild.setOnClickListener(this);
+        view.setTag(this);
         return view;
     }
 
     @Override
-    public void onClick(View v){
-        model.setChecked(((CheckBox)v).isChecked());
+    public void onBindHolder(Modelable modelable){
+        model = (ChildModel)modelable;
+        lblTitle.setText(model.getTitle());
+        lblTitle.setTextColor(lastChild ? Color.RED : Color.BLACK);
+        lblContent.setText(model.getContent());
+        chkChild.setChecked(model.isChecked());
+        ivwIcon.setImageResource(model.getIcon());
     }
 
-    private static final class ViewHolder{
-        private TextView lblTitle, lblContent;
-        private CheckBox chkChild;
-        private SquareImageView ivwIcon;
+    @Override
+    public int getLayoutResource(){
+        return R.layout.item_child;
+    }
 
-        private ViewHolder(View view){
-            lblTitle = view.findViewById(R.id.lbl_title);
-            lblContent = view.findViewById(R.id.lbl_content);
-            chkChild = view.findViewById(R.id.chk_child);
-            ivwIcon = view.findViewById(R.id.ivw_icon);
+    @Override
+    public void onClick(View view){
+        int id = view.getId();
+        switch(id){
+            case R.id.chk_child:
+                boolean checked = chkChild.isChecked();
+                model.setChecked(checked);
+                listener.getExpandableAdapter().notifyDataSetChanged();
+                listener.onMakeToast("Item[" + model.getGroupPosition() + "," + model.getChildPosition() + "] set to " + checked);
         }
     }
 }

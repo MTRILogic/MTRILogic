@@ -4,21 +4,17 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.mtrilogic.interfaces.OnNotifyDataSetChangedListener;
+import com.mtrilogic.interfaces.Bindable;
+import com.mtrilogic.interfaces.InflatableAdapterListener;
 
-public abstract class Inflatable<M extends Modelable>{
-    protected OnNotifyDataSetChangedListener listener;
-    protected long id;
+public abstract class Inflatable implements Bindable{
+    protected InflatableAdapterListener listener;
+    protected Context context;
 
-    public abstract View getInflatableView(View view, ViewGroup parent, Context context);
-    public abstract M getModel();
+    public abstract View getInflatableView(ViewGroup parent);
 
-    public Inflatable(OnNotifyDataSetChangedListener listener, long id){
+    protected Inflatable(Context context, InflatableAdapterListener listener){
+        this.context = context;
         this.listener = listener;
-        this.id = id;
-    }
-
-    public long getItemId(){
-        return id;
     }
 }

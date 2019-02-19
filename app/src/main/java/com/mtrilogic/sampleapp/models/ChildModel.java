@@ -19,15 +19,27 @@ public class ChildModel extends Modelable{
     };
 
     private String title, content;
-    private boolean checked;
-    private int icon;
+    private boolean checked,enabled;
+    private int icon, viewType;
+    private long itemId;
 
-    public ChildModel(){}
+    @SuppressWarnings("unused")
+    public ChildModel(){
+        this(0);
+    }
+
+    @SuppressWarnings("WeakerAccess")
+    public ChildModel(long itemId){
+        this.itemId = itemId;
+        viewType = 0;
+        enabled = true;
+    }
 
     public boolean isChecked(){
         return checked;
     }
 
+    @SuppressWarnings("unused")
     public void setChecked(boolean checked){
         this.checked = checked;
     }
@@ -56,18 +68,39 @@ public class ChildModel extends Modelable{
         this.icon = icon;
     }
 
-    private ChildModel(Parcel src){
-        checked = src.readInt() != 0;
-        title = src.readString();
-        content = src.readString();
-        icon = src.readInt();
+    @Override
+    public boolean isEnabled(){
+        return enabled;
+    }
+
+    @Override
+    public long getItemId(){
+        return itemId;
+    }
+
+    @Override
+    public int getViewType(){
+        return viewType;
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags){
-        dest.writeInt(checked ? 1 : 0);
         dest.writeString(title);
         dest.writeString(content);
         dest.writeInt(icon);
+        dest.writeInt(checked ? 1 : 0);
+        dest.writeInt(enabled ? 1 : 0);
+        dest.writeInt(viewType);
+        dest.writeLong(itemId);
+    }
+
+    private ChildModel(Parcel src){
+        title = src.readString();
+        content = src.readString();
+        icon = src.readInt();
+        checked = src.readInt() != 0;
+        enabled = src.readInt() != 0;
+        viewType = src.readInt();
+        itemId = src.readLong();
     }
 }

@@ -1,63 +1,77 @@
 package com.mtrilogic.sampleapp.items.expandables.groups;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import com.mtrilogic.abstracts.ExpandableChild;
-import com.mtrilogic.abstracts.ExpandableGroup;
-import com.mtrilogic.interfaces.OnNotifyDataSetChangedListener;
+import com.mtrilogic.abstracts.Expandable;
+import com.mtrilogic.abstracts.Modelable;
+import com.mtrilogic.adapters.ExpandableAdapter;
+import com.mtrilogic.interfaces.ExpandableAdapterListener;
 import com.mtrilogic.sampleapp.R;
 import com.mtrilogic.sampleapp.models.ChildModel;
 import com.mtrilogic.sampleapp.models.GroupModel;
 
-public class GroupItem extends ExpandableGroup<GroupModel> implements View.OnClickListener{
-    //private static final String TAG = "GroupItemTAG";
+import java.util.List;
 
-    public GroupItem(OnNotifyDataSetChangedListener listener, GroupModel model, long id){
-        super(listener,model,id);
+public class GroupItem extends Expandable implements View.OnClickListener{
+    @SuppressWarnings("unused")
+    private static final String TAG = "GroupItemTAG";
+    private TextView lblTitle;
+    private CheckBox chkGroup;
+    private GroupModel model;
+
+    @SuppressWarnings("unused")
+    public GroupItem(Context context){
+        this(context,(ExpandableAdapterListener)context);
+    }
+
+    @SuppressWarnings("unused")
+    public GroupItem(Context context, ExpandableAdapterListener listener){
+        super(context,listener);
     }
 
     @Override
-    public View getExpandableView(boolean b, View view, ViewGroup parent, Context context){
-        ViewHolder holder = null;
-        if(view != null){
-            Object tag = view.getTag();
-            if(tag instanceof ViewHolder){
-                holder = (ViewHolder)tag;
-            }
-        }
-        if(holder == null){
-            view = LayoutInflater.from(context).inflate(R.layout.item_group,parent,false);
-            holder = new ViewHolder(view);
-            view.setTag(holder);
-        }
-        holder.lblTitle.setText(model.getTitle());
-        holder.chkGroup.setChecked(model.isChecked());
-        holder.chkGroup.setOnClickListener(this);
+    public View getExpandableView(ViewGroup parent){
+        View view = LayoutInflater.from(context).inflate(getLayoutResource(),parent,false);
+        lblTitle = view.findViewById(R.id.lbl_title);
+        chkGroup = view.findViewById(R.id.chk_group);
+        chkGroup.setOnClickListener(this);
+        view.setTag(this);
         return view;
     }
 
     @Override
-    public void onClick(View v){
-        boolean checked = ((CheckBox)v).isChecked();
-        model.setChecked(checked);
-        for(ExpandableChild child : getChildList()){
-            ((ChildModel)child.getModel()).setChecked(checked);
-        }
-        listener.onNotifyDataSetChanged();
+    public void onBindHolder(Modelable modelable){
+        model = (GroupModel)modelable;
+        lblTitle.setText(model.getTitle());
+        lblTitle.setTextColor(expanded ? Color.WHITE : Color.BLACK);
+        chkGroup.setChecked(model.isChecked());
     }
 
-    private static final class ViewHolder{
-        private TextView lblTitle;
-        private CheckBox chkGroup;
+    @Override
+    public int getLayoutResource(){
+        return R.layout.item_group;
+    }
 
-        private ViewHolder(View view){
-            lblTitle = view.findViewById(R.id.lbl_title);
-            chkGroup = view.findViewById(R.id.chk_group);
+    @Override
+    public void onClick(View view){
+        int id = view.getId();
+        switch(id){
+            case R.id.chk_group:
+                boolean checked = chkGroup.isChecked();
+                model.setChecked(checked);
+                ExpandableAdapter adapter = listener.getExpandableAdapter();
+                List<Modelable> childModels = adapter.getChildModelList(model.getGroupPosition());
+                for(Modelable child : childModels){
+                    ChildModel childModel = (ChildModel)child;
+                    childModel.setChecked(checked);
+                }
+                adapter.notifyDataSetChanged();
         }
     }
 }

@@ -1,27 +1,23 @@
 package com.mtrilogic.abstracts;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.view.ViewGroup;
 
-import com.mtrilogic.interfaces.OnNotifyDataSetChangedListener;
+import com.mtrilogic.interfaces.Bindable;
+import com.mtrilogic.interfaces.RecyclableAdapterListener;
 
-public abstract class Recyclable<VH extends RecyclerView.ViewHolder, M extends Modelable>{
-    protected OnNotifyDataSetChangedListener listener;
-    protected long id;
+public abstract class Recyclable extends RecyclerView.ViewHolder implements Bindable{
+    protected RecyclableAdapterListener listener;
+    protected Context context;
 
-    public abstract void onBindHolder(VH holder, Context context);
-    public abstract M getModel();
+    public abstract Recyclable getRecyclableHolder(ViewGroup parent);
 
-    public Recyclable(OnNotifyDataSetChangedListener listener, long id){
+    public Recyclable(@NonNull View view, Context context, RecyclableAdapterListener listener){
+        super(view);
+        this.context = context;
         this.listener = listener;
-        this.id = id;
-    }
-
-    public long getItemId(){
-        return id;
-    }
-
-    public <T extends VH> void bindViewHolder(T holder,Context context){
-        onBindHolder(holder,context);
     }
 }
