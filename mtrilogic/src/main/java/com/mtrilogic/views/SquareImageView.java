@@ -10,6 +10,7 @@ import com.mtrilogic.library.R;
 public class SquareImageView extends AppCompatImageView{
     private boolean portrait;
 
+    @SuppressWarnings("unused")
     public SquareImageView(Context context, boolean portrait){
         super(context);
         this.portrait = portrait;

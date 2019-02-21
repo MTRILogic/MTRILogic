@@ -78,14 +78,6 @@ public class RecyclableFragment extends Fragmentable implements RecyclableListen
         return view;
     }
 
-    public void setPageTitle(String pageTitle){
-        this.pageTitle = pageTitle;
-    }
-
-    public void setItemId(long itemId){
-        this.itemId = itemId;
-    }
-
     //Fragmentable
     @Override
     public String getPageTitle(){

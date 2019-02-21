@@ -3,7 +3,6 @@ package com.mtrilogic.sampleapp.models;
 import android.os.Parcel;
 
 import com.mtrilogic.abstracts.Modelable;
-import com.mtrilogic.interfaces.ID;
 import com.mtrilogic.sampleapp.viewtypes.DataViewType;
 
 public class ImageModel extends Modelable{

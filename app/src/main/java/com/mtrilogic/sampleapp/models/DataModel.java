@@ -4,7 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.mtrilogic.abstracts.Modelable;
-import com.mtrilogic.interfaces.ID;
 import com.mtrilogic.sampleapp.viewtypes.DataViewType;
 
 public class DataModel extends Modelable{
