@@ -4,6 +4,7 @@ import android.os.Parcel;
 
 import com.mtrilogic.abstracts.Modelable;
 import com.mtrilogic.interfaces.ID;
+import com.mtrilogic.sampleapp.viewtypes.DataViewType;
 
 public class ImageModel extends Modelable{
     public static final Creator<ImageModel> CREATOR = new Creator<ImageModel>(){
@@ -20,19 +21,15 @@ public class ImageModel extends Modelable{
     private String imageLink;
     private float rating;
     private int viewType;
-    private boolean enabled;
     private long itemId;
 
     @SuppressWarnings("unused")
-    public ImageModel(){
-        this(0);
-    }
+    public ImageModel(){}
 
     @SuppressWarnings("WeakerAccess")
     public ImageModel(long itemId){
         this.itemId = itemId;
-        viewType = ID.NORMAL.IMAGE;
-        enabled = true;
+        viewType = DataViewType.IMAGE;
     }
 
     public String getImageLink(){
@@ -53,12 +50,7 @@ public class ImageModel extends Modelable{
 
     @Override
     public boolean isEnabled(){
-        return enabled;
-    }
-
-    @SuppressWarnings("unused")
-    public void setEnabled(boolean enabled){
-        this.enabled = enabled;
+        return true;
     }
 
     @Override
@@ -76,7 +68,6 @@ public class ImageModel extends Modelable{
         dest.writeString(imageLink);
         dest.writeFloat(rating);
         dest.writeInt(viewType);
-        dest.writeInt(enabled ? 1 : 0);
         dest.writeLong(itemId);
     }
 
@@ -84,7 +75,6 @@ public class ImageModel extends Modelable{
         imageLink = source.readString();
         rating = source.readFloat();
         viewType = source.readInt();
-        enabled = source.readInt() != 0;
         itemId = source.readLong();
     }
 }

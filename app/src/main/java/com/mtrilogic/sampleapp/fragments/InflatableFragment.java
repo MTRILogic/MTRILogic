@@ -14,7 +14,6 @@ import com.mtrilogic.abstracts.Fragmentable;
 import com.mtrilogic.abstracts.Inflatable;
 import com.mtrilogic.abstracts.Modelable;
 import com.mtrilogic.adapters.InflatableAdapter;
-import com.mtrilogic.interfaces.ID;
 import com.mtrilogic.interfaces.InflatableAdapterListener;
 import com.mtrilogic.interfaces.InflatableListener;
 import com.mtrilogic.interfaces.OnMakeToastListener;
@@ -23,6 +22,7 @@ import com.mtrilogic.sampleapp.items.inflatables.InflatableImageItem;
 import com.mtrilogic.sampleapp.items.inflatables.InflatableDataItem;
 import com.mtrilogic.sampleapp.models.DataModel;
 import com.mtrilogic.sampleapp.models.ImageModel;
+import com.mtrilogic.sampleapp.viewtypes.DataViewType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,7 +69,7 @@ public class InflatableFragment extends Fragmentable implements AdapterView.OnIt
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
-        adapter = new InflatableAdapter(this,models,2);
+        adapter = new InflatableAdapter(this,models,DataViewType.COUNT);
         View view = inflater.inflate(R.layout.fragment_inflatable,container,false);
         ListView lvwItems = view.findViewById(R.id.lvw_items);
         lvwItems.setAdapter(adapter);
@@ -96,9 +96,9 @@ public class InflatableFragment extends Fragmentable implements AdapterView.OnIt
     public Inflatable getInflatableItem(int viewType){
         Context context = getContext();
         switch(viewType){
-            case ID.NORMAL.DATA:
+            case DataViewType.DATA:
                 return new InflatableDataItem(context,this);
-            case ID.NORMAL.IMAGE:
+            case DataViewType.IMAGE:
                 return new InflatableImageItem(context,this);
             default:
                 return null;

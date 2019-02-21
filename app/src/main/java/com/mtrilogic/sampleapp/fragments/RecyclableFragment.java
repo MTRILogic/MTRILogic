@@ -14,7 +14,6 @@ import com.mtrilogic.abstracts.Fragmentable;
 import com.mtrilogic.abstracts.Modelable;
 import com.mtrilogic.abstracts.Recyclable;
 import com.mtrilogic.adapters.RecyclableAdapter;
-import com.mtrilogic.interfaces.ID;
 import com.mtrilogic.interfaces.OnMakeToastListener;
 import com.mtrilogic.interfaces.RecyclableAdapterListener;
 import com.mtrilogic.interfaces.RecyclableListener;
@@ -23,6 +22,7 @@ import com.mtrilogic.sampleapp.items.recyclables.RecyclableDataItem;
 import com.mtrilogic.sampleapp.items.recyclables.RecyclableImageItem;
 import com.mtrilogic.sampleapp.models.DataModel;
 import com.mtrilogic.sampleapp.models.ImageModel;
+import com.mtrilogic.sampleapp.viewtypes.DataViewType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,9 +102,9 @@ public class RecyclableFragment extends Fragmentable implements RecyclableListen
     public Recyclable getRecyclableItem(int viewType){
         Context context = getContext();
         switch(viewType){
-            case ID.NORMAL.DATA:
+            case DataViewType.DATA:
                 return new RecyclableDataItem(context,this);
-            case ID.NORMAL.IMAGE:
+            case DataViewType.IMAGE:
                 return new RecyclableImageItem(context,this);
         }
         return null;

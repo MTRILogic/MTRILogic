@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import com.mtrilogic.abstracts.Modelable;
 import com.mtrilogic.interfaces.ID;
+import com.mtrilogic.sampleapp.viewtypes.DataViewType;
 
 public class DataModel extends Modelable{
     public static final Parcelable.Creator<DataModel> CREATOR = new Parcelable.Creator<DataModel>(){
@@ -21,19 +22,15 @@ public class DataModel extends Modelable{
 
     private String title, content;
     private int icon, viewType;
-    private boolean enabled;
     private long itemId;
 
     @SuppressWarnings("unused")
-    public DataModel(){
-        this(0);
-    }
+    public DataModel(){}
 
     @SuppressWarnings("WeakerAccess")
     public DataModel(long itemId){
         this.itemId = itemId;
-        viewType = ID.NORMAL.DATA;
-        enabled = true;
+        viewType = DataViewType.DATA;
     }
 
     public String getTitle(){
@@ -62,12 +59,7 @@ public class DataModel extends Modelable{
 
     @Override
     public boolean isEnabled(){
-        return enabled;
-    }
-
-    @SuppressWarnings("unused")
-    public void setEnabled(boolean enabled){
-        this.enabled = enabled;
+        return true;
     }
 
     @Override
@@ -85,7 +77,6 @@ public class DataModel extends Modelable{
         dest.writeString(title);
         dest.writeString(content);
         dest.writeInt(icon);
-        dest.writeInt(enabled ? 1 : 0);
         dest.writeInt(viewType);
         dest.writeLong(itemId);
     }
@@ -94,7 +85,6 @@ public class DataModel extends Modelable{
         title = src.readString();
         content = src.readString();
         icon = src.readInt();
-        enabled = src.readInt() > 0;
         viewType = src.readInt();
         itemId = src.readLong();
     }

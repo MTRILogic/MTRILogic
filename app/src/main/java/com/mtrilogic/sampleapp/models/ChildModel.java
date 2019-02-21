@@ -19,20 +19,17 @@ public class ChildModel extends Modelable{
     };
 
     private String title, content;
-    private boolean checked,enabled;
+    private boolean checked;
     private int icon, viewType;
     private long itemId;
 
     @SuppressWarnings("unused")
-    public ChildModel(){
-        this(0);
-    }
+    public ChildModel(){}
 
     @SuppressWarnings("WeakerAccess")
     public ChildModel(long itemId){
         this.itemId = itemId;
         viewType = 0;
-        enabled = true;
     }
 
     public boolean isChecked(){
@@ -70,7 +67,7 @@ public class ChildModel extends Modelable{
 
     @Override
     public boolean isEnabled(){
-        return enabled;
+        return true;
     }
 
     @Override
@@ -89,7 +86,6 @@ public class ChildModel extends Modelable{
         dest.writeString(content);
         dest.writeInt(icon);
         dest.writeInt(checked ? 1 : 0);
-        dest.writeInt(enabled ? 1 : 0);
         dest.writeInt(viewType);
         dest.writeLong(itemId);
     }
@@ -99,7 +95,6 @@ public class ChildModel extends Modelable{
         content = src.readString();
         icon = src.readInt();
         checked = src.readInt() != 0;
-        enabled = src.readInt() != 0;
         viewType = src.readInt();
         itemId = src.readLong();
     }

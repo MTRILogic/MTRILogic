@@ -20,19 +20,16 @@ public class GroupModel extends Modelable{
 
     private String title;
     private int viewType;
-    private boolean checked, enabled;
+    private boolean checked;
     private long itemId;
 
     @SuppressWarnings("unused")
-    public GroupModel(){
-        this(0);
-    }
+    public GroupModel(){}
 
     @SuppressWarnings("WeakerAccess")
     public GroupModel(long itemId){
         this.itemId = itemId;
         viewType = 0;
-        enabled = true;
     }
 
     public boolean isChecked(){
@@ -53,12 +50,7 @@ public class GroupModel extends Modelable{
 
     @Override
     public boolean isEnabled(){
-        return enabled;
-    }
-
-    @SuppressWarnings("unused")
-    public void setEnabled(boolean enabled){
-        this.enabled = enabled;
+        return true;
     }
 
     @Override
@@ -75,7 +67,6 @@ public class GroupModel extends Modelable{
     public void writeToParcel(Parcel dest, int flags){
         dest.writeString(title);
         dest.writeInt(checked ? 1 : 0);
-        dest.writeInt(enabled ? 1 : 0);
         dest.writeInt(viewType);
         dest.writeLong(itemId);
     }
@@ -83,7 +74,6 @@ public class GroupModel extends Modelable{
     private GroupModel(Parcel src){
         title = src.readString();
         checked = src.readInt() != 0;
-        enabled = src.readInt() != 0;
         viewType = src.readInt();
         itemId = src.readLong();
     }

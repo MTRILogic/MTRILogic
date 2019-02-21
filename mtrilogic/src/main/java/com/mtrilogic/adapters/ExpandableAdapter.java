@@ -14,8 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ExpandableAdapter extends BaseExpandableListAdapter{
-    @SuppressWarnings("unused")
-    private static final String TAG = "ExpandableAdapterTAG";
+   // private static final String TAG = "ExpandableAdapterTAG";
     private ExpandableListener childListener, groupListener;
     private List<Modelable> groupModelList;
     private Map<Modelable,List<Modelable>> childModelMap;

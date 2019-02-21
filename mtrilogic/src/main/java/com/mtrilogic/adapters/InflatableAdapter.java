@@ -12,11 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InflatableAdapter extends BaseAdapter{
-    @SuppressWarnings("unused")
-    private static final String TAG = "InflatableAdapterTAG";
+    //private static final String TAG = "InflatableAdapterTAG";
     private InflatableListener listener;
     private List<Modelable> models;
     private int typeCount;
+    private boolean stableIds;
 
     @SuppressWarnings("unused")
     public InflatableAdapter(InflatableListener listener){
@@ -39,6 +39,12 @@ public class InflatableAdapter extends BaseAdapter{
         this.models = models;
         typeCount = typeCount > 0 ? typeCount : 1;
         this.typeCount = typeCount;
+        stableIds = true;
+    }
+
+    @SuppressWarnings("unused")
+    public void setStableIds(boolean stableIds){
+        this.stableIds = stableIds;
     }
 
     public void setModels(List<Modelable> models){
@@ -114,5 +120,10 @@ public class InflatableAdapter extends BaseAdapter{
     @Override
     public int getViewTypeCount(){
         return typeCount;
+    }
+
+    @Override
+    public boolean hasStableIds(){
+        return stableIds;
     }
 }
