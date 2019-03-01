@@ -23,6 +23,36 @@ public class FragmentableAdapter extends FragmentPagerAdapter{
         this.fragments = fragments;
     }
 
+    @SuppressWarnings("unused")
+    public List<Fragmentable> getFragments(){
+        return fragments;
+    }
+
+    @SuppressWarnings("unused")
+    public void setFragments(List<Fragmentable> fragments){
+        this.fragments = fragments;
+    }
+
+    @SuppressWarnings("unused")
+    public boolean addFragment(Fragmentable fragment){
+        return fragments.add(fragment);
+    }
+
+    @SuppressWarnings("unused")
+    public Fragmentable setFragment(int position, Fragmentable fragment){
+        return fragments.set(position,fragment);
+    }
+
+    @SuppressWarnings("unused")
+    public boolean removeFragment(int position){
+        return fragments.remove(fragments.get(position));
+    }
+
+    @SuppressWarnings("unused")
+    public void clear(){
+        fragments.clear();
+    }
+
     @Override
     public Fragmentable getItem(int position){
         return fragments.get(position);
