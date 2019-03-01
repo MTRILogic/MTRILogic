@@ -49,7 +49,7 @@ public class FragmentableAdapter extends FragmentPagerAdapter{
     }
 
     @SuppressWarnings("unused")
-    public void clear(){
+    public void clearFragments(){
         fragments.clear();
     }
 
