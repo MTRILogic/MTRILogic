@@ -34,7 +34,7 @@ public class ChildItem extends Expandable implements View.OnClickListener{
 
     @Override
     public View getExpandableView(ViewGroup parent){
-        View view = LayoutInflater.from(context).inflate(getLayoutResource(),parent,false);
+        View view = LayoutInflater.from(getContext()).inflate(getLayoutResource(),parent,false);
         lblTitle = view.findViewById(R.id.lbl_title);
         lblContent = view.findViewById(R.id.lbl_content);
         ivwIcon = view.findViewById(R.id.ivw_icon);
@@ -48,7 +48,7 @@ public class ChildItem extends Expandable implements View.OnClickListener{
     public void onBindHolder(Modelable modelable){
         model = (ChildModel)modelable;
         lblTitle.setText(model.getTitle());
-        lblTitle.setTextColor(lastChild ? Color.RED : Color.BLACK);
+        lblTitle.setTextColor(isLastChild() ? Color.RED : Color.BLACK);
         lblContent.setText(model.getContent());
         chkChild.setChecked(model.isChecked());
         ivwIcon.setImageResource(model.getIcon());
@@ -66,6 +66,7 @@ public class ChildItem extends Expandable implements View.OnClickListener{
             case R.id.chk_child:
                 boolean checked = chkChild.isChecked();
                 model.setChecked(checked);
+                ExpandableAdapterListener listener = getListener();
                 listener.getExpandableAdapter().notifyDataSetChanged();
                 listener.onMakeToast("Item[" + model.getGroupPosition() + "," + model.getChildPosition() + "] set to " + checked);
         }

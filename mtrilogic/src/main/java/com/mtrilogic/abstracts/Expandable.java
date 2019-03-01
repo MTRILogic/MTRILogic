@@ -8,9 +8,9 @@ import com.mtrilogic.interfaces.Bindable;
 import com.mtrilogic.interfaces.ExpandableAdapterListener;
 
 public abstract class Expandable implements Bindable{
-    protected boolean expanded, lastChild;
-    protected ExpandableAdapterListener listener;
-    protected Context context;
+    private boolean expanded, lastChild;
+    private ExpandableAdapterListener listener;
+    private Context context;
 
     public abstract View getExpandableView(ViewGroup parent);
 
@@ -25,5 +25,21 @@ public abstract class Expandable implements Bindable{
 
     public void setLastChild(boolean lastChild){
         this.lastChild = lastChild;
+    }
+
+    protected boolean isExpanded(){
+        return expanded;
+    }
+
+    protected boolean isLastChild(){
+        return lastChild;
+    }
+
+    protected Context getContext(){
+        return context;
+    }
+
+    protected ExpandableAdapterListener getListener(){
+        return listener;
     }
 }

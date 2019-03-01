@@ -10,8 +10,8 @@ import com.mtrilogic.interfaces.Bindable;
 import com.mtrilogic.interfaces.RecyclableAdapterListener;
 
 public abstract class Recyclable extends RecyclerView.ViewHolder implements Bindable{
-    protected RecyclableAdapterListener listener;
-    protected Context context;
+    private RecyclableAdapterListener listener;
+    private Context context;
 
     public abstract Recyclable getRecyclableHolder(ViewGroup parent);
 
@@ -19,5 +19,13 @@ public abstract class Recyclable extends RecyclerView.ViewHolder implements Bind
         super(view);
         this.context = context;
         this.listener = listener;
+    }
+
+    protected Context getContext(){
+        return context;
+    }
+
+    protected RecyclableAdapterListener getListener(){
+        return listener;
     }
 }

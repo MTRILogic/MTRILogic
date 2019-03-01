@@ -39,8 +39,9 @@ public class RecyclableDataItem extends Recyclable implements View.OnClickListen
 
     @Override
     public Recyclable getRecyclableHolder(ViewGroup parent){
+        Context context = getContext();
         View view = LayoutInflater.from(context).inflate(getLayoutResource(),parent,false);
-        return new RecyclableDataItem(view,context,listener);
+        return new RecyclableDataItem(view,context,getListener());
     }
 
     @Override
@@ -58,6 +59,7 @@ public class RecyclableDataItem extends Recyclable implements View.OnClickListen
 
     @Override
     public void onClick(View view){
+        RecyclableAdapterListener listener = getListener();
         int id = view.getId();
         switch(id){
             case R.id.ivw_icon:

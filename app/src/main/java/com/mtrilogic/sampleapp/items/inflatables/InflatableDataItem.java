@@ -30,7 +30,7 @@ public class InflatableDataItem extends Inflatable implements View.OnClickListen
 
     @Override
     public View getInflatableView(ViewGroup parent){
-        View view = LayoutInflater.from(context).inflate(getLayoutResource(),parent,false);
+        View view = LayoutInflater.from(getContext()).inflate(getLayoutResource(),parent,false);
         lblTitle = view.findViewById(R.id.lbl_title);
         lblContent = view.findViewById(R.id.lbl_content);
         ivwIcon = view.findViewById(R.id.ivw_icon);
@@ -57,7 +57,7 @@ public class InflatableDataItem extends Inflatable implements View.OnClickListen
         int id = view.getId();
         switch(id){
             case R.id.ivw_icon:
-                listener.onMakeToast("Icon [" + model.getPosition() + "] clicked");
+                getListener().onMakeToast("Icon [" + model.getPosition() + "] clicked");
                 break;
         }
     }

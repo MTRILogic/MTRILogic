@@ -8,13 +8,21 @@ import com.mtrilogic.interfaces.Bindable;
 import com.mtrilogic.interfaces.InflatableAdapterListener;
 
 public abstract class Inflatable implements Bindable{
-    protected InflatableAdapterListener listener;
-    protected Context context;
+    private InflatableAdapterListener listener;
+    private Context context;
 
     public abstract View getInflatableView(ViewGroup parent);
 
     protected Inflatable(Context context, InflatableAdapterListener listener){
         this.context = context;
         this.listener = listener;
+    }
+
+    protected Context getContext(){
+        return context;
+    }
+
+    protected InflatableAdapterListener getListener(){
+        return listener;
     }
 }

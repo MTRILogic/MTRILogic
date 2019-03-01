@@ -43,15 +43,16 @@ public class RecyclableImageItem extends Recyclable implements View.OnClickListe
 
     @Override
     public Recyclable getRecyclableHolder(ViewGroup parent){
+        Context context = getContext();
         View view = LayoutInflater.from(context).inflate(getLayoutResource(),parent,false);
-        return new RecyclableImageItem(view,context,listener);
+        return new RecyclableImageItem(view,context,getListener());
     }
 
     @Override
     public void onBindHolder(Modelable modelable){
         model = (ImageModel)modelable;
         ratingBar.setRating(model.getRating());
-        Glide.with(context)
+        Glide.with(getContext())
             .load(model.getImageLink())
             .apply(new RequestOptions()
                 .placeholder(R.drawable.loading)
@@ -69,7 +70,7 @@ public class RecyclableImageItem extends Recyclable implements View.OnClickListe
         int id = view.getId();
         switch(id){
             case R.id.ivw_image:
-                listener.onMakeToast("Image [" + model.getPosition() + "] clicked");
+                getListener().onMakeToast("Image [" + model.getPosition() + "] clicked");
                 break;
         }
     }
@@ -78,6 +79,7 @@ public class RecyclableImageItem extends Recyclable implements View.OnClickListe
     public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser){
         if(fromUser){
             model.setRating(rating);
+            RecyclableAdapterListener listener = getListener();
             listener.getRecyclableAdapter().notifyDataSetChanged();
             listener.onMakeToast("Rating Bar[" + model.getPosition() + "] set to " + rating );
         }

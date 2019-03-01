@@ -37,7 +37,7 @@ public class GroupItem extends Expandable implements View.OnClickListener{
 
     @Override
     public View getExpandableView(ViewGroup parent){
-        View view = LayoutInflater.from(context).inflate(getLayoutResource(),parent,false);
+        View view = LayoutInflater.from(getContext()).inflate(getLayoutResource(),parent,false);
         lblTitle = view.findViewById(R.id.lbl_title);
         chkGroup = view.findViewById(R.id.chk_group);
         chkGroup.setOnClickListener(this);
@@ -49,7 +49,7 @@ public class GroupItem extends Expandable implements View.OnClickListener{
     public void onBindHolder(Modelable modelable){
         model = (GroupModel)modelable;
         lblTitle.setText(model.getTitle());
-        lblTitle.setTextColor(expanded ? Color.WHITE : Color.BLACK);
+        lblTitle.setTextColor(isExpanded() ? Color.WHITE : Color.BLACK);
         chkGroup.setChecked(model.isChecked());
     }
 
@@ -65,7 +65,7 @@ public class GroupItem extends Expandable implements View.OnClickListener{
             case R.id.chk_group:
                 boolean checked = chkGroup.isChecked();
                 model.setChecked(checked);
-                ExpandableAdapter adapter = listener.getExpandableAdapter();
+                ExpandableAdapter adapter = getListener().getExpandableAdapter();
                 List<Modelable> childModels = adapter.getChildModelList(model.getGroupPosition());
                 for(Modelable child : childModels){
                     ChildModel childModel = (ChildModel)child;
