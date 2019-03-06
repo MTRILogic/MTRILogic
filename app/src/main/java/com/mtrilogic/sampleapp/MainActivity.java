@@ -10,18 +10,19 @@ import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
 import com.mtrilogic.abstracts.Fragmentable;
+import com.mtrilogic.abstracts.Paginable;
 import com.mtrilogic.adapters.FragmentableAdapter;
+import com.mtrilogic.adapters.PaginableAdapter;
+import com.mtrilogic.interfaces.FragmentableInstanceListener;
 import com.mtrilogic.interfaces.OnMakeToastListener;
 import com.mtrilogic.sampleapp.fragments.ExpandableFragment;
 import com.mtrilogic.sampleapp.fragments.InflatableFragment;
 import com.mtrilogic.sampleapp.fragments.RecyclableFragment;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener, OnMakeToastListener{
-    private List<Fragmentable> fragmentables;
+public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener, FragmentableInstanceListener, OnMakeToastListener{
     private ActionBar actionBar;
+    private FragmentableAdapter adapter;
+    private ViewPager pager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -36,40 +37,78 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         }
 
         FragmentManager manager = getSupportFragmentManager();
-        fragmentables = new ArrayList<>();
-        FragmentableAdapter adapter = new FragmentableAdapter(manager, fragmentables);
-        ViewPager pager = findViewById(R.id.pager);
+        adapter = new FragmentableAdapter(manager,this);
+        pager = findViewById(R.id.pager);
         pager.setAdapter(adapter);
         pager.addOnPageChangeListener(this);
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(pager);
 
+        long idx = 0;
+        int position = 0;
         if(savedInstanceState == null){
-            fragmentables.add(InflatableFragment.getInstance("Inflatable",0));
-            fragmentables.add(RecyclableFragment.getInstance("Recyclable",1));
-            fragmentables.add(ExpandableFragment.getInstance("Expandable",2));
+            if(adapter.addFragmentable(InflatableFragment.getInstance(new PaginableAdapter("Inflatable",idx,0)))){
+                idx++;
+            }
+            if(adapter.addFragmentable(RecyclableFragment.getInstance(new PaginableAdapter("Recyclable",idx,1)))){
+                idx++;
+            }
+            if(adapter.addFragmentable(ExpandableFragment.getInstance(new PaginableAdapter("Expandable",idx,2)))){
+                idx++;
+            }
+        }else {
+            idx = adapter.restorePaginableInstance(manager,savedInstanceState);
+            position = savedInstanceState.getInt("position");
+            position = position < adapter.getCount() ? position : 0;
+        }
+        if(idx > 0){
+            if(position > 0){
+                pager.setCurrentItem(position);
+            }else {
+                pageSelected(0);
+            }
             adapter.notifyDataSetChanged();
         }
     }
 
     @Override
-    public void onPageScrolled(int i, float v, int i1){
-
+    protected void onSaveInstanceState(Bundle outState){
+        outState.putInt("position",pager.getCurrentItem());
+        adapter.savePaginableInstance(outState);
+        super.onSaveInstanceState(outState);
     }
+
+    @Override
+    public void onPageScrolled(int i, float v, int i1){}
 
     @Override
     public void onPageSelected(int position){
-        actionBar.setTitle(fragmentables.get(position).getPageTitle());
+        pageSelected(position);
     }
 
     @Override
-    public void onPageScrollStateChanged(int i){
+    public void onPageScrollStateChanged(int i){}
 
+    @Override
+    public Fragmentable getFragmentableInstance(Paginable page){
+        switch(page.getViewType()){
+            case 0:
+                return InflatableFragment.getInstance(page);
+            case 1:
+                return RecyclableFragment.getInstance(page);
+            case 2:
+                return ExpandableFragment.getInstance(page);
+        }
+        return null;
     }
 
     @Override
     public void onMakeToast(String line){
         makeToast(line);
+    }
+
+    private void pageSelected(int position){
+        actionBar.setTitle(adapter.getPageTitle(position));
     }
 
     private void makeToast(String line){

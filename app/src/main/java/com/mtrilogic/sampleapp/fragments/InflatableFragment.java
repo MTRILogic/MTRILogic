@@ -13,6 +13,7 @@ import android.widget.ListView;
 import com.mtrilogic.abstracts.Fragmentable;
 import com.mtrilogic.abstracts.Inflatable;
 import com.mtrilogic.abstracts.Modelable;
+import com.mtrilogic.abstracts.Paginable;
 import com.mtrilogic.adapters.InflatableAdapter;
 import com.mtrilogic.interfaces.InflatableAdapterListener;
 import com.mtrilogic.interfaces.InflatableListener;
@@ -32,13 +33,12 @@ public class InflatableFragment extends Fragmentable implements AdapterView.OnIt
     private OnMakeToastListener listener;
     private List<Modelable> models;
     private InflatableAdapter adapter;
-    private String pageTitle;
-    private long itemId, idx;
+    private Paginable paginable;
+    private long idx;
 
-    public static InflatableFragment getInstance(String pageTitle, long itemId){
+    public static InflatableFragment getInstance(Paginable paginable){
         InflatableFragment fragment = new InflatableFragment();
-        fragment.pageTitle = pageTitle;
-        fragment.itemId = itemId;
+        fragment.paginable = paginable;
         return fragment;
     }
 
@@ -63,6 +63,7 @@ public class InflatableFragment extends Fragmentable implements AdapterView.OnIt
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        setRetainInstance(true);
         loadModelList();
     }
 
@@ -78,13 +79,8 @@ public class InflatableFragment extends Fragmentable implements AdapterView.OnIt
     }
 
     @Override
-    public String getPageTitle(){
-        return pageTitle;
-    }
-
-    @Override
-    public long getItemId(){
-        return itemId;
+    public Paginable getPaginable(){
+        return paginable;
     }
 
     @Override

@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.mtrilogic.abstracts.Fragmentable;
 import com.mtrilogic.abstracts.Paginable;
@@ -13,18 +13,19 @@ import com.mtrilogic.interfaces.FragmentableInstanceListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FragmentableAdapter extends FragmentPagerAdapter{
-    //private static final String TAG = "FragmentableAdapterTAG";
+@SuppressWarnings("unused")
+public class FragmentableStateAdapter extends FragmentStatePagerAdapter{
+    //private static final String TAG = "FragmentStateAdapterTAG";
     private FragmentableInstanceListener listener;
     private List<Fragmentable> fragmentables;
 
     @SuppressWarnings("unused")
-    public FragmentableAdapter(FragmentManager manager, FragmentableInstanceListener listener){
+    public FragmentableStateAdapter(FragmentManager manager, FragmentableInstanceListener listener){
         this(manager,listener,new ArrayList<Fragmentable>());
     }
 
     @SuppressWarnings("WeakerAccess")
-    public FragmentableAdapter(FragmentManager manager, FragmentableInstanceListener listener, List<Fragmentable> fragmentables){
+    public FragmentableStateAdapter(FragmentManager manager, FragmentableInstanceListener listener, List<Fragmentable> fragmentables){
         super(manager);
         this.listener = listener;
         this.fragmentables = fragmentables;
@@ -60,7 +61,7 @@ public class FragmentableAdapter extends FragmentPagerAdapter{
         fragmentables.clear();
     }
 
-    @Override//getFragmentable
+    @Override
     public Fragmentable getItem(int position){
         return fragmentables.get(position);
     }
@@ -68,11 +69,6 @@ public class FragmentableAdapter extends FragmentPagerAdapter{
     @Override
     public int getCount(){
         return fragmentables.size();
-    }
-
-    @Override
-    public long getItemId(int position){
-        return getItem(position).getPaginable().getItemId();
     }
 
     @Nullable
@@ -91,19 +87,14 @@ public class FragmentableAdapter extends FragmentPagerAdapter{
         return POSITION_NONE;
     }
 
-    public long restorePaginableInstance(FragmentManager manager, Bundle instance){
+    @SuppressWarnings("unused")
+    public long restorePaginableInstance(Bundle instance){
         long idx = 0;
         if(instance != null){
             Paginable[] paginables = (Paginable[])instance.getParcelableArray("paginables");
             if(paginables != null){
                 for(Paginable paginable : paginables){
-                    Fragmentable fragmentable = (Fragmentable)manager.findFragmentByTag(paginable.getTag());
-                    if(fragmentable == null){
-                        paginable.setItemId(idx);
-                        fragmentable = listener.getFragmentableInstance(paginable);
-                    }else {
-                        fragmentable.getPaginable().setItemId(idx);
-                    }
+                    Fragmentable fragmentable = listener.getFragmentableInstance(paginable);
                     if(fragmentables.add(fragmentable)){
                         idx++;
                     }
@@ -113,15 +104,15 @@ public class FragmentableAdapter extends FragmentPagerAdapter{
         return idx;
     }
 
+    @SuppressWarnings("unused")
     public void savePaginableInstance(Bundle instance){
         int size = getCount();
         if(size > 0){
             Paginable[] paginables = new Paginable[size];
             for(int i = 0; i < size; i++){
                 paginables[i] = getItem(i).getPaginable();
-                paginables[i].setTag(getItem(i).getTag());
             }
-            instance.putParcelableArray("paginables", paginables);
+            instance.putParcelableArray("paginables",paginables);
         }
     }
 }

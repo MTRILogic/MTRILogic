@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.mtrilogic.abstracts.Fragmentable;
 import com.mtrilogic.abstracts.Modelable;
+import com.mtrilogic.abstracts.Paginable;
 import com.mtrilogic.abstracts.Recyclable;
 import com.mtrilogic.adapters.RecyclableAdapter;
 import com.mtrilogic.interfaces.OnMakeToastListener;
@@ -32,13 +33,12 @@ public class RecyclableFragment extends Fragmentable implements RecyclableListen
     private OnMakeToastListener listener;
     private List<Modelable> models;
     private RecyclableAdapter adapter;
-    private String pageTitle;
-    private long itemId, idx;
+    private Paginable paginable;
+    private long idx;
 
-    public static RecyclableFragment getInstance(String pageTitle, long itemId){
+    public static RecyclableFragment getInstance(Paginable paginable){
         RecyclableFragment fragment = new RecyclableFragment();
-        fragment.pageTitle = pageTitle;
-        fragment.itemId = itemId;
+        fragment.paginable = paginable;
         return fragment;
     }
 
@@ -63,6 +63,7 @@ public class RecyclableFragment extends Fragmentable implements RecyclableListen
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        setRetainInstance(true);
         loadModelList();
     }
 
@@ -78,15 +79,9 @@ public class RecyclableFragment extends Fragmentable implements RecyclableListen
         return view;
     }
 
-    //Fragmentable
     @Override
-    public String getPageTitle(){
-        return pageTitle;
-    }
-
-    @Override
-    public long getItemId(){
-        return itemId;
+    public Paginable getPaginable(){
+        return paginable;
     }
 
     //RecyclableListener

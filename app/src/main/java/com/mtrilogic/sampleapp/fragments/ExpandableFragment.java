@@ -11,6 +11,7 @@ import android.widget.ExpandableListView;
 
 import com.mtrilogic.abstracts.Expandable;
 import com.mtrilogic.abstracts.Fragmentable;
+import com.mtrilogic.abstracts.Paginable;
 import com.mtrilogic.adapters.ExpandableAdapter;
 import com.mtrilogic.interfaces.ExpandableAdapterListener;
 import com.mtrilogic.interfaces.ExpandableListener;
@@ -25,13 +26,12 @@ public class ExpandableFragment extends Fragmentable implements ExpandableListen
     //private static final String TAG = "ExpandableFragmentTAG";
     private OnMakeToastListener listener;
     private ExpandableAdapter adapter;
-    private String pageTitle;
-    private long itemId, idx;
+    private Paginable paginable;
+    private long idx;
 
-    public static ExpandableFragment getInstance(String pageTitle, long itemId){
+    public static ExpandableFragment getInstance(Paginable paginable){
         ExpandableFragment fragment = new ExpandableFragment();
-        fragment.pageTitle = pageTitle;
-        fragment.itemId = itemId;
+        fragment.paginable = paginable;
         return fragment;
     }
 
@@ -46,6 +46,7 @@ public class ExpandableFragment extends Fragmentable implements ExpandableListen
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        setRetainInstance(true);
         loadExpandableList();
     }
 
@@ -59,13 +60,8 @@ public class ExpandableFragment extends Fragmentable implements ExpandableListen
     }
 
     @Override
-    public String getPageTitle(){
-        return pageTitle;
-    }
-
-    @Override
-    public long getItemId(){
-        return itemId;
+    public Paginable getPaginable(){
+        return paginable;
     }
 
     @Override
