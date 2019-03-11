@@ -13,20 +13,23 @@ import com.mtrilogic.sampleapp.R;
 import com.mtrilogic.sampleapp.models.DataModel;
 import com.mtrilogic.views.SquareImageView;
 
+@SuppressWarnings("unused")
 public class InflatableDataItem extends Inflatable implements View.OnClickListener{
     private TextView lblTitle, lblContent;
     private SquareImageView ivwIcon;
     private DataModel model;
 
-    @SuppressWarnings("unused")
+    // +++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++
+
     public InflatableDataItem(Context context){
         this(context,(InflatableAdapterListener)context);
     }
 
-    @SuppressWarnings("WeakerAccess")
     public InflatableDataItem(Context context, InflatableAdapterListener listener){
         super(context,listener);
     }
+
+    // +++++++++++++++++| OVERRIDE PUBLIC METHODS |++++++++++++++++++++++++++++
 
     @Override
     public View getInflatableView(ViewGroup parent){

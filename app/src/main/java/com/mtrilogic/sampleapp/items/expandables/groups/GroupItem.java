@@ -16,24 +16,26 @@ import com.mtrilogic.sampleapp.R;
 import com.mtrilogic.sampleapp.models.ChildModel;
 import com.mtrilogic.sampleapp.models.GroupModel;
 
-import java.util.List;
+import java.util.ArrayList;
 
+@SuppressWarnings("unused")
 public class GroupItem extends Expandable implements View.OnClickListener{
-    @SuppressWarnings("unused")
     private static final String TAG = "GroupItemTAG";
     private TextView lblTitle;
     private CheckBox chkGroup;
     private GroupModel model;
 
-    @SuppressWarnings("unused")
+    // +++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++
+
     public GroupItem(Context context){
         this(context,(ExpandableAdapterListener)context);
     }
 
-    @SuppressWarnings("unused")
     public GroupItem(Context context, ExpandableAdapterListener listener){
         super(context,listener);
     }
+
+    // +++++++++++++++++| OVERRIDE PUBLIC METHODS |++++++++++++++++++++++++++++
 
     @Override
     public View getExpandableView(ViewGroup parent){
@@ -66,10 +68,10 @@ public class GroupItem extends Expandable implements View.OnClickListener{
                 boolean checked = chkGroup.isChecked();
                 model.setChecked(checked);
                 ExpandableAdapter adapter = getListener().getExpandableAdapter();
-                List<Modelable> childModels = adapter.getChildModelList(model.getGroupPosition());
-                for(Modelable child : childModels){
-                    ChildModel childModel = (ChildModel)child;
-                    childModel.setChecked(checked);
+                ArrayList<Modelable> childModelables = adapter.getChildModelableList(model.getGroupPosition());
+                for(Modelable modelable : childModelables){
+                    ChildModel model = (ChildModel)modelable;
+                    model.setChecked(checked);
                 }
                 adapter.notifyDataSetChanged();
         }

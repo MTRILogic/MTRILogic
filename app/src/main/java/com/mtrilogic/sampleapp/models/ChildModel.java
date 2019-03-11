@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import com.mtrilogic.abstracts.Modelable;
 
+@SuppressWarnings({"unused","WeakerAccess"})
 public class ChildModel extends Modelable{
     public static final Parcelable.Creator<ChildModel> CREATOR = new Parcelable.Creator<ChildModel>(){
         @Override
@@ -19,24 +20,38 @@ public class ChildModel extends Modelable{
     };
 
     private String title, content;
-    private boolean checked;
+    private boolean checked, enabled;
     private int icon, viewType;
-    private long itemId;
 
-    @SuppressWarnings("unused")
+    // +++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++
+
     public ChildModel(){}
 
-    @SuppressWarnings("WeakerAccess")
-    public ChildModel(long itemId){
-        this.itemId = itemId;
-        viewType = 0;
+    public ChildModel(int viewType){
+        this(viewType,true);
     }
+
+    public ChildModel(boolean enabled){
+        this(0,enabled);
+    }
+
+    public ChildModel(int viewType, boolean enabled){
+        this.viewType = viewType;
+        this.enabled = enabled;
+    }
+
+    // +++++++++++++++++| PRIVATE CONSTRUCTORS |+++++++++++++++++++++++++++++++
+
+    private ChildModel(Parcel src){
+        super(src);
+    }
+
+    // +++++++++++++++++| PUBLIC METHODS |+++++++++++++++++++++++++++++++++++++
 
     public boolean isChecked(){
         return checked;
     }
 
-    @SuppressWarnings("unused")
     public void setChecked(boolean checked){
         this.checked = checked;
     }
@@ -65,15 +80,15 @@ public class ChildModel extends Modelable{
         this.icon = icon;
     }
 
-    @Override
-    public boolean isEnabled(){
-        return true;
+    public void setViewType(int viewType){
+        this.viewType = viewType;
     }
 
-    @Override
-    public long getItemId(){
-        return itemId;
+    public void setEnabled(boolean enabled){
+        this.enabled = enabled;
     }
+
+    // +++++++++++++++++| OVERRIDE PUBLIC METHODS |++++++++++++++++++++++++++++
 
     @Override
     public int getViewType(){
@@ -81,21 +96,29 @@ public class ChildModel extends Modelable{
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags){
-        dest.writeString(title);
-        dest.writeString(content);
-        dest.writeInt(icon);
-        dest.writeInt(checked ? 1 : 0);
-        dest.writeInt(viewType);
-        dest.writeLong(itemId);
+    public boolean isEnabled(){
+        return enabled;
     }
 
-    private ChildModel(Parcel src){
-        title = src.readString();
-        content = src.readString();
-        icon = src.readInt();
-        checked = src.readInt() != 0;
-        viewType = src.readInt();
-        itemId = src.readLong();
+    // +++++++++++++++++| OVERRIDE PROTECTED METHODS |+++++++++++++++++++++++++
+
+    @Override
+    protected void onReadFromParcel(Parcel in){
+        title = in.readString();
+        content = in.readString();
+        icon = in.readInt();
+        checked = in.readInt() != 0;
+        enabled = in.readInt() != 0;
+        viewType = in.readInt();
+    }
+
+    @Override
+    protected void onWriteToParcel(Parcel out){
+        out.writeString(title);
+        out.writeString(content);
+        out.writeInt(icon);
+        out.writeInt(checked ? 1 : 0);
+        out.writeInt(enabled ? 1 : 0);
+        out.writeInt(viewType);
     }
 }

@@ -3,24 +3,37 @@ package com.mtrilogic.abstracts;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+@SuppressWarnings({"unused","WeakerAccess"})
 public abstract class Paginable implements Parcelable{
-    private String pageTitle, tag;
-    private int viewType;
+    private static int idx = 0;
+    private String tag;
     private long itemId;
 
-    protected abstract void onReadFromParcel(Parcel src);
-    protected abstract void onWriteToParcel(Parcel dst, int flags);
+    // +++++++++++++++++| PUBLIC ABSTRACTS METHODS |+++++++++++++++++++++++++++
 
-    protected Paginable(){}
+    public abstract String getPageTitle();
+    public abstract int getViewType();
 
-    public String getPageTitle(){
-        return pageTitle;
+    // +++++++++++++++++| PROTECTED ABSTRACTS METHODS |++++++++++++++++++++++++
+
+    protected abstract void onReadFromParcel(Parcel in);
+    protected abstract void onWriteToParcel(Parcel out);
+
+    // +++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++
+
+    public Paginable(){
+        itemId = idx++;
     }
 
-    @SuppressWarnings("WeakerAccess")
-    public void setPageTitle(String pageTitle){
-        this.pageTitle = pageTitle;
+    // +++++++++++++++++| PROTECTED CONSTRUCTORS |+++++++++++++++++++++++++++++
+
+    protected Paginable(Parcel in){
+        onReadFromParcel(in);
+        tag = in.readString();
+        itemId = in.readLong();
     }
+
+    // +++++++++++++++++| PUBLIC METHODS |+++++++++++++++++++++++++++++++++++++
 
     public String getTag(){
         return tag;
@@ -30,29 +43,17 @@ public abstract class Paginable implements Parcelable{
         this.tag = tag;
     }
 
-    public int getViewType(){
-        return viewType;
-    }
-
-    public void setViewType(int viewType){
-        this.viewType = viewType;
-    }
-
     public long getItemId(){
         return itemId;
     }
 
-    public void setItemId(long itemId){
-        this.itemId = itemId;
-    }
-
-    protected Paginable(Parcel src){
-        onReadFromParcel(src);
-    }
+    // +++++++++++++++++| OVERRIDE PUBLIC METHODS |++++++++++++++++++++++++++++
 
     @Override
     public void writeToParcel(Parcel dest, int flags){
-        onWriteToParcel(dest,flags);
+        onWriteToParcel(dest);
+        dest.writeString(tag);
+        dest.writeLong(itemId);
     }
 
     @Override

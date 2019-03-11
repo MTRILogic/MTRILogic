@@ -1,5 +1,6 @@
 package com.mtrilogic.adapters;
 
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -11,79 +12,102 @@ import com.mtrilogic.interfaces.InflatableListener;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings({"unused","WeakerAccess"})
 public class InflatableAdapter extends BaseAdapter{
-    //private static final String TAG = "InflatableAdapterTAG";
+    private static final String TAG = "InflatableAdapterTAGY";
+    private static final String MODELABLES = "modelables";
+    private static final int NO_ITEMS = -1;
     private InflatableListener listener;
-    private List<Modelable> models;
+    private ArrayList<Modelable> modelableList;
     private int typeCount;
     private boolean stableIds;
 
-    @SuppressWarnings("unused")
+    // +++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++
+
     public InflatableAdapter(InflatableListener listener){
         this(listener,1);
     }
 
-    @SuppressWarnings("WeakerAccess")
     public InflatableAdapter(InflatableListener listener, int typeCount){
         this(listener,new ArrayList<Modelable>(),typeCount);
     }
 
-    @SuppressWarnings("unused")
-    public InflatableAdapter(InflatableListener listener, List<Modelable> models){
-        this(listener,models,1);
+    public InflatableAdapter(InflatableListener listener, ArrayList<Modelable> modelableList){
+        this(listener,modelableList,1);
     }
 
-    @SuppressWarnings("WeakerAccess")
-    public InflatableAdapter(InflatableListener listener, List<Modelable> models, int typeCount){
+    public InflatableAdapter(InflatableListener listener, ArrayList<Modelable> modelableList, int typeCount){
         this.listener = listener;
-        this.models = models;
+        this.modelableList = modelableList;
         typeCount = typeCount > 0 ? typeCount : 1;
         this.typeCount = typeCount;
         stableIds = true;
     }
 
-    @SuppressWarnings("unused")
+    // +++++++++++++++++| PUBLIC METHODS |+++++++++++++++++++++++++++++++++++++
+
     public void setStableIds(boolean stableIds){
         this.stableIds = stableIds;
     }
 
-    public void setModels(List<Modelable> models){
-        this.models = models;
+    private Modelable[] getModelables(){
+        return modelableList.toArray(new Modelable[getCount()]);
     }
 
-    public List<Modelable> getModels(){
-        return models;
+    public void setModelableList(ArrayList<Modelable> modelableList){
+        this.modelableList = modelableList;
     }
 
-    @SuppressWarnings("unused")
-    public boolean addModel(Modelable model){
-        if(!models.contains(model)){
-            return models.add(model);
+    public List<Modelable> getModelableList(){
+        return modelableList;
+    }
+
+    public boolean addModelable(Modelable modelable){
+        return !modelableList.contains(modelable) && modelableList.add(modelable);
+        // the modelable must have at least different id
+        // otherwise, you should use an external list
+    }
+
+    public Modelable setModelable(int position, Modelable modelable){
+        return isValidPosition(position) ? modelableList.set(position, modelable) : null;
+    }
+
+    public Modelable getModelable(int position){
+        return isValidPosition(position) ? modelableList.get(position) : null;
+    }
+
+    public boolean removeModelable(int position){
+        return isValidPosition(position) && modelableList.remove(modelableList.get(position));
+    }
+
+    public void clearModelableList(){
+        modelableList.clear();
+    }
+
+    public void onRestoreModelableInstance(Bundle instance){
+        if(instance != null){
+            modelableList = instance.getParcelableArrayList(MODELABLES);
         }
-        return false;
     }
 
-    @SuppressWarnings("unused")
-    public boolean removeModel(int position){
-        if(position > -1 && position < models.size()){
-            return models.remove(models.get(position));
+    public void onSaveModelableInstance(Bundle instance){
+        if(getCount() > 0){
+            instance.putParcelableArrayList(MODELABLES,modelableList);
         }
-        return false;
     }
 
-    @SuppressWarnings("unused")
-    public void clearModels(){
-        models.clear();
-    }
+    // +++++++++++++++++| OVERRIDE PUBLIC METHODS |++++++++++++++++++++++++++++
 
     @Override
     public int getCount(){
-        return models.size();
+        return modelableList.size();
     }
 
     @Override
     public Modelable getItem(int position){
-        return models.get(position);
+        return modelableList.get(position);
+        // you should not use this method to get a modelable,
+        // instead you should use getModelable(int) method
     }
 
     @Override
@@ -93,17 +117,17 @@ public class InflatableAdapter extends BaseAdapter{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent){
-        Modelable model = getItem(position);
-        model.setPosition(position);
+        Modelable modelable = getItem(position);
+        modelable.setPosition(position);
         Inflatable item;
         if(convertView != null){
             item = (Inflatable)convertView.getTag();
         }else{
-            int viewType = model.getViewType();
+            int viewType = modelable.getViewType();
             item = listener.getInflatableItem(viewType);
             convertView = item.getInflatableView(parent);
         }
-        item.onBindHolder(model);
+        item.onBindHolder(modelable);
         return convertView;
     }
 
@@ -125,5 +149,11 @@ public class InflatableAdapter extends BaseAdapter{
     @Override
     public boolean hasStableIds(){
         return stableIds;
+    }
+
+    // +++++++++++++++++| PRIVATE METHODS |++++++++++++++++++++++++++++++++++++
+
+    private boolean isValidPosition(int position){
+        return position > NO_ITEMS && position < getCount();
     }
 }

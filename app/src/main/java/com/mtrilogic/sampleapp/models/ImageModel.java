@@ -5,6 +5,7 @@ import android.os.Parcel;
 import com.mtrilogic.abstracts.Modelable;
 import com.mtrilogic.sampleapp.viewtypes.DataViewType;
 
+@SuppressWarnings({"unused","WeakerAccess"})
 public class ImageModel extends Modelable{
     public static final Creator<ImageModel> CREATOR = new Creator<ImageModel>(){
         @Override
@@ -20,16 +21,32 @@ public class ImageModel extends Modelable{
     private String imageLink;
     private float rating;
     private int viewType;
-    private long itemId;
+    private boolean enabled;
 
-    @SuppressWarnings("unused")
+    // +++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++
+
     public ImageModel(){}
 
-    @SuppressWarnings("WeakerAccess")
-    public ImageModel(long itemId){
-        this.itemId = itemId;
-        viewType = DataViewType.IMAGE;
+    public ImageModel(int viewType){
+        this(viewType,true);
     }
+
+    public ImageModel(boolean enabled){
+        this(DataViewType.IMAGE,enabled);
+    }
+
+    public ImageModel(int viewType, boolean enabled){
+        this.viewType = viewType;
+        this.enabled = enabled;
+    }
+
+    // +++++++++++++++++| PRIVATE CONSTRUCTORS |+++++++++++++++++++++++++++++++
+
+    private ImageModel(Parcel src){
+        super(src);
+    }
+
+    // +++++++++++++++++| PUBLIC METHODS |+++++++++++++++++++++++++++++++++++++
 
     public String getImageLink(){
         return imageLink;
@@ -47,15 +64,15 @@ public class ImageModel extends Modelable{
         this.rating = rating;
     }
 
-    @Override
-    public boolean isEnabled(){
-        return true;
+    public void setViewType(int viewType){
+        this.viewType = viewType;
     }
 
-    @Override
-    public long getItemId(){
-        return itemId;
+    public void setEnabled(boolean enabled){
+        this.enabled = enabled;
     }
+
+    // +++++++++++++++++| OVERRIDE PUBLIC METHODS |++++++++++++++++++++++++++++
 
     @Override
     public int getViewType(){
@@ -63,17 +80,25 @@ public class ImageModel extends Modelable{
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags){
-        dest.writeString(imageLink);
-        dest.writeFloat(rating);
-        dest.writeInt(viewType);
-        dest.writeLong(itemId);
+    public boolean isEnabled(){
+        return false;
     }
 
-    private ImageModel(Parcel source){
-        imageLink = source.readString();
-        rating = source.readFloat();
-        viewType = source.readInt();
-        itemId = source.readLong();
+    // +++++++++++++++++| OVERRIDE PROTECTED METHODS |+++++++++++++++++++++++++;
+
+    @Override
+    protected void onReadFromParcel(Parcel in){
+        imageLink = in.readString();
+        rating = in.readFloat();
+        enabled = in.readInt() != 0;
+        viewType = in.readInt();
+    }
+
+    @Override
+    protected void onWriteToParcel(Parcel out){
+        out.writeString(imageLink);
+        out.writeFloat(rating);
+        out.writeInt(enabled ? 1 :0);
+        out.writeInt(viewType);
     }
 }

@@ -13,13 +13,15 @@ import com.mtrilogic.abstracts.Fragmentable;
 import com.mtrilogic.abstracts.Paginable;
 import com.mtrilogic.adapters.FragmentableAdapter;
 import com.mtrilogic.adapters.PaginableAdapter;
-import com.mtrilogic.interfaces.FragmentableInstanceListener;
+import com.mtrilogic.interfaces.FragmentableListener;
 import com.mtrilogic.interfaces.OnMakeToastListener;
 import com.mtrilogic.sampleapp.fragments.ExpandableFragment;
 import com.mtrilogic.sampleapp.fragments.InflatableFragment;
 import com.mtrilogic.sampleapp.fragments.RecyclableFragment;
 
-public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener, FragmentableInstanceListener, OnMakeToastListener{
+@SuppressWarnings("unused")
+public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener, FragmentableListener, OnMakeToastListener{
+    private static final String TAG = "MainActivityTAGY";
     private ActionBar actionBar;
     private FragmentableAdapter adapter;
     private ViewPager pager;
@@ -44,24 +46,25 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(pager);
 
-        long idx = 0;
+        int count = 0;
         int position = 0;
         if(savedInstanceState == null){
-            if(adapter.addFragmentable(InflatableFragment.getInstance(new PaginableAdapter("Inflatable",idx,0)))){
-                idx++;
+            if(adapter.addFragmentable(InflatableFragment.getInstance(new PaginableAdapter("Inflatable",0)))){
+                count++;
             }
-            if(adapter.addFragmentable(RecyclableFragment.getInstance(new PaginableAdapter("Recyclable",idx,1)))){
-                idx++;
+            if(adapter.addFragmentable(RecyclableFragment.getInstance(new PaginableAdapter("Recyclable",1)))){
+                count++;
             }
-            if(adapter.addFragmentable(ExpandableFragment.getInstance(new PaginableAdapter("Expandable",idx,2)))){
-                idx++;
+            if(adapter.addFragmentable(ExpandableFragment.getInstance(new PaginableAdapter("Expandable",2)))){
+                count++;
             }
         }else {
-            idx = adapter.restorePaginableInstance(manager,savedInstanceState);
+            adapter.restorePaginableInstance(savedInstanceState);
             position = savedInstanceState.getInt("position");
             position = position < adapter.getCount() ? position : 0;
+            count= adapter.getCount();
         }
-        if(idx > 0){
+        if(count > 0){
             if(position > 0){
                 pager.setCurrentItem(position);
             }else {

@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mtrilogic.abstracts.Fragmentable;
-import com.mtrilogic.abstracts.Modelable;
 import com.mtrilogic.abstracts.Paginable;
 import com.mtrilogic.abstracts.Recyclable;
 import com.mtrilogic.adapters.RecyclableAdapter;
@@ -25,16 +24,14 @@ import com.mtrilogic.sampleapp.models.DataModel;
 import com.mtrilogic.sampleapp.models.ImageModel;
 import com.mtrilogic.sampleapp.viewtypes.DataViewType;
 
-import java.util.ArrayList;
-import java.util.List;
-
+@SuppressWarnings("unused")
 public class RecyclableFragment extends Fragmentable implements RecyclableListener, RecyclableAdapterListener{
-    //private static final String TAG = "RecyclableFragmentTAG";
+    private static final String TAG = "RecyclableFragmentTAG";
     private OnMakeToastListener listener;
-    private List<Modelable> models;
     private RecyclableAdapter adapter;
     private Paginable paginable;
-    private long idx;
+
+    // +++++++++++++++++| PUBLIC STATIC METHODS |++++++++++++++++++++++++++++++
 
     public static RecyclableFragment getInstance(Paginable paginable){
         RecyclableFragment fragment = new RecyclableFragment();
@@ -42,9 +39,11 @@ public class RecyclableFragment extends Fragmentable implements RecyclableListen
         return fragment;
     }
 
-    public RecyclableFragment(){
-        models = new ArrayList<>();
-    }
+    // +++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++
+
+    public RecyclableFragment(){}
+
+    // +++++++++++++++++| OVERRIDE PUBLIC METHODS |++++++++++++++++++++++++++++
 
     @Override
     public void onAttach(Context context){
@@ -71,7 +70,6 @@ public class RecyclableFragment extends Fragmentable implements RecyclableListen
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
         Context context = getContext();
-        adapter = new RecyclableAdapter(this,models);
         View view = inflater.inflate(R.layout.fragment_recyclable,container,false);
         RecyclerView lvwItems = view.findViewById(R.id.lvw_items);
         lvwItems.setLayoutManager(new LinearLayoutManager(context));
@@ -84,7 +82,6 @@ public class RecyclableFragment extends Fragmentable implements RecyclableListen
         return paginable;
     }
 
-    //RecyclableListener
     @Override
     public Recyclable getRecyclableItem(int viewType){
         Context context = getContext();
@@ -107,7 +104,10 @@ public class RecyclableFragment extends Fragmentable implements RecyclableListen
         listener.onMakeToast(line);
     }
 
+    // +++++++++++++++++| PRIVATE METHODS |++++++++++++++++++++++++++++++++++++
+
     private void loadModelList(){
+        adapter = new RecyclableAdapter(this);
         Context context = getContext();
         String[] links; int n = 0;
         if(context != null){
@@ -115,23 +115,27 @@ public class RecyclableFragment extends Fragmentable implements RecyclableListen
         }else {
             links = new String[5];
         }
+        int count = 0;
         for(int i = 0; i < 10; i++){
             if(i % 2 == 0){
-                DataModel model = new DataModel(idx);
+                DataModel model = new DataModel(true);
                 model.setTitle(getString(R.string.title_count,i));
                 model.setContent(getString(R.string.content));
                 model.setIcon(R.mipmap.ic_launcher_round);
-                if(models.add(model)){
-                    idx++;
+                if(adapter.addModelable(model)){
+                    count++;
                 }
             }else {
-                ImageModel model = new ImageModel(idx);
+                ImageModel model = new ImageModel(true);
                 model.setImageLink(links[n++]);
                 model.setRating((int)(Math.random() * 5) + 1);
-                if(models.add(model)){
-                    idx++;
+                if(adapter.addModelable(model)){
+                    count++;
                 }
             }
+        }
+        if(count > 0){
+            adapter.notifyDataSetChanged();
         }
     }
 }

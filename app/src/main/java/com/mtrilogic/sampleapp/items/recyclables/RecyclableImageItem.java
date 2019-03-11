@@ -15,24 +15,24 @@ import com.mtrilogic.sampleapp.R;
 import com.mtrilogic.sampleapp.models.ImageModel;
 import com.mtrilogic.views.SquareImageView;
 
+@SuppressWarnings("unused")
 public class RecyclableImageItem extends Recyclable implements View.OnClickListener, RatingBar.OnRatingBarChangeListener{
     private SquareImageView ivwImage;
     private RatingBar ratingBar;
     private ImageModel model;
 
-    //Fake constructor
-    @SuppressWarnings("unused")
+    // +++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++
+
     public RecyclableImageItem(Context context){
         this(context,(RecyclableAdapterListener)context);
     }
 
-    //Fake constructor
-    @SuppressWarnings("WeakerAccess")
     public RecyclableImageItem(Context context, RecyclableAdapterListener listener){
         super(new View(context),context,listener);
     }
 
-    //Real Constructor
+    // +++++++++++++++++| PRIVATE CONSTRUCTORS |+++++++++++++++++++++++++++++++
+
     private RecyclableImageItem(View view, Context context, RecyclableAdapterListener listener){
         super(view,context,listener);
         ivwImage = itemView.findViewById(R.id.ivw_image);
@@ -40,6 +40,8 @@ public class RecyclableImageItem extends Recyclable implements View.OnClickListe
         ratingBar = itemView.findViewById(R.id.ratingBar);
         ratingBar.setOnRatingBarChangeListener(this);
     }
+
+    // +++++++++++++++++| OVERRIDE PUBLIC METHODS |++++++++++++++++++++++++++++
 
     @Override
     public Recyclable getRecyclableHolder(ViewGroup parent){

@@ -12,12 +12,18 @@ public abstract class Expandable implements Bindable{
     private ExpandableAdapterListener listener;
     private Context context;
 
+    // +++++++++++++++++| PUBLIC ABSTRACT METHODS |++++++++++++++++++++++++++++
+
     public abstract View getExpandableView(ViewGroup parent);
+
+    // +++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++
 
     public Expandable(Context context, ExpandableAdapterListener listener){
         this.context = context;
         this.listener = listener;
     }
+
+    // +++++++++++++++++| PUBLIC METHODS |+++++++++++++++++++++++++++++++++++++
 
     public void setExpanded(boolean expanded){
         this.expanded = expanded;
@@ -26,6 +32,8 @@ public abstract class Expandable implements Bindable{
     public void setLastChild(boolean lastChild){
         this.lastChild = lastChild;
     }
+
+    // +++++++++++++++++| PROTECTED METHODS |++++++++++++++++++++++++++++++++++
 
     protected boolean isExpanded(){
         return expanded;

@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import com.mtrilogic.abstracts.Modelable;
 import com.mtrilogic.sampleapp.viewtypes.DataViewType;
 
+@SuppressWarnings({"unused","WeakerAccess"})
 public class DataModel extends Modelable{
     public static final Parcelable.Creator<DataModel> CREATOR = new Parcelable.Creator<DataModel>(){
         @Override
@@ -21,16 +22,32 @@ public class DataModel extends Modelable{
 
     private String title, content;
     private int icon, viewType;
-    private long itemId;
+    private boolean enabled;
 
-    @SuppressWarnings("unused")
+    // +++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++
+
     public DataModel(){}
 
-    @SuppressWarnings("WeakerAccess")
-    public DataModel(long itemId){
-        this.itemId = itemId;
-        viewType = DataViewType.DATA;
+    public DataModel(int viewType){
+        this(viewType,true);
     }
+
+    public DataModel(boolean enabled){
+        this(DataViewType.DATA,enabled);
+    }
+
+    public DataModel(int viewType, boolean enabled){
+        this.viewType = viewType;
+        this.enabled = enabled;
+    }
+
+    // +++++++++++++++++| PRIVATE CONSTRUCTORS |+++++++++++++++++++++++++++++++
+
+    private DataModel(Parcel src){
+        super(src);
+    }
+
+    // +++++++++++++++++| PUBLIC METHODS |+++++++++++++++++++++++++++++++++++++
 
     public String getTitle(){
         return title;
@@ -56,10 +73,15 @@ public class DataModel extends Modelable{
         this.icon = icon;
     }
 
-    @Override
-    public boolean isEnabled(){
-        return true;
+    public void setViewType(int viewType){
+        this.viewType = viewType;
     }
+
+    public void setEnabled(boolean enabled){
+        this.enabled = enabled;
+    }
+
+    // +++++++++++++++++| OVERRIDE PUBLIC METHODS |++++++++++++++++++++++++++++
 
     @Override
     public int getViewType(){
@@ -67,24 +89,27 @@ public class DataModel extends Modelable{
     }
 
     @Override
-    public long getItemId(){
-        return itemId;
+    public boolean isEnabled(){
+        return enabled;
+    }
+
+    // +++++++++++++++++| OVERRIDE PROTECTED METHODS |+++++++++++++++++++++++++
+
+    @Override
+    protected void onReadFromParcel(Parcel in){
+        title = in.readString();
+        content = in.readString();
+        icon = in.readInt();
+        enabled = in.readInt() != 0;
+        viewType = in.readInt();
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags){
-        dest.writeString(title);
-        dest.writeString(content);
-        dest.writeInt(icon);
-        dest.writeInt(viewType);
-        dest.writeLong(itemId);
-    }
-
-    private DataModel(Parcel src){
-        title = src.readString();
-        content = src.readString();
-        icon = src.readInt();
-        viewType = src.readInt();
-        itemId = src.readLong();
+    protected void onWriteToParcel(Parcel out){
+        out.writeString(title);
+        out.writeString(content);
+        out.writeInt(icon);
+        out.writeInt(enabled ? 1 : 0);
+        out.writeInt(viewType);
     }
 }

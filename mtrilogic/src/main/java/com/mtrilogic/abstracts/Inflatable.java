@@ -11,12 +11,18 @@ public abstract class Inflatable implements Bindable{
     private InflatableAdapterListener listener;
     private Context context;
 
+    // +++++++++++++++++| PUBLIC ABSTRACT METHODS |++++++++++++++++++++++++++++
+
     public abstract View getInflatableView(ViewGroup parent);
+
+    // +++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++
 
     protected Inflatable(Context context, InflatableAdapterListener listener){
         this.context = context;
         this.listener = listener;
     }
+
+    // +++++++++++++++++| PROTECTED METHODS |++++++++++++++++++++++++++++++++++
 
     protected Context getContext(){
         return context;

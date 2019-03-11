@@ -13,20 +13,23 @@ import com.mtrilogic.sampleapp.R;
 import com.mtrilogic.sampleapp.models.DataModel;
 import com.mtrilogic.views.SquareImageView;
 
+@SuppressWarnings("unused")
 public class RecyclableDataItem extends Recyclable implements View.OnClickListener{
     private TextView lblTitle, lblContent;
     private SquareImageView ivwIcon;
     private DataModel model;
 
-    @SuppressWarnings("unused")
+    // +++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++
+
     public RecyclableDataItem(Context context){
         this(context,(RecyclableAdapterListener)context);
     }
 
-    @SuppressWarnings("WeakerAccess")
     public RecyclableDataItem(Context context, RecyclableAdapterListener listener){
         super(new View(context),context,listener);
     }
+
+    // +++++++++++++++++| PRIVATE CONSTRUCTORS |+++++++++++++++++++++++++++++++
 
     private RecyclableDataItem(View view, Context context, RecyclableAdapterListener listener){
         super(view,context,listener);
@@ -36,6 +39,8 @@ public class RecyclableDataItem extends Recyclable implements View.OnClickListen
         ivwIcon = view.findViewById(R.id.ivw_icon);
         ivwIcon.setOnClickListener(this);
     }
+
+    // +++++++++++++++++| OVERRIDE PUBLIC METHODS |++++++++++++++++++++++++++++
 
     @Override
     public Recyclable getRecyclableHolder(ViewGroup parent){

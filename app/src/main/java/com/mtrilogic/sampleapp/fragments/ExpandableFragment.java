@@ -22,18 +22,26 @@ import com.mtrilogic.sampleapp.items.expandables.groups.GroupItem;
 import com.mtrilogic.sampleapp.models.ChildModel;
 import com.mtrilogic.sampleapp.models.GroupModel;
 
+@SuppressWarnings("unused")
 public class ExpandableFragment extends Fragmentable implements ExpandableListener, ExpandableAdapterListener{
-    //private static final String TAG = "ExpandableFragmentTAG";
+    private static final String TAG = "ExpandableFragmentTAG";
     private OnMakeToastListener listener;
     private ExpandableAdapter adapter;
     private Paginable paginable;
-    private long idx;
+
+    // +++++++++++++++++| PUBLIC STATIC METHODS |++++++++++++++++++++++++++++++
 
     public static ExpandableFragment getInstance(Paginable paginable){
         ExpandableFragment fragment = new ExpandableFragment();
         fragment.paginable = paginable;
         return fragment;
     }
+
+    // +++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++
+
+    public ExpandableFragment(){}
+
+    // +++++++++++++++++| OVERRIDE PUBLIC METHODS |++++++++++++++++++++++++++++
 
     @Override
     public void onAttach(Context context){
@@ -91,19 +99,29 @@ public class ExpandableFragment extends Fragmentable implements ExpandableListen
         listener.onMakeToast(line);
     }
 
+    // +++++++++++++++++| PRIVATE METHODS |++++++++++++++++++++++++++++++++++++
+
     private void loadExpandableList(){
         adapter = new ExpandableAdapter(this,this);
+        int count = 0;
         for(int y = 0; y < 5; y++){
-            GroupModel groupModel = new GroupModel(idx++);
+            GroupModel groupModel = new GroupModel(0,true);
             groupModel.setTitle(getString(R.string.title_count,y));
-            adapter.addGroupModel(groupModel);
+            if(adapter.addGroupModelable(groupModel)){
+                count++;
+            }
             for(int x = 0; x < 5; x++){
-                ChildModel childModel = new ChildModel(idx++);
+                ChildModel childModel = new ChildModel(0,true);
                 childModel.setTitle(getString(R.string.title_count,x));
                 childModel.setContent(getString(R.string.content));
                 childModel.setIcon(R.mipmap.ic_launcher);
-                adapter.addChildModel(y,childModel);
+                if(adapter.addChildModelable(y,childModel)){
+                    count++;
+                }
             }
+        }
+        if(count > 0){
+            adapter.notifyDataSetChanged();
         }
     }
 }

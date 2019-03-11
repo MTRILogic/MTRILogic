@@ -15,15 +15,16 @@ import com.mtrilogic.sampleapp.R;
 import com.mtrilogic.sampleapp.models.ChildModel;
 import com.mtrilogic.views.SquareImageView;
 
+@SuppressWarnings("unused")
 public class ChildItem extends Expandable implements View.OnClickListener{
-    @SuppressWarnings("unused")
     private static final String TAG = "ChildItemTAG";
     private TextView lblTitle, lblContent;
     private CheckBox chkChild;
     private SquareImageView ivwIcon;
     private ChildModel model;
 
-    @SuppressWarnings("unused")
+    // +++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++
+
     public ChildItem(Context context){
         this(context,(ExpandableAdapterListener)context);
     }
@@ -31,6 +32,8 @@ public class ChildItem extends Expandable implements View.OnClickListener{
     public ChildItem(Context context, ExpandableAdapterListener listener){
         super(context,listener);
     }
+
+    // +++++++++++++++++| OVERRIDE PUBLIC METHODS |++++++++++++++++++++++++++++
 
     @Override
     public View getExpandableView(ViewGroup parent){

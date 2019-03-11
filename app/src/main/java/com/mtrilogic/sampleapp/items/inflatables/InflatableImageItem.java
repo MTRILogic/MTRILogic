@@ -15,20 +15,23 @@ import com.mtrilogic.sampleapp.R;
 import com.mtrilogic.sampleapp.models.ImageModel;
 import com.mtrilogic.views.SquareImageView;
 
+@SuppressWarnings("unused")
 public class InflatableImageItem extends Inflatable implements View.OnClickListener, RatingBar.OnRatingBarChangeListener{
     private SquareImageView ivwImage;
     private RatingBar ratingBar;
     private ImageModel model;
 
-    @SuppressWarnings("unused")
+    // +++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++
+
     public InflatableImageItem(Context context){
         this(context,(InflatableAdapterListener)context);
     }
 
-    @SuppressWarnings("WeakerAccess")
     public InflatableImageItem(Context context, InflatableAdapterListener listener){
         super(context,listener);
     }
+
+    // +++++++++++++++++| OVERRIDE PUBLIC METHODS |++++++++++++++++++++++++++++
 
     @Override
     public View getInflatableView(ViewGroup parent){

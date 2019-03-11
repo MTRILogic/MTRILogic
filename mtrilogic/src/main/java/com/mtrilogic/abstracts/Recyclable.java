@@ -13,13 +13,19 @@ public abstract class Recyclable extends RecyclerView.ViewHolder implements Bind
     private RecyclableAdapterListener listener;
     private Context context;
 
+    // +++++++++++++++++| PUBLIC ABSTRACT METHODS |++++++++++++++++++++++++++++
+
     public abstract Recyclable getRecyclableHolder(ViewGroup parent);
+
+    // +++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++
 
     public Recyclable(@NonNull View view, Context context, RecyclableAdapterListener listener){
         super(view);
         this.context = context;
         this.listener = listener;
     }
+
+    // +++++++++++++++++| PROTECTED METHODS |++++++++++++++++++++++++++++++++++
 
     protected Context getContext(){
         return context;

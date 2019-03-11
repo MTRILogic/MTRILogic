@@ -12,7 +12,6 @@ import android.widget.ListView;
 
 import com.mtrilogic.abstracts.Fragmentable;
 import com.mtrilogic.abstracts.Inflatable;
-import com.mtrilogic.abstracts.Modelable;
 import com.mtrilogic.abstracts.Paginable;
 import com.mtrilogic.adapters.InflatableAdapter;
 import com.mtrilogic.interfaces.InflatableAdapterListener;
@@ -25,16 +24,14 @@ import com.mtrilogic.sampleapp.models.DataModel;
 import com.mtrilogic.sampleapp.models.ImageModel;
 import com.mtrilogic.sampleapp.viewtypes.DataViewType;
 
-import java.util.ArrayList;
-import java.util.List;
-
+@SuppressWarnings("unused")
 public class InflatableFragment extends Fragmentable implements AdapterView.OnItemClickListener, InflatableListener, InflatableAdapterListener{
-    //private static final String TAG = "InflatableFragmentTAG";
+    private static final String TAG = "InflatableFragmentTAG";
     private OnMakeToastListener listener;
-    private List<Modelable> models;
     private InflatableAdapter adapter;
     private Paginable paginable;
-    private long idx;
+
+    // +++++++++++++++++| PUBLIC STATIC METHODS |++++++++++++++++++++++++++++++
 
     public static InflatableFragment getInstance(Paginable paginable){
         InflatableFragment fragment = new InflatableFragment();
@@ -42,9 +39,11 @@ public class InflatableFragment extends Fragmentable implements AdapterView.OnIt
         return fragment;
     }
 
-    public InflatableFragment(){
-        models = new ArrayList<>();
-    }
+    // +++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++
+
+    public InflatableFragment(){}
+
+    // +++++++++++++++++| OVERRIDE PUBLIC METHODS |++++++++++++++++++++++++++++
 
     @Override
     public void onAttach(Context context){
@@ -70,7 +69,6 @@ public class InflatableFragment extends Fragmentable implements AdapterView.OnIt
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
-        adapter = new InflatableAdapter(this,models,DataViewType.COUNT);
         View view = inflater.inflate(R.layout.fragment_inflatable,container,false);
         ListView lvwItems = view.findViewById(R.id.lvw_items);
         lvwItems.setAdapter(adapter);
@@ -111,7 +109,10 @@ public class InflatableFragment extends Fragmentable implements AdapterView.OnIt
         listener.onMakeToast(line);
     }
 
+    // +++++++++++++++++| PRIVATE METHODS |++++++++++++++++++++++++++++++++++++
+
     private void loadModelList(){
+        adapter = new InflatableAdapter(this,DataViewType.COUNT);
         Context context = getContext();
         String[] links; int n = 0;
         if(context != null){
@@ -119,23 +120,27 @@ public class InflatableFragment extends Fragmentable implements AdapterView.OnIt
         }else {
             links = new String[5];
         }
+        int count = 0;
         for(int i = 0; i < 10; i++){
             if(i % 2 == 0){
-                DataModel model = new DataModel(idx);
+                DataModel model = new DataModel(true);
                 model.setTitle(getString(R.string.title_count,i));
                 model.setContent(getString(R.string.content));
                 model.setIcon(R.mipmap.ic_launcher_round);
-                if(models.add(model)){
-                    idx++;
+                if(adapter.addModelable(model)){
+                    count++;
                 }
             }else {
-                ImageModel model = new ImageModel(idx);
+                ImageModel model = new ImageModel(true);
                 model.setImageLink(links[n++]);
                 model.setRating((int)(Math.random() * 5) + 1);
-                if(models.add(model)){
-                    idx++;
+                if(adapter.addModelable(model)){
+                    count++;
                 }
             }
+        }
+        if(count > 0){
+            adapter.notifyDataSetChanged();
         }
     }
 }

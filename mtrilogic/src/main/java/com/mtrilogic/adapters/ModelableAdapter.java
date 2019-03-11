@@ -1,68 +1,50 @@
-package com.mtrilogic.sampleapp.models;
+package com.mtrilogic.adapters;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 import com.mtrilogic.abstracts.Modelable;
 
 @SuppressWarnings({"unused","WeakerAccess"})
-public class GroupModel extends Modelable{
-    public static final Parcelable.Creator<GroupModel> CREATOR = new Parcelable.Creator<GroupModel>(){
+public class ModelableAdapter extends Modelable{
+    public static final Creator<ModelableAdapter> CREATOR = new Creator<ModelableAdapter>(){
         @Override
-        public GroupModel createFromParcel(Parcel source){
-            return new GroupModel(source);
+        public ModelableAdapter createFromParcel(Parcel source){
+            return new ModelableAdapter(source);
         }
 
         @Override
-        public GroupModel[] newArray(int size){
-            return new GroupModel[size];
+        public ModelableAdapter[] newArray(int size){
+            return new ModelableAdapter[size];
         }
     };
 
-    private String title;
     private int viewType;
-    private boolean checked, enabled;
+    private boolean enabled;
 
     // +++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++
 
-    public GroupModel(){}
+    public ModelableAdapter(){}
 
-    public GroupModel(int viewType){
+    public ModelableAdapter(int viewType){
         this(viewType,true);
     }
 
-    public GroupModel(boolean enabled){
+    public ModelableAdapter(boolean enabled){
         this(0,enabled);
     }
 
-    public GroupModel(int viewType, boolean enabled){
+    public ModelableAdapter(int viewType, boolean enabled){
         this.viewType = viewType;
         this.enabled = enabled;
     }
 
     // +++++++++++++++++| PRIVATE CONSTRUCTORS |+++++++++++++++++++++++++++++++
 
-    private GroupModel(Parcel src){
-        super(src);
+    private ModelableAdapter(Parcel in){
+        super(in);
     }
 
     // +++++++++++++++++| PUBLIC METHODS |+++++++++++++++++++++++++++++++++++++
-
-    public boolean isChecked(){
-        return checked;
-    }
-
-    public void setChecked(boolean checked){
-        this.checked = checked;
-    }
-
-    public String getTitle(){
-        return title;
-    }
-
-    public void setTitle(String title){
-        this.title = title;
-    }
 
     public void setViewType(int viewType){
         this.viewType = viewType;
@@ -88,17 +70,13 @@ public class GroupModel extends Modelable{
 
     @Override
     protected void onReadFromParcel(Parcel in){
-        title = in.readString();
-        checked = in.readInt() != 0;
-        enabled = in.readInt() != 0;
         viewType = in.readInt();
+        enabled = in.readInt() != 0;
     }
 
     @Override
     protected void onWriteToParcel(Parcel out){
-        out.writeString(title);
-        out.writeInt(checked ? 1 : 0);
-        out.writeInt(enabled ? 1 : 0);
         out.writeInt(viewType);
+        out.writeInt(enabled ? 1 : 0);
     }
 }
