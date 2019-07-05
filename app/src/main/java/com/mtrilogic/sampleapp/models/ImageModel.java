@@ -1,52 +1,42 @@
 package com.mtrilogic.sampleapp.models;
 
+import android.os.Bundle;
 import android.os.Parcel;
 
-import com.mtrilogic.abstracts.Modelable;
-import com.mtrilogic.sampleapp.viewtypes.DataViewType;
+import com.mtrilogic.abstracts.ModelableCreator;
 
-@SuppressWarnings({"unused","WeakerAccess"})
-public class ImageModel extends Modelable{
-    public static final Creator<ImageModel> CREATOR = new Creator<ImageModel>(){
+@SuppressWarnings({"unused"})
+public class ImageModel extends DataModel{
+    public static final Creator<ImageModel> CREATOR = new ModelableCreator<ImageModel>(){
         @Override
-        public ImageModel createFromParcel(Parcel source){
-            return new ImageModel(source);
+        public ImageModel getParcelable(Parcel src, ClassLoader loader){
+            return null;
         }
 
         @Override
-        public ImageModel[] newArray(int size){
+        public ImageModel[] getParcelableArray(int size){
             return new ImageModel[size];
         }
     };
+    private static final String IMAGE_LINK = "imageLink", RATING = "rating";
     private String imageLink;
     private float rating;
-    private int viewType;
-    private boolean enabled;
 
-    // +++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++
+// ++++++++++++++++| PUBLIC CONSTRUCTORS |+++++++++++++++++++++++++++++++++++++
 
     public ImageModel(){}
 
-    public ImageModel(int viewType){
-        this(viewType,true);
+    public ImageModel(long itemId, int viewType){
+        super(itemId, viewType);
     }
 
-    public ImageModel(boolean enabled){
-        this(DataViewType.IMAGE,enabled);
+// ++++++++++++++++| PRIVATE CONSTRUCTORS |++++++++++++++++++++++++++++++++++++
+
+    private ImageModel(Parcel src, ClassLoader loader){
+        super(src, loader);
     }
 
-    public ImageModel(int viewType, boolean enabled){
-        this.viewType = viewType;
-        this.enabled = enabled;
-    }
-
-    // +++++++++++++++++| PRIVATE CONSTRUCTORS |+++++++++++++++++++++++++++++++
-
-    private ImageModel(Parcel src){
-        super(src);
-    }
-
-    // +++++++++++++++++| PUBLIC METHODS |+++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++| PUBLIC METHODS |++++++++++++++++++++++++++++++++++++++++++
 
     public String getImageLink(){
         return imageLink;
@@ -64,41 +54,19 @@ public class ImageModel extends Modelable{
         this.rating = rating;
     }
 
-    public void setViewType(int viewType){
-        this.viewType = viewType;
-    }
-
-    public void setEnabled(boolean enabled){
-        this.enabled = enabled;
-    }
-
-    // +++++++++++++++++| OVERRIDE PUBLIC METHODS |++++++++++++++++++++++++++++
+// ++++++++++++++++| PROTECTED OVERRIDE METHODS |++++++++++++++++++++++++++++++
 
     @Override
-    public int getViewType(){
-        return viewType;
+    protected void restoreFromData(Bundle data){
+        super.restoreFromData(data);
+        imageLink = data.getString(IMAGE_LINK);
+        rating = data.getFloat(RATING);
     }
 
     @Override
-    public boolean isEnabled(){
-        return false;
-    }
-
-    // +++++++++++++++++| OVERRIDE PROTECTED METHODS |+++++++++++++++++++++++++;
-
-    @Override
-    protected void onReadFromParcel(Parcel in){
-        imageLink = in.readString();
-        rating = in.readFloat();
-        enabled = in.readInt() != 0;
-        viewType = in.readInt();
-    }
-
-    @Override
-    protected void onWriteToParcel(Parcel out){
-        out.writeString(imageLink);
-        out.writeFloat(rating);
-        out.writeInt(enabled ? 1 :0);
-        out.writeInt(viewType);
+    protected void saveToData(Bundle data){
+        super.saveToData(data);
+        data.putString(IMAGE_LINK, imageLink);
+        data.putFloat(RATING, rating);
     }
 }

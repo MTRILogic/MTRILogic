@@ -1,9 +1,14 @@
 package com.mtrilogic.abstracts;
 
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 
+@SuppressWarnings("unused")
 public abstract class Fragmentable extends Fragment{
-    // +++++++++++++++++| PUBLIC ABSTRACT METHODS |++++++++++++++++++++++++++++
+    protected static final String PAGE = "page";
+
+// ++++++++++++++++| PUBLIC ABSTRACT METHODS |+++++++++++++++++++++++++++++++++
 
     public abstract Paginable getPaginable();
+
+    public abstract int getPosition();
 }

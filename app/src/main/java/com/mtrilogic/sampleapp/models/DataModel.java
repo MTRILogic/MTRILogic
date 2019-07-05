@@ -1,53 +1,43 @@
 package com.mtrilogic.sampleapp.models;
 
+import android.os.Bundle;
 import android.os.Parcel;
-import android.os.Parcelable;
 
 import com.mtrilogic.abstracts.Modelable;
-import com.mtrilogic.sampleapp.viewtypes.DataViewType;
+import com.mtrilogic.abstracts.ModelableCreator;
 
 @SuppressWarnings({"unused","WeakerAccess"})
 public class DataModel extends Modelable{
-    public static final Parcelable.Creator<DataModel> CREATOR = new Parcelable.Creator<DataModel>(){
+    public static final Creator<DataModel> CREATOR = new ModelableCreator<DataModel>(){
         @Override
-        public DataModel createFromParcel(Parcel source){
-            return new DataModel(source);
+        public DataModel getParcelable(Parcel src, ClassLoader loader){
+            return new DataModel(src, loader);
         }
 
         @Override
-        public DataModel[] newArray(int size){
+        public DataModel[] getParcelableArray(int size){
             return new DataModel[size];
         }
     };
-
+    private static final String TITLE = "title", CONTENT = "content", CHECKED = "checked";
     private String title, content;
-    private int icon, viewType;
-    private boolean enabled;
+    private boolean checked;
 
-    // +++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++
+// ++++++++++++++++| PUBLIC CONSTRUCTORS |+++++++++++++++++++++++++++++++++++++
 
     public DataModel(){}
 
-    public DataModel(int viewType){
-        this(viewType,true);
+    public DataModel(long itemId, int viewType){
+        super(itemId, viewType,true);
     }
 
-    public DataModel(boolean enabled){
-        this(DataViewType.DATA,enabled);
+// ++++++++++++++++| PROTECTED CONSTRUCTORS |++++++++++++++++++++++++++++++++++
+
+    protected DataModel(Parcel src, ClassLoader loader){
+        super(src, loader);
     }
 
-    public DataModel(int viewType, boolean enabled){
-        this.viewType = viewType;
-        this.enabled = enabled;
-    }
-
-    // +++++++++++++++++| PRIVATE CONSTRUCTORS |+++++++++++++++++++++++++++++++
-
-    private DataModel(Parcel src){
-        super(src);
-    }
-
-    // +++++++++++++++++| PUBLIC METHODS |+++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++| PUBLIC METHODS |++++++++++++++++++++++++++++++++++++++++++
 
     public String getTitle(){
         return title;
@@ -65,51 +55,27 @@ public class DataModel extends Modelable{
         this.content = content;
     }
 
-    public int getIcon(){
-        return icon;
+    public boolean isChecked(){
+        return checked;
     }
 
-    public void setIcon(int icon){
-        this.icon = icon;
+    public void setChecked(boolean checked){
+        this.checked = checked;
     }
 
-    public void setViewType(int viewType){
-        this.viewType = viewType;
-    }
-
-    public void setEnabled(boolean enabled){
-        this.enabled = enabled;
-    }
-
-    // +++++++++++++++++| OVERRIDE PUBLIC METHODS |++++++++++++++++++++++++++++
+// ++++++++++++++++| PROTECTED OVERRIDE METHODS |++++++++++++++++++++++++++++++
 
     @Override
-    public int getViewType(){
-        return viewType;
+    protected void restoreFromData(Bundle data){
+        title = data.getString(TITLE);
+        content = data.getString(CONTENT);
+        checked = data.getBoolean(CHECKED);
     }
 
     @Override
-    public boolean isEnabled(){
-        return enabled;
-    }
-
-    // +++++++++++++++++| OVERRIDE PROTECTED METHODS |+++++++++++++++++++++++++
-
-    @Override
-    protected void onReadFromParcel(Parcel in){
-        title = in.readString();
-        content = in.readString();
-        icon = in.readInt();
-        enabled = in.readInt() != 0;
-        viewType = in.readInt();
-    }
-
-    @Override
-    protected void onWriteToParcel(Parcel out){
-        out.writeString(title);
-        out.writeString(content);
-        out.writeInt(icon);
-        out.writeInt(enabled ? 1 : 0);
-        out.writeInt(viewType);
+    protected void saveToData(Bundle data){
+        data.putString(TITLE, title);
+        data.putString(CONTENT, content);
+        data.putBoolean(CHECKED, checked);
     }
 }

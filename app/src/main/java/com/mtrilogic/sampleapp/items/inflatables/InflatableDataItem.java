@@ -4,63 +4,74 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.mtrilogic.abstracts.Inflatable;
 import com.mtrilogic.abstracts.Modelable;
+import com.mtrilogic.adapters.InflatableAdapter;
 import com.mtrilogic.interfaces.InflatableAdapterListener;
 import com.mtrilogic.sampleapp.R;
 import com.mtrilogic.sampleapp.models.DataModel;
-import com.mtrilogic.views.SquareImageView;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused","FieldCanBeLocal"})
 public class InflatableDataItem extends Inflatable implements View.OnClickListener{
     private TextView lblTitle, lblContent;
-    private SquareImageView ivwIcon;
+    private CheckBox chkItem;
     private DataModel model;
+    private int position;
 
-    // +++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++
+// ++++++++++++++++| PUBLIC CONSTRUCTORS |+++++++++++++++++++++++++++++++++++++
 
-    public InflatableDataItem(Context context){
-        this(context,(InflatableAdapterListener)context);
+    public InflatableDataItem(Context context, int resource){
+        this(context,(InflatableAdapterListener)context, resource);
     }
 
-    public InflatableDataItem(Context context, InflatableAdapterListener listener){
-        super(context,listener);
+    public InflatableDataItem(Context context, InflatableAdapterListener listener, int resource){
+        super(context, listener, resource);
     }
 
-    // +++++++++++++++++| OVERRIDE PUBLIC METHODS |++++++++++++++++++++++++++++
+// ++++++++++++++++| PUBLIC OVERRIDE METHODS |+++++++++++++++++++++++++++++++++
 
     @Override
     public View getInflatableView(ViewGroup parent){
         View view = LayoutInflater.from(getContext()).inflate(getLayoutResource(),parent,false);
+        chkItem = view.findViewById(R.id.chk_item);
+        chkItem.setOnClickListener(this);
         lblTitle = view.findViewById(R.id.lbl_title);
         lblContent = view.findViewById(R.id.lbl_content);
-        ivwIcon = view.findViewById(R.id.ivw_icon);
+        ImageButton btnDelete = view.findViewById(R.id.btn_delete);
+        btnDelete.setOnClickListener(this);
         view.setTag(this);
         return view;
     }
 
     @Override
-    public void onBindHolder(Modelable modelable){
+    public void onBindHolder(Modelable modelable, int position){
         model = (DataModel)modelable;
-        lblTitle.setText(model.getTitle());
-        lblContent.setText(model.getContent());
-        ivwIcon.setImageResource(model.getIcon());
-        ivwIcon.setOnClickListener(this);
-    }
-
-    @Override
-    public int getLayoutResource(){
-        return R.layout.item_data;
+        this.position = position;
+        chkItem.setChecked(model.isChecked());
+        Context context = getContext();
+        lblTitle.setText(context.getString(R.string.title_item, model.getItemId()));
+        lblContent.setText(context.getString(R.string.content_item, position));
     }
 
     @Override
     public void onClick(View view){
+        InflatableAdapter adapter = getListener().getInflatableAdapter();
         int id = view.getId();
         switch(id){
-            case R.id.ivw_icon:
-                getListener().onMakeToast("Icon [" + model.getPosition() + "] clicked");
+            case R.id.chk_item:
+                boolean checked = chkItem.isChecked();
+                model.setChecked(checked);
+                adapter.notifyDataSetChanged();
+                getListener().onMakeToast("Item[" + position + "] set to " + checked);
+                break;
+            case R.id.btn_delete:
+                if(adapter.removeModelable(model)){
+                    adapter.notifyDataSetChanged();
+                }
                 break;
         }
     }

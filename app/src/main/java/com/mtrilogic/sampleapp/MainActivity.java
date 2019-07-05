@@ -1,30 +1,36 @@
 package com.mtrilogic.sampleapp;
 
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
+import com.google.android.material.tabs.TabLayout;
+import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 import android.widget.Toast;
 
 import com.mtrilogic.abstracts.Fragmentable;
 import com.mtrilogic.abstracts.Paginable;
 import com.mtrilogic.adapters.FragmentableAdapter;
-import com.mtrilogic.adapters.PaginableAdapter;
+import com.mtrilogic.interfaces.FragmentableAdapterListener;
 import com.mtrilogic.interfaces.FragmentableListener;
 import com.mtrilogic.interfaces.OnMakeToastListener;
 import com.mtrilogic.sampleapp.fragments.ExpandableFragment;
 import com.mtrilogic.sampleapp.fragments.InflatableFragment;
 import com.mtrilogic.sampleapp.fragments.RecyclableFragment;
+import com.mtrilogic.sampleapp.pages.ExpandablePage;
+import com.mtrilogic.sampleapp.pages.InflatablePage;
+import com.mtrilogic.sampleapp.pages.RecyclablePage;
+
+import java.util.ArrayList;
 
 @SuppressWarnings("unused")
-public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener, FragmentableListener, OnMakeToastListener{
-    private static final String TAG = "MainActivityTAGY";
+public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener, FragmentableListener, FragmentableAdapterListener, OnMakeToastListener{
+    private static final String[] TITLES = {"INFLATABLES", "RECYCLABLES", "EXPANDABLES"};
+    private static final String TAG = "MainActivityTAGY", LIST = "list", IDX = "idx";
     private ActionBar actionBar;
+    private ArrayList<Paginable> paginableList;
     private FragmentableAdapter adapter;
-    private ViewPager pager;
+    private long idx;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -38,46 +44,50 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        FragmentManager manager = getSupportFragmentManager();
-        adapter = new FragmentableAdapter(manager,this);
-        pager = findViewById(R.id.pager);
+        if(savedInstanceState != null){
+            paginableList = savedInstanceState.getParcelableArrayList(LIST);
+            idx = savedInstanceState.getLong(IDX);
+        }else {
+            paginableList = new ArrayList<>();
+            for(int i = 0; i < 3; i++){
+                String title = TITLES[i];
+                Paginable paginable = null;
+                switch(i){
+                    case 0:
+                        paginable = new InflatablePage(title, title.toLowerCase(), idx, i);
+                        break;
+                    case 1:
+                        paginable = new RecyclablePage(title, title.toLowerCase(), idx, i);
+                        break;
+                    case 2:
+                        paginable = new ExpandablePage(title, title.toLowerCase(), idx, i);
+                        break;
+                }
+                if(paginableList.add(paginable)){
+                    idx++;
+                }
+            }
+        }
+
+        adapter = new FragmentableAdapter(getSupportFragmentManager(),this, paginableList);
+        ViewPager pager = findViewById(R.id.pager);
         pager.setAdapter(adapter);
         pager.addOnPageChangeListener(this);
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(pager);
 
-        int count = 0;
-        int position = 0;
-        if(savedInstanceState == null){
-            if(adapter.addFragmentable(InflatableFragment.getInstance(new PaginableAdapter("Inflatable",0)))){
-                count++;
-            }
-            if(adapter.addFragmentable(RecyclableFragment.getInstance(new PaginableAdapter("Recyclable",1)))){
-                count++;
-            }
-            if(adapter.addFragmentable(ExpandableFragment.getInstance(new PaginableAdapter("Expandable",2)))){
-                count++;
-            }
-        }else {
-            adapter.restorePaginableInstance(savedInstanceState);
-            position = savedInstanceState.getInt("position");
-            position = position < adapter.getCount() ? position : 0;
-            count= adapter.getCount();
-        }
-        if(count > 0){
-            if(position > 0){
-                pager.setCurrentItem(position);
-            }else {
-                pageSelected(0);
-            }
+        if(adapter.getCount() > 0){
             adapter.notifyDataSetChanged();
+        }
+        if(pager.getCurrentItem() == 0){
+            pageSelected(0);
         }
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState){
-        outState.putInt("position",pager.getCurrentItem());
-        adapter.savePaginableInstance(outState);
+        outState.putParcelableArrayList(LIST, paginableList);
+        outState.putLong(IDX, idx);
         super.onSaveInstanceState(outState);
     }
 
@@ -93,16 +103,26 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     public void onPageScrollStateChanged(int i){}
 
     @Override
-    public Fragmentable getFragmentableInstance(Paginable page){
-        switch(page.getViewType()){
+    public Fragmentable getFragmentable(Paginable paginable, int position){
+        switch(paginable.getViewType()){
             case 0:
-                return InflatableFragment.getInstance(page);
+                return InflatableFragment.getInstance((InflatablePage)paginable);
             case 1:
-                return RecyclableFragment.getInstance(page);
+                return RecyclableFragment.getInstance((RecyclablePage)paginable);
             case 2:
-                return ExpandableFragment.getInstance(page);
+                return ExpandableFragment.getInstance((ExpandablePage)paginable);
         }
         return null;
+    }
+
+    @Override
+    public void onPositionChanged(int position){
+        //unused
+    }
+
+    @Override
+    public FragmentableAdapter getFragmentableAdapter(){
+        return adapter;
     }
 
     @Override

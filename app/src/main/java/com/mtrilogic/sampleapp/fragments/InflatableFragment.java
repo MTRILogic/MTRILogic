@@ -2,55 +2,88 @@ package com.mtrilogic.sampleapp.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.mtrilogic.abstracts.Fragmentable;
 import com.mtrilogic.abstracts.Inflatable;
 import com.mtrilogic.abstracts.Paginable;
+import com.mtrilogic.adapters.FragmentableAdapter;
 import com.mtrilogic.adapters.InflatableAdapter;
+import com.mtrilogic.interfaces.FragmentableAdapterListener;
 import com.mtrilogic.interfaces.InflatableAdapterListener;
 import com.mtrilogic.interfaces.InflatableListener;
-import com.mtrilogic.interfaces.OnMakeToastListener;
 import com.mtrilogic.sampleapp.R;
 import com.mtrilogic.sampleapp.items.inflatables.InflatableImageItem;
 import com.mtrilogic.sampleapp.items.inflatables.InflatableDataItem;
 import com.mtrilogic.sampleapp.models.DataModel;
 import com.mtrilogic.sampleapp.models.ImageModel;
-import com.mtrilogic.sampleapp.viewtypes.DataViewType;
+import com.mtrilogic.sampleapp.pages.InflatablePage;
+import com.mtrilogic.sampleapp.types.ChildType;
 
 @SuppressWarnings("unused")
-public class InflatableFragment extends Fragmentable implements AdapterView.OnItemClickListener, InflatableListener, InflatableAdapterListener{
-    private static final String TAG = "InflatableFragmentTAG";
-    private OnMakeToastListener listener;
+public class InflatableFragment extends Fragmentable implements View.OnClickListener, InflatableListener, InflatableAdapterListener{
+    private static final String TAG = "InflatableFragmentTAG", PAGE = "page", STATE = "state";
+    private FragmentableAdapterListener listener;
     private InflatableAdapter adapter;
-    private Paginable paginable;
+    private InflatablePage page;
+    private int position;
+    private static int top, index;
 
-    // +++++++++++++++++| PUBLIC STATIC METHODS |++++++++++++++++++++++++++++++
+// ++++++++++++++++| PUBLIC STATIC METHODS |+++++++++++++++++++++++++++++++++++
 
-    public static InflatableFragment getInstance(Paginable paginable){
+    public static InflatableFragment getInstance(InflatablePage page){
+        Bundle args = new Bundle();
+        args.putParcelable(PAGE, page);
         InflatableFragment fragment = new InflatableFragment();
-        fragment.paginable = paginable;
+        fragment.setArguments(args);
         return fragment;
     }
 
-    // +++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++
-
-    public InflatableFragment(){}
-
-    // +++++++++++++++++| OVERRIDE PUBLIC METHODS |++++++++++++++++++++++++++++
+// ++++++++++++++++| PUBLIC OVERRIDE METHODS |+++++++++++++++++++++++++++++++++
 
     @Override
     public void onAttach(Context context){
         super.onAttach(context);
-        if(context instanceof OnMakeToastListener){
-            listener = (OnMakeToastListener)context;
+        if(context instanceof FragmentableAdapterListener){
+            listener = (FragmentableAdapterListener)context;
         }
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+        Bundle args = getArguments();
+        if(args != null){
+            page = args.getParcelable(PAGE);
+        }
+    }
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
+        position = listener.getFragmentableAdapter().getPaginablePosition(page);
+        adapter = new InflatableAdapter(this, page.getModelableList(), ChildType.COUNT);
+        View view = inflater.inflate(R.layout.fragment_inflatable,container,false);
+        ListView lvwItems = view.findViewById(R.id.lvw_items);
+        lvwItems.setAdapter(adapter);
+        TextView lblTitle = view.findViewById(R.id.lbl_title);
+        lblTitle.setText(getString(R.string.title_item, page.getItemId()));
+        TextView lblContent = view.findViewById(R.id.lbl_content);
+        lblContent.setText(getString(R.string.content_item, position));
+        ImageButton btnAddData = view.findViewById(R.id.btn_addData);
+        btnAddData.setOnClickListener(this);
+        ImageButton btnAddImage = view.findViewById(R.id.btn_addImage);
+        btnAddImage.setOnClickListener(this);
+        ImageButton btnDelete = view.findViewById(R.id.btn_delete);
+        btnDelete.setOnClickListener(this);
+        return view;
     }
 
     @Override
@@ -60,43 +93,51 @@ public class InflatableFragment extends Fragmentable implements AdapterView.OnIt
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState){
-        super.onCreate(savedInstanceState);
-        setRetainInstance(true);
-        loadModelList();
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
-        View view = inflater.inflate(R.layout.fragment_inflatable,container,false);
-        ListView lvwItems = view.findViewById(R.id.lvw_items);
-        lvwItems.setAdapter(adapter);
-        lvwItems.setOnItemClickListener(this);
-        return view;
-    }
-
-    @Override
     public Paginable getPaginable(){
-        return paginable;
+        return page;
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-        listener.onMakeToast("Item [" + position + "] clicked");
+    public int getPosition(){
+        return position;
     }
 
     @Override
-    public Inflatable getInflatableItem(int viewType){
+    public void onClick(View view){
+        int id = view.getId();
+        if(id == R.id.btn_delete){
+            FragmentableAdapter adapter = listener.getFragmentableAdapter();
+            if(adapter.removePaginable(page)){
+                adapter.notifyDataSetChanged();
+            }
+        }else {
+            long idx = page.getIdx();
+            DataModel model = null;
+            switch(id){
+                case R.id.btn_addData:
+                    model = new DataModel(idx, ChildType.DATA);
+                    break;
+                case R.id.btn_addImage:
+                    model = getImageModel(idx);
+                    break;
+            }
+            if(model != null && adapter.addModelable(model)){
+                adapter.notifyDataSetChanged();
+                page.setIdx(++idx);
+            }
+        }
+    }
+
+    @Override
+    public Inflatable getInflatable(int viewType){
         Context context = getContext();
         switch(viewType){
-            case DataViewType.DATA:
-                return new InflatableDataItem(context,this);
-            case DataViewType.IMAGE:
-                return new InflatableImageItem(context,this);
-            default:
-                return null;
+            case ChildType.DATA:
+                return new InflatableDataItem(context, this, R.layout.item_data);
+            case ChildType.IMAGE:
+                return new InflatableImageItem(context, this, R.layout.item_image);
         }
+        return null;
     }
 
     @Override
@@ -109,38 +150,26 @@ public class InflatableFragment extends Fragmentable implements AdapterView.OnIt
         listener.onMakeToast(line);
     }
 
-    // +++++++++++++++++| PRIVATE METHODS |++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++| PRIVATE METHODS |+++++++++++++++++++++++++++++++++++++++++
 
-    private void loadModelList(){
-        adapter = new InflatableAdapter(this,DataViewType.COUNT);
+    private String[] getLinks(){
         Context context = getContext();
-        String[] links; int n = 0;
         if(context != null){
-            links = context.getResources().getStringArray(R.array.links);
+            return context.getResources().getStringArray(R.array.links);
         }else {
-            links = new String[5];
+            return new String[5];
         }
-        int count = 0;
-        for(int i = 0; i < 10; i++){
-            if(i % 2 == 0){
-                DataModel model = new DataModel(true);
-                model.setTitle(getString(R.string.title_count,i));
-                model.setContent(getString(R.string.content));
-                model.setIcon(R.mipmap.ic_launcher_round);
-                if(adapter.addModelable(model)){
-                    count++;
-                }
-            }else {
-                ImageModel model = new ImageModel(true);
-                model.setImageLink(links[n++]);
-                model.setRating((int)(Math.random() * 5) + 1);
-                if(adapter.addModelable(model)){
-                    count++;
-                }
-            }
-        }
-        if(count > 0){
-            adapter.notifyDataSetChanged();
-        }
+    }
+
+    private ImageModel getImageModel(long idx){
+        String[] links = getLinks();
+        ImageModel model = new ImageModel(idx, ChildType.IMAGE);
+        model.setImageLink(links[getRandomInt()]); // poner un random aqui
+        model.setRating(getRandomInt());
+        return model;
+    }
+
+    private int getRandomInt(){
+        return (int)(Math.random() * 4) + 1;
     }
 }

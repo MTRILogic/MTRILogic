@@ -4,25 +4,28 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.mtrilogic.interfaces.Bindable;
 import com.mtrilogic.interfaces.InflatableAdapterListener;
 
-public abstract class Inflatable implements Bindable{
+public abstract class Inflatable{
     private InflatableAdapterListener listener;
     private Context context;
+    private int resource;
 
-    // +++++++++++++++++| PUBLIC ABSTRACT METHODS |++++++++++++++++++++++++++++
+// ++++++++++++++++| PUBLIC ABSTRACT METHODS |+++++++++++++++++++++++++++++++++
 
     public abstract View getInflatableView(ViewGroup parent);
 
-    // +++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++
+    public abstract void onBindHolder(Modelable modelable, int position);
 
-    protected Inflatable(Context context, InflatableAdapterListener listener){
-        this.context = context;
+// ++++++++++++++++| PUBLIC CONSTRUCTORS |+++++++++++++++++++++++++++++++++++++
+
+    public Inflatable(Context context, InflatableAdapterListener listener, int resource){
         this.listener = listener;
+        this.context = context;
+        this.resource = resource;
     }
 
-    // +++++++++++++++++| PROTECTED METHODS |++++++++++++++++++++++++++++++++++
+// ++++++++++++++++| PROTECTED METHODS |+++++++++++++++++++++++++++++++++++++++
 
     protected Context getContext(){
         return context;
@@ -30,5 +33,9 @@ public abstract class Inflatable implements Bindable{
 
     protected InflatableAdapterListener getListener(){
         return listener;
+    }
+
+    protected int getLayoutResource(){
+        return resource;
     }
 }

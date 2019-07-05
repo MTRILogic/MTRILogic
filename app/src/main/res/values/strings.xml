@@ -1,8 +1,9 @@
 <resources>
-    <string name="app_name">MTRI Logic</string>
-    <string name="title">Lorem Ipsum (fragment)</string>
-    <string name="title_count">Lorem Ipsum (%1$d)</string>
-    <string name="content">Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit…</string>
+    <string name="app_name">Bindables</string>
+    <string name="title_sample">ItemId: 26</string>
+    <string name="title_item">ItemId: %1$d</string>
+    <string name="content_sample">Position: 12</string>
+    <string name="content_item">Position: %1$d</string>
 
     <string-array name="links">
         <item>https://i.pinimg.com/originals/0d/7d/b0/0d7db0be48ac09dc3247670441e6b95c.jpg</item>

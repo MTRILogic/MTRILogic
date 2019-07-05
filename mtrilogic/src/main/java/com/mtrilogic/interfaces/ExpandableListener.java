@@ -1,7 +1,9 @@
 package com.mtrilogic.interfaces;
 
-import com.mtrilogic.abstracts.Expandable;
+import com.mtrilogic.abstracts.ExpandableChild;
+import com.mtrilogic.abstracts.ExpandableGroup;
 
 public interface ExpandableListener extends OnMakeToastListener{
-    Expandable getExpandableItem(int viewType, boolean isChild);
+    ExpandableGroup getExpandableGroup(int viewType);
+    ExpandableChild getExpandableChild(int viewType);
 }

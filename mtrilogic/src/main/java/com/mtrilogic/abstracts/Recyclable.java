@@ -1,31 +1,34 @@
 package com.mtrilogic.abstracts;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.mtrilogic.interfaces.Bindable;
 import com.mtrilogic.interfaces.RecyclableAdapterListener;
 
-public abstract class Recyclable extends RecyclerView.ViewHolder implements Bindable{
+public abstract class Recyclable extends RecyclerView.ViewHolder{
     private RecyclableAdapterListener listener;
     private Context context;
+    private int resource;
 
-    // +++++++++++++++++| PUBLIC ABSTRACT METHODS |++++++++++++++++++++++++++++
+// ++++++++++++++++| PUBLIC ABSTRACT METHODS |+++++++++++++++++++++++++++++++++
 
     public abstract Recyclable getRecyclableHolder(ViewGroup parent);
 
-    // +++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++
+    public abstract void onBindHolder(Modelable modelable, int position);
 
-    public Recyclable(@NonNull View view, Context context, RecyclableAdapterListener listener){
+// ++++++++++++++++| PUBLIC CONSTRUCTORS |+++++++++++++++++++++++++++++++++++++
+
+    public Recyclable(@NonNull View view, Context context, RecyclableAdapterListener listener, int resource){
         super(view);
         this.context = context;
         this.listener = listener;
+        this.resource = resource;
     }
 
-    // +++++++++++++++++| PROTECTED METHODS |++++++++++++++++++++++++++++++++++
+// ++++++++++++++++| PROTECTED METHODS |+++++++++++++++++++++++++++++++++++++++
 
     protected Context getContext(){
         return context;
@@ -33,5 +36,9 @@ public abstract class Recyclable extends RecyclerView.ViewHolder implements Bind
 
     protected RecyclableAdapterListener getListener(){
         return listener;
+    }
+
+    protected int getLayoutResource(){
+        return resource;
     }
 }
