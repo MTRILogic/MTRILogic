@@ -1,48 +1,48 @@
-package com.mtrilogic.sampleapp.fragments;
+package com.mtrilogic.mtrilogicsample.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.mtrilogic.abstracts.Fragmentable;
-import com.mtrilogic.abstracts.Inflatable;
 import com.mtrilogic.abstracts.Paginable;
+import com.mtrilogic.abstracts.Recyclable;
 import com.mtrilogic.adapters.FragmentableAdapter;
-import com.mtrilogic.adapters.InflatableAdapter;
+import com.mtrilogic.adapters.RecyclableAdapter;
 import com.mtrilogic.interfaces.FragmentableAdapterListener;
-import com.mtrilogic.interfaces.InflatableAdapterListener;
-import com.mtrilogic.interfaces.InflatableListener;
-import com.mtrilogic.sampleapp.R;
-import com.mtrilogic.sampleapp.items.inflatables.InflatableImageItem;
-import com.mtrilogic.sampleapp.items.inflatables.InflatableDataItem;
-import com.mtrilogic.sampleapp.models.DataModel;
-import com.mtrilogic.sampleapp.models.ImageModel;
-import com.mtrilogic.sampleapp.pages.InflatablePage;
-import com.mtrilogic.sampleapp.types.ChildType;
+import com.mtrilogic.interfaces.RecyclableAdapterListener;
+import com.mtrilogic.interfaces.RecyclableListener;
+import com.mtrilogic.mtrilogicsample.R;
+import com.mtrilogic.mtrilogicsample.items.recyclables.RecyclableDataItem;
+import com.mtrilogic.mtrilogicsample.items.recyclables.RecyclableImageItem;
+import com.mtrilogic.mtrilogicsample.models.DataModel;
+import com.mtrilogic.mtrilogicsample.models.ImageModel;
+import com.mtrilogic.mtrilogicsample.pages.RecyclablePage;
+import com.mtrilogic.mtrilogicsample.types.ChildType;
 
 @SuppressWarnings("unused")
-public class InflatableFragment extends Fragmentable implements View.OnClickListener, InflatableListener, InflatableAdapterListener{
-    private static final String TAG = "InflatableFragmentTAG", PAGE = "page", STATE = "state";
+public class RecyclableFragment extends Fragmentable implements View.OnClickListener,  RecyclableListener, RecyclableAdapterListener{
+    private static final String TAG = "RecyclableFragmentTAG";
+    private static final String PAGE = "page";
     private FragmentableAdapterListener listener;
-    private InflatableAdapter adapter;
-    private InflatablePage page;
+    private RecyclableAdapter adapter;
+    private RecyclablePage page;
     private int position;
-    private static int top, index;
 
 // ++++++++++++++++| PUBLIC STATIC METHODS |+++++++++++++++++++++++++++++++++++
 
-    public static InflatableFragment getInstance(InflatablePage page){
+    public static RecyclableFragment getInstance(RecyclablePage page){
         Bundle args = new Bundle();
         args.putParcelable(PAGE, page);
-        InflatableFragment fragment = new InflatableFragment();
+        RecyclableFragment fragment = new RecyclableFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -50,11 +50,17 @@ public class InflatableFragment extends Fragmentable implements View.OnClickList
 // ++++++++++++++++| PUBLIC OVERRIDE METHODS |+++++++++++++++++++++++++++++++++
 
     @Override
-    public void onAttach(Context context){
+    public void onAttach(@NonNull Context context){
         super.onAttach(context);
         if(context instanceof FragmentableAdapterListener){
             listener = (FragmentableAdapterListener)context;
         }
+    }
+
+    @Override
+    public void onDetach(){
+        listener = null;
+        super.onDetach();
     }
 
     @Override
@@ -66,12 +72,14 @@ public class InflatableFragment extends Fragmentable implements View.OnClickList
         }
     }
 
+    @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
         position = listener.getFragmentableAdapter().getPaginablePosition(page);
-        adapter = new InflatableAdapter(this, page.getModelableList(), ChildType.COUNT);
-        View view = inflater.inflate(R.layout.fragment_inflatable,container,false);
-        ListView lvwItems = view.findViewById(R.id.lvw_items);
+        adapter = new RecyclableAdapter(this, page.getModelableList());
+        View view = inflater.inflate(R.layout.fragment_recyclable,container,false);
+        RecyclerView lvwItems = view.findViewById(R.id.lvw_items);
+        lvwItems.setLayoutManager(new LinearLayoutManager(getContext()));
         lvwItems.setAdapter(adapter);
         TextView lblTitle = view.findViewById(R.id.lbl_title);
         lblTitle.setText(getString(R.string.title_item, page.getItemId()));
@@ -84,12 +92,6 @@ public class InflatableFragment extends Fragmentable implements View.OnClickList
         ImageButton btnDelete = view.findViewById(R.id.btn_delete);
         btnDelete.setOnClickListener(this);
         return view;
-    }
-
-    @Override
-    public void onDetach(){
-        listener = null;
-        super.onDetach();
     }
 
     @Override
@@ -129,19 +131,19 @@ public class InflatableFragment extends Fragmentable implements View.OnClickList
     }
 
     @Override
-    public Inflatable getInflatable(int viewType){
+    public Recyclable getRecyclable(int viewType){
         Context context = getContext();
         switch(viewType){
             case ChildType.DATA:
-                return new InflatableDataItem(context, this, R.layout.item_data);
+                return new RecyclableDataItem(context,this, R.layout.item_data);
             case ChildType.IMAGE:
-                return new InflatableImageItem(context, this, R.layout.item_image);
+                return new RecyclableImageItem(context,this, R.layout.item_image);
         }
         return null;
     }
 
     @Override
-    public InflatableAdapter getInflatableAdapter(){
+    public RecyclableAdapter getRecyclableAdapter(){
         return adapter;
     }
 

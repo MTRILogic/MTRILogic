@@ -5,7 +5,7 @@ import android.content.res.TypedArray;
 import androidx.appcompat.widget.AppCompatImageView;
 import android.util.AttributeSet;
 
-import com.mtrilogic.library.R;
+import com.mtrilogic.mtrilogic.R;
 
 @SuppressWarnings("unused")
 public class SquareImageView extends AppCompatImageView{

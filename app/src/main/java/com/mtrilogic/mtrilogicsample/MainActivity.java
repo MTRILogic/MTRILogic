@@ -1,6 +1,8 @@
-package com.mtrilogic.sampleapp;
+package com.mtrilogic.mtrilogicsample;
 
 import com.google.android.material.tabs.TabLayout;
+
+import androidx.annotation.NonNull;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,12 +16,12 @@ import com.mtrilogic.adapters.FragmentableAdapter;
 import com.mtrilogic.interfaces.FragmentableAdapterListener;
 import com.mtrilogic.interfaces.FragmentableListener;
 import com.mtrilogic.interfaces.OnMakeToastListener;
-import com.mtrilogic.sampleapp.fragments.ExpandableFragment;
-import com.mtrilogic.sampleapp.fragments.InflatableFragment;
-import com.mtrilogic.sampleapp.fragments.RecyclableFragment;
-import com.mtrilogic.sampleapp.pages.ExpandablePage;
-import com.mtrilogic.sampleapp.pages.InflatablePage;
-import com.mtrilogic.sampleapp.pages.RecyclablePage;
+import com.mtrilogic.mtrilogicsample.fragments.ExpandableFragment;
+import com.mtrilogic.mtrilogicsample.fragments.InflatableFragment;
+import com.mtrilogic.mtrilogicsample.fragments.RecyclableFragment;
+import com.mtrilogic.mtrilogicsample.pages.ExpandablePage;
+import com.mtrilogic.mtrilogicsample.pages.InflatablePage;
+import com.mtrilogic.mtrilogicsample.pages.RecyclablePage;
 
 import java.util.ArrayList;
 
@@ -85,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState){
+    protected void onSaveInstanceState(@NonNull Bundle outState){
         outState.putParcelableArrayList(LIST, paginableList);
         outState.putLong(IDX, idx);
         super.onSaveInstanceState(outState);
@@ -106,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     public Fragmentable getFragmentable(Paginable paginable, int position){
         switch(paginable.getViewType()){
             case 0:
-                return InflatableFragment.getInstance((InflatablePage)paginable);
+                return InflatableFragment.getInstance((InflatablePage) paginable);
             case 1:
                 return RecyclableFragment.getInstance((RecyclablePage)paginable);
             case 2:

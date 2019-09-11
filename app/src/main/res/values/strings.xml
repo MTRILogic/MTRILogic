@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Bindables</string>
+    <string name="app_name">MTRI Logic</string>
     <string name="title_sample">ItemId: 26</string>
     <string name="title_item">ItemId: %1$d</string>
     <string name="content_sample">Position: 12</string>
@@ -12,5 +12,4 @@
         <item>https://i.pinimg.com/originals/bd/54/b9/bd54b97030e3bb37952320672d85930e.jpg</item>
         <item>https://i.pinimg.com/originals/60/c3/77/60c377ffdb239f7e51ae14cba1caeaf1.jpg</item>
     </string-array>
-
 </resources>

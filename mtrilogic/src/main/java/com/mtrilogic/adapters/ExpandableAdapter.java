@@ -7,41 +7,45 @@ import android.widget.BaseExpandableListAdapter;
 import com.mtrilogic.abstracts.ExpandableChild;
 import com.mtrilogic.abstracts.ExpandableGroup;
 import com.mtrilogic.abstracts.Modelable;
-import com.mtrilogic.classes.Base;
 import com.mtrilogic.classes.Listable;
+import com.mtrilogic.classes.Mapable;
 import com.mtrilogic.interfaces.ExpandableListener;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.Map;
+
+import androidx.annotation.NonNull;
 
 @SuppressWarnings({"unused","WeakerAccess","UnusedReturnValue"})
 public class ExpandableAdapter extends BaseExpandableListAdapter{
     private static final String TAG = "ExpandableAdapter", LIST = "list", IDX = "idx";
     private ExpandableListener listener;
-    private Listable<Modelable> groupModelableList;
-    private LinkedHashMap<Long, Listable<Modelable>> childModelableMap;
+    private ArrayList<Listable> lastListableList;
+    private Listable groupListable, lastListable;
+    private Mapable childMapable;
     private int groupTypeCount, childTypeCount;
     private boolean stableIds;
 
 // ++++++++++++++++| PUBLIC CONSTRUCTORS |+++++++++++++++++++++++++++++++++++++
 
-    public ExpandableAdapter(ExpandableListener listener, Listable<Modelable> groupModelableList, LinkedHashMap<Long, Listable<Modelable>> childModelableMap, int groupTypeCount, int childTypeCount){
+    public ExpandableAdapter(ExpandableListener listener, Listable groupListable, Mapable childMapable, int groupTypeCount, int childTypeCount){
         this.listener = listener;
-        this.groupModelableList = groupModelableList;
-        this.childModelableMap = childModelableMap;
+        this.groupListable = groupListable;
+        this.childMapable = childMapable;
         setGroupTypeCount(groupTypeCount);
         setChildTypeCount(childTypeCount);
+        lastListableList = new ArrayList<>();
         stableIds = false;
     }
 
 // ++++++++++++++++| PUBLIC METHODS |++++++++++++++++++++++++++++++++++++++++++
 
-    public void setGroupTypeCount(int groupTypeCount){
+    public final void setGroupTypeCount(int groupTypeCount){
         groupTypeCount = groupTypeCount > 0 ? groupTypeCount : 1;
         this.groupTypeCount = groupTypeCount;
     }
 
-    public void setChildTypeCount(int childTypeCount){
+    public final void setChildTypeCount(int childTypeCount){
         childTypeCount = childTypeCount > 0 ? childTypeCount : 1;
         this.childTypeCount = childTypeCount;
     }
@@ -50,64 +54,185 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
         this.stableIds = stableIds;
     }
 
-    public Modelable[] getGroupModelableArray(){
-        return groupModelableList.list.toArray(new Modelable[getGroupCount()]);
+    // ARRAY ==================================================================
+
+    public final Modelable[] getGroupModelableArray(){
+        return groupListable.getModelableArray();
     }
 
-    public Modelable[] getChildModelableArray(int groupPosition){
-        if(isValidGroupPosition(groupPosition)){
-            Listable<Modelable> childModelableList = getChildList(groupPosition);
-            int size = childModelableList.list.size();
-            return childModelableList.list.toArray(new Modelable[size]);
-        }return null;
+    /**
+     *
+     * @param groupModelable The group's modelable key
+     * @return The child modelable array
+     */
+    public final Modelable[] getChildModelableArray(@NonNull Modelable groupModelable){
+        return childMapable.getListable(groupModelable).getModelableArray();
     }
+
+    // APPEND =================================================================
+
+    /**
+     * Append a group modelable's list to the group's listable
+     * NOTE: each modelable should have obtained its itemId
+     * from the listable's idx where it will be attached
+     * @param groupModelableList A list of group's modelables
+     * @return True if the groupModelableList changed
+     */
+    public final boolean appendGroupModelableList(@NonNull ArrayList<Modelable> groupModelableList){
+        int count = 0;
+        for(Modelable groupModelable : groupModelableList){
+            if(!groupListable.containsModelable(groupModelable) && groupListable.appendModelable(groupModelable)){
+                childMapable.putListable(groupModelable, new Listable());
+                count++;
+            }
+        }
+        return count > 0;
+    }
+
+    /**
+     * add a new group model to the group model list and
+     * add a new group key with the given child model list
+     * to the child model map
+     * @param groupModelable The group modelable to add
+     * @param childListable The child modelable list
+     * @return True if group modelable was added
+     */
+    public final boolean appendGroupModelable(@NonNull Modelable groupModelable, @NonNull Listable childListable){
+        if(!groupListable.containsModelable(groupModelable) && groupListable.appendModelable(groupModelable)){
+            lastListable = childMapable.putListable(groupModelable, childListable);
+            return true;
+        }
+        return false;
+    }
+
+    public final boolean appendChildModelableList(Modelable groupModelable, @NonNull ArrayList<Modelable> childModelableList){
+        int count = 0;
+        if(childMapable.containsModelableKey(groupModelable)){
+            Listable childListable = childMapable.getListable(groupModelable);
+            for(Modelable childModelable : childModelableList){
+                if(!childListable.containsModelable(childModelable) && childListable.appendModelable(childModelable)){
+                    count++;
+                }
+            }
+        }
+        return count > 0;
+    }
+
+    /**
+     * append a new childModelable to end of childModelableList
+     *      associated with the given groupModelable's itemId
+     * @param groupModelable The groupModelable's itemId
+     * @param childModelable The childModelable to append
+     * @return True if the childModelable was appended to the list
+     */
+    public final boolean appendChildModelable(Modelable groupModelable, @NonNull Modelable childModelable){
+        if(childMapable.containsModelableKey(groupModelable)){
+            Listable childListable = childMapable.getListable(groupModelable);
+            return !childListable.containsModelable(childModelable) && childListable.appendModelable(childModelable);
+        }
+        return false;
+    }
+
+    // INSERT =================================================================
+
+    public final boolean insertGroupModelableList(int groupPosition, ArrayList<Modelable> groupModelableList){
+        int count = 0;
+        for(Modelable groupModelable : groupModelableList){
+            if(!groupListable.containsModelable(groupModelable) && groupListable.insertModelable(groupPosition, groupModelable)){
+                lastListable = childMapable.putListable(groupModelable, new Listable());
+                count++;
+            }
+        }
+        return count > 0;
+    }
+
+    public final boolean insertGroupModelable(int groupPosition, @NonNull Modelable groupModelable, @NonNull Listable childListable){
+        if(!groupListable.containsModelable(groupModelable) && groupListable.insertModelable(groupPosition, groupModelable)){
+            lastListable = childMapable.putListable(groupModelable, childListable);
+            return true;
+        }
+        return false;
+    }
+
+    public final boolean insertChildModelableList(Modelable groupModelable, int childPosition, ArrayList<Modelable> childModelableList){
+        int count = 0;
+        if(childMapable.containsModelableKey(groupModelable)){
+            Listable childListable = childMapable.getListable(groupModelable);
+            for(Modelable childModelable : childModelableList){
+                if(!childListable.containsModelable(childModelable) && childListable.insertModelable(childPosition, childModelable)){
+                    count++;
+                }
+            }
+        }
+        return count > 0;
+    }
+
+    public final boolean insertChildModelable(Modelable groupModelable, int childPosition, Modelable childModelable){
+        if(childMapable.containsModelableKey(groupModelable)){
+            Listable childListable = childMapable.getListable(groupModelable);
+            return !childListable.containsModelable(childModelable) && childListable.insertModelable(childPosition, childModelable);
+        }
+        return false;
+    }
+
+    // GET ====================================================================
 
     /**
      * Returns the current group modelable list
      * @return The current group modelable list
      */
-    public Listable<Modelable> getGroupModelableList(){
-        return groupModelableList;
+    public Listable getGroupListable(){
+        return groupListable;
     }
 
-    /**
-     * Replaces the current group modelable list and
-     * recreate a new child modelable map fro it
-     * @param groupModelableList The new group modelable list
-     */
-    public void setGroupModelableList(Listable<Modelable> groupModelableList){
-        this.groupModelableList = groupModelableList;
-        childModelableMap.clear();
-        for(Modelable groupModelable : groupModelableList.list){
-            childModelableMap.put(groupModelable.getItemId(), new Listable<>(new ArrayList<Modelable>()));
-        }
+    public Listable getChildListable(Modelable groupModelable){
+        return childMapable.containsModelableKey(groupModelable) ? childMapable.getListable(groupModelable) : null;
     }
 
     /**
      * Returns the current child modelable map
      * @return The current child modelable map
      */
-    public LinkedHashMap<Long, Listable<Modelable>> getChildModelableMap(){
-        return childModelableMap;
+    public Mapable getChildMapable(){
+        return childMapable;
     }
 
-    //returns the child model list associated to the given group position
-    public Listable<Modelable> getChildModelableList(int groupPosition){
-        if(isValidGroupPosition(groupPosition)){
-            return getChildList(groupPosition);
+    public Modelable getGroupModelable(int groupPosition){
+        return groupListable.getModelable(groupPosition);
+    }
+
+    public Modelable getChildModelable(Modelable groupModelable, int childPosition){
+        return childMapable.containsModelableKey(groupModelable) ? childMapable.getListable(groupModelable).getModelable(childPosition) : null;
+    }
+
+    // SET ====================================================================
+
+    /**
+     * Replaces the current group modelable list and
+     * recreate a new child modelable map fro it
+     * @param groupListable The new group modelable list
+     */
+    public void setGroupListable(Listable groupListable){
+        this.groupListable = groupListable;
+        childMapable.reset();
+        for(Modelable groupModelable : groupListable.getModelableList()){
+            lastListable = childMapable.putListable(groupModelable, new Listable());
         }
-        return null;
     }
 
-    //replaces the child model list associated with a given group position
-    public void setChildModelableList(int groupPosition, Listable<Modelable> childModelableList){
-        if(isValidGroupPosition(groupPosition)){
-            childModelableMap.put(getGroup(groupPosition).getItemId(), childModelableList);
+    public void setChildMapable(Mapable childMapable){
+        this.childMapable = childMapable;
+        lastListableList.clear();
+        groupListable.reset();
+        for(Map.Entry<Modelable, Listable> childEntry : childMapable.getListableMap().entrySet()){
+            Modelable groupModelable = childEntry.getKey();
+            if(!groupListable.appendModelable(groupModelable)){
+                lastListable = childMapable.deleteListable(groupModelable);
+                if(lastListableList.add(lastListable)){
+                    lastListable.setLive(false);
+                }
+            }
         }
-    }
-
-    public Modelable getGroupModelable(int position){
-        return isValidGroupPosition(position) ? getGroup(position) : null;
     }
 
     /**
@@ -116,77 +241,36 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
      * @param groupModelable The replacement group modelable
      * @return The replaced group modelable or null
      */
-    public Modelable setGroupModelable(int groupPosition, Modelable groupModelable){
-        return isValidGroupPosition(groupPosition) ? groupModelableList.list.set(groupPosition, groupModelable) : null;
-    }
-
-    public Modelable getChildModelable(int groupPosition, int childPosition){
-        if(isValidGroupPosition(groupPosition)){
-            Listable<Modelable> childModelableList = getChildList(groupPosition);
-            if(isValidChildPosition(childPosition, childModelableList)){
-                return childModelableList.list.get(childPosition);
-            }
-        }return null;
+    public Modelable setGroupModelable(int groupPosition, @NonNull Modelable groupModelable){
+        return groupListable.setModelable(groupPosition, groupModelable);
     }
 
     /**
      * Replace a child modelable with another in a given position
-     * @param groupPosition The position of the group modelable that containts it
-     * @param childPosition The position of the child modelable to replace
-     * @param childModelable The replacement child modelable
+     * @param groupModelable The related groupModelable's itemId
+     * @param childPosition The childModelable's position to set
+     * @param childModelable The childModelable's replacement to set
      * @return The Replaced child modelable or null
      */
-    public Modelable setChildModelable(int groupPosition, int childPosition, Modelable childModelable){
-        if(isValidGroupPosition(groupPosition)){
-            Listable<Modelable> childModelableList = getChildList(groupPosition);
-            if(isValidChildPosition(childPosition,childModelableList)){
-                return childModelableList.list.set(childPosition, childModelable);
-            }
-        }return null;
+    public Modelable setChildModelable(Modelable groupModelable, int childPosition, @NonNull Modelable childModelable){
+        return childMapable.containsModelableKey(groupModelable) ? childMapable.getListable(childModelable).setModelable(childPosition, childModelable) : null;
     }
 
-    /**
-     * add a new group model to the group model list and
-     * add a new group key with an empty child model list value
-     * to the child model map
-     * @param groupModelable The group modelable to add
-     * @return True if group modelable was added
-    */
-    public boolean addGroupModelable(Modelable groupModelable){
-        return addGroupModelable(groupModelable, new Listable<>(new ArrayList<Modelable>()));
-    }
+    // DELETE =================================================================
 
-    /**
-     * add a new group model to the group model list and
-     * add a new group key with the given child model list
-     * to the child model map
-     * @param groupModelable The group modelable to add
-     * @param childModelableList The child modelable list
-     * @return True if group modelable was added
-     */
-    public boolean addGroupModelable(Modelable groupModelable, Listable<Modelable> childModelableList){
-        if(!groupModelableList.list.contains(groupModelable)){
-            if(groupModelableList.list.add(groupModelable)){
-                childModelableMap.put(groupModelable.getItemId(), childModelableList);
-                return true;
+    public boolean deleteGroupModelableList(@NonNull ArrayList<Modelable> groupModelableList){
+        int count = groupModelableList.size();
+        lastListableList.clear();
+        for(Modelable groupModelable : groupModelableList){
+            if(groupListable.deleteModelable(groupModelable)){
+                lastListable = childMapable.deleteListable(groupModelable);
+                if(lastListableList.add(lastListable)){
+                    lastListable.setLive(false);
+                }
+                count--;
             }
-        }return false;
-    }
-
-    /**
-     * add a new child modelable to the child modelable list
-     *      associated with the given group position
-     * @param groupPosition The position of the group modelable in the list
-     * @param childModelable The modelable to add to the child modelable list
-     * @return True if the child modelable was added
-     */
-    public boolean addChildModelable(int groupPosition, Modelable childModelable){
-        if(isValidGroupPosition(groupPosition)){
-            Listable<Modelable> childModelableList = getChildList(groupPosition);
-            if(!childModelableList.list.contains(childModelable)){
-                return childModelableList.list.add(childModelable);
-            }
-        }return false;
+        }
+        return count == 0;
     }
 
     /**
@@ -194,65 +278,84 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
      * @param groupModelable the modelable to remove from list
      * @return True if group modelable was removed
      */
-    public boolean removeGroupModelable(Modelable groupModelable){
-        childModelableMap.remove(groupModelable.getItemId());
-        return groupModelableList.list.remove(groupModelable);
+    public boolean deleteGroupModelable(@NonNull Modelable groupModelable){
+        if(groupListable.deleteModelable(groupModelable)){
+            lastListable = childMapable.deleteListable(groupModelable);
+            lastListable.setLive(false);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean deleteChildModelableList(Modelable groupModelable, ArrayList<Modelable> childModelableList){
+        int count = childModelableList.size();
+        if(childMapable.containsModelableKey(groupModelable)){
+            Listable childListable = childMapable.getListable(groupModelable);
+            for(Modelable childModelable : childModelableList){
+                if(childListable.deleteModelable(childModelable)){
+                    count--;
+                }
+            }
+        }
+        return count == 0;
     }
 
     /**
      *
-     * @param groupPosition The position of the group modelable key
-     * @param childPosition The position of the child modelable to remove
+     * @param groupModelable The position of the group modelable key
+     * @param childModelable The position of the child modelable to remove
      * @return True if the child modelable was removed
      */
-    public boolean removeChildModelable(int groupPosition, int childPosition){
-        if(isValidGroupPosition(groupPosition)){
-            Listable<Modelable> childModelableList = getChildList(groupPosition);
-            if(isValidChildPosition(childPosition, childModelableList)){
-                return childModelableList.list.remove(childModelableList.list.get(childPosition));
-            }
-        }return false;
+    public boolean deleteChildModelable(Modelable groupModelable, Modelable childModelable){
+        if(childMapable.containsModelableKey(groupModelable)){
+            return childMapable.getListable(groupModelable).deleteModelable(childModelable);
+        }
+        return false;
     }
+
+    // RESET ==================================================================
 
     /**
      * Cleans all the group modelable list
      * Therefore, clean all the child modelable map
      */
-    public void clearGroupModelableList(){
-        groupModelableList.list.clear();
-        childModelableMap.clear();
+    public void resetGroupListable(){
+        groupListable.reset();
+        childMapable.reset();
     }
 
     /**
-     * Cleans all the child modelable list associated with the modelable group
-     * @param groupPosition index of the group modelable key
+     * Resets the childModelableList associated with the groupModelable's itemId
+     * @param groupModelable The groupModelable's itemId
      */
-    public void clearChildModelables(int groupPosition){
-        if(isValidGroupPosition(groupPosition)){
-            getChildList(groupPosition).list.clear();
+    public void resetChildListable(Modelable groupModelable){
+        if(childMapable.containsModelableKey(groupModelable)){
+            childMapable.getListable(groupModelable).reset();
         }
     }
 
-// ++++++++++++++++| PUBLIC OVERRIDE METHODS |+++++++++++++++++++++++++++++++++
+    // ++++++++++++++++| PUBLIC OVERRIDE METHODS |+++++++++++++++++++++++++++++++++
 
     @Override
     public int getGroupCount(){
-        return groupModelableList.list.size();
+        return groupListable.getModelableCount();
     }
 
     @Override
     public int getChildrenCount(int groupPosition){
-        return getChildList(groupPosition).list.size();
+        return getChildListable(groupPosition).getModelableCount();
     }
 
     @Override
     public Modelable getGroup(int groupPosition){
-        return groupModelableList.list.get(groupPosition);
+        // get modelable through modelableList's get method
+        return groupListable.getModelableList().get(groupPosition);
     }
 
     @Override
     public Modelable getChild(int groupPosition, int childPosition){
-        return getChildList(groupPosition).list.get(childPosition);
+        // get modelable through modelableList's get method
+        return getChildListable(groupPosition).getModelableList().get(childPosition);
     }
 
     @Override
@@ -332,19 +435,7 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
 
     // ++++++++++++++++| PRIVATE METHODS |+++++++++++++++++++++++++++++++++++++++++
 
-    private Listable<Modelable> getChildList(int groupPosition){
-        return getChildList(getGroup(groupPosition).getItemId());
-    }
-
-    private Listable<Modelable> getChildList(long groupId){
-        return childModelableMap.get(groupId);
-    }
-
-    private boolean isValidGroupPosition(int groupPosition){
-        return groupPosition > Base.INVALID_POSITION && groupPosition < groupModelableList.list.size();
-    }
-
-    private boolean isValidChildPosition(int childPosition, Listable<Modelable> childModelableList){
-        return childPosition > Base.INVALID_POSITION && childPosition < childModelableList.list.size();
+    private Listable getChildListable(int groupPosition){
+        return childMapable.getListable(getGroup(groupPosition));
     }
 }
