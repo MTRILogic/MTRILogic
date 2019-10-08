@@ -29,7 +29,8 @@ import com.mtrilogic.mtrilogicsample.pages.RecyclablePage;
 import com.mtrilogic.mtrilogicsample.types.ChildType;
 
 @SuppressWarnings("unused")
-public class RecyclableFragment extends Fragmentable implements View.OnClickListener,  RecyclableListener, RecyclableAdapterListener{
+public class RecyclableFragment extends Fragmentable implements View.OnClickListener,
+        RecyclableListener, RecyclableAdapterListener{
     private static final String TAG = "RecyclableFragmentTAG";
     private static final String PAGE = "page";
     private FragmentableAdapterListener listener;
@@ -37,7 +38,7 @@ public class RecyclableFragment extends Fragmentable implements View.OnClickList
     private RecyclablePage page;
     private int position;
 
-// ++++++++++++++++| PUBLIC STATIC METHODS |+++++++++++++++++++++++++++++++++++
+// ++++++++++++++++| PUBLIC STATIC METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     public static RecyclableFragment getInstance(RecyclablePage page){
         Bundle args = new Bundle();
@@ -47,7 +48,7 @@ public class RecyclableFragment extends Fragmentable implements View.OnClickList
         return fragment;
     }
 
-// ++++++++++++++++| PUBLIC OVERRIDE METHODS |+++++++++++++++++++++++++++++++++
+// ++++++++++++++++| PUBLIC OVERRIDE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     @Override
     public void onAttach(@NonNull Context context){
@@ -74,7 +75,8 @@ public class RecyclableFragment extends Fragmentable implements View.OnClickList
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState){
         position = listener.getFragmentableAdapter().getPaginablePosition(page);
         adapter = new RecyclableAdapter(this, page.getModelableList());
         View view = inflater.inflate(R.layout.fragment_recyclable,container,false);
@@ -152,7 +154,7 @@ public class RecyclableFragment extends Fragmentable implements View.OnClickList
         listener.onMakeToast(line);
     }
 
-// ++++++++++++++++| PRIVATE METHODS |+++++++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++| PRIVATE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     private String[] getLinks(){
         Context context = getContext();

@@ -19,16 +19,17 @@ public class InflatableAdapter extends BaseAdapter{
     private int typeCount;
     private boolean stableIds;
 
-// ++++++++++++++++| PUBLIC CONSTRUCTORS |+++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    public InflatableAdapter(InflatableListener listener, ArrayList<Modelable> modelableList, int typeCount){
+    public InflatableAdapter(InflatableListener listener, ArrayList<Modelable> modelableList,
+                             int typeCount){
         this.listener = listener;
         this.modelableList = modelableList;
         setTypeCount(typeCount);
         stableIds = true;
     }
 
-// ++++++++++++++++| PUBLIC METHODS |++++++++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++| PUBLIC METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     public void setTypeCount(int typeCount){
         typeCount = typeCount > 0 ? typeCount : 1;
@@ -97,7 +98,7 @@ public class InflatableAdapter extends BaseAdapter{
         modelableList.clear();
     }
 
-// +++++++++++++++++| PUBLIC OVERRIDE METHODS |++++++++++++++++++++++++++++++++
+// +++++++++++++++++| PUBLIC OVERRIDE METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     @Override
     public int getCount(){
@@ -124,8 +125,9 @@ public class InflatableAdapter extends BaseAdapter{
             inflatable = (Inflatable)convertView.getTag();
         }else{
             int viewType = modelable.getViewType();
-            inflatable = listener.getInflatable(viewType);
-            convertView = inflatable.getInflatableView(parent);
+            inflatable = listener.getInflatable(viewType, parent);
+            convertView = inflatable.getItemView();
+            convertView.setTag(inflatable);
         }
         inflatable.onBindHolder(modelable, position);
         return convertView;
@@ -151,7 +153,7 @@ public class InflatableAdapter extends BaseAdapter{
         return stableIds;
     }
 
-// ++++++++++++++++| PRIVATE METHODS |+++++++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++| PRIVATE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     private boolean isValidPosition(int position){
         return position > Base.INVALID_POSITION && position < getCount();

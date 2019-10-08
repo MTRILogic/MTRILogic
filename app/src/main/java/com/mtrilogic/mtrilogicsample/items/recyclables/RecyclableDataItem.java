@@ -21,13 +21,14 @@ public class RecyclableDataItem extends Recyclable implements View.OnClickListen
     private DataModel model;
     private int position;
 
-// ++++++++++++++++| PUBLIC CONSTRUCTORS |+++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     public RecyclableDataItem(Context context, int resource, ViewGroup parent){
         this(context, resource, parent, (RecyclableAdapterListener)context);
     }
 
-    public RecyclableDataItem(Context context, int resource, ViewGroup parent, RecyclableAdapterListener listener){
+    public RecyclableDataItem(Context context, int resource, ViewGroup parent,
+                              RecyclableAdapterListener listener){
         super(context, resource, parent, listener);
         itemView.setOnClickListener(this);
         chkItem = itemView.findViewById(R.id.chk_item);
@@ -38,7 +39,7 @@ public class RecyclableDataItem extends Recyclable implements View.OnClickListen
         btnDelete.setOnClickListener(this);
     }
 
-// ++++++++++++++++| PUBLIC OVERRIDE METHODS |+++++++++++++++++++++++++++++++++
+// ++++++++++++++++| PUBLIC OVERRIDE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     @Override
     public void onBindHolder(Modelable modelable, int position){
@@ -52,14 +53,14 @@ public class RecyclableDataItem extends Recyclable implements View.OnClickListen
 
     @Override
     public void onClick(View view){
-        RecyclableAdapter adapter = getListener().getRecyclableAdapter();
+        RecyclableAdapter adapter = listener.getRecyclableAdapter();
         int id = view.getId();
         switch(id){
             case R.id.chk_item:
                 boolean checked = chkItem.isChecked();
                 model.setChecked(checked);
                 adapter.notifyDataSetChanged();
-                getListener().onMakeToast("Item[" + position + "] set to " + checked);
+                listener.onMakeToast("Item[" + position + "] set to " + checked);
                 break;
             case R.id.btn_delete:
                 if(adapter.removeModelable(model)){

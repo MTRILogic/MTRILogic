@@ -9,26 +9,23 @@ import android.view.ViewGroup;
 import com.mtrilogic.interfaces.RecyclableAdapterListener;
 
 public abstract class Recyclable extends RecyclerView.ViewHolder{
-    private RecyclableAdapterListener listener;
+    protected final RecyclableAdapterListener listener;
 
-// ++++++++++++++++| PUBLIC ABSTRACT METHODS |+++++++++++++++++++++++++++++++++
+// ++++++++++++++++| PUBLIC ABSTRACT METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     public abstract void onBindHolder(Modelable modelable, int position);
 
-// ++++++++++++++++| PUBLIC CONSTRUCTORS |+++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    public Recyclable(Context context, int resource, ViewGroup parent, RecyclableAdapterListener listener){
+    public Recyclable(Context context, int resource, ViewGroup parent,
+                      RecyclableAdapterListener listener){
         super(LayoutInflater.from(context).inflate(resource, parent, false));
         this.listener = listener;
     }
 
-// ++++++++++++++++| PROTECTED METHODS |+++++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++| PROTECTED METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     protected Context getContext(){
         return itemView.getContext();
-    }
-
-    protected RecyclableAdapterListener getListener(){
-        return listener;
     }
 }

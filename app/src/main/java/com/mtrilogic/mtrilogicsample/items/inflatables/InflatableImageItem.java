@@ -1,7 +1,6 @@
 package com.mtrilogic.mtrilogicsample.items.inflatables;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -20,7 +19,8 @@ import com.mtrilogic.mtrilogicsample.models.ImageModel;
 import com.mtrilogic.views.SquareImageView;
 
 @SuppressWarnings({"unused"})
-public class InflatableImageItem extends Inflatable implements View.OnClickListener, RatingBar.OnRatingBarChangeListener{
+public class InflatableImageItem extends Inflatable implements View.OnClickListener,
+        RatingBar.OnRatingBarChangeListener{
     private TextView lblTitle, lblContent;
     private CheckBox chkItem;
     private SquareImageView ivwImage;
@@ -28,34 +28,28 @@ public class InflatableImageItem extends Inflatable implements View.OnClickListe
     private ImageModel model;
     private int position;
 
-// ++++++++++++++++| PUBLIC CONSTRUCTORS |+++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    public InflatableImageItem(Context context, int resource){
-        this(context, (InflatableAdapterListener)context, resource);
+    public InflatableImageItem(Context context, int resource, ViewGroup parent){
+        this(context, resource, parent, (InflatableAdapterListener)context);
     }
 
-    public InflatableImageItem(Context context, InflatableAdapterListener listener, int resource){
-        super(context, listener, resource);
-    }
-
-// ++++++++++++++++| PUBLIC OVERRIDE METHODS |+++++++++++++++++++++++++++++++++
-
-    @Override
-    public View getInflatableView(ViewGroup parent){
-        View view = LayoutInflater.from(getContext()).inflate(getLayoutResource(),parent,false);
-        chkItem = view.findViewById(R.id.chk_item);
+    public InflatableImageItem(Context context, int resource, ViewGroup parent,
+                               InflatableAdapterListener listener){
+        super(context, resource, parent, listener);
+        chkItem = itemView.findViewById(R.id.chk_item);
         chkItem.setOnClickListener(this);
-        lblTitle = view.findViewById(R.id.lbl_title);
-        lblContent = view.findViewById(R.id.lbl_content);
-        ImageButton btnDelete = view.findViewById(R.id.btn_delete);
+        lblTitle = itemView.findViewById(R.id.lbl_title);
+        lblContent = itemView.findViewById(R.id.lbl_content);
+        ImageButton btnDelete = itemView.findViewById(R.id.btn_delete);
         btnDelete.setOnClickListener(this);
-        ivwImage = view.findViewById(R.id.ivw_image);
+        ivwImage = itemView.findViewById(R.id.ivw_image);
         ivwImage.setOnClickListener(this);
-        ratingBar = view.findViewById(R.id.ratingBar);
+        ratingBar = itemView.findViewById(R.id.ratingBar);
         ratingBar.setOnRatingBarChangeListener(this);
-        view.setTag(this);
-        return view;
     }
+
+// ++++++++++++++++| PUBLIC OVERRIDE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     @Override
     public void onBindHolder(Modelable modelable, int position){
@@ -76,14 +70,14 @@ public class InflatableImageItem extends Inflatable implements View.OnClickListe
 
     @Override
     public void onClick(View view){
-        InflatableAdapter adapter = getListener().getInflatableAdapter();
+        InflatableAdapter adapter = listener.getInflatableAdapter();
         int id = view.getId();
         switch(id){
             case R.id.chk_item:
                 boolean checked = chkItem.isChecked();
                 model.setChecked(checked);
                 adapter.notifyDataSetChanged();
-                getListener().onMakeToast("Item[" + position + "] set to " + checked);
+                listener.onMakeToast("Item[" + position + "] set to " + checked);
                 break;
             case R.id.btn_delete:
                 if(adapter.removeModelable(model)){
@@ -97,7 +91,6 @@ public class InflatableImageItem extends Inflatable implements View.OnClickListe
     public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser){
         if(fromUser){
             model.setRating(rating);
-            InflatableAdapterListener listener = getListener();
             listener.getInflatableAdapter().notifyDataSetChanged();
             listener.onMakeToast("Rating Bar[" + position + "] set to " + rating );
         }

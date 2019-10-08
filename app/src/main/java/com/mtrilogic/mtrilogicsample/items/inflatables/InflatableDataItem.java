@@ -1,7 +1,6 @@
 package com.mtrilogic.mtrilogicsample.items.inflatables;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -22,30 +21,24 @@ public class InflatableDataItem extends Inflatable implements View.OnClickListen
     private DataModel model;
     private int position;
 
-// ++++++++++++++++| PUBLIC CONSTRUCTORS |+++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    public InflatableDataItem(Context context, int resource){
-        this(context,(InflatableAdapterListener)context, resource);
+    public InflatableDataItem(Context context, int resource, ViewGroup parent){
+        this(context, resource, parent,(InflatableAdapterListener)context);
     }
 
-    public InflatableDataItem(Context context, InflatableAdapterListener listener, int resource){
-        super(context, listener, resource);
-    }
-
-// ++++++++++++++++| PUBLIC OVERRIDE METHODS |+++++++++++++++++++++++++++++++++
-
-    @Override
-    public View getInflatableView(ViewGroup parent){
-        View view = LayoutInflater.from(getContext()).inflate(getLayoutResource(),parent,false);
-        chkItem = view.findViewById(R.id.chk_item);
+    public InflatableDataItem(Context context, int resource, ViewGroup parent,
+                              InflatableAdapterListener listener){
+        super(context, resource, parent, listener);
+        chkItem = itemView.findViewById(R.id.chk_item);
         chkItem.setOnClickListener(this);
-        lblTitle = view.findViewById(R.id.lbl_title);
-        lblContent = view.findViewById(R.id.lbl_content);
-        ImageButton btnDelete = view.findViewById(R.id.btn_delete);
+        lblTitle = itemView.findViewById(R.id.lbl_title);
+        lblContent = itemView.findViewById(R.id.lbl_content);
+        ImageButton btnDelete = itemView.findViewById(R.id.btn_delete);
         btnDelete.setOnClickListener(this);
-        view.setTag(this);
-        return view;
     }
+
+// ++++++++++++++++| PUBLIC OVERRIDE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     @Override
     public void onBindHolder(Modelable modelable, int position){
@@ -59,14 +52,14 @@ public class InflatableDataItem extends Inflatable implements View.OnClickListen
 
     @Override
     public void onClick(View view){
-        InflatableAdapter adapter = getListener().getInflatableAdapter();
+        InflatableAdapter adapter = listener.getInflatableAdapter();
         int id = view.getId();
         switch(id){
             case R.id.chk_item:
                 boolean checked = chkItem.isChecked();
                 model.setChecked(checked);
                 adapter.notifyDataSetChanged();
-                getListener().onMakeToast("Item[" + position + "] set to " + checked);
+                listener.onMakeToast("Item[" + position + "] set to " + checked);
                 break;
             case R.id.btn_delete:
                 if(adapter.removeModelable(model)){

@@ -19,7 +19,8 @@ import com.mtrilogic.mtrilogicsample.models.ImageModel;
 import com.mtrilogic.views.SquareImageView;
 
 @SuppressWarnings({"unused"})
-public class RecyclableImageItem extends Recyclable implements View.OnClickListener, RatingBar.OnRatingBarChangeListener{
+public class RecyclableImageItem extends Recyclable implements View.OnClickListener,
+        RatingBar.OnRatingBarChangeListener{
     private TextView lblTitle, lblContent;
     private CheckBox chkItem;
     private SquareImageView ivwImage;
@@ -27,13 +28,14 @@ public class RecyclableImageItem extends Recyclable implements View.OnClickListe
     private ImageModel model;
     private int position;
 
-// ++++++++++++++++| PUBLIC CONSTRUCTORS |+++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     public RecyclableImageItem(Context context, int resource, ViewGroup parent){
         this(context, resource, parent, (RecyclableAdapterListener)context);
     }
 
-    public RecyclableImageItem(Context context, int resource, ViewGroup parent, RecyclableAdapterListener listener){
+    public RecyclableImageItem(Context context, int resource, ViewGroup parent,
+                               RecyclableAdapterListener listener){
         super(context, resource, parent, listener);
         itemView.setOnClickListener(this);
         chkItem = itemView.findViewById(R.id.chk_item);
@@ -47,7 +49,7 @@ public class RecyclableImageItem extends Recyclable implements View.OnClickListe
         ratingBar.setOnRatingBarChangeListener(this);
     }
 
-// ++++++++++++++++| PUBLIC OVERRIDE METHODS |+++++++++++++++++++++++++++++++++
+// ++++++++++++++++| PUBLIC OVERRIDE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     @Override
     public void onBindHolder(Modelable modelable, int position){
@@ -68,14 +70,14 @@ public class RecyclableImageItem extends Recyclable implements View.OnClickListe
 
     @Override
     public void onClick(View view){
-        RecyclableAdapter adapter = getListener().getRecyclableAdapter();
+        RecyclableAdapter adapter = listener.getRecyclableAdapter();
         int id = view.getId();
         switch(id){
             case R.id.chk_item:
                 boolean checked = chkItem.isChecked();
                 model.setChecked(checked);
                 adapter.notifyDataSetChanged();
-                getListener().onMakeToast("Item[" + position + "] set to " + checked);
+                listener.onMakeToast("Item[" + position + "] set to " + checked);
                 break;
             case R.id.btn_delete:
                 if(adapter.removeModelable(model)){
@@ -89,7 +91,6 @@ public class RecyclableImageItem extends Recyclable implements View.OnClickListe
     public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser){
         if(fromUser){
             model.setRating(rating);
-            RecyclableAdapterListener listener = getListener();
             listener.getRecyclableAdapter().notifyDataSetChanged();
             listener.onMakeToast("Rating Bar[" + position + "] set to " + rating );
         }

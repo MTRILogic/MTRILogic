@@ -1,41 +1,37 @@
 package com.mtrilogic.abstracts;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.mtrilogic.interfaces.InflatableAdapterListener;
 
-public abstract class Inflatable{
-    private InflatableAdapterListener listener;
-    private Context context;
-    private int resource;
+public abstract class Inflatable {
+    protected final InflatableAdapterListener listener;
+    protected final View itemView;
 
-// ++++++++++++++++| PUBLIC ABSTRACT METHODS |+++++++++++++++++++++++++++++++++
-
-    public abstract View getInflatableView(ViewGroup parent);
+// ++++++++++++++++| PUBLIC ABSTRACT METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     public abstract void onBindHolder(Modelable modelable, int position);
 
-// ++++++++++++++++| PUBLIC CONSTRUCTORS |+++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    public Inflatable(Context context, InflatableAdapterListener listener, int resource){
+    public Inflatable(Context context, int resource, ViewGroup parent,
+                      InflatableAdapterListener listener){
+        itemView = LayoutInflater.from(context).inflate(resource, parent, false);
         this.listener = listener;
-        this.context = context;
-        this.resource = resource;
     }
 
-// ++++++++++++++++| PROTECTED METHODS |+++++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++| PUBLIC METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+    public View getItemView(){
+        return itemView;
+    }
+
+// ++++++++++++++++| PROTECTED METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     protected Context getContext(){
-        return context;
-    }
-
-    protected InflatableAdapterListener getListener(){
-        return listener;
-    }
-
-    protected int getLayoutResource(){
-        return resource;
+        return itemView.getContext();
     }
 }

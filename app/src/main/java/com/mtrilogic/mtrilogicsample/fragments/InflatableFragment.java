@@ -29,7 +29,8 @@ import com.mtrilogic.mtrilogicsample.pages.InflatablePage;
 import com.mtrilogic.mtrilogicsample.types.ChildType;
 
 @SuppressWarnings("unused")
-public class InflatableFragment extends Fragmentable implements View.OnClickListener, InflatableListener, InflatableAdapterListener{
+public class InflatableFragment extends Fragmentable implements View.OnClickListener,
+        InflatableListener, InflatableAdapterListener{
     private static final String TAG = "InflatableFragmentTAG", PAGE = "page", STATE = "state";
     private FragmentableAdapterListener listener;
     private InflatableAdapter adapter;
@@ -37,7 +38,7 @@ public class InflatableFragment extends Fragmentable implements View.OnClickList
     private int position;
     private static int top, index;
 
-// ++++++++++++++++| PUBLIC STATIC METHODS |+++++++++++++++++++++++++++++++++++
+// ++++++++++++++++| PUBLIC STATIC METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     public static InflatableFragment getInstance(InflatablePage page){
         Bundle args = new Bundle();
@@ -47,7 +48,7 @@ public class InflatableFragment extends Fragmentable implements View.OnClickList
         return fragment;
     }
 
-// ++++++++++++++++| PUBLIC OVERRIDE METHODS |+++++++++++++++++++++++++++++++++
+// ++++++++++++++++| PUBLIC OVERRIDE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     @Override
     public void onAttach(@NonNull Context context){
@@ -67,7 +68,8 @@ public class InflatableFragment extends Fragmentable implements View.OnClickList
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState){
         position = listener.getFragmentableAdapter().getPaginablePosition(page);
         adapter = new InflatableAdapter(this, page.getModelableList(), ChildType.COUNT);
         View view = inflater.inflate(R.layout.fragment_inflatable,container,false);
@@ -129,13 +131,13 @@ public class InflatableFragment extends Fragmentable implements View.OnClickList
     }
 
     @Override
-    public Inflatable getInflatable(int viewType){
+    public Inflatable getInflatable(int viewType, ViewGroup parent){
         Context context = getContext();
         switch(viewType){
             case ChildType.DATA:
-                return new InflatableDataItem(context, this, R.layout.item_data);
+                return new InflatableDataItem(context, R.layout.item_data, parent, this);
             case ChildType.IMAGE:
-                return new InflatableImageItem(context, this, R.layout.item_image);
+                return new InflatableImageItem(context, R.layout.item_image, parent, this);
         }
         return null;
     }
@@ -150,7 +152,7 @@ public class InflatableFragment extends Fragmentable implements View.OnClickList
         listener.onMakeToast(line);
     }
 
-// ++++++++++++++++| PRIVATE METHODS |+++++++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++| PRIVATE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     private String[] getLinks(){
         Context context = getContext();
