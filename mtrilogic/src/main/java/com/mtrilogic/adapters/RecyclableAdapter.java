@@ -94,7 +94,7 @@ public class RecyclableAdapter extends RecyclerView.Adapter<Recyclable>{
     @NonNull
     @Override
     public Recyclable onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
-        return listener.getRecyclable(viewType).getRecyclableHolder(parent);
+        return listener.getRecyclable(viewType, parent);
     }
 
     @Override

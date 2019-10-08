@@ -131,13 +131,13 @@ public class RecyclableFragment extends Fragmentable implements View.OnClickList
     }
 
     @Override
-    public Recyclable getRecyclable(int viewType){
+    public Recyclable getRecyclable(int viewType, ViewGroup parent){
         Context context = getContext();
         switch(viewType){
             case ChildType.DATA:
-                return new RecyclableDataItem(context,this, R.layout.item_data);
+                return new RecyclableDataItem(context, R.layout.item_data, parent, this);
             case ChildType.IMAGE:
-                return new RecyclableImageItem(context,this, R.layout.item_image);
+                return new RecyclableImageItem(context, R.layout.item_image, parent, this);
         }
         return null;
     }

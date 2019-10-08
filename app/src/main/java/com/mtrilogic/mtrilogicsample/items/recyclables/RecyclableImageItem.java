@@ -1,7 +1,6 @@
 package com.mtrilogic.mtrilogicsample.items.recyclables;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -30,39 +29,25 @@ public class RecyclableImageItem extends Recyclable implements View.OnClickListe
 
 // ++++++++++++++++| PUBLIC CONSTRUCTORS |+++++++++++++++++++++++++++++++++++++
 
-    public RecyclableImageItem(Context context, int resource){
-        this(context, (RecyclableAdapterListener)context, resource);
+    public RecyclableImageItem(Context context, int resource, ViewGroup parent){
+        this(context, resource, parent, (RecyclableAdapterListener)context);
     }
 
-    public RecyclableImageItem(Context context, RecyclableAdapterListener listener, int resource){
-        super(new View(context), context, listener, resource);
-    }
-
-// ++++++++++++++++| PRIVATE CONSTRUCTORS |++++++++++++++++++++++++++++++++++++
-
-    private RecyclableImageItem(View view, Context context, RecyclableAdapterListener listener, int resource){
-        super(view, context, listener, resource);
-        view.setOnClickListener(this);
-        chkItem = view.findViewById(R.id.chk_item);
+    public RecyclableImageItem(Context context, int resource, ViewGroup parent, RecyclableAdapterListener listener){
+        super(context, resource, parent, listener);
+        itemView.setOnClickListener(this);
+        chkItem = itemView.findViewById(R.id.chk_item);
         chkItem.setOnClickListener(this);
-        lblTitle = view.findViewById(R.id.lbl_title);
-        lblContent = view.findViewById(R.id.lbl_content);
-        ImageButton btnDelete = view.findViewById(R.id.btn_delete);
+        lblTitle = itemView.findViewById(R.id.lbl_title);
+        lblContent = itemView.findViewById(R.id.lbl_content);
+        ImageButton btnDelete = itemView.findViewById(R.id.btn_delete);
         btnDelete.setOnClickListener(this);
-        ivwImage = view.findViewById(R.id.ivw_image);
-        ratingBar = view.findViewById(R.id.ratingBar);
+        ivwImage = itemView.findViewById(R.id.ivw_image);
+        ratingBar = itemView.findViewById(R.id.ratingBar);
         ratingBar.setOnRatingBarChangeListener(this);
     }
 
 // ++++++++++++++++| PUBLIC OVERRIDE METHODS |+++++++++++++++++++++++++++++++++
-
-    @Override
-    public Recyclable getRecyclableHolder(ViewGroup parent){
-        Context context = getContext();
-        int resource = getLayoutResource();
-        View view = LayoutInflater.from(context).inflate(resource, parent,false);
-        return new RecyclableImageItem(view, context, getListener(), resource);
-    }
 
     @Override
     public void onBindHolder(Modelable modelable, int position){

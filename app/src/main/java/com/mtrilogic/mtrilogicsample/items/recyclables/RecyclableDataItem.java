@@ -1,7 +1,6 @@
 package com.mtrilogic.mtrilogicsample.items.recyclables;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -24,36 +23,22 @@ public class RecyclableDataItem extends Recyclable implements View.OnClickListen
 
 // ++++++++++++++++| PUBLIC CONSTRUCTORS |+++++++++++++++++++++++++++++++++++++
 
-    public RecyclableDataItem(Context context, int resource){
-        this(context, (RecyclableAdapterListener)context, resource);
+    public RecyclableDataItem(Context context, int resource, ViewGroup parent){
+        this(context, resource, parent, (RecyclableAdapterListener)context);
     }
 
-    public RecyclableDataItem(Context context, RecyclableAdapterListener listener, int resource){
-        super(new View(context), context, listener, resource);
-    }
-
-// ++++++++++++++++| PRIVATE CONSTRUCTORS |++++++++++++++++++++++++++++++++++++
-
-    private RecyclableDataItem(View view, Context context, RecyclableAdapterListener listener, int resource){
-        super(view, context, listener, resource);
-        view.setOnClickListener(this);
-        chkItem = view.findViewById(R.id.chk_item);
+    public RecyclableDataItem(Context context, int resource, ViewGroup parent, RecyclableAdapterListener listener){
+        super(context, resource, parent, listener);
+        itemView.setOnClickListener(this);
+        chkItem = itemView.findViewById(R.id.chk_item);
         chkItem.setOnClickListener(this);
-        lblTitle = view.findViewById(R.id.lbl_title);
-        lblContent = view.findViewById(R.id.lbl_content);
-        ImageButton btnDelete = view.findViewById(R.id.btn_delete);
+        lblTitle = itemView.findViewById(R.id.lbl_title);
+        lblContent = itemView.findViewById(R.id.lbl_content);
+        ImageButton btnDelete = itemView.findViewById(R.id.btn_delete);
         btnDelete.setOnClickListener(this);
     }
 
 // ++++++++++++++++| PUBLIC OVERRIDE METHODS |+++++++++++++++++++++++++++++++++
-
-    @Override
-    public Recyclable getRecyclableHolder(ViewGroup parent){
-        Context context = getContext();
-        int resource = getLayoutResource();
-        View view = LayoutInflater.from(context).inflate(resource, parent,false);
-        return new RecyclableDataItem(view, context, getListener(), resource);
-    }
 
     @Override
     public void onBindHolder(Modelable modelable, int position){
