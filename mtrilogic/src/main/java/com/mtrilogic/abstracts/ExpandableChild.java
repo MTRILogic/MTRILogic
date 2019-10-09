@@ -1,41 +1,38 @@
 package com.mtrilogic.abstracts;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.mtrilogic.interfaces.ExpandableAdapterListener;
 
 public abstract class ExpandableChild{
-    private ExpandableAdapterListener listener;
-    private Context context;
-    private int resource;
+    protected final ExpandableAdapterListener listener;
+    protected final View itemView;
 
-// ++++++++++++++++| PUBLIC ABSTRACT METHODS |+++++++++++++++++++++++++++++++++
+// ++++++++++++++++| PUBLIC ABSTRACT METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    public abstract View getInflatableView(ViewGroup parent);
+    public abstract void onBindHolder(Modelable modelable, int groupPosition, int childPosition,
+                                      boolean lastChild);
 
-    public abstract void onBindHolder(Modelable modelable, int groupPosition, int childPosition, boolean lastChild);
+// ++++++++++++++++| PROTECTED CONSTRUCTORS |+++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-// ++++++++++++++++| PROTECTED CONSTRUCTORS |++++++++++++++++++++++++++++++++++
-
-    public ExpandableChild(Context context, ExpandableAdapterListener listener, int resource){
-        this.context = context;
+    public ExpandableChild(Context context, int resource, ViewGroup parent,
+                           ExpandableAdapterListener listener){
+        itemView = LayoutInflater.from(context).inflate(resource, parent, false);
         this.listener = listener;
-        this.resource = resource;
     }
 
-// ++++++++++++++++| PROTECTED METHODS |+++++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++| PUBLIC METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+    public View getItemView(){
+        return itemView;
+    }
+
+// ++++++++++++++++| PROTECTED METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     protected Context getContext(){
-        return context;
-    }
-
-    protected ExpandableAdapterListener getListener(){
-        return listener;
-    }
-
-    protected int getLayoutResource(){
-        return resource;
+        return itemView.getContext();
     }
 }

@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment;
 public abstract class Fragmentable extends Fragment{
     protected static final String PAGE = "page";
 
-// ++++++++++++++++| PUBLIC ABSTRACT METHODS |+++++++++++++++++++++++++++++++++
+// ++++++++++++++++| PUBLIC ABSTRACT METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     public abstract Paginable getPaginable();
 

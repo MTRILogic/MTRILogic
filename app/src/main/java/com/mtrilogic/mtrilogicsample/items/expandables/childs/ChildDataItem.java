@@ -1,7 +1,6 @@
 package com.mtrilogic.mtrilogicsample.items.expandables.childs;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -24,30 +23,23 @@ public class ChildDataItem extends ExpandableChild implements View.OnClickListen
     private int groupPosition, childPosition;
     private boolean lastChild;
 
-// ++++++++++++++++| PUBLIC CONSTRUCTORS |+++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    public ChildDataItem(Context context, int resource){
-        this(context,(ExpandableAdapterListener)context, resource);
+    public ChildDataItem(Context context, int resource, ViewGroup parent){
+        this(context, resource, parent,(ExpandableAdapterListener)context);
     }
 
-    public ChildDataItem(Context context, ExpandableAdapterListener listener, int resource){
-        super(context, listener, resource);
-    }
-
-// ++++++++++++++++| PUBLIC OVERRIDE METHODS |+++++++++++++++++++++++++++++++++
-
-    @Override
-    public View getInflatableView(ViewGroup parent){
-        View view = LayoutInflater.from(getContext()).inflate(getLayoutResource(),parent,false);
-        chkItem = view.findViewById(R.id.chk_item);
+    public ChildDataItem(Context context, int resource, ViewGroup parent, ExpandableAdapterListener listener){
+        super(context, resource, parent, listener);
+        chkItem = itemView.findViewById(R.id.chk_item);
         chkItem.setOnClickListener(this);
-        lblTitle = view.findViewById(R.id.lbl_title);
-        lblContent = view.findViewById(R.id.lbl_content);
-        ImageButton btnDelete = view.findViewById(R.id.btn_delete);
+        lblTitle = itemView.findViewById(R.id.lbl_title);
+        lblContent = itemView.findViewById(R.id.lbl_content);
+        ImageButton btnDelete = itemView.findViewById(R.id.btn_delete);
         btnDelete.setOnClickListener(this);
-        view.setTag(this);
-        return view;
     }
+
+// ++++++++++++++++| PUBLIC OVERRIDE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     @Override
     public void onBindHolder(Modelable modelable, int groupPosition, int childPosition, boolean lastChild){
@@ -63,14 +55,14 @@ public class ChildDataItem extends ExpandableChild implements View.OnClickListen
 
     @Override
     public void onClick(View view){
-        ExpandableAdapter adapter = getListener().getExpandableAdapter();
+        ExpandableAdapter adapter = listener.getExpandableAdapter();
         int id = view.getId();
         switch(id){
             case R.id.chk_item:
                 boolean checked = chkItem.isChecked();
                 model.setChecked(checked);
                 adapter.notifyDataSetChanged();
-                getListener().onMakeToast("Item[" + groupPosition + "," + childPosition + "] set to " + checked);
+                listener.onMakeToast("Item[" + groupPosition + "," + childPosition + "] set to " + checked);
                 break;
             case R.id.btn_delete:
                 if(adapter.deleteChildModelable(adapter.getGroup(groupPosition), model)){

@@ -1,7 +1,6 @@
 package com.mtrilogic.mtrilogicsample.items.expandables.groups;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -29,38 +28,32 @@ public class GroupDataItem extends ExpandableGroup implements View.OnClickListen
     private int groupPosition;
     private boolean expanded;
 
-// ++++++++++++++++| PUBLIC CONSTRUCTORS |+++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    public GroupDataItem(Context context, int resource){
-        this(context,(ExpandableAdapterListener)context, resource);
+    public GroupDataItem(Context context, int resource, ViewGroup parent){
+        this(context, resource, parent,(ExpandableAdapterListener)context);
     }
 
-    public GroupDataItem(Context context, ExpandableAdapterListener listener, int resource){
-        super(context,listener, resource);
-    }
-
-// ++++++++++++++++| PUBLIC OVERRIDE METHODS |+++++++++++++++++++++++++++++++++
-
-    @Override
-    public View getInflatableView(ViewGroup parent){
-        View view = LayoutInflater.from(getContext()).inflate(getLayoutResource(), parent,false);
-        chkItem = view.findViewById(R.id.chk_item);
+    public GroupDataItem(Context context, int resource, ViewGroup parent,
+                         ExpandableAdapterListener listener){
+        super(context, resource, parent, listener);
+        chkItem = itemView.findViewById(R.id.chk_item);
         chkItem.setOnClickListener(this);
         chkItem.setFocusable(false);
-        lblTitle = view.findViewById(R.id.lbl_title);
-        lblContent = view.findViewById(R.id.lbl_content);
-        ImageButton btnAddData = view.findViewById(R.id.btn_addData);
+        lblTitle = itemView.findViewById(R.id.lbl_title);
+        lblContent = itemView.findViewById(R.id.lbl_content);
+        ImageButton btnAddData = itemView.findViewById(R.id.btn_addData);
         btnAddData.setOnClickListener(this);
         btnAddData.setFocusable(false);
-        ImageButton btnAddImage = view.findViewById(R.id.btn_addImage);
+        ImageButton btnAddImage = itemView.findViewById(R.id.btn_addImage);
         btnAddImage.setOnClickListener(this);
         btnAddImage.setFocusable(false);
-        ImageButton btnDelete = view.findViewById(R.id.btn_delete);
+        ImageButton btnDelete = itemView.findViewById(R.id.btn_delete);
         btnDelete.setOnClickListener(this);
         btnDelete.setFocusable(false);
-        view.setTag(this);
-        return view;
     }
+
+// ++++++++++++++++| PUBLIC OVERRIDE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     @Override
     public void onBindHolder(Modelable modelable, int groupPosition, boolean expanded){
@@ -75,7 +68,7 @@ public class GroupDataItem extends ExpandableGroup implements View.OnClickListen
 
     @Override
     public void onClick(View view){
-        ExpandableAdapter adapter = getListener().getExpandableAdapter();
+        ExpandableAdapter adapter = listener.getExpandableAdapter();
         int id = view.getId();
         if(id == R.id.btn_delete){
             if(adapter.deleteGroupModelable(model)){

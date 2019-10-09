@@ -32,15 +32,17 @@ import com.mtrilogic.mtrilogicsample.types.GroupType;
 import com.mtrilogic.mtrilogicsample.types.ChildType;
 
 @SuppressWarnings("unused")
-public class ExpandableFragment extends Fragmentable implements ExpandableListener, ExpandableAdapterListener{
+public class ExpandableFragment extends Fragmentable implements ExpandableListener,
+        ExpandableAdapterListener{
     private static final String TAG = "ExpandableFragment";
     private static final String PAGE = "page";
+
     private FragmentableAdapterListener listener;
     private ExpandableAdapter adapter;
     private ExpandablePage page;
     private int position;
 
-// ++++++++++++++++| PUBLIC STATIC METHODS |+++++++++++++++++++++++++++++++++++
+// ++++++++++++++++| PUBLIC STATIC METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     public static ExpandableFragment getInstance(ExpandablePage page){
         Bundle args = new Bundle();
@@ -50,7 +52,7 @@ public class ExpandableFragment extends Fragmentable implements ExpandableListen
         return fragment;
     }
 
-// ++++++++++++++++| PUBLIC OVERRIDE METHODS |+++++++++++++++++++++++++++++++++
+// ++++++++++++++++| PUBLIC OVERRIDE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     @Override
     public void onAttach(@NonNull Context context){
@@ -70,44 +72,36 @@ public class ExpandableFragment extends Fragmentable implements ExpandableListen
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
-        position = listener.getFragmentableAdapter().getPaginablePosition(page);
-        Listable groupListable = page.getGroupListable();
-        Mapable childMapable = page.getChildMapable();
-        adapter = new ExpandableAdapter(this, groupListable, childMapable, GroupType.COUNT, ChildType.COUNT);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_expandable,container,false);
-        ExpandableListView lvwItems = view.findViewById(R.id.lvw_items);
-        lvwItems.setAdapter(adapter);
-        /*lvwItems.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener(){
-            @Override
-            public boolean onGroupClick(ExpandableListView parent, View view, int groupPosition, long id){
-                if(parent.isGroupExpanded(groupPosition)){
-                    parent.collapseGroup(groupPosition);
-                }else{
-                    parent.expandGroup(groupPosition,false);
-                    parent.setSelection(groupPosition);
+        if (page != null) {
+            position = listener.getFragmentableAdapter().getPaginablePosition(page);
+            Listable groupListable = page.getGroupListable();
+            Mapable childMapable = page.getChildMapable();
+            adapter = new ExpandableAdapter(this, groupListable, childMapable, GroupType.COUNT,
+                    ChildType.COUNT);
+            ExpandableListView lvwItems = view.findViewById(R.id.lvw_items);
+            lvwItems.setAdapter(adapter);
+            TextView lblTitle = view.findViewById(R.id.lbl_title);
+            lblTitle.setText(getString(R.string.title_item, page.getItemId()));
+            TextView lblContent = view.findViewById(R.id.lbl_content);
+            lblContent.setText(getString(R.string.content_item, position));
+            ImageButton btnAddGroup = view.findViewById(R.id.btn_addGroup);
+            btnAddGroup.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    addGroup();
                 }
-                return true;
-            }
-        });*/
-        TextView lblTitle = view.findViewById(R.id.lbl_title);
-        lblTitle.setText(getString(R.string.title_item, page.getItemId()));
-        TextView lblContent = view.findViewById(R.id.lbl_content);
-        lblContent.setText(getString(R.string.content_item, position));
-        ImageButton btnAddGroup = view.findViewById(R.id.btn_addGroup);
-        btnAddGroup.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                addGroup();
-            }
-        });
-        ImageButton btnDelete = view.findViewById(R.id.btn_delete);
-        btnDelete.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                delete();
-            }
-        });
+            });
+            ImageButton btnDelete = view.findViewById(R.id.btn_delete);
+            btnDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    delete();
+                }
+            });
+        }
         return view;
     }
 
@@ -128,18 +122,21 @@ public class ExpandableFragment extends Fragmentable implements ExpandableListen
     }
 
     @Override
-    public ExpandableGroup getExpandableGroup(int viewType){
-        return new GroupDataItem(getContext(),this, R.layout.item_group);
+    public ExpandableGroup getExpandableGroup(int viewType, ViewGroup parent){
+        if (viewType == GroupType.GROUP) {
+            return new GroupDataItem(getContext(), R.layout.item_group, parent, this);
+        }
+        return null;
     }
 
     @Override
-    public ExpandableChild getExpandableChild(int viewType){
+    public ExpandableChild getExpandableChild(int viewType, ViewGroup parent){
         Context context = getContext();
         switch(viewType){
             case ChildType.DATA:
-                return new ChildDataItem(context, this, R.layout.item_child_data);
+                return new ChildDataItem(context, R.layout.item_child_data, parent, this);
             case ChildType.IMAGE:
-                return new ChildImageItem(context, this, R.layout.item_child_image);
+                return new ChildImageItem(context, R.layout.item_child_image, parent, this);
         }
         return null;
     }
@@ -153,6 +150,8 @@ public class ExpandableFragment extends Fragmentable implements ExpandableListen
     public void onMakeToast(String line){
         listener.onMakeToast(line);
     }
+
+// *************************************************************************************************
 
     private void addGroup(){
         Listable groupListable = page.getGroupListable();

@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.mtrilogic.abstracts.Fragmentable;
+import com.mtrilogic.abstracts.Modelable;
 import com.mtrilogic.abstracts.Paginable;
 import com.mtrilogic.abstracts.Recyclable;
 import com.mtrilogic.adapters.FragmentableAdapter;
@@ -27,6 +28,8 @@ import com.mtrilogic.mtrilogicsample.models.DataModel;
 import com.mtrilogic.mtrilogicsample.models.ImageModel;
 import com.mtrilogic.mtrilogicsample.pages.RecyclablePage;
 import com.mtrilogic.mtrilogicsample.types.ChildType;
+
+import java.util.ArrayList;
 
 @SuppressWarnings("unused")
 public class RecyclableFragment extends Fragmentable implements View.OnClickListener,
@@ -77,22 +80,25 @@ public class RecyclableFragment extends Fragmentable implements View.OnClickList
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState){
-        position = listener.getFragmentableAdapter().getPaginablePosition(page);
-        adapter = new RecyclableAdapter(this, page.getModelableList());
         View view = inflater.inflate(R.layout.fragment_recyclable,container,false);
-        RecyclerView lvwItems = view.findViewById(R.id.lvw_items);
-        lvwItems.setLayoutManager(new LinearLayoutManager(getContext()));
-        lvwItems.setAdapter(adapter);
-        TextView lblTitle = view.findViewById(R.id.lbl_title);
-        lblTitle.setText(getString(R.string.title_item, page.getItemId()));
-        TextView lblContent = view.findViewById(R.id.lbl_content);
-        lblContent.setText(getString(R.string.content_item, position));
-        ImageButton btnAddData = view.findViewById(R.id.btn_addData);
-        btnAddData.setOnClickListener(this);
-        ImageButton btnAddImage = view.findViewById(R.id.btn_addImage);
-        btnAddImage.setOnClickListener(this);
-        ImageButton btnDelete = view.findViewById(R.id.btn_delete);
-        btnDelete.setOnClickListener(this);
+        if (page != null) {
+            position = listener.getFragmentableAdapter().getPaginablePosition(page);
+            ArrayList<Modelable> modelables = page.getModelableList();
+            adapter = new RecyclableAdapter(this, modelables);
+            RecyclerView lvwItems = view.findViewById(R.id.lvw_items);
+            lvwItems.setLayoutManager(new LinearLayoutManager(getContext()));
+            lvwItems.setAdapter(adapter);
+            TextView lblTitle = view.findViewById(R.id.lbl_title);
+            lblTitle.setText(getString(R.string.title_item, page.getItemId()));
+            TextView lblContent = view.findViewById(R.id.lbl_content);
+            lblContent.setText(getString(R.string.content_item, position));
+            ImageButton btnAddData = view.findViewById(R.id.btn_addData);
+            btnAddData.setOnClickListener(this);
+            ImageButton btnAddImage = view.findViewById(R.id.btn_addImage);
+            btnAddImage.setOnClickListener(this);
+            ImageButton btnDelete = view.findViewById(R.id.btn_delete);
+            btnDelete.setOnClickListener(this);
+        }
         return view;
     }
 
