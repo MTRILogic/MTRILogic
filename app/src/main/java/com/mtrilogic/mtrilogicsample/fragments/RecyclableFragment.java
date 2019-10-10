@@ -32,20 +32,16 @@ import com.mtrilogic.mtrilogicsample.types.ChildType;
 import java.util.ArrayList;
 
 @SuppressWarnings("unused")
-public class RecyclableFragment extends Fragmentable implements View.OnClickListener,
+public class RecyclableFragment extends Fragmentable<RecyclablePage> implements View.OnClickListener,
         RecyclableListener, RecyclableAdapterListener{
     private static final String TAG = "RecyclableFragmentTAG";
-    private static final String PAGE = "page";
-    private FragmentableAdapterListener listener;
     private RecyclableAdapter adapter;
-    private RecyclablePage page;
-    private int position;
 
 // ++++++++++++++++| PUBLIC STATIC METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    public static RecyclableFragment getInstance(RecyclablePage page){
+    public static RecyclableFragment getInstance(Paginable paginable){
         Bundle args = new Bundle();
-        args.putParcelable(PAGE, page);
+        args.putParcelable(PAGE, paginable);
         RecyclableFragment fragment = new RecyclableFragment();
         fragment.setArguments(args);
         return fragment;
@@ -53,36 +49,13 @@ public class RecyclableFragment extends Fragmentable implements View.OnClickList
 
 // ++++++++++++++++| PUBLIC OVERRIDE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    @Override
-    public void onAttach(@NonNull Context context){
-        super.onAttach(context);
-        if(context instanceof FragmentableAdapterListener){
-            listener = (FragmentableAdapterListener)context;
-        }
-    }
-
-    @Override
-    public void onDetach(){
-        listener = null;
-        super.onDetach();
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState){
-        super.onCreate(savedInstanceState);
-        Bundle args = getArguments();
-        if(args != null){
-            page = args.getParcelable(PAGE);
-        }
-    }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_recyclable,container,false);
+        RecyclablePage page = getPage();
         if (page != null) {
-            position = listener.getFragmentableAdapter().getPaginablePosition(page);
             ArrayList<Modelable> modelables = page.getModelableList();
             adapter = new RecyclableAdapter(this, modelables);
             RecyclerView lvwItems = view.findViewById(R.id.lvw_items);
@@ -91,7 +64,7 @@ public class RecyclableFragment extends Fragmentable implements View.OnClickList
             TextView lblTitle = view.findViewById(R.id.lbl_title);
             lblTitle.setText(getString(R.string.title_item, page.getItemId()));
             TextView lblContent = view.findViewById(R.id.lbl_content);
-            lblContent.setText(getString(R.string.content_item, position));
+            lblContent.setText(getString(R.string.content_item, getPosition()));
             ImageButton btnAddData = view.findViewById(R.id.btn_addData);
             btnAddData.setOnClickListener(this);
             ImageButton btnAddImage = view.findViewById(R.id.btn_addImage);
@@ -103,20 +76,11 @@ public class RecyclableFragment extends Fragmentable implements View.OnClickList
     }
 
     @Override
-    public Paginable getPaginable(){
-        return page;
-    }
-
-    @Override
-    public int getPosition(){
-        return position;
-    }
-
-    @Override
     public void onClick(View view){
+        RecyclablePage page = getPage();
         int id = view.getId();
         if(id == R.id.btn_delete){
-            FragmentableAdapter adapter = listener.getFragmentableAdapter();
+            FragmentableAdapter adapter = getListener().getFragmentableAdapter();
             if(adapter.removePaginable(page)){
                 adapter.notifyDataSetChanged();
             }
@@ -157,7 +121,10 @@ public class RecyclableFragment extends Fragmentable implements View.OnClickList
 
     @Override
     public void onMakeToast(String line){
-        listener.onMakeToast(line);
+        FragmentableAdapterListener listener = getListener();
+        if (listener != null) {
+            listener.onMakeToast(line);
+        }
     }
 
 // ++++++++++++++++| PRIVATE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

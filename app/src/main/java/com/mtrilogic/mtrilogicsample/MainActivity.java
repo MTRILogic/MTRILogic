@@ -108,11 +108,11 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     public Fragmentable getFragmentable(Paginable paginable, int position){
         switch(paginable.getViewType()){
             case 0:
-                return InflatableFragment.getInstance((InflatablePage) paginable);
+                return InflatableFragment.getInstance(paginable);
             case 1:
-                return RecyclableFragment.getInstance((RecyclablePage)paginable);
+                return RecyclableFragment.getInstance(paginable);
             case 2:
-                return ExpandableFragment.getInstance((ExpandablePage)paginable);
+                return ExpandableFragment.getInstance(paginable);
         }
         return null;
     }

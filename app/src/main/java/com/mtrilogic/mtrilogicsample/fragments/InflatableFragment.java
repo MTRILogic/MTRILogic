@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.mtrilogic.abstracts.Fragmentable;
@@ -28,22 +27,21 @@ import com.mtrilogic.mtrilogicsample.models.DataModel;
 import com.mtrilogic.mtrilogicsample.models.ImageModel;
 import com.mtrilogic.mtrilogicsample.pages.InflatablePage;
 import com.mtrilogic.mtrilogicsample.types.ChildType;
+import com.mtrilogic.views.InflatableView;
 
 import java.util.ArrayList;
 
 @SuppressWarnings("unused")
-public class InflatableFragment extends Fragmentable implements View.OnClickListener,
+public class InflatableFragment extends Fragmentable<InflatablePage> implements View.OnClickListener,
         InflatableListener, InflatableAdapterListener{
-    private static final String TAG = "InflatableFragmentTAG", PAGE = "page", STATE = "state";
-    private FragmentableAdapterListener listener;
+    private static final String TAG = "InflatableFragmentTAG", STATE = "state";
     private InflatableAdapter adapter;
-    private InflatablePage page;
-    private int position;
+    private InflatableView lvwItems;
     private static int top, index;
 
 // ++++++++++++++++| PUBLIC STATIC METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    public static InflatableFragment getInstance(InflatablePage page){
+    public static InflatableFragment getInstance(Paginable page){
         Bundle args = new Bundle();
         args.putParcelable(PAGE, page);
         InflatableFragment fragment = new InflatableFragment();
@@ -54,36 +52,19 @@ public class InflatableFragment extends Fragmentable implements View.OnClickList
 // ++++++++++++++++| PUBLIC OVERRIDE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     @Override
-    public void onAttach(@NonNull Context context){
-        super.onAttach(context);
-        if(context instanceof FragmentableAdapterListener){
-            listener = (FragmentableAdapterListener)context;
-        }
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState){
-        super.onCreate(savedInstanceState);
-        Bundle args = getArguments();
-        if(args != null){
-            page = args.getParcelable(PAGE);
-        }
-    }
-
-    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_inflatable,container,false);
+        InflatablePage page = getPage();
         if (page != null) {
-            position = listener.getFragmentableAdapter().getPaginablePosition(page);
             ArrayList<Modelable> modelableList = page.getModelableList();
             adapter = new InflatableAdapter(this, modelableList, ChildType.COUNT);
-            ListView lvwItems = view.findViewById(R.id.lvw_items);
+            lvwItems = view.findViewById(R.id.lvw_items);
             lvwItems.setAdapter(adapter);
             TextView lblTitle = view.findViewById(R.id.lbl_title);
             lblTitle.setText(getString(R.string.title_item, page.getItemId()));
             TextView lblContent = view.findViewById(R.id.lbl_content);
-            lblContent.setText(getString(R.string.content_item, position));
+            lblContent.setText(getString(R.string.content_item, getPosition()));
             ImageButton btnAddData = view.findViewById(R.id.btn_addData);
             btnAddData.setOnClickListener(this);
             ImageButton btnAddImage = view.findViewById(R.id.btn_addImage);
@@ -95,26 +76,27 @@ public class InflatableFragment extends Fragmentable implements View.OnClickList
     }
 
     @Override
-    public void onDetach(){
-        listener = null;
-        super.onDetach();
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if (savedInstanceState != null){
+            lvwItems.onRestoreInstanceState(savedInstanceState.getParcelable(STATE));
+        }
     }
 
     @Override
-    public Paginable getPaginable(){
-        return page;
-    }
-
-    @Override
-    public int getPosition(){
-        return position;
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        if (lvwItems != null) {
+            outState.putParcelable(STATE, lvwItems.onSaveInstanceState());
+        }
+        super.onSaveInstanceState(outState);
     }
 
     @Override
     public void onClick(View view){
+        InflatablePage page = getPage();
         int id = view.getId();
         if(id == R.id.btn_delete){
-            FragmentableAdapter adapter = listener.getFragmentableAdapter();
+            FragmentableAdapter adapter = getListener().getFragmentableAdapter();
             if(adapter.removePaginable(page)){
                 adapter.notifyDataSetChanged();
             }
@@ -155,6 +137,7 @@ public class InflatableFragment extends Fragmentable implements View.OnClickList
 
     @Override
     public void onMakeToast(String line){
+        FragmentableAdapterListener listener = getListener();
         if (listener != null) {
             listener.onMakeToast(line);
         }

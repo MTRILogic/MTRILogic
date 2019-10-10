@@ -21,7 +21,7 @@ public class FragmentableAdapter extends FragmentPagerAdapter{
     // ++++++++++++++++| PUBLIC CONSTRUCTORS |+++++++++++++++++++++++++++++++++++++
 
     public FragmentableAdapter(FragmentManager manager, FragmentableListener listener, ArrayList<Paginable> paginableList){
-        super(manager);
+        super(manager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         this.listener = listener;
         this.paginableList = paginableList;
     }
@@ -88,6 +88,7 @@ public class FragmentableAdapter extends FragmentPagerAdapter{
 
     // ++++++++++++++++| PUBLIC OVERRIDE METHODS |+++++++++++++++++++++++++++++++++
 
+    @NonNull
     @Override
     public Fragmentable getItem(int position){
         Paginable paginable = paginableList.get(position);
@@ -102,7 +103,7 @@ public class FragmentableAdapter extends FragmentPagerAdapter{
     @Override
     public int getItemPosition(@NonNull Object object){
         Fragmentable fragmentable = (Fragmentable)object;
-        Paginable paginable = fragmentable.getPaginable();
+        Paginable paginable = fragmentable.getPage();
         int position = fragmentable.getPosition();
         if(position == getPaginablePosition(paginable)){
             return POSITION_UNCHANGED;

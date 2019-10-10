@@ -32,21 +32,16 @@ import com.mtrilogic.mtrilogicsample.types.GroupType;
 import com.mtrilogic.mtrilogicsample.types.ChildType;
 
 @SuppressWarnings("unused")
-public class ExpandableFragment extends Fragmentable implements ExpandableListener,
+public class ExpandableFragment extends Fragmentable<ExpandablePage> implements ExpandableListener,
         ExpandableAdapterListener{
     private static final String TAG = "ExpandableFragment";
-    private static final String PAGE = "page";
-
-    private FragmentableAdapterListener listener;
     private ExpandableAdapter adapter;
-    private ExpandablePage page;
-    private int position;
 
 // ++++++++++++++++| PUBLIC STATIC METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    public static ExpandableFragment getInstance(ExpandablePage page){
+    public static ExpandableFragment getInstance(Paginable paginable){
         Bundle args = new Bundle();
-        args.putParcelable(PAGE, page);
+        args.putParcelable(PAGE, paginable);
         ExpandableFragment fragment = new ExpandableFragment();
         fragment.setArguments(args);
         return fragment;
@@ -55,28 +50,11 @@ public class ExpandableFragment extends Fragmentable implements ExpandableListen
 // ++++++++++++++++| PUBLIC OVERRIDE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     @Override
-    public void onAttach(@NonNull Context context){
-        super.onAttach(context);
-        if(context instanceof FragmentableAdapterListener){
-            listener = (FragmentableAdapterListener)context;
-        }
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState){
-        super.onCreate(savedInstanceState);
-        Bundle args = getArguments();
-        if(args != null){
-            page = args.getParcelable(PAGE);
-        }
-    }
-
-    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_expandable,container,false);
+        ExpandablePage page = getPage();
         if (page != null) {
-            position = listener.getFragmentableAdapter().getPaginablePosition(page);
             Listable groupListable = page.getGroupListable();
             Mapable childMapable = page.getChildMapable();
             adapter = new ExpandableAdapter(this, groupListable, childMapable, GroupType.COUNT,
@@ -86,7 +64,7 @@ public class ExpandableFragment extends Fragmentable implements ExpandableListen
             TextView lblTitle = view.findViewById(R.id.lbl_title);
             lblTitle.setText(getString(R.string.title_item, page.getItemId()));
             TextView lblContent = view.findViewById(R.id.lbl_content);
-            lblContent.setText(getString(R.string.content_item, position));
+            lblContent.setText(getString(R.string.content_item, getPosition()));
             ImageButton btnAddGroup = view.findViewById(R.id.btn_addGroup);
             btnAddGroup.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -103,22 +81,6 @@ public class ExpandableFragment extends Fragmentable implements ExpandableListen
             });
         }
         return view;
-    }
-
-    @Override
-    public void onDetach(){
-        listener = null;
-        super.onDetach();
-    }
-
-    @Override
-    public Paginable getPaginable(){
-        return page;
-    }
-
-    @Override
-    public int getPosition(){
-        return position;
     }
 
     @Override
@@ -148,13 +110,16 @@ public class ExpandableFragment extends Fragmentable implements ExpandableListen
 
     @Override
     public void onMakeToast(String line){
-        listener.onMakeToast(line);
+        FragmentableAdapterListener listener = getListener();
+        if (listener != null) {
+            listener.onMakeToast(line);
+        }
     }
 
 // *************************************************************************************************
 
     private void addGroup(){
-        Listable groupListable = page.getGroupListable();
+        Listable groupListable = getPage().getGroupListable();
         long idx = groupListable.getIdx();
         DataModel model = new DataModel(idx, GroupType.GROUP);
         if(adapter.appendGroupModelable(model, new Listable())){
@@ -164,8 +129,8 @@ public class ExpandableFragment extends Fragmentable implements ExpandableListen
     }
 
     private void delete(){
-        FragmentableAdapter adapter = listener.getFragmentableAdapter();
-        if(adapter.removePaginable(page)){
+        FragmentableAdapter adapter = getListener().getFragmentableAdapter();
+        if(adapter.removePaginable(getPage())){
             adapter.notifyDataSetChanged();
         }
     }
