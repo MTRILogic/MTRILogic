@@ -5,20 +5,19 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 @SuppressWarnings({"unused","WeakerAccess"})
-public abstract class Modelable implements Parcelable{
+public abstract class Modelable implements Parcelable {
     protected static final String ITEM_ID = "itemId", VIEW_TYPE = "viewType", ENABLED = "enabled";
     private Bundle data;
     private long itemId;
     private int viewType;
     private boolean enabled;
-
-// ++++++++++++++++| PUBLIC ABSTRACT METHODS |+++++++++++++++++++++++++++++++++
+    
+// ++++++++++++++++| PROTECTED ABSTRACT METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++
 
     protected abstract void restoreFromData(Bundle data);
-
     protected abstract void saveToData(Bundle data);
 
-// ++++++++++++++++| PUBLIC CONSTRUCTORS |+++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     public Modelable(){
         data = new Bundle();

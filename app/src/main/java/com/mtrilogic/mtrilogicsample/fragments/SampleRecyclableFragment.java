@@ -4,80 +4,54 @@ import android.content.Context;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.mtrilogic.abstracts.Fragmentable;
-import com.mtrilogic.abstracts.Modelable;
-import com.mtrilogic.abstracts.Paginable;
 import com.mtrilogic.abstracts.Recyclable;
 import com.mtrilogic.adapters.FragmentableAdapter;
 import com.mtrilogic.adapters.RecyclableAdapter;
-import com.mtrilogic.interfaces.FragmentableAdapterListener;
-import com.mtrilogic.interfaces.RecyclableAdapterListener;
-import com.mtrilogic.interfaces.RecyclableListener;
+import com.mtrilogic.fragments.RecyclableFragment;
 import com.mtrilogic.mtrilogicsample.R;
 import com.mtrilogic.mtrilogicsample.items.recyclables.RecyclableDataItem;
 import com.mtrilogic.mtrilogicsample.items.recyclables.RecyclableImageItem;
 import com.mtrilogic.mtrilogicsample.models.DataModel;
 import com.mtrilogic.mtrilogicsample.models.ImageModel;
-import com.mtrilogic.mtrilogicsample.pages.RecyclablePage;
+import com.mtrilogic.mtrilogicsample.pages.SampleRecyclablePage;
 import com.mtrilogic.mtrilogicsample.types.ChildType;
 
-import java.util.ArrayList;
-
 @SuppressWarnings("unused")
-public class RecyclableFragment extends Fragmentable<RecyclablePage> implements View.OnClickListener,
-        RecyclableListener, RecyclableAdapterListener{
-    private static final String TAG = "RecyclableFragmentTAG";
-    private RecyclableAdapter adapter;
+public class SampleRecyclableFragment extends RecyclableFragment<SampleRecyclablePage> implements
+        View.OnClickListener {
 
-// ++++++++++++++++| PUBLIC STATIC METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// PROTECTED OVERRIDE METHODS |*********************************************************************
 
-    public static RecyclableFragment getInstance(Paginable paginable){
-        Bundle args = new Bundle();
-        args.putParcelable(PAGE, paginable);
-        RecyclableFragment fragment = new RecyclableFragment();
-        fragment.setArguments(args);
-        return fragment;
+    @Override
+    protected View onCreateViewFragment(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                                        @Nullable Bundle savedInstanceState, SampleRecyclablePage page) {
+        View view = inflater.inflate(R.layout.fragment_recyclable,container,false);
+        init(view);
+        TextView lblTitle = view.findViewById(R.id.lbl_title);
+        lblTitle.setText(getString(R.string.title_item, page.getItemId()));
+        TextView lblContent = view.findViewById(R.id.lbl_content);
+        lblContent.setText(getString(R.string.content_item, getPosition()));
+        ImageButton btnAddData = view.findViewById(R.id.btn_addData);
+        btnAddData.setOnClickListener(this);
+        ImageButton btnAddImage = view.findViewById(R.id.btn_addImage);
+        btnAddImage.setOnClickListener(this);
+        ImageButton btnDelete = view.findViewById(R.id.btn_delete);
+        btnDelete.setOnClickListener(this);
+        return view;
     }
 
 // ++++++++++++++++| PUBLIC OVERRIDE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState){
-        View view = inflater.inflate(R.layout.fragment_recyclable,container,false);
-        RecyclablePage page = getPage();
-        if (page != null) {
-            ArrayList<Modelable> modelables = page.getModelableList();
-            adapter = new RecyclableAdapter(this, modelables);
-            RecyclerView lvwItems = view.findViewById(R.id.lvw_items);
-            lvwItems.setLayoutManager(new LinearLayoutManager(getContext()));
-            lvwItems.setAdapter(adapter);
-            TextView lblTitle = view.findViewById(R.id.lbl_title);
-            lblTitle.setText(getString(R.string.title_item, page.getItemId()));
-            TextView lblContent = view.findViewById(R.id.lbl_content);
-            lblContent.setText(getString(R.string.content_item, getPosition()));
-            ImageButton btnAddData = view.findViewById(R.id.btn_addData);
-            btnAddData.setOnClickListener(this);
-            ImageButton btnAddImage = view.findViewById(R.id.btn_addImage);
-            btnAddImage.setOnClickListener(this);
-            ImageButton btnDelete = view.findViewById(R.id.btn_delete);
-            btnDelete.setOnClickListener(this);
-        }
-        return view;
-    }
 
     @Override
     public void onClick(View view){
-        RecyclablePage page = getPage();
+        SampleRecyclablePage page = getPage();
         int id = view.getId();
         if(id == R.id.btn_delete){
             FragmentableAdapter adapter = getListener().getFragmentableAdapter();
@@ -95,6 +69,7 @@ public class RecyclableFragment extends Fragmentable<RecyclablePage> implements 
                     model = getImageModel(idx);
                     break;
             }
+            RecyclableAdapter adapter = getRecyclableAdapter();
             if(model != null && adapter.addModelable(model)){
                 adapter.notifyDataSetChanged();
                 page.setIdx(++idx);
@@ -112,19 +87,6 @@ public class RecyclableFragment extends Fragmentable<RecyclablePage> implements 
                 return new RecyclableImageItem(context, R.layout.item_image, parent, this);
         }
         return null;
-    }
-
-    @Override
-    public RecyclableAdapter getRecyclableAdapter(){
-        return adapter;
-    }
-
-    @Override
-    public void onMakeToast(String line){
-        FragmentableAdapterListener listener = getListener();
-        if (listener != null) {
-            listener.onMakeToast(line);
-        }
     }
 
 // ++++++++++++++++| PRIVATE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

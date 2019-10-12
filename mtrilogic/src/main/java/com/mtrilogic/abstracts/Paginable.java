@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.os.Parcel;
 
 @SuppressWarnings({"unused","WeakerAccess"})
-public abstract class Paginable extends Modelable{
+public abstract class Paginable extends Modelable {
     protected static final String PAGE_TITLE = "pageTitle", TAG_NAME = "tagName";
     private String pageTitle, tagName;
 

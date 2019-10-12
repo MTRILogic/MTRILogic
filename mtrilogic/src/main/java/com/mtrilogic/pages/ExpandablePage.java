@@ -1,30 +1,18 @@
-package com.mtrilogic.mtrilogicsample.pages;
+package com.mtrilogic.pages;
 
 import android.os.Bundle;
 import android.os.Parcel;
 
 import com.mtrilogic.abstracts.Modelable;
 import com.mtrilogic.abstracts.Paginable;
-import com.mtrilogic.abstracts.PaginableCreator;
 import com.mtrilogic.classes.Listable;
 import com.mtrilogic.classes.Mapable;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
-@SuppressWarnings("unused")
-public class ExpandablePage extends Paginable{
-    public static final Creator<ExpandablePage> CREATOR = new PaginableCreator<ExpandablePage>(){
-        @Override
-        public ExpandablePage getParcelable(Parcel src, ClassLoader loader){
-            return new ExpandablePage(src, loader);
-        }
-
-        @Override
-        public ExpandablePage[] getParcelableArray(int size){
-            return new ExpandablePage[size];
-        }
-    };
+@SuppressWarnings({"unused","WeakerAccess"})
+public abstract class ExpandablePage extends Paginable {
     private static final String LIST = "list", IDX = "idx";
     private Listable groupListable;
     private Mapable childMapable;
@@ -37,7 +25,7 @@ public class ExpandablePage extends Paginable{
         childMapable = new Mapable();
     }
 
-    private ExpandablePage(Parcel src, ClassLoader loader){
+    protected ExpandablePage(Parcel src, ClassLoader loader){
         super(src, loader);
     }
 

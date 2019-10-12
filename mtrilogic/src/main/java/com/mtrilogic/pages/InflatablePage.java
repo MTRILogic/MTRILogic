@@ -1,24 +1,27 @@
-package com.mtrilogic.abstracts;
+package com.mtrilogic.pages;
 
 import android.os.Bundle;
 import android.os.Parcel;
 
+import com.mtrilogic.abstracts.Modelable;
+import com.mtrilogic.abstracts.Paginable;
+
 import java.util.ArrayList;
 
 @SuppressWarnings({"unused","WeakerAccess"})
-public abstract class ListPaginable extends Paginable{
+public abstract class InflatablePage extends Paginable {
     private static final String LIST = "list", IDX = "idx";
     private ArrayList<Modelable> modelableList;
     private long idx;
 
-    public ListPaginable(){}
+    public InflatablePage(){}
 
-    public ListPaginable(String pageTitle, String tagName, long itemId, int viewType){
+    public InflatablePage(String pageTitle, String tagName, long itemId, int viewType){
         super(pageTitle, tagName, itemId, viewType);
         modelableList = new ArrayList<>();
     }
 
-    protected ListPaginable(Parcel src, ClassLoader loader){
+    protected InflatablePage(Parcel src, ClassLoader loader){
         super(src, loader);
     }
 

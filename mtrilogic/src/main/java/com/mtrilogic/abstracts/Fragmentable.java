@@ -14,10 +14,23 @@ import com.mtrilogic.interfaces.FragmentableAdapterListener;
 
 @SuppressWarnings("unused")
 public abstract class Fragmentable<P extends Paginable> extends Fragment{
-    protected static final String PAGE = "page";
+    private static final String PAGINABLE = "paginable";
     private FragmentableAdapterListener listener;
     private P page;
     private int position;
+
+    protected abstract View onCreateViewFragment(@NonNull LayoutInflater inflater,
+                                                 @Nullable ViewGroup container,
+                                                 @Nullable Bundle savedInstanceState, P page);
+
+// ++++++++++++++++| PUBLIC STATIC METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+    public static Fragmentable getInstance(Paginable paginable, Fragmentable fragmentable){
+        Bundle args = new Bundle();
+        args.putParcelable(PAGINABLE, paginable);
+        fragmentable.setArguments(args);
+        return fragmentable;
+    }
 
 // ++++++++++++++++| PUBLIC OVERRIDE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -34,14 +47,19 @@ public abstract class Fragmentable<P extends Paginable> extends Fragment{
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
         if (args != null){
-            page = args.getParcelable(PAGE);
+            page = args.getParcelable(PAGINABLE);
         }
     }
 
+    @Nullable
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        position = listener.getFragmentableAdapter().getPaginablePosition(page);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        if (page != null){
+            position = listener.getFragmentableAdapter().getPaginablePosition(page);
+            return onCreateViewFragment(inflater, container, savedInstanceState, page);
+        }
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
