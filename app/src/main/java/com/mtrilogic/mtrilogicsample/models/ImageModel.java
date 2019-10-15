@@ -1,20 +1,19 @@
 package com.mtrilogic.mtrilogicsample.models;
 
 import android.os.Bundle;
-import android.os.Parcel;
 
 import com.mtrilogic.abstracts.ModelableCreator;
 
 @SuppressWarnings({"unused"})
 public class ImageModel extends DataModel{
-    public static final Creator<ImageModel> CREATOR = new ModelableCreator<ImageModel>(){
+    public static final Creator<ImageModel> CREATOR = new ModelableCreator<ImageModel>() {
         @Override
-        public ImageModel getParcelable(Parcel src, ClassLoader loader){
-            return null;
+        public ImageModel getParcelable(Bundle data) {
+            return new ImageModel(data);
         }
 
         @Override
-        public ImageModel[] getParcelableArray(int size){
+        public ImageModel[] getParcelableArray(int size) {
             return new ImageModel[size];
         }
     };
@@ -30,10 +29,8 @@ public class ImageModel extends DataModel{
         super(itemId, viewType);
     }
 
-// ++++++++++++++++| PRIVATE CONSTRUCTORS |++++++++++++++++++++++++++++++++++++
-
-    private ImageModel(Parcel src, ClassLoader loader){
-        super(src, loader);
+    private ImageModel(Bundle data){
+        super(data);
     }
 
 // ++++++++++++++++| PUBLIC METHODS |++++++++++++++++++++++++++++++++++++++++++
@@ -57,15 +54,15 @@ public class ImageModel extends DataModel{
 // ++++++++++++++++| PROTECTED OVERRIDE METHODS |++++++++++++++++++++++++++++++
 
     @Override
-    protected void restoreFromData(Bundle data){
-        super.restoreFromData(data);
+    protected void onRestoreFromData(Bundle data) {
+        super.onRestoreFromData(data);
         imageLink = data.getString(IMAGE_LINK);
         rating = data.getFloat(RATING);
     }
 
     @Override
-    protected void saveToData(Bundle data){
-        super.saveToData(data);
+    protected void onSaveToData(Bundle data) {
+        super.onSaveToData(data);
         data.putString(IMAGE_LINK, imageLink);
         data.putFloat(RATING, rating);
     }

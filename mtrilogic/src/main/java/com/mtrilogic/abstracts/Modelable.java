@@ -4,39 +4,28 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-@SuppressWarnings({"unused","WeakerAccess"})
+@SuppressWarnings({"unused"})
 public abstract class Modelable implements Parcelable {
-    protected static final String ITEM_ID = "itemId", VIEW_TYPE = "viewType", ENABLED = "enabled";
-    private Bundle data;
+    private static final String ITEM_ID = "itemId", VIEW_TYPE = "viewType", ENABLED = "enabled";
     private long itemId;
     private int viewType;
     private boolean enabled;
-    
-// ++++++++++++++++| PROTECTED ABSTRACT METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++
-
-    protected abstract void restoreFromData(Bundle data);
-    protected abstract void saveToData(Bundle data);
 
 // ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    public Modelable(){
-        data = new Bundle();
+    public Modelable(){}
+
+    public Modelable(Bundle data){
+        onRestoreFromData(data);
     }
 
     public Modelable(long itemId, int viewType, boolean enabled){
-        data = new Bundle();
         this.itemId = itemId;
         this.viewType = viewType;
         this.enabled = enabled;
     }
 
-// ++++++++++++++++| PROTECTED CONSTRUCTORS |++++++++++++++++++++++++++++++++++
-
-    protected Modelable(Parcel src, ClassLoader loader){
-        restoreFromParcel(src, loader);
-    }
-
-// ++++++++++++++++| PUBLIC METHODS |++++++++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++| PUBLIC METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     public long getItemId(){
         return itemId;
@@ -50,32 +39,27 @@ public abstract class Modelable implements Parcelable {
         return enabled;
     }
 
-// ++++++++++++++++| PROTECTED METHODS |+++++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++| PROTECTED METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    protected void restoreFromParcel(Parcel src, ClassLoader loader){
-        if(src != null && loader != null && (data = src.readBundle(loader)) != null){
-            itemId = data.getLong(ITEM_ID);
-            viewType = data.getInt(VIEW_TYPE);
-            enabled = data.getBoolean(ENABLED);
-            restoreFromData(data);
-        }else {
-            data = new Bundle();
-        }
+    protected void onRestoreFromData(Bundle data){
+        itemId = data.getLong(ITEM_ID);
+        viewType = data.getInt(VIEW_TYPE);
+        enabled = data.getBoolean(ENABLED);
     }
 
-    protected void saveToParcel(Parcel dest){
+    protected void onSaveToData(Bundle data){
         data.putLong(ITEM_ID, itemId);
         data.putInt(VIEW_TYPE, viewType);
         data.putBoolean(ENABLED, enabled);
-        saveToData(data);
-        dest.writeBundle(data);
     }
 
-// ++++++++++++++++| PUBLIC OVERRIDE METHODS |+++++++++++++++++++++++++++++++++
+// ++++++++++++++++| PUBLIC OVERRIDE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     @Override
-    public final void writeToParcel(Parcel dest, int flags){
-        saveToParcel(dest);
+    public void writeToParcel(Parcel dest, int flags){
+        Bundle data = new Bundle();
+        onSaveToData(data);
+        dest.writeBundle(data);
     }
 
     @Override

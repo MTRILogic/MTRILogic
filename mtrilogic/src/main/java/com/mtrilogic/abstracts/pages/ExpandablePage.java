@@ -1,7 +1,6 @@
-package com.mtrilogic.pages;
+package com.mtrilogic.abstracts.pages;
 
 import android.os.Bundle;
-import android.os.Parcel;
 
 import com.mtrilogic.abstracts.Modelable;
 import com.mtrilogic.abstracts.Paginable;
@@ -17,7 +16,13 @@ public abstract class ExpandablePage extends Paginable {
     private Listable groupListable;
     private Mapable childMapable;
 
+// ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
     public ExpandablePage(){}
+
+    public ExpandablePage(Bundle data){
+        super(data);
+    }
 
     public ExpandablePage(String pageTitle, String tagName, long itemId, int viewType){
         super(pageTitle, tagName, itemId, viewType);
@@ -25,9 +30,7 @@ public abstract class ExpandablePage extends Paginable {
         childMapable = new Mapable();
     }
 
-    protected ExpandablePage(Parcel src, ClassLoader loader){
-        super(src, loader);
-    }
+// ++++++++++++++++| PUBLIC METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     public Listable getGroupListable(){
         return groupListable;
@@ -45,18 +48,20 @@ public abstract class ExpandablePage extends Paginable {
         this.childMapable = childMapable;
     }
 
+// ++++++++++++++++| PROTECTED METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
     @Override
-    protected void restoreFromData(Bundle data){
-        super.restoreFromData(data);
+    protected void onRestoreFromData(Bundle data){
+        super.onRestoreFromData(data);
         childMapable = new Mapable(new LinkedHashMap<Modelable, Listable>());
         ArrayList<Modelable> groupModelableList = data.getParcelableArrayList(LIST);
-        long groupIdx = data.getLong(IDX,0);
+        long groupIdx = data.getLong(IDX, 0);
         if(groupModelableList != null){
             for(Modelable groupModelable : groupModelableList){
                 long groupItemId = groupModelable.getItemId();
                 ArrayList<Modelable> childModelableList = data.getParcelableArrayList(LIST + groupItemId);
-                long childIdx = data.getLong(IDX + groupItemId,0);
-                if(childModelableList == null){
+                long childIdx = data.getLong(IDX + groupItemId, 0);
+                if(childModelableList == null) {
                     childModelableList = new ArrayList<>();
                 }
                 Listable childListable = new Listable(childModelableList, childIdx);
@@ -69,8 +74,8 @@ public abstract class ExpandablePage extends Paginable {
     }
 
     @Override
-    protected void saveToData(Bundle data){
-        super.saveToData(data);
+    protected void onSaveToData(Bundle data){
+        super.onSaveToData(data);
         ArrayList<Modelable> groupModelableList = groupListable.getModelableList();
         long groupIdx = groupListable.getIdx();
         data.putParcelableArrayList(LIST, groupModelableList);

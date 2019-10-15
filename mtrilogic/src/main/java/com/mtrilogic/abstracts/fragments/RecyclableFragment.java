@@ -1,4 +1,4 @@
-package com.mtrilogic.fragments;
+package com.mtrilogic.abstracts.fragments;
 
 import android.view.View;
 
@@ -12,7 +12,7 @@ import com.mtrilogic.interfaces.FragmentableAdapterListener;
 import com.mtrilogic.interfaces.RecyclableAdapterListener;
 import com.mtrilogic.interfaces.RecyclableListener;
 import com.mtrilogic.mtrilogic.R;
-import com.mtrilogic.pages.InflatablePage;
+import com.mtrilogic.abstracts.pages.InflatablePage;
 
 import java.util.ArrayList;
 
@@ -22,8 +22,8 @@ public abstract class RecyclableFragment<P extends InflatablePage> extends Fragm
     private static final String TAG = "RecyclableFragmentTAG";
     private RecyclableAdapter adapter;
 
-    protected void init(View view){
-        ArrayList<Modelable> modelables = getPage().getModelableList();
+    protected void init(View view, P page){
+        ArrayList<Modelable> modelables = page.getModelableList();
         adapter = new RecyclableAdapter(this, modelables);
         RecyclerView lvwItems = view.findViewById(R.id.lvw_items);
         lvwItems.setLayoutManager(new LinearLayoutManager(getContext()));

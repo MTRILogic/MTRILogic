@@ -1,20 +1,20 @@
 package com.mtrilogic.mtrilogicsample.pages;
 
-import android.os.Parcel;
+import android.os.Bundle;
 
 import com.mtrilogic.abstracts.PaginableCreator;
-import com.mtrilogic.pages.ExpandablePage;
+import com.mtrilogic.abstracts.pages.ExpandablePage;
 
 @SuppressWarnings("unused")
 public class SampleExpandablePage extends ExpandablePage {
-    public static final Creator<SampleExpandablePage> CREATOR = new PaginableCreator<SampleExpandablePage>(){
+    public static final Creator<SampleExpandablePage> CREATOR = new PaginableCreator<SampleExpandablePage>() {
         @Override
-        public SampleExpandablePage getParcelable(Parcel src, ClassLoader loader){
-            return new SampleExpandablePage(src, loader);
+        public SampleExpandablePage getParcelable(Bundle data) {
+            return new SampleExpandablePage(data);
         }
 
         @Override
-        public SampleExpandablePage[] getParcelableArray(int size){
+        public SampleExpandablePage[] getParcelableArray(int size) {
             return new SampleExpandablePage[size];
         }
     };
@@ -25,7 +25,7 @@ public class SampleExpandablePage extends ExpandablePage {
         super(pageTitle, tagName, itemId, viewType);
     }
 
-    private SampleExpandablePage(Parcel src, ClassLoader loader){
-        super(src, loader);
+    private SampleExpandablePage(Bundle data){
+        super(data);
     }
 }

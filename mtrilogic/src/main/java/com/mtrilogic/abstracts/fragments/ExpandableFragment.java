@@ -1,7 +1,6 @@
-package com.mtrilogic.fragments;
+package com.mtrilogic.abstracts.fragments;
 
 import android.view.View;
-import android.widget.ExpandableListView;
 
 import com.mtrilogic.abstracts.Fragmentable;
 import com.mtrilogic.adapters.ExpandableAdapter;
@@ -11,7 +10,8 @@ import com.mtrilogic.interfaces.ExpandableAdapterListener;
 import com.mtrilogic.interfaces.ExpandableListener;
 import com.mtrilogic.interfaces.FragmentableAdapterListener;
 import com.mtrilogic.mtrilogic.R;
-import com.mtrilogic.pages.ExpandablePage;
+import com.mtrilogic.abstracts.pages.ExpandablePage;
+import com.mtrilogic.views.InflateExpandableView;
 
 @SuppressWarnings("unused")
 public abstract class ExpandableFragment<P extends ExpandablePage> extends Fragmentable<P> implements
@@ -19,15 +19,12 @@ public abstract class ExpandableFragment<P extends ExpandablePage> extends Fragm
     private static final String TAG = "ExpandableFragment";
     private ExpandableAdapter adapter;
 
-    protected void init(View view, int groupTypeCount, int childTypeCount){
-        ExpandablePage page = getPage();
-        if (page != null) {
-            Listable groupListable = page.getGroupListable();
-            Mapable childMapable = page.getChildMapable();
-            adapter = new ExpandableAdapter(this, groupListable, childMapable, groupTypeCount, childTypeCount);
-            ExpandableListView lvwItems = view.findViewById(R.id.lvw_items);
-            lvwItems.setAdapter(adapter);
-        }
+    protected void init(View view, int groupTypeCount, int childTypeCount, P page){
+        Listable groupListable = page.getGroupListable();
+        Mapable childMapable = page.getChildMapable();
+        adapter = new ExpandableAdapter(this, groupListable, childMapable, groupTypeCount, childTypeCount);
+        InflateExpandableView lvwItems = view.findViewById(R.id.lvw_items);
+        lvwItems.setAdapter(adapter);
     }
 
     @Override

@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.mtrilogic.abstracts.Inflatable;
 import com.mtrilogic.adapters.FragmentableAdapter;
 import com.mtrilogic.adapters.InflatableAdapter;
-import com.mtrilogic.fragments.InflatableFragment;
+import com.mtrilogic.abstracts.fragments.InflatableFragment;
 import com.mtrilogic.mtrilogicsample.R;
 import com.mtrilogic.mtrilogicsample.items.inflatables.InflatableImageItem;
 import com.mtrilogic.mtrilogicsample.items.inflatables.InflatableDataItem;
@@ -32,7 +32,7 @@ public class SampleInflatableFragment extends InflatableFragment<SampleInflatabl
     protected View onCreateViewFragment(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                                         @Nullable Bundle savedInstanceState, SampleInflatablePage page) {
         View view = inflater.inflate(R.layout.fragment_inflatable,container,false);
-        init(view, ChildType.COUNT);
+        init(view, ChildType.COUNT, page);
         TextView lblTitle = view.findViewById(R.id.lbl_title);
         lblTitle.setText(getString(R.string.title_item, page.getItemId()));
         TextView lblContent = view.findViewById(R.id.lbl_content);

@@ -54,6 +54,10 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
         this.stableIds = stableIds;
     }
 
+    public ArrayList<Listable> getLastListableList() {
+        return lastListableList;
+    }
+
     // ARRAY ==================================================================
 
     public final Modelable[] getGroupModelableArray(){
@@ -228,9 +232,7 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
             Modelable groupModelable = childEntry.getKey();
             if(!groupListable.appendModelable(groupModelable)){
                 lastListable = childMapable.deleteListable(groupModelable);
-                if(lastListableList.add(lastListable)){
-                    lastListable.setLive(false);
-                }
+                lastListableList.add(lastListable);
             }
         }
     }
@@ -264,9 +266,7 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
         for(Modelable groupModelable : groupModelableList){
             if(groupListable.deleteModelable(groupModelable)){
                 lastListable = childMapable.deleteListable(groupModelable);
-                if(lastListableList.add(lastListable)){
-                    lastListable.setLive(false);
-                }
+                lastListableList.add(lastListable);
                 count--;
             }
         }
@@ -281,7 +281,7 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
     public boolean deleteGroupModelable(@NonNull Modelable groupModelable){
         if(groupListable.deleteModelable(groupModelable)){
             lastListable = childMapable.deleteListable(groupModelable);
-            lastListable.setLive(false);
+            lastListableList.add(lastListable);
             return true;
         }
         return false;

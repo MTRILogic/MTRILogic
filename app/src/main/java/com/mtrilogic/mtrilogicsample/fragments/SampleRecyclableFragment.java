@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.mtrilogic.abstracts.Recyclable;
 import com.mtrilogic.adapters.FragmentableAdapter;
 import com.mtrilogic.adapters.RecyclableAdapter;
-import com.mtrilogic.fragments.RecyclableFragment;
+import com.mtrilogic.abstracts.fragments.RecyclableFragment;
 import com.mtrilogic.mtrilogicsample.R;
 import com.mtrilogic.mtrilogicsample.items.recyclables.RecyclableDataItem;
 import com.mtrilogic.mtrilogicsample.items.recyclables.RecyclableImageItem;
@@ -32,7 +32,7 @@ public class SampleRecyclableFragment extends RecyclableFragment<SampleRecyclabl
     protected View onCreateViewFragment(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                                         @Nullable Bundle savedInstanceState, SampleRecyclablePage page) {
         View view = inflater.inflate(R.layout.fragment_recyclable,container,false);
-        init(view);
+        init(view, page);
         TextView lblTitle = view.findViewById(R.id.lbl_title);
         lblTitle.setText(getString(R.string.title_item, page.getItemId()));
         TextView lblContent = view.findViewById(R.id.lbl_content);

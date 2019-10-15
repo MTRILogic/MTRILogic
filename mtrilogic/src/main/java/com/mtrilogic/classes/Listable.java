@@ -6,16 +6,15 @@ import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 
+@SuppressWarnings("unused")
 public class Listable{
     private ArrayList<Modelable> modelableList;
-    private boolean live;
     private long idx;
 
 // ++++++++++++++++| PUBLIC CONSTRUCTORS |+++++++++++++++++++++++++++++++++++++
 
     public Listable(){
         modelableList = new ArrayList<>();
-        live = true;
     }
 
     public Listable(@NonNull ArrayList<Modelable> modelableList, long idx){
@@ -24,16 +23,6 @@ public class Listable{
     }
 
 // ++++++++++++++++| PUBLIC METHODS |++++++++++++++++++++++++++++++++++++++++++
-
-    // LIVE ===================================================================
-
-    public boolean isLive(){
-        return live;
-    }
-
-    public void setLive(boolean live){
-        this.live = live;
-    }
 
     // IDX ====================================================================
 

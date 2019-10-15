@@ -1,7 +1,6 @@
-package com.mtrilogic.pages;
+package com.mtrilogic.abstracts.pages;
 
 import android.os.Bundle;
-import android.os.Parcel;
 
 import com.mtrilogic.abstracts.Modelable;
 import com.mtrilogic.abstracts.Paginable;
@@ -14,16 +13,26 @@ public abstract class InflatablePage extends Paginable {
     private ArrayList<Modelable> modelableList;
     private long idx;
 
+// ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
     public InflatablePage(){}
 
-    public InflatablePage(String pageTitle, String tagName, long itemId, int viewType){
-        super(pageTitle, tagName, itemId, viewType);
-        modelableList = new ArrayList<>();
+    public InflatablePage(Bundle data){
+        super(data);
     }
 
-    protected InflatablePage(Parcel src, ClassLoader loader){
-        super(src, loader);
+    public InflatablePage(String pageTitle, String tagName, long itemId, int viewType){
+        this(pageTitle, tagName, itemId, viewType, new ArrayList<Modelable>(), 0);
     }
+
+    public InflatablePage(String pageTitle, String tagName, long itemId, int viewType,
+                          ArrayList<Modelable> modelableList, long idx){
+        super(pageTitle, tagName, itemId, viewType);
+        this.modelableList = modelableList;
+        this.idx = idx;
+    }
+
+// ++++++++++++++++| PUBLIC METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     public ArrayList<Modelable> getModelableList(){
         return modelableList;
@@ -41,16 +50,18 @@ public abstract class InflatablePage extends Paginable {
         this.idx = idx;
     }
 
+// ++++++++++++++++| PROTECTED METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
     @Override
-    protected void restoreFromData(Bundle data){
-        super.restoreFromData(data);
+    protected void onRestoreFromData(Bundle data) {
+        super.onRestoreFromData(data);
         modelableList = data.getParcelableArrayList(LIST);
         idx = data.getLong(IDX);
     }
 
     @Override
-    protected void saveToData(Bundle data){
-        super.saveToData(data);
+    protected void onSaveToData(Bundle data) {
+        super.onSaveToData(data);
         data.putParcelableArrayList(LIST, modelableList);
         data.putLong(IDX, idx);
     }

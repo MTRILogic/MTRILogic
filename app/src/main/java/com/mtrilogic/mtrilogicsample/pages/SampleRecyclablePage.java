@@ -1,20 +1,20 @@
 package com.mtrilogic.mtrilogicsample.pages;
 
-import android.os.Parcel;
+import android.os.Bundle;
 
 import com.mtrilogic.abstracts.PaginableCreator;
-import com.mtrilogic.pages.InflatablePage;
+import com.mtrilogic.abstracts.pages.InflatablePage;
 
 @SuppressWarnings("unused")
 public class SampleRecyclablePage extends InflatablePage {
-    public static final Creator<SampleRecyclablePage> CREATOR = new PaginableCreator<SampleRecyclablePage>(){
+    public static final Creator<SampleRecyclablePage> CREATOR = new PaginableCreator<SampleRecyclablePage>() {
         @Override
-        public SampleRecyclablePage getParcelable(Parcel src, ClassLoader loader){
-            return new SampleRecyclablePage(src, loader);
+        public SampleRecyclablePage getParcelable(Bundle data) {
+            return new SampleRecyclablePage(data);
         }
 
         @Override
-        public SampleRecyclablePage[] getParcelableArray(int size){
+        public SampleRecyclablePage[] getParcelableArray(int size) {
             return new SampleRecyclablePage[size];
         }
     };
@@ -25,7 +25,7 @@ public class SampleRecyclablePage extends InflatablePage {
         super(pageTitle, tagName, itemId, viewType);
     }
 
-    private SampleRecyclablePage(Parcel src, ClassLoader loader){
-        super(src, loader);
+    private SampleRecyclablePage(Bundle data){
+        super(data);
     }
 }

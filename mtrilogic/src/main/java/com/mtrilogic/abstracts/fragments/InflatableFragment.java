@@ -1,4 +1,4 @@
-package com.mtrilogic.fragments;
+package com.mtrilogic.abstracts.fragments;
 
 import android.os.Bundle;
 import android.view.View;
@@ -13,7 +13,7 @@ import com.mtrilogic.interfaces.FragmentableAdapterListener;
 import com.mtrilogic.interfaces.InflatableAdapterListener;
 import com.mtrilogic.interfaces.InflatableListener;
 import com.mtrilogic.mtrilogic.R;
-import com.mtrilogic.pages.InflatablePage;
+import com.mtrilogic.abstracts.pages.InflatablePage;
 import com.mtrilogic.views.InflatableView;
 
 import java.util.ArrayList;
@@ -25,8 +25,8 @@ public abstract class InflatableFragment<P extends InflatablePage> extends Fragm
     private InflatableView lvwItems;
     private static int top, index;
 
-    protected void init(View view, int typeCount){
-        ArrayList<Modelable> modelableList = getPage().getModelableList();
+    protected void init(View view, int typeCount, P page){
+        ArrayList<Modelable> modelableList = page.getModelableList();
         adapter = new InflatableAdapter(this, modelableList, typeCount);
         lvwItems = view.findViewById(R.id.lvw_items);
         lvwItems.setAdapter(adapter);

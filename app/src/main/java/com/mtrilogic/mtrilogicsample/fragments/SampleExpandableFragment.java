@@ -16,7 +16,7 @@ import com.mtrilogic.abstracts.ExpandableGroup;
 import com.mtrilogic.adapters.ExpandableAdapter;
 import com.mtrilogic.adapters.FragmentableAdapter;
 import com.mtrilogic.classes.Listable;
-import com.mtrilogic.fragments.ExpandableFragment;
+import com.mtrilogic.abstracts.fragments.ExpandableFragment;
 import com.mtrilogic.mtrilogicsample.items.expandables.childs.ChildDataItem;
 import com.mtrilogic.mtrilogicsample.items.expandables.childs.ChildImageItem;
 import com.mtrilogic.mtrilogicsample.items.expandables.groups.GroupDataItem;
@@ -35,7 +35,7 @@ public class SampleExpandableFragment extends ExpandableFragment<SampleExpandabl
     protected View onCreateViewFragment(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                                         @Nullable Bundle savedInstanceState, SampleExpandablePage page) {
         View view = inflater.inflate(R.layout.fragment_expandable,container,false);
-        init(view, GroupType.COUNT, ChildType.COUNT);
+        init(view, GroupType.COUNT, ChildType.COUNT, page);
         TextView lblTitle = view.findViewById(R.id.lbl_title);
         lblTitle.setText(getString(R.string.title_item, page.getItemId()));
         TextView lblContent = view.findViewById(R.id.lbl_content);
