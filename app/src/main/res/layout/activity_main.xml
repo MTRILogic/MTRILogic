@@ -23,7 +23,7 @@
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabMode="fixed"/>
+            app:tabMode="scrollable"/>
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/pager"
@@ -33,12 +33,47 @@
 
     </LinearLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btn_addFragment"
-        android:src="@android:drawable/ic_menu_add"
-        android:layout_gravity="end|bottom"
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
+        android:id="@+id/fam"
+        android:layout_gravity="bottom|end"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"/>
+        android:layout_margin="16dp"
+        app:fab_addButtonColorNormal="@color/pink"
+        app:fab_addButtonColorPressed="@color/pink_pressed"
+        app:fab_addButtonPlusIconColor="@color/half_black"
+        app:fab_labelStyle="@style/FloatingButtonLabelStyle">
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_inflatable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_title="@string/inflatable"
+            app:fab_colorNormal="@color/white"
+            app:fab_colorPressed="@color/white_pressed"
+            app:fab_icon="@drawable/ic_add_white_24dp"
+            app:fab_size="mini"/>
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_recyclable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_title="@string/recyclable"
+            app:fab_colorNormal="@color/white"
+            app:fab_colorPressed="@color/white_pressed"
+            app:fab_icon="@drawable/ic_add_white_24dp"
+            app:fab_size="mini"/>
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_expandable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_title="@string/expandable"
+            app:fab_colorNormal="@color/white"
+            app:fab_colorPressed="@color/white_pressed"
+            app:fab_icon="@drawable/ic_add_white_24dp"
+            app:fab_size="mini"/>
+
+    </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
 </FrameLayout>

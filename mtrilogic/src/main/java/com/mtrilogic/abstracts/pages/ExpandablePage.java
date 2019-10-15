@@ -13,8 +13,8 @@ import java.util.LinkedHashMap;
 @SuppressWarnings({"unused","WeakerAccess"})
 public abstract class ExpandablePage extends Paginable {
     private static final String LIST = "list", IDX = "idx";
-    private Listable groupListable;
-    private Mapable childMapable;
+    private Listable<Modelable> groupListable;
+    private Mapable<Modelable> childMapable;
 
 // ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -26,25 +26,25 @@ public abstract class ExpandablePage extends Paginable {
 
     public ExpandablePage(String pageTitle, String tagName, long itemId, int viewType){
         super(pageTitle, tagName, itemId, viewType);
-        groupListable = new Listable();
-        childMapable = new Mapable();
+        groupListable = new Listable<>();
+        childMapable = new Mapable<>();
     }
 
 // ++++++++++++++++| PUBLIC METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    public Listable getGroupListable(){
+    public Listable<Modelable> getGroupListable(){
         return groupListable;
     }
 
-    public void setGroupListable(Listable groupListable){
+    public void setGroupListable(Listable<Modelable> groupListable){
         this.groupListable = groupListable;
     }
 
-    public Mapable getChildMapable(){
+    public Mapable<Modelable> getChildMapable(){
         return childMapable;
     }
 
-    public void setChildMapable(Mapable childMapable){
+    public void setChildMapable(Mapable<Modelable> childMapable){
         this.childMapable = childMapable;
     }
 
@@ -53,7 +53,7 @@ public abstract class ExpandablePage extends Paginable {
     @Override
     protected void onRestoreFromData(Bundle data){
         super.onRestoreFromData(data);
-        childMapable = new Mapable(new LinkedHashMap<Modelable, Listable>());
+        childMapable = new Mapable<>(new LinkedHashMap<Modelable, Listable<Modelable>>());
         ArrayList<Modelable> groupModelableList = data.getParcelableArrayList(LIST);
         long groupIdx = data.getLong(IDX, 0);
         if(groupModelableList != null){
@@ -64,13 +64,13 @@ public abstract class ExpandablePage extends Paginable {
                 if(childModelableList == null) {
                     childModelableList = new ArrayList<>();
                 }
-                Listable childListable = new Listable(childModelableList, childIdx);
+                Listable<Modelable> childListable = new Listable<>(childModelableList, childIdx);
                 childMapable.putListable(groupModelable, childListable);
             }
         }else {
             groupModelableList = new ArrayList<>();
         }
-        groupListable = new Listable(groupModelableList, groupIdx);
+        groupListable = new Listable<>(groupModelableList, groupIdx);
     }
 
     @Override
@@ -82,7 +82,7 @@ public abstract class ExpandablePage extends Paginable {
         data.putLong(IDX, groupIdx);
         for(Modelable groupModelable : groupModelableList){
             long groupItemId = groupModelable.getItemId();
-            Listable childListable = childMapable.getListable(groupModelable);
+            Listable<Modelable> childListable = childMapable.getListable(groupModelable);
             ArrayList<Modelable> childModelableList = childListable.getModelableList();
             long childIdx = childListable.getIdx();
             data.putParcelableArrayList(LIST + groupItemId, childModelableList);

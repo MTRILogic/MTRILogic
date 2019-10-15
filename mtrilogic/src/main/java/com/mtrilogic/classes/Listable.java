@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import androidx.annotation.NonNull;
 
 @SuppressWarnings("unused")
-public class Listable{
-    private ArrayList<Modelable> modelableList;
+public class Listable<M extends Modelable>{
+    private ArrayList<M> modelableList;
     private long idx;
 
 // ++++++++++++++++| PUBLIC CONSTRUCTORS |+++++++++++++++++++++++++++++++++++++
@@ -17,7 +17,7 @@ public class Listable{
         modelableList = new ArrayList<>();
     }
 
-    public Listable(@NonNull ArrayList<Modelable> modelableList, long idx){
+    public Listable(@NonNull ArrayList<M> modelableList, long idx){
         this.modelableList = modelableList;
         this.idx = idx;
     }
@@ -34,21 +34,15 @@ public class Listable{
         this.idx = idx;
     }
 
-    // ARRAY ==================================================================
-
-    public Modelable[] getModelableArray(){
-        return modelableList.toArray(new Modelable[getModelableCount()]);
-    }
-
     // APPEND =================================================================
 
-    public boolean appendModelable(@NonNull Modelable modelable){
+    public boolean appendModelable(@NonNull M modelable){
         return modelableList.add(modelable);
     }
 
     // INSERT =================================================================
 
-    public boolean insertModelable(int position, @NonNull Modelable modelable){
+    public boolean insertModelable(int position, @NonNull M modelable){
         if(isValidPosition(position)){
             modelableList.add(position, modelable);
             return true;
@@ -58,7 +52,7 @@ public class Listable{
 
     // GET ====================================================================
 
-    public ArrayList<Modelable> getModelableList(){
+    public ArrayList<M> getModelableList(){
         return modelableList;
     }
 
@@ -68,24 +62,24 @@ public class Listable{
 
     // SET ====================================================================
 
-    public void setModelableList(@NonNull ArrayList<Modelable> modelableList){
+    public void setModelableList(@NonNull ArrayList<M> modelableList){
         this.modelableList = modelableList;
     }
 
-    public Modelable setModelable(int position, @NonNull Modelable modelable){
+    public Modelable setModelable(int position, @NonNull M modelable){
         return isValidPosition(position) ? modelableList.set(position, modelable) : null;
     }
 
     // CONTAINS ===============================================================
 
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
-    public boolean containsModelable(@NonNull Modelable modelable){
+    public boolean containsModelable(@NonNull M modelable){
         return modelableList.contains(modelable);
     }
 
     // DELETE =================================================================
 
-    public boolean deleteModelable(@NonNull Modelable modelable){
+    public boolean deleteModelable(@NonNull M modelable){
         return modelableList.remove(modelable);
     }
 

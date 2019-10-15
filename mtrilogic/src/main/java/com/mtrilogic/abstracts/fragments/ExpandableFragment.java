@@ -3,6 +3,7 @@ package com.mtrilogic.abstracts.fragments;
 import android.view.View;
 
 import com.mtrilogic.abstracts.Fragmentable;
+import com.mtrilogic.abstracts.Modelable;
 import com.mtrilogic.adapters.ExpandableAdapter;
 import com.mtrilogic.classes.Listable;
 import com.mtrilogic.classes.Mapable;
@@ -20,8 +21,8 @@ public abstract class ExpandableFragment<P extends ExpandablePage> extends Fragm
     private ExpandableAdapter adapter;
 
     protected void init(View view, int groupTypeCount, int childTypeCount, P page){
-        Listable groupListable = page.getGroupListable();
-        Mapable childMapable = page.getChildMapable();
+        Listable<Modelable> groupListable = page.getGroupListable();
+        Mapable<Modelable> childMapable = page.getChildMapable();
         adapter = new ExpandableAdapter(this, groupListable, childMapable, groupTypeCount, childTypeCount);
         InflateExpandableView lvwItems = view.findViewById(R.id.lvw_items);
         lvwItems.setAdapter(adapter);

@@ -5,6 +5,10 @@
     <string name="content_sample">Position: 12</string>
     <string name="content_item">Position: %1$d</string>
 
+    <string name="inflatable">Inflatable</string>
+    <string name="recyclable">Recyclable</string>
+    <string name="expandable">Expandable</string>
+
     <string-array name="links">
         <item>https://i.pinimg.com/originals/0d/7d/b0/0d7db0be48ac09dc3247670441e6b95c.jpg</item>
         <item>https://i.pinimg.com/originals/27/50/63/275063b9dbc33b07e9a5d554cbc1ab3d.jpg</item>

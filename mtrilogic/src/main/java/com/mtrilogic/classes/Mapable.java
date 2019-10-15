@@ -8,8 +8,8 @@ import java.util.Map;
 import androidx.annotation.NonNull;
 
 @SuppressWarnings("unused")
-public class Mapable{
-    private Map<Modelable, Listable> listableMap;
+public class Mapable<M extends Modelable>{
+    private Map<M, Listable<M>> listableMap;
 
 // ++++++++++++++++| PUBLIC CONSTRUCTORS |+++++++++++++++++++++++++++++++++++++
 
@@ -17,7 +17,7 @@ public class Mapable{
         listableMap = new LinkedHashMap<>();
     }
 
-    public Mapable(@NonNull LinkedHashMap<Modelable, Listable> listableMap){
+    public Mapable(@NonNull LinkedHashMap<M, Listable<M>> listableMap){
         this.listableMap = listableMap;
     }
 
@@ -25,35 +25,35 @@ public class Mapable{
 
     // PUT ====================================================================
 
-    public Listable putListable(Modelable modelable, Listable listable){
+    public Listable<M> putListable(M modelable, Listable<M> listable){
         return listableMap.put(modelable, listable);
     }
 
     // GET ====================================================================
 
-    public Map<Modelable, Listable> getListableMap(){
+    public Map<M, Listable<M>> getListableMap(){
         return listableMap;
     }
 
-    public Listable getListable(Modelable modelable){
+    public Listable<M> getListable(M modelable){
         return listableMap.get(modelable);
     }
 
     // SET ====================================================================
 
-    public void setListableMap(@NonNull LinkedHashMap<Modelable, Listable> listableMap){
+    public void setListableMap(@NonNull LinkedHashMap<M, Listable<M>> listableMap){
         this.listableMap = listableMap;
     }
 
     // CONTAINS ===============================================================
 
-    public boolean containsModelableKey(Modelable modelable){
+    public boolean containsModelableKey(M modelable){
         return listableMap.containsKey(modelable);
     }
 
     // DELETE =================================================================
 
-    public Listable deleteListable(Modelable modelable){
+    public Listable<M> deleteListable(M modelable){
         return listableMap.remove(modelable);
     }
 

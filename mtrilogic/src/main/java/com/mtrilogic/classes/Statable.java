@@ -1,29 +1,34 @@
 package com.mtrilogic.classes;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.mtrilogic.abstracts.Paginable;
 
-import java.util.ArrayList;
-
 @SuppressWarnings("unused")
 public class Statable extends ViewModel {
-    private ArrayList<Paginable> paginableList;
-    private long idx;
+    private MutableLiveData<Listable<Paginable>> listableLiveData;
+    private Listable<Paginable> listable;
 
-    public ArrayList<Paginable> getPaginableList() {
-        return paginableList;
+    public void init(){
+        listableLiveData = new MutableLiveData<>();
+        listable = new Listable<>();
     }
 
-    public void setPaginableList(ArrayList<Paginable> paginableList) {
-        this.paginableList = paginableList;
+    public Listable<Paginable> getListable() {
+        return listable;
     }
 
-    public long getIdx() {
-        return idx;
+    public LiveData<Listable<Paginable>> getListableLiveData() {
+        return listableLiveData;
     }
 
-    public void setIdx(long idx) {
-        this.idx = idx;
+    public void update(){
+        listableLiveData.setValue(listable);
+    }
+
+    public void postUpdate(){
+        listableLiveData.postValue(listable);
     }
 }
