@@ -11,20 +11,20 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 @SuppressWarnings({"unused","WeakerAccess"})
-public abstract class ExpandablePage extends Paginable {
+public abstract class MapablePage extends Paginable {
     private static final String LIST = "list", IDX = "idx";
     private Listable<Modelable> groupListable;
     private Mapable<Modelable> childMapable;
 
 // ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    public ExpandablePage(){}
+    public MapablePage(){}
 
-    public ExpandablePage(Bundle data){
+    public MapablePage(Bundle data){
         super(data);
     }
 
-    public ExpandablePage(String pageTitle, String tagName, long itemId, int viewType){
+    public MapablePage(String pageTitle, String tagName, long itemId, int viewType){
         super(pageTitle, tagName, itemId, viewType);
         groupListable = new Listable<>();
         childMapable = new Mapable<>();

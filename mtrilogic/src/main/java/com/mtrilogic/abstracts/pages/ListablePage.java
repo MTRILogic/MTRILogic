@@ -8,25 +8,25 @@ import com.mtrilogic.abstracts.Paginable;
 import java.util.ArrayList;
 
 @SuppressWarnings({"unused","WeakerAccess"})
-public abstract class InflatablePage extends Paginable {
+public abstract class ListablePage extends Paginable {
     private static final String LIST = "list", IDX = "idx";
     private ArrayList<Modelable> modelableList;
     private long idx;
 
 // ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    public InflatablePage(){}
+    public ListablePage(){}
 
-    public InflatablePage(Bundle data){
+    public ListablePage(Bundle data){
         super(data);
     }
 
-    public InflatablePage(String pageTitle, String tagName, long itemId, int viewType){
+    public ListablePage(String pageTitle, String tagName, long itemId, int viewType){
         this(pageTitle, tagName, itemId, viewType, new ArrayList<Modelable>(), 0);
     }
 
-    public InflatablePage(String pageTitle, String tagName, long itemId, int viewType,
-                          ArrayList<Modelable> modelableList, long idx){
+    public ListablePage(String pageTitle, String tagName, long itemId, int viewType,
+                        ArrayList<Modelable> modelableList, long idx){
         super(pageTitle, tagName, itemId, viewType);
         this.modelableList = modelableList;
         this.idx = idx;

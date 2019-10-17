@@ -11,7 +11,7 @@ public class Listable<M extends Modelable>{
     private ArrayList<M> modelableList;
     private long idx;
 
-// ++++++++++++++++| PUBLIC CONSTRUCTORS |+++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     public Listable(){
         modelableList = new ArrayList<>();
@@ -22,7 +22,7 @@ public class Listable<M extends Modelable>{
         this.idx = idx;
     }
 
-// ++++++++++++++++| PUBLIC METHODS |++++++++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++| PUBLIC METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     // IDX ====================================================================
 
@@ -96,7 +96,7 @@ public class Listable<M extends Modelable>{
         idx = 0;
     }
 
-// ++++++++++++++++| PRIVATE METHODS |+++++++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++| PRIVATE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     private boolean isValidPosition(int position){
         return position > Base.INVALID_POSITION && position < getModelableCount();

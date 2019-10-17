@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+@SuppressWarnings("unused")
 public class Datable implements Parcelable {
     public static final Creator<Datable> CREATOR = new ClassLoaderCreator<Datable>() {
         @Override

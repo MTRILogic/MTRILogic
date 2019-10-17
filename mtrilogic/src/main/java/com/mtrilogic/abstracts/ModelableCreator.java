@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+@SuppressWarnings("unused")
 public abstract class ModelableCreator<M extends Modelable> implements Parcelable.ClassLoaderCreator<M>{
 
     public abstract M getParcelable(Bundle data);

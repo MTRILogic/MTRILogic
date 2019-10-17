@@ -3,10 +3,10 @@ package com.mtrilogic.mtrilogicsample.pages;
 import android.os.Bundle;
 
 import com.mtrilogic.abstracts.PaginableCreator;
-import com.mtrilogic.abstracts.pages.InflatablePage;
+import com.mtrilogic.abstracts.pages.ListablePage;
 
 @SuppressWarnings("unused")
-public class SampleRecyclablePage extends InflatablePage {
+public class SampleRecyclablePage extends ListablePage {
     public static final Creator<SampleRecyclablePage> CREATOR = new PaginableCreator<SampleRecyclablePage>() {
         @Override
         public SampleRecyclablePage getParcelable(Bundle data) {

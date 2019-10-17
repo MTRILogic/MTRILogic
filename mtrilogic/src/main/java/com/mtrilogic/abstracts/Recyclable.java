@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.mtrilogic.interfaces.RecyclableAdapterListener;
 
+@SuppressWarnings("unused")
 public abstract class Recyclable extends RecyclerView.ViewHolder{
     protected final RecyclableAdapterListener listener;
 

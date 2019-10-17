@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.mtrilogic.abstracts.Fragmentable;
 import com.mtrilogic.abstracts.Paginable;
 import com.mtrilogic.adapters.FragmentableAdapter;
+import com.mtrilogic.classes.Base;
 import com.mtrilogic.classes.Listable;
 import com.mtrilogic.classes.Statable;
 import com.mtrilogic.interfaces.FragmentableAdapterListener;
@@ -55,12 +56,19 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
+        Observer<Listable<Paginable>> paginableObserver = new Observer<Listable<Paginable>>() {
+            @Override
+            public void onChanged(Listable<Paginable> listable) {
+
+                makeToast("Count: " + listable.getModelableCount());
+            }
+        };
         paginableState = ViewModelProviders.of(this).get(Statable.class);
+        paginableState.getListableLiveData().observe(this, paginableObserver);
 
         if(savedInstanceState != null) {
             idx = paginableState.getListable().getIdx();
         }else {
-            paginableState.init();
             for(int i = 0; i < 3; i++){
                 String title = TITLES[i];
                 Paginable paginable = null;
@@ -79,16 +87,8 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
                     idx++;
                 }
             }
+            paginableState.getListable().setIdx(idx);
             paginableState.update();
-
-            final Observer<Listable<Paginable>> paginableObserver = new Observer<Listable<Paginable>>() {
-                @Override
-                public void onChanged(Listable<Paginable> listable) {
-                    makeToast("Count: " + listable.getModelableCount());
-                }
-            };
-
-            paginableState.getListableLiveData().observe(this, paginableObserver);
         }
 
         adapter = new FragmentableAdapter(getSupportFragmentManager(),this, paginableState.getListable().getModelableList());
@@ -98,10 +98,10 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(pager);
 
-        if(adapter.getCount() > 0){
+        if(tabs.getTabCount() > 0){
             adapter.notifyDataSetChanged();
         }
-        if(pager.getCurrentItem() == 0){
+        if(tabs.getSelectedTabPosition() == 0){
             pageSelected(0);
         }
 
@@ -169,7 +169,14 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
 
     @Override
     public void onPositionChanged(int position){
-        //unused
+        if (position == Base.INVALID_POSITION){
+            paginableState.update();
+            if (adapter.getCount() == 0) {
+                actionBar.setTitle(R.string.app_name);
+            }
+        }else {
+            pageSelected(position);
+        }
     }
 
     @Override
@@ -192,7 +199,12 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             listable.setIdx(++idx);
             adapter.notifyDataSetChanged();
             paginableState.update();
-            pager.setCurrentItem(adapter.getCount() - 1);
+            int index = adapter.getCount() - 1;
+            if (index == 0){
+                pageSelected(0);
+            }else {
+                pager.setCurrentItem(index);
+            }
         }
         fam.collapse();
     }

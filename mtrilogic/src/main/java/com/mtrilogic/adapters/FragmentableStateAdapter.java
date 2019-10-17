@@ -12,13 +12,13 @@ import com.mtrilogic.interfaces.FragmentableListener;
 
 import java.util.ArrayList;
 
-@SuppressWarnings({"unused"})
+@SuppressWarnings({"unused","WeakerAccess"})
 public class FragmentableStateAdapter extends FragmentStatePagerAdapter{
     private static final String TAG = "FragmentStateAdapter";
     private FragmentableListener listener;
     private ArrayList<Paginable> paginableList;
 
-// ++++++++++++++++| PUBLIC CONSTRUCTORS |+++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     public FragmentableStateAdapter(FragmentManager manager, FragmentableListener listener, ArrayList<Paginable> paginableList){
         super(manager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
@@ -26,7 +26,7 @@ public class FragmentableStateAdapter extends FragmentStatePagerAdapter{
         this.paginableList = paginableList;
     }
 
-// ++++++++++++++++| PUBLIC METHODS |++++++++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++| PUBLIC METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     public int getPaginablePosition(Paginable paginable){
         return paginableList.indexOf(paginable);
@@ -84,7 +84,7 @@ public class FragmentableStateAdapter extends FragmentStatePagerAdapter{
         paginableList.clear();
     }
 
-// ++++++++++++++++| PUBLIC OVERRIDE METHODS |+++++++++++++++++++++++++++++++++
+// ++++++++++++++++| PUBLIC OVERRIDE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     @NonNull
     @Override
@@ -103,11 +103,16 @@ public class FragmentableStateAdapter extends FragmentStatePagerAdapter{
         Fragmentable fragmentable = (Fragmentable)object;
         Paginable paginable = fragmentable.getPage();
         int position = fragmentable.getPosition();
-        if(position == paginableList.indexOf(paginable)){
+        int paginablePosition = getPaginablePosition(paginable);
+        if(position == paginablePosition){
             return POSITION_UNCHANGED;
         }
-        listener.onPositionChanged(position);
-        return POSITION_NONE;
+        fragmentable.setPosition(paginablePosition);
+        listener.onPositionChanged(paginablePosition);
+        if (paginablePosition == Base.INVALID_POSITION) {
+            return POSITION_NONE;
+        }
+        return paginablePosition;
     }
 
     @Nullable
@@ -116,7 +121,7 @@ public class FragmentableStateAdapter extends FragmentStatePagerAdapter{
         return paginableList.get(position).getPageTitle();
     }
 
-// ++++++++++++++++| PRIVATE METHODS |+++++++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++| PRIVATE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     private boolean isValidPosition(int position){
         return position > Base.INVALID_POSITION && position < getCount();

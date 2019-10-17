@@ -11,17 +11,17 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.mtrilogic.interfaces.FragmentableAdapterListener;
+import com.mtrilogic.interfaces.OnMakeToastListener;
 
 @SuppressWarnings("unused")
-public abstract class Fragmentable<P extends Paginable> extends Fragment{
+public abstract class Fragmentable<P extends Paginable> extends Fragment implements OnMakeToastListener {
     private static final String PAGINABLE = "paginable";
     private FragmentableAdapterListener listener;
     private P page;
     private int position;
 
-    protected abstract View onCreateViewFragment(@NonNull LayoutInflater inflater,
-                                                 @Nullable ViewGroup container,
-                                                 @Nullable Bundle savedInstanceState, P page);
+    protected abstract View onCreateViewFragment(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState, P page, int position);
+    protected abstract void onNewPosition(int position);
 
 // ++++++++++++++++| PUBLIC STATIC METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -53,11 +53,10 @@ public abstract class Fragmentable<P extends Paginable> extends Fragment{
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (page != null){
             position = listener.getFragmentableAdapter().getPaginablePosition(page);
-            return onCreateViewFragment(inflater, container, savedInstanceState, page);
+            return onCreateViewFragment(inflater, container, savedInstanceState, page, position);
         }
         return super.onCreateView(inflater, container, savedInstanceState);
     }
@@ -66,6 +65,13 @@ public abstract class Fragmentable<P extends Paginable> extends Fragment{
     public void onDetach() {
         listener = null;
         super.onDetach();
+    }
+
+    @Override
+    public void onMakeToast(String line){
+        if (listener != null) {
+            listener.onMakeToast(line);
+        }
     }
 
 // ++++++++++++++++| PUBLIC METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -80,5 +86,10 @@ public abstract class Fragmentable<P extends Paginable> extends Fragment{
 
     public int getPosition() {
         return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+        onNewPosition(position);
     }
 }

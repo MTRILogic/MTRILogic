@@ -24,19 +24,22 @@ import com.mtrilogic.mtrilogicsample.pages.SampleInflatablePage;
 import com.mtrilogic.mtrilogicsample.types.ChildType;
 
 @SuppressWarnings("unused")
-public class SampleInflatableFragment extends InflatableFragment<SampleInflatablePage> implements View.OnClickListener {
+public class SampleInflatableFragment extends InflatableFragment<SampleInflatablePage> implements
+        View.OnClickListener {
+    private TextView lblContent;
 
 // PROTECTED OVERRIDE METHODS |*********************************************************************
 
     @Override
     protected View onCreateViewFragment(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                                        @Nullable Bundle savedInstanceState, SampleInflatablePage page) {
+                                        @Nullable Bundle savedInstanceState,
+                                        SampleInflatablePage page, int position) {
         View view = inflater.inflate(R.layout.fragment_inflatable,container,false);
         init(view, ChildType.COUNT, page);
         TextView lblTitle = view.findViewById(R.id.lbl_title);
         lblTitle.setText(getString(R.string.title_item, page.getItemId()));
-        TextView lblContent = view.findViewById(R.id.lbl_content);
-        lblContent.setText(getString(R.string.content_item, getPosition()));
+        lblContent = view.findViewById(R.id.lbl_content);
+        onNewPosition(position);
         ImageButton btnAddData = view.findViewById(R.id.btn_addData);
         btnAddData.setOnClickListener(this);
         ImageButton btnAddImage = view.findViewById(R.id.btn_addImage);
@@ -46,7 +49,12 @@ public class SampleInflatableFragment extends InflatableFragment<SampleInflatabl
         return view;
     }
 
-// ++++++++++++++++| PUBLIC OVERRIDE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    @Override
+    protected void onNewPosition(int position) {
+        lblContent.setText(getString(R.string.content_item, position));
+    }
+
+    // ++++++++++++++++| PUBLIC OVERRIDE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     @Override
     public Inflatable getInflatable(int viewType, ViewGroup parent) {

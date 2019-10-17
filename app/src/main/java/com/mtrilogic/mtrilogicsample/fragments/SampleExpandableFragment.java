@@ -28,18 +28,20 @@ import com.mtrilogic.mtrilogicsample.types.ChildType;
 
 @SuppressWarnings("unused")
 public class SampleExpandableFragment extends ExpandableFragment<SampleExpandablePage> {
+    private TextView lblContent;
 
 // PROTECTED OVERRIDE METHODS |*********************************************************************
 
     @Override
     protected View onCreateViewFragment(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                                        @Nullable Bundle savedInstanceState, SampleExpandablePage page) {
+                                        @Nullable Bundle savedInstanceState,
+                                        SampleExpandablePage page, int position) {
         View view = inflater.inflate(R.layout.fragment_expandable,container,false);
         init(view, GroupType.COUNT, ChildType.COUNT, page);
         TextView lblTitle = view.findViewById(R.id.lbl_title);
         lblTitle.setText(getString(R.string.title_item, page.getItemId()));
-        TextView lblContent = view.findViewById(R.id.lbl_content);
-        lblContent.setText(getString(R.string.content_item, getPosition()));
+        lblContent = view.findViewById(R.id.lbl_content);
+        onNewPosition(position);
         ImageButton btnAddGroup = view.findViewById(R.id.btn_addGroup);
         btnAddGroup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,7 +59,12 @@ public class SampleExpandableFragment extends ExpandableFragment<SampleExpandabl
         return view;
     }
 
-// ++++++++++++++++| PUBLIC OVERRIDE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    @Override
+    protected void onNewPosition(int position) {
+        lblContent.setText(getString(R.string.content_item, position));
+    }
+
+    // ++++++++++++++++| PUBLIC OVERRIDE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     @Override
     public ExpandableGroup getExpandableGroup(int viewType, ViewGroup parent){
@@ -86,7 +93,7 @@ public class SampleExpandableFragment extends ExpandableFragment<SampleExpandabl
         long idx = groupListable.getIdx();
         DataModel model = new DataModel(idx, GroupType.GROUP);
         ExpandableAdapter adapter = getExpandableAdapter();
-        if(adapter.appendGroupModelable(model, new Listable())){
+        if(adapter.appendGroupModelable(model, new Listable<>())){
             adapter.notifyDataSetChanged();
             groupListable.setIdx(++idx);
         }

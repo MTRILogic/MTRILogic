@@ -11,16 +11,15 @@ public class Statable extends ViewModel {
     private MutableLiveData<Listable<Paginable>> listableLiveData;
     private Listable<Paginable> listable;
 
-    public void init(){
-        listableLiveData = new MutableLiveData<>();
-        listable = new Listable<>();
-    }
-
     public Listable<Paginable> getListable() {
         return listable;
     }
 
     public LiveData<Listable<Paginable>> getListableLiveData() {
+        if (listableLiveData == null){
+            listableLiveData = new MutableLiveData<>();
+            listable = new Listable<>();
+        }
         return listableLiveData;
     }
 

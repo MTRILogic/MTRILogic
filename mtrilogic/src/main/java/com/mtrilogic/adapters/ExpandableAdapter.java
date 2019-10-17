@@ -26,7 +26,7 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
     private int groupTypeCount, childTypeCount;
     private boolean stableIds;
 
-// ++++++++++++++++| PUBLIC CONSTRUCTORS |+++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     public ExpandableAdapter(ExpandableListener listener, Listable<Modelable> groupListable, Mapable<Modelable> childMapable, int groupTypeCount, int childTypeCount){
         this.listener = listener;
@@ -38,7 +38,7 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
         stableIds = false;
     }
 
-// ++++++++++++++++| PUBLIC METHODS |++++++++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++| PUBLIC METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     public final void setGroupTypeCount(int groupTypeCount){
         groupTypeCount = groupTypeCount > 0 ? groupTypeCount : 1;
@@ -335,7 +335,7 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
         }
     }
 
-    // ++++++++++++++++| PUBLIC OVERRIDE METHODS |+++++++++++++++++++++++++++++++++
+    // ++++++++++++++++| PUBLIC OVERRIDE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++
 
     @Override
     public int getGroupCount(){
@@ -436,7 +436,7 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
         return 0x7000000000000000L | ((groupId & 0x7FFFFFFF) << 32) | childId;
     }
 
-    // ++++++++++++++++| PRIVATE METHODS |+++++++++++++++++++++++++++++++++++++++++
+    // ++++++++++++++++| PRIVATE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     private Listable<Modelable> getChildListable(int groupPosition){
         return childMapable.getListable(getGroup(groupPosition));

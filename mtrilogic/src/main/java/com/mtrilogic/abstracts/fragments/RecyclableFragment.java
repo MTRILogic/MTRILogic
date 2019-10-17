@@ -8,19 +8,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.mtrilogic.abstracts.Fragmentable;
 import com.mtrilogic.abstracts.Modelable;
 import com.mtrilogic.adapters.RecyclableAdapter;
-import com.mtrilogic.interfaces.FragmentableAdapterListener;
 import com.mtrilogic.interfaces.RecyclableAdapterListener;
 import com.mtrilogic.interfaces.RecyclableListener;
 import com.mtrilogic.mtrilogic.R;
-import com.mtrilogic.abstracts.pages.InflatablePage;
+import com.mtrilogic.abstracts.pages.ListablePage;
 
 import java.util.ArrayList;
 
 @SuppressWarnings("unused")
-public abstract class RecyclableFragment<P extends InflatablePage> extends Fragmentable<P>
-        implements RecyclableListener, RecyclableAdapterListener {
+public abstract class RecyclableFragment<P extends ListablePage> extends Fragmentable<P> implements RecyclableListener, RecyclableAdapterListener {
     private static final String TAG = "RecyclableFragmentTAG";
     private RecyclableAdapter adapter;
+
+// ****************| PROTECTED METHODS |************************************************************
 
     protected void init(View view, P page){
         ArrayList<Modelable> modelables = page.getModelableList();
@@ -30,16 +30,10 @@ public abstract class RecyclableFragment<P extends InflatablePage> extends Fragm
         lvwItems.setAdapter(adapter);
     }
 
+// ++++++++++++++++| PUBLIC OVERRIDE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
     @Override
     public RecyclableAdapter getRecyclableAdapter(){
         return adapter;
-    }
-
-    @Override
-    public void onMakeToast(String line){
-        FragmentableAdapterListener listener = getListener();
-        if (listener != null) {
-            listener.onMakeToast(line);
-        }
     }
 }

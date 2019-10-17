@@ -39,7 +39,7 @@ public abstract class Paginable extends Modelable {
         this.tagName = tagName;
     }
 
-// ++++++++++++++++| PROTECTED METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++| PROTECTED OVERRIDE METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++
 
     @Override
     protected void onRestoreFromData(Bundle data) {

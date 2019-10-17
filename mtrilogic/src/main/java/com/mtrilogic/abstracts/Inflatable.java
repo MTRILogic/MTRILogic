@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import com.mtrilogic.interfaces.InflatableAdapterListener;
 
+@SuppressWarnings("unused")
 public abstract class Inflatable {
     protected final InflatableAdapterListener listener;
     protected final View itemView;

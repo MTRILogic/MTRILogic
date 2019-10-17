@@ -3,10 +3,10 @@ package com.mtrilogic.mtrilogicsample.pages;
 import android.os.Bundle;
 
 import com.mtrilogic.abstracts.PaginableCreator;
-import com.mtrilogic.abstracts.pages.ExpandablePage;
+import com.mtrilogic.abstracts.pages.MapablePage;
 
 @SuppressWarnings("unused")
-public class SampleExpandablePage extends ExpandablePage {
+public class SampleExpandablePage extends MapablePage {
     public static final Creator<SampleExpandablePage> CREATOR = new PaginableCreator<SampleExpandablePage>() {
         @Override
         public SampleExpandablePage getParcelable(Bundle data) {

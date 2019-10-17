@@ -17,7 +17,7 @@ public class RecyclableAdapter extends RecyclerView.Adapter<Recyclable>{
     private RecyclableListener listener;
     private ArrayList<Modelable> modelableList;
 
-// ++++++++++++++++| PUBLIC CONSTRUCTORS |+++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     public RecyclableAdapter(RecyclableListener listener){
         this(listener, new ArrayList<Modelable>());
@@ -29,7 +29,7 @@ public class RecyclableAdapter extends RecyclerView.Adapter<Recyclable>{
         setHasStableIds(true);
     }
 
-// ++++++++++++++++| PUBLIC METHODS |++++++++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++| PUBLIC METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     public int getModelablePosition(Modelable modelable){
         return modelableList.indexOf(modelable);
@@ -89,7 +89,7 @@ public class RecyclableAdapter extends RecyclerView.Adapter<Recyclable>{
         modelableList.clear();
     }
 
-// ++++++++++++++++| PUBLIC OVERRIDE METHODS |+++++++++++++++++++++++++++++++++
+// ++++++++++++++++| PUBLIC OVERRIDE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     @NonNull
     @Override
@@ -118,7 +118,7 @@ public class RecyclableAdapter extends RecyclerView.Adapter<Recyclable>{
         return getItem(position).getItemId();
     }
 
-// ++++++++++++++++| PRIVATE METHODS |+++++++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++| PRIVATE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     private boolean isValidPosition(int position){
         return position > Base.INVALID_POSITION && position < getItemCount();

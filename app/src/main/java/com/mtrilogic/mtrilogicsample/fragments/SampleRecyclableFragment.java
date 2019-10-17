@@ -25,18 +25,20 @@ import com.mtrilogic.mtrilogicsample.types.ChildType;
 @SuppressWarnings("unused")
 public class SampleRecyclableFragment extends RecyclableFragment<SampleRecyclablePage> implements
         View.OnClickListener {
+    private TextView lblContent;
 
 // PROTECTED OVERRIDE METHODS |*********************************************************************
 
     @Override
     protected View onCreateViewFragment(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                                        @Nullable Bundle savedInstanceState, SampleRecyclablePage page) {
+                                        @Nullable Bundle savedInstanceState,
+                                        SampleRecyclablePage page, int position) {
         View view = inflater.inflate(R.layout.fragment_recyclable,container,false);
         init(view, page);
         TextView lblTitle = view.findViewById(R.id.lbl_title);
         lblTitle.setText(getString(R.string.title_item, page.getItemId()));
-        TextView lblContent = view.findViewById(R.id.lbl_content);
-        lblContent.setText(getString(R.string.content_item, getPosition()));
+        lblContent = view.findViewById(R.id.lbl_content);
+        onNewPosition(position);
         ImageButton btnAddData = view.findViewById(R.id.btn_addData);
         btnAddData.setOnClickListener(this);
         ImageButton btnAddImage = view.findViewById(R.id.btn_addImage);
@@ -46,7 +48,12 @@ public class SampleRecyclableFragment extends RecyclableFragment<SampleRecyclabl
         return view;
     }
 
-// ++++++++++++++++| PUBLIC OVERRIDE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    @Override
+    protected void onNewPosition(int position) {
+        lblContent.setText(getString(R.string.content_item, position));
+    }
+
+    // ++++++++++++++++| PUBLIC OVERRIDE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
     @Override

@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 public class Mapable<M extends Modelable>{
     private Map<M, Listable<M>> listableMap;
 
-// ++++++++++++++++| PUBLIC CONSTRUCTORS |+++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     public Mapable(){
         listableMap = new LinkedHashMap<>();
@@ -21,7 +21,7 @@ public class Mapable<M extends Modelable>{
         this.listableMap = listableMap;
     }
 
-// ++++++++++++++++| PUBLIC METHODS |++++++++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++| PUBLIC METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     // PUT ====================================================================
 
