@@ -19,7 +19,8 @@ import com.mtrilogic.mtrilogic.R;
 import com.mtrilogic.abstracts.pages.MapablePage;
 
 @SuppressWarnings("unused")
-public abstract class ExpandableFragment<P extends MapablePage> extends Fragmentable<P> implements ExpandableListener, ExpandableAdapterListener {
+public abstract class ExpandableFragment<P extends MapablePage> extends Fragmentable<P> implements
+        ExpandableListener, ExpandableAdapterListener {
     private static final String TAG = "ExpandableFragment", INDEX = "index", TOP = "top";
     private ExpandableAdapter adapter;
     private ExpandableListView lvwItems;

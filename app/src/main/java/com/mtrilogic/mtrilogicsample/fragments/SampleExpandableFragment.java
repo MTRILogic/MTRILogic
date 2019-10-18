@@ -14,7 +14,6 @@ import android.widget.TextView;
 import com.mtrilogic.abstracts.ExpandableChild;
 import com.mtrilogic.abstracts.ExpandableGroup;
 import com.mtrilogic.adapters.ExpandableAdapter;
-import com.mtrilogic.adapters.FragmentableAdapter;
 import com.mtrilogic.classes.Listable;
 import com.mtrilogic.abstracts.fragments.ExpandableFragment;
 import com.mtrilogic.mtrilogicsample.items.expandables.childs.ChildDataItem;
@@ -53,7 +52,7 @@ public class SampleExpandableFragment extends ExpandableFragment<SampleExpandabl
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                delete();
+                deletePaginable(getPage());
             }
         });
         return view;
@@ -96,13 +95,6 @@ public class SampleExpandableFragment extends ExpandableFragment<SampleExpandabl
         if(adapter.appendGroupModelable(model, new Listable<>())){
             adapter.notifyDataSetChanged();
             groupListable.setIdx(++idx);
-        }
-    }
-
-    private void delete(){
-        FragmentableAdapter adapter = getListener().getFragmentableAdapter();
-        if(adapter.removePaginable(getPage())){
-            adapter.notifyDataSetChanged();
         }
     }
 }

@@ -19,7 +19,8 @@ import com.mtrilogic.abstracts.pages.ListablePage;
 import java.util.ArrayList;
 
 @SuppressWarnings("unused")
-public abstract class InflatableFragment<P extends ListablePage> extends Fragmentable<P> implements InflatableListener, InflatableAdapterListener {
+public abstract class InflatableFragment<P extends ListablePage> extends Fragmentable<P> implements
+        InflatableListener, InflatableAdapterListener {
     private static final String TAG = "InflatableFragmentTAG", INDEX = "index", TOP = "top";
     private InflatableAdapter adapter;
     private ListView lvwItems;

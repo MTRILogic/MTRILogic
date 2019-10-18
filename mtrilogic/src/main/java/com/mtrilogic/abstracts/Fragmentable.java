@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.mtrilogic.adapters.FragmentableAdapter;
 import com.mtrilogic.interfaces.FragmentableAdapterListener;
 import com.mtrilogic.interfaces.OnMakeToastListener;
 
@@ -79,6 +80,15 @@ public abstract class Fragmentable<P extends Paginable> extends Fragment impleme
     }
 
 // ++++++++++++++++| PUBLIC METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+    public void deletePaginable(Paginable paginable){
+        if (listener != null){
+            FragmentableAdapter adapter = listener.getFragmentableAdapter();
+            if (adapter.removePaginable(paginable)){
+                adapter.notifyDataSetChanged();
+            }
+        }
+    }
 
     public FragmentableAdapterListener getListener(){
         return listener;

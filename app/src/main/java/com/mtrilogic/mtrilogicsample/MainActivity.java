@@ -59,7 +59,6 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         Observer<Listable<Paginable>> paginableObserver = new Observer<Listable<Paginable>>() {
             @Override
             public void onChanged(Listable<Paginable> listable) {
-
                 makeToast("Count: " + listable.getModelableCount());
             }
         };

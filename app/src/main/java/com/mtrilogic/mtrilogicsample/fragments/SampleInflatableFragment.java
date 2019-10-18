@@ -12,7 +12,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.mtrilogic.abstracts.Inflatable;
-import com.mtrilogic.adapters.FragmentableAdapter;
 import com.mtrilogic.adapters.InflatableAdapter;
 import com.mtrilogic.abstracts.fragments.InflatableFragment;
 import com.mtrilogic.mtrilogicsample.R;
@@ -73,10 +72,7 @@ public class SampleInflatableFragment extends InflatableFragment<SampleInflatabl
         SampleInflatablePage page = getPage();
         int id = view.getId();
         if(id == R.id.btn_delete){
-            FragmentableAdapter adapter = getListener().getFragmentableAdapter();
-            if(adapter.removePaginable(page)){
-                adapter.notifyDataSetChanged();
-            }
+            deletePaginable(page);
         }else {
             long idx = page.getIdx();
             DataModel model = null;

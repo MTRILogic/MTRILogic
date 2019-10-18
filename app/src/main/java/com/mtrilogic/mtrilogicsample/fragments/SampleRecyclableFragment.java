@@ -11,7 +11,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.mtrilogic.abstracts.Recyclable;
-import com.mtrilogic.adapters.FragmentableAdapter;
 import com.mtrilogic.adapters.RecyclableAdapter;
 import com.mtrilogic.abstracts.fragments.RecyclableFragment;
 import com.mtrilogic.mtrilogicsample.R;
@@ -61,10 +60,7 @@ public class SampleRecyclableFragment extends RecyclableFragment<SampleRecyclabl
         SampleRecyclablePage page = getPage();
         int id = view.getId();
         if(id == R.id.btn_delete){
-            FragmentableAdapter adapter = getListener().getFragmentableAdapter();
-            if(adapter.removePaginable(page)){
-                adapter.notifyDataSetChanged();
-            }
+            deletePaginable(page);
         }else {
             long idx = page.getIdx();
             DataModel model = null;
