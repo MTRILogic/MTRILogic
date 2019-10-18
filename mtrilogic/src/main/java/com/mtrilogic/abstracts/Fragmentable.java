@@ -16,10 +16,11 @@ import com.mtrilogic.interfaces.OnMakeToastListener;
 
 @SuppressWarnings("unused")
 public abstract class Fragmentable<P extends Paginable> extends Fragment implements OnMakeToastListener {
-    private static final String PAGINABLE = "paginable";
+    private static final String PAGINABLE = "paginable", STATE = "state";
     private FragmentableAdapterListener listener;
     private P page;
     private int position;
+    protected Bundle state;
 
     protected abstract View onCreateViewFragment(@NonNull LayoutInflater inflater,
                                                  @Nullable ViewGroup container,
@@ -32,6 +33,7 @@ public abstract class Fragmentable<P extends Paginable> extends Fragment impleme
     public static Fragmentable getInstance(Paginable paginable, Fragmentable fragmentable){
         Bundle args = new Bundle();
         args.putParcelable(PAGINABLE, paginable);
+        args.putBundle(STATE, new Bundle());
         fragmentable.setArguments(args);
         return fragmentable;
     }
@@ -52,6 +54,7 @@ public abstract class Fragmentable<P extends Paginable> extends Fragment impleme
         Bundle args = getArguments();
         if (args != null){
             page = args.getParcelable(PAGINABLE);
+            state = args.getBundle(STATE);
         }
     }
 

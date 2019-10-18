@@ -40,27 +40,27 @@ public abstract class ExpandableFragment<P extends MapablePage> extends Fragment
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (savedInstanceState != null && lvwItems != null){
-            int index = savedInstanceState.getInt(INDEX, Base.INVALID_POSITION);
+        if (state != null && lvwItems != null){
+            int index = state.getInt(INDEX, Base.INVALID_POSITION);
             if (index == 0) {
-                int top = savedInstanceState.getInt(TOP);
+                int top = state.getInt(TOP);
                 lvwItems.setSelectionFromTop(index, top);
             }
         }
     }
 
     @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        if (lvwItems != null){
+    public void onPause() {
+        if (state != null && lvwItems != null){
             int index = lvwItems.getFirstVisiblePosition();
             if (index == 0){
                 View view = lvwItems.getChildAt(0);
                 int top = view != null ? view.getTop() - lvwItems.getPaddingTop() : 0;
-                outState.putInt(INDEX, index);
-                outState.putInt(TOP, top);
+                state.putInt(INDEX, index);
+                state.putInt(TOP, top);
             }
         }
-        super.onSaveInstanceState(outState);
+        super.onPause();
     }
 
     @Override
