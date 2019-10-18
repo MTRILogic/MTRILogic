@@ -76,7 +76,7 @@ public class GroupDataItem extends ExpandableGroup implements View.OnClickListen
             }
         }else {
             Modelable groupModelable = adapter.getGroup(groupPosition);
-            Listable childListable = adapter.getChildListable(groupModelable);
+            Listable<Modelable> childListable = adapter.getChildListable(groupModelable);
             boolean checked = chkItem.isChecked();
             if(id == R.id.chk_item){
                 model.setChecked(checked);

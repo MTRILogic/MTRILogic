@@ -20,7 +20,7 @@ import androidx.annotation.NonNull;
 public class ExpandableAdapter extends BaseExpandableListAdapter{
     private static final String TAG = "ExpandableAdapter", LIST = "list", IDX = "idx";
     private ExpandableListener listener;
-    private ArrayList<Listable> lastListableList;
+    private ArrayList<Listable<Modelable>> lastListableList;
     private Listable<Modelable> groupListable, lastListable;
     private Mapable<Modelable> childMapable;
     private int groupTypeCount, childTypeCount;
@@ -54,7 +54,7 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
         this.stableIds = stableIds;
     }
 
-    public ArrayList<Listable> getLastListableList() {
+    public ArrayList<Listable<Modelable>> getLastListableList() {
         return lastListableList;
     }
 
@@ -186,11 +186,11 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
      * Returns the current group modelable list
      * @return The current group modelable list
      */
-    public Listable getGroupListable(){
+    public Listable<Modelable> getGroupListable(){
         return groupListable;
     }
 
-    public Listable getChildListable(Modelable groupModelable){
+    public Listable<Modelable> getChildListable(Modelable groupModelable){
         return childMapable.containsModelableKey(groupModelable) ? childMapable.getListable(groupModelable) : null;
     }
 
@@ -198,7 +198,7 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
      * Returns the current child modelable map
      * @return The current child modelable map
      */
-    public Mapable getChildMapable(){
+    public Mapable<Modelable> getChildMapable(){
         return childMapable;
     }
 

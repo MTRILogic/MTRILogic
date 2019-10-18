@@ -19,8 +19,7 @@ import com.mtrilogic.mtrilogicsample.models.ImageModel;
 import com.mtrilogic.views.SquareImageView;
 
 @SuppressWarnings({"unused"})
-public class InflatableImageItem extends Inflatable implements View.OnClickListener,
-        RatingBar.OnRatingBarChangeListener{
+public class InflatableImageItem extends Inflatable implements View.OnClickListener, RatingBar.OnRatingBarChangeListener{
     private TextView lblTitle, lblContent;
     private CheckBox chkItem;
     private SquareImageView ivwImage;
@@ -34,8 +33,7 @@ public class InflatableImageItem extends Inflatable implements View.OnClickListe
         this(context, resource, parent, (InflatableAdapterListener)context);
     }
 
-    public InflatableImageItem(Context context, int resource, ViewGroup parent,
-                               InflatableAdapterListener listener){
+    public InflatableImageItem(Context context, int resource, ViewGroup parent, InflatableAdapterListener listener){
         super(context, resource, parent, listener);
         chkItem = itemView.findViewById(R.id.chk_item);
         chkItem.setOnClickListener(this);

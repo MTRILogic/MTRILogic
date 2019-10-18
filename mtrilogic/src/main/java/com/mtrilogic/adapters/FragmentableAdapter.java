@@ -20,7 +20,8 @@ public class FragmentableAdapter extends FragmentPagerAdapter{
 
 // ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    public FragmentableAdapter(FragmentManager manager, FragmentableListener listener, ArrayList<Paginable> paginableList){
+    public FragmentableAdapter(FragmentManager manager, FragmentableListener listener,
+                               ArrayList<Paginable> paginableList){
         super(manager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         this.listener = listener;
         this.paginableList = paginableList;

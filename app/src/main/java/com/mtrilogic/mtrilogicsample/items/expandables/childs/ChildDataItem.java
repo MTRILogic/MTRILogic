@@ -29,7 +29,8 @@ public class ChildDataItem extends ExpandableChild implements View.OnClickListen
         this(context, resource, parent,(ExpandableAdapterListener)context);
     }
 
-    public ChildDataItem(Context context, int resource, ViewGroup parent, ExpandableAdapterListener listener){
+    public ChildDataItem(Context context, int resource, ViewGroup parent,
+                         ExpandableAdapterListener listener){
         super(context, resource, parent, listener);
         chkItem = itemView.findViewById(R.id.chk_item);
         chkItem.setOnClickListener(this);
@@ -42,7 +43,8 @@ public class ChildDataItem extends ExpandableChild implements View.OnClickListen
 // ++++++++++++++++| PUBLIC OVERRIDE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     @Override
-    public void onBindHolder(Modelable modelable, int groupPosition, int childPosition, boolean lastChild){
+    public void onBindHolder(Modelable modelable, int groupPosition, int childPosition,
+                             boolean lastChild){
         model = (DataModel)modelable;
         this.groupPosition = groupPosition;
         this.childPosition = childPosition;
@@ -62,7 +64,8 @@ public class ChildDataItem extends ExpandableChild implements View.OnClickListen
                 boolean checked = chkItem.isChecked();
                 model.setChecked(checked);
                 adapter.notifyDataSetChanged();
-                listener.onMakeToast("Item[" + groupPosition + "," + childPosition + "] set to " + checked);
+                listener.onMakeToast("Item[" + groupPosition + "," + childPosition +
+                        "] set to " + checked);
                 break;
             case R.id.btn_delete:
                 if(adapter.deleteChildModelable(adapter.getGroup(groupPosition), model)){

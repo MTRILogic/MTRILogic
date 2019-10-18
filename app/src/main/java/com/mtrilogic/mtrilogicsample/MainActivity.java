@@ -91,7 +91,8 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             paginableState.update();
         }
 
-        adapter = new FragmentableAdapter(getSupportFragmentManager(),this, paginableState.getListable().getModelableList());
+        adapter = new FragmentableAdapter(getSupportFragmentManager(),this,
+                paginableState.getListable().getModelableList());
         pager = findViewById(R.id.pager);
         pager.setAdapter(adapter);
         pager.addOnPageChangeListener(this);
@@ -112,7 +113,8 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             @Override
             public void onClick(View v) {
                 int index = 0;
-                Paginable paginable = new SampleInflatablePage(TITLES[index], TITLES[index].toLowerCase(), idx, index);
+                Paginable paginable = new SampleInflatablePage(TITLES[index],
+                        TITLES[index].toLowerCase(), idx, index);
                 addPage(paginable);
             }
         });
@@ -122,7 +124,8 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             @Override
             public void onClick(View v) {
                 int index = 1;
-                Paginable paginable = new SampleRecyclablePage(TITLES[index], TITLES[index].toLowerCase(), idx, index);
+                Paginable paginable = new SampleRecyclablePage(TITLES[index],
+                        TITLES[index].toLowerCase(), idx, index);
                 addPage(paginable);
             }
         });
@@ -132,7 +135,8 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             @Override
             public void onClick(View v) {
                 int index = 2;
-                Paginable paginable = new SampleExpandablePage(TITLES[index], TITLES[index].toLowerCase(), idx, index);
+                Paginable paginable = new SampleExpandablePage(TITLES[index],
+                        TITLES[index].toLowerCase(), idx, index);
                 addPage(paginable);
             }
         });
