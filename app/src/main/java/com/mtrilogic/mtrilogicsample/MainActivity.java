@@ -21,24 +21,34 @@ import com.mtrilogic.abstracts.Paginable;
 import com.mtrilogic.adapters.FragmentableAdapter;
 import com.mtrilogic.classes.Base;
 import com.mtrilogic.classes.Listable;
-import com.mtrilogic.classes.Statable;
+import com.mtrilogic.classes.StateViewModel;
 import com.mtrilogic.interfaces.FragmentableAdapterListener;
 import com.mtrilogic.interfaces.FragmentableListener;
 import com.mtrilogic.interfaces.OnMakeToastListener;
-import com.mtrilogic.mtrilogicsample.fragments.SampleExpandableFragment;
-import com.mtrilogic.mtrilogicsample.fragments.SampleInflatableFragment;
-import com.mtrilogic.mtrilogicsample.fragments.SampleRecyclableFragment;
-import com.mtrilogic.mtrilogicsample.pages.SampleExpandablePage;
-import com.mtrilogic.mtrilogicsample.pages.SampleInflatablePage;
-import com.mtrilogic.mtrilogicsample.pages.SampleRecyclablePage;
+import com.mtrilogic.mtrilogicsample.fragments.ExpandableFragment;
+import com.mtrilogic.mtrilogicsample.fragments.InflatableFragment;
+import com.mtrilogic.mtrilogicsample.fragments.RecyclableFragment;
+import com.mtrilogic.mtrilogicsample.pages.ExpandablePage;
+import com.mtrilogic.mtrilogicsample.pages.InflatablePage;
+import com.mtrilogic.mtrilogicsample.pages.RecyclablePage;
+import com.mtrilogic.mtrilogicsample.types.PageType;
 
 @SuppressWarnings("unused")
 public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener,
         FragmentableListener, FragmentableAdapterListener, OnMakeToastListener{
-    private static final String[] TITLES = {"INFLATABLES", "RECYCLABLES", "EXPANDABLES"};
+    private static final int[] TITLES = {
+            R.string.inflatable,
+            R.string.recyclable,
+            R.string.expandable
+    };
+    private static final int[] TYPES = {
+            PageType.INFLATABLE,
+            PageType.RECYCLABLE,
+            PageType.EXPANDABLE
+    };
     private static final String TAG = "MainActivityTAGY", LIST = "list", IDX = "idx";
     private ActionBar actionBar;
-    private Statable paginableState;
+    private StateViewModel paginableState;
     private FragmentableAdapter adapter;
     private FloatingActionsMenu fam;
     private ViewPager pager;
@@ -62,32 +72,20 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
                 makeToast("Count: " + listable.getModelableCount());
             }
         };
-        paginableState = ViewModelProviders.of(this).get(Statable.class);
+        paginableState = ViewModelProviders.of(this).get(StateViewModel.class);
         paginableState.getListableLiveData().observe(this, paginableObserver);
 
         if(savedInstanceState != null) {
             idx = paginableState.getListable().getIdx();
         }else {
             for(int i = 0; i < 3; i++){
-                String title = TITLES[i];
-                Paginable paginable = null;
-                switch(i){
-                    case 0:
-                        paginable = new SampleInflatablePage(title, title.toLowerCase(), idx, i);
-                        break;
-                    case 1:
-                        paginable = new SampleRecyclablePage(title, title.toLowerCase(), idx, i);
-                        break;
-                    case 2:
-                        paginable = new SampleExpandablePage(title, title.toLowerCase(), idx, i);
-                        break;
-                }
-                if(paginableState.getListable().getModelableList().add(paginable)){
+                Paginable paginable = getNewPaginable(i);
+                if(paginable != null && paginableState.getListable().getModelableList().add(paginable)){
                     idx++;
                 }
             }
             paginableState.getListable().setIdx(idx);
-            paginableState.update();
+            paginableState.setUpdate();
         }
 
         adapter = new FragmentableAdapter(getSupportFragmentManager(),this,
@@ -111,10 +109,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         fabInflatable.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int index = 0;
-                Paginable paginable = new SampleInflatablePage(TITLES[index],
-                        TITLES[index].toLowerCase(), idx, index);
-                addPage(paginable);
+                addNewPaginable(getNewPaginable(0));
             }
         });
 
@@ -122,10 +117,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         fabRecyclable.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int index = 1;
-                Paginable paginable = new SampleRecyclablePage(TITLES[index],
-                        TITLES[index].toLowerCase(), idx, index);
-                addPage(paginable);
+                addNewPaginable(getNewPaginable(1));
             }
         });
 
@@ -133,10 +125,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         fabExpandable.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int index = 2;
-                Paginable paginable = new SampleExpandablePage(TITLES[index],
-                        TITLES[index].toLowerCase(), idx, index);
-                addPage(paginable);
+                addNewPaginable(getNewPaginable(2));
             }
         });
     }
@@ -160,12 +149,12 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     @Override
     public Fragmentable getFragmentable(Paginable paginable, int position){
         switch(paginable.getViewType()){
-            case 0:
-                return Fragmentable.getInstance(paginable, new SampleInflatableFragment());
-            case 1:
-                return Fragmentable.getInstance(paginable, new SampleRecyclableFragment());
-            case 2:
-                return Fragmentable.getInstance(paginable, new SampleExpandableFragment());
+            case PageType.INFLATABLE:
+                return Fragmentable.getInstance(paginable, new InflatableFragment());
+            case PageType.RECYCLABLE:
+                return Fragmentable.getInstance(paginable, new RecyclableFragment());
+            case PageType.EXPANDABLE:
+                return Fragmentable.getInstance(paginable, new ExpandableFragment());
         }
         return null;
     }
@@ -173,7 +162,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     @Override
     public void onPositionChanged(int position){
         if (position == Base.INVALID_POSITION){
-            paginableState.update();
+            paginableState.setUpdate();
             if (adapter.getCount() == 0) {
                 actionBar.setTitle(R.string.app_name);
             }
@@ -188,6 +177,11 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     }
 
     @Override
+    public ViewPager getViewPager() {
+        return pager;
+    }
+
+    @Override
     public void onMakeToast(String line){
         makeToast(line);
     }
@@ -196,20 +190,37 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         actionBar.setTitle(adapter.getPageTitle(position));
     }
 
-    private void addPage(Paginable paginable){
-        Listable<Paginable> listable = paginableState.getListable();
-        if(listable.getModelableList().add(paginable)){
-            listable.setIdx(++idx);
-            adapter.notifyDataSetChanged();
-            paginableState.update();
-            int index = adapter.getCount() - 1;
-            if (index == 0){
-                pageSelected(0);
-            }else {
-                pager.setCurrentItem(index);
+    private void addNewPaginable(Paginable paginable){
+        if (paginable != null){
+            Listable<Paginable> listable = paginableState.getListable();
+            if (listable.appendModelable(paginable)){
+                listable.setIdx(++idx);
+                adapter.notifyDataSetChanged();
+                paginableState.setUpdate();
+                int index = adapter.getCount() - 1;
+                if (index == 0){
+                    pageSelected(0);
+                }else {
+                    pager.setCurrentItem(index);
+                }
             }
         }
         fam.collapse();
+    }
+
+    private Paginable getNewPaginable(int index){
+        String pageTitle  = getString(TITLES[index]);
+        String tagName = pageTitle.toLowerCase();
+        int viewType = TYPES[index];
+        switch (viewType){
+            case PageType.INFLATABLE:
+                return new InflatablePage(pageTitle, tagName, idx);
+            case PageType.RECYCLABLE:
+                return new RecyclablePage(pageTitle, tagName, idx);
+            case PageType.EXPANDABLE:
+                return new ExpandablePage(pageTitle, tagName, idx);
+        }
+        return null;
     }
 
     private void makeToast(String line){

@@ -2,7 +2,7 @@ package com.mtrilogic.abstracts;
 
 import android.os.Bundle;
 
-@SuppressWarnings({"unused"})
+@SuppressWarnings({"unused","WeakerAccess"})
 public abstract class Paginable extends Modelable {
     private static final String PAGE_TITLE = "pageTitle", TAG_NAME = "tagName";
     private String pageTitle, tagName;

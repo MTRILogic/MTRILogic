@@ -24,8 +24,7 @@ public class Listable<M extends Modelable>{
 
 // ++++++++++++++++| PUBLIC METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    // IDX ====================================================================
-
+    // IDX
     public long getIdx(){
         return idx;
     }
@@ -34,14 +33,12 @@ public class Listable<M extends Modelable>{
         this.idx = idx;
     }
 
-    // APPEND =================================================================
-
+    // APPEND
     public boolean appendModelable(@NonNull M modelable){
         return modelableList.add(modelable);
     }
 
-    // INSERT =================================================================
-
+    // INSERT
     public boolean insertModelable(int position, @NonNull M modelable){
         if(isValidPosition(position)){
             modelableList.add(position, modelable);
@@ -50,8 +47,7 @@ public class Listable<M extends Modelable>{
         return false;
     }
 
-    // GET ====================================================================
-
+    // GET
     public ArrayList<M> getModelableList(){
         return modelableList;
     }
@@ -60,8 +56,7 @@ public class Listable<M extends Modelable>{
         return isValidPosition(position) ? modelableList.get(position) : null;
     }
 
-    // SET ====================================================================
-
+    // SET
     public void setModelableList(@NonNull ArrayList<M> modelableList){
         this.modelableList = modelableList;
     }
@@ -70,27 +65,23 @@ public class Listable<M extends Modelable>{
         return isValidPosition(position) ? modelableList.set(position, modelable) : null;
     }
 
-    // CONTAINS ===============================================================
-
+    // CONTAINS
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean containsModelable(@NonNull M modelable){
         return modelableList.contains(modelable);
     }
 
-    // DELETE =================================================================
-
+    // DELETE
     public boolean deleteModelable(@NonNull M modelable){
         return modelableList.remove(modelable);
     }
 
-    // COUNT ==================================================================
-
+    // COUNT
     public int getModelableCount(){
         return modelableList.size();
     }
 
-    // RESET ==================================================================
-
+    // RESET
     public void reset(){
         modelableList.clear();
         idx = 0;

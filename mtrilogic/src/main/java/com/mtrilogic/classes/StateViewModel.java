@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel;
 import com.mtrilogic.abstracts.Paginable;
 
 @SuppressWarnings("unused")
-public class Statable extends ViewModel {
+public class StateViewModel extends ViewModel {
     private MutableLiveData<Listable<Paginable>> listableLiveData;
     private Listable<Paginable> listable;
 
@@ -23,7 +23,7 @@ public class Statable extends ViewModel {
         return listableLiveData;
     }
 
-    public void update(){
+    public void setUpdate(){
         listableLiveData.setValue(listable);
     }
 

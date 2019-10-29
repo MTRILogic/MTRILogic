@@ -104,7 +104,7 @@ public class FragmentableAdapter extends FragmentPagerAdapter{
     @Override
     public int getItemPosition(@NonNull Object object){
         Fragmentable fragmentable = (Fragmentable)object;
-        Paginable paginable = fragmentable.getPage();
+        Paginable paginable = fragmentable.getPaginable();
         int position = fragmentable.getPosition();
         int paginablePosition = getPaginablePosition(paginable);
         if(position == paginablePosition){

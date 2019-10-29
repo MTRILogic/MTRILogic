@@ -9,24 +9,19 @@ import android.widget.TextView;
 
 import com.mtrilogic.abstracts.ExpandableGroup;
 import com.mtrilogic.abstracts.Modelable;
-import com.mtrilogic.adapters.ExpandableAdapter;
-import com.mtrilogic.classes.Listable;
 import com.mtrilogic.interfaces.ExpandableAdapterListener;
 import com.mtrilogic.mtrilogicsample.R;
+import com.mtrilogic.mtrilogicsample.extras.Utils;
 import com.mtrilogic.mtrilogicsample.models.DataModel;
-import com.mtrilogic.mtrilogicsample.models.ImageModel;
 import com.mtrilogic.mtrilogicsample.types.ChildType;
 
 import java.util.ArrayList;
 
 @SuppressWarnings({"unused","FieldCanBeLocal"})
-public class GroupDataItem extends ExpandableGroup implements View.OnClickListener{
-    private static final String TAG = "GroupDataItem";
+public class GroupDataItem extends ExpandableGroup<DataModel> {
+    private static final String TAG = "GroupDataItemTAG";
     private TextView lblTitle, lblContent;
     private CheckBox chkItem;
-    private DataModel model;
-    private int groupPosition;
-    private boolean expanded;
 
 // ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -38,92 +33,82 @@ public class GroupDataItem extends ExpandableGroup implements View.OnClickListen
                          ExpandableAdapterListener listener){
         super(context, resource, parent, listener);
         chkItem = itemView.findViewById(R.id.chk_item);
-        chkItem.setOnClickListener(this);
+        chkItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateChecked();
+            }
+        });
         chkItem.setFocusable(false);
         lblTitle = itemView.findViewById(R.id.lbl_title);
         lblContent = itemView.findViewById(R.id.lbl_content);
         ImageButton btnAddData = itemView.findViewById(R.id.btn_addData);
-        btnAddData.setOnClickListener(this);
+        btnAddData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addNewModelable(ChildType.DATA);
+            }
+        });
         btnAddData.setFocusable(false);
         ImageButton btnAddImage = itemView.findViewById(R.id.btn_addImage);
-        btnAddImage.setOnClickListener(this);
+        btnAddImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addNewModelable(ChildType.IMAGE);
+            }
+        });
         btnAddImage.setFocusable(false);
         ImageButton btnDelete = itemView.findViewById(R.id.btn_delete);
-        btnDelete.setOnClickListener(this);
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                autoDelete();
+            }
+        });
         btnDelete.setFocusable(false);
     }
 
 // ++++++++++++++++| PUBLIC OVERRIDE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     @Override
-    public void onBindHolder(Modelable modelable, int groupPosition, boolean expanded){
-        model = (DataModel)modelable;
-        this.groupPosition = groupPosition;
-        this.expanded = expanded;
+    public void onChanged(DataModel dataModel) {
+
+    }
+
+// ++++++++++++++++| PROTECTED OVERRIDE METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++
+
+    @Override
+    protected DataModel getModel(Modelable modelable) {
+        return (DataModel) modelable;
+    }
+
+    @Override
+    protected void onBindHolder(){
         chkItem.setChecked(model.isChecked());
-        Context context = getContext();
         lblTitle.setText(context.getString(R.string.title_item, model.getItemId()));
         lblContent.setText(context.getString(R.string.content_item, groupPosition));
     }
 
-    @Override
-    public void onClick(View view){
-        ExpandableAdapter adapter = listener.getExpandableAdapter();
-        int id = view.getId();
-        if(id == R.id.btn_delete){
-            if(adapter.deleteGroupModelable(model)){
-                adapter.notifyDataSetChanged();
-            }
-        }else {
-            Modelable groupModelable = adapter.getGroup(groupPosition);
-            Listable<Modelable> childListable = adapter.getChildListable(groupModelable);
+// ++++++++++++++++| PRIVATE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+    private void updateChecked(){
+        if (childListable != null) {
             boolean checked = chkItem.isChecked();
-            if(id == R.id.chk_item){
+            model.setChecked(checked);
+            ArrayList<Modelable> childModelableList = childListable.getModelableList();
+            for (Modelable childModelable : childModelableList) {
+                DataModel model = (DataModel) childModelable;
                 model.setChecked(checked);
-                ArrayList<Modelable> childModelableList = childListable.getModelableList();
-                for(Modelable childModelable : childModelableList){
-                    DataModel model  = (DataModel)childModelable;
-                    model.setChecked(checked);
-                }
-                adapter.notifyDataSetChanged();
-            }else {
-                long idx = childListable.getIdx();
-                DataModel model = null;
-                switch(id){
-                    case R.id.btn_addData:
-                        model = new DataModel(idx, ChildType.DATA);
-                        break;
-                    case R.id.btn_addImage:
-                        model = getImageModel(idx);
-                        break;
-                }
-                if(model != null && adapter.appendChildModelable(groupModelable, model)){
-                    model.setChecked(checked);
-                    adapter.notifyDataSetChanged();
-                    childListable.setIdx(++idx);
-                }
             }
+            adapter.notifyDataSetChanged();
         }
     }
 
-    private String[] getLinks(){
-        Context context = getContext();
-        if(context != null){
-            return context.getResources().getStringArray(R.array.links);
-        }else {
-            return new String[5];
+    private void addNewModelable(int viewType){
+        if (childListable != null){
+            long idx = childListable.getIdx();
+            Modelable modelable = Utils.getNewModelable(context, viewType, idx, chkItem.isChecked());
+            addNewChildModelable(modelable, idx);
         }
-    }
-
-    private ImageModel getImageModel(long idx){
-        String[] links = getLinks();
-        ImageModel model = new ImageModel(idx, ChildType.IMAGE);
-        model.setImageLink(links[getRandomInt()]);
-        model.setRating(getRandomInt());
-        return model;
-    }
-
-    private int getRandomInt(){
-        return (int)(Math.random() * 4) + 1;
     }
 }

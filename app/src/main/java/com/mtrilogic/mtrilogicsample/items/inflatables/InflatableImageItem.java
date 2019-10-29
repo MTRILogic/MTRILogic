@@ -12,20 +12,18 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.mtrilogic.abstracts.Inflatable;
 import com.mtrilogic.abstracts.Modelable;
-import com.mtrilogic.adapters.InflatableAdapter;
 import com.mtrilogic.interfaces.InflatableAdapterListener;
 import com.mtrilogic.mtrilogicsample.R;
 import com.mtrilogic.mtrilogicsample.models.ImageModel;
 import com.mtrilogic.views.SquareImageView;
 
 @SuppressWarnings({"unused"})
-public class InflatableImageItem extends Inflatable implements View.OnClickListener, RatingBar.OnRatingBarChangeListener{
+public class InflatableImageItem extends Inflatable<ImageModel> implements
+        RatingBar.OnRatingBarChangeListener{
     private TextView lblTitle, lblContent;
     private CheckBox chkItem;
     private SquareImageView ivwImage;
     private RatingBar ratingBar;
-    private ImageModel model;
-    private int position;
 
 // ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -36,29 +34,53 @@ public class InflatableImageItem extends Inflatable implements View.OnClickListe
     public InflatableImageItem(Context context, int resource, ViewGroup parent, InflatableAdapterListener listener){
         super(context, resource, parent, listener);
         chkItem = itemView.findViewById(R.id.chk_item);
-        chkItem.setOnClickListener(this);
+        chkItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateChecked();
+            }
+        });
         lblTitle = itemView.findViewById(R.id.lbl_title);
         lblContent = itemView.findViewById(R.id.lbl_content);
         ImageButton btnDelete = itemView.findViewById(R.id.btn_delete);
-        btnDelete.setOnClickListener(this);
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                autoDelete();
+            }
+        });
         ivwImage = itemView.findViewById(R.id.ivw_image);
-        ivwImage.setOnClickListener(this);
+        ivwImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickImage();
+            }
+        });
         ratingBar = itemView.findViewById(R.id.ratingBar);
         ratingBar.setOnRatingBarChangeListener(this);
     }
 
 // ++++++++++++++++| PUBLIC OVERRIDE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+    @Override
+    public void onChanged(ImageModel imageModel) {
+
+    }
+
+// ++++++++++++++++| PROTECTED OVERRIDE METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++
 
     @Override
-    public void onBindHolder(Modelable modelable, int position){
-        model = (ImageModel)modelable;
-        this.position = position;
+    protected ImageModel getModel(Modelable modelable) {
+        return (ImageModel) modelable;
+    }
+
+    @Override
+    protected void onBindHolder(){
         chkItem.setChecked(model.isChecked());
-        Context context = getContext();
         lblTitle.setText(context.getString(R.string.title_item, model.getItemId()));
         lblContent.setText(context.getString(R.string.content_item, position));
         ratingBar.setRating(model.getRating());
-        Glide.with(getContext())
+        Glide.with(context)
             .load(model.getImageLink())
             .apply(new RequestOptions()
                 .placeholder(R.drawable.loading)
@@ -67,30 +89,26 @@ public class InflatableImageItem extends Inflatable implements View.OnClickListe
     }
 
     @Override
-    public void onClick(View view){
-        InflatableAdapter adapter = listener.getInflatableAdapter();
-        int id = view.getId();
-        switch(id){
-            case R.id.chk_item:
-                boolean checked = chkItem.isChecked();
-                model.setChecked(checked);
-                adapter.notifyDataSetChanged();
-                listener.onMakeToast("Item[" + position + "] set to " + checked);
-                break;
-            case R.id.btn_delete:
-                if(adapter.removeModelable(model)){
-                    adapter.notifyDataSetChanged();
-                }
-                break;
+    public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser){
+        if(adapter != null && fromUser){
+            model.setRating(rating);
+            adapter.notifyDataSetChanged();
+            listener.onMakeToast("Rating Bar [" + position + "] set to " + rating );
         }
     }
 
-    @Override
-    public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser){
-        if(fromUser){
-            model.setRating(rating);
-            listener.getInflatableAdapter().notifyDataSetChanged();
-            listener.onMakeToast("Rating Bar[" + position + "] set to " + rating );
+// ++++++++++++++++| PRIVATE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+    private void updateChecked(){
+        if (adapter != null){
+            boolean checked = chkItem.isChecked();
+            model.setChecked(checked);
+            adapter.notifyDataSetChanged();
+            listener.onMakeToast("Item [" + position + "] set to " + checked);
         }
+    }
+
+    private void clickImage(){
+        listener.onMakeToast("Image [" + position + "]");
     }
 }

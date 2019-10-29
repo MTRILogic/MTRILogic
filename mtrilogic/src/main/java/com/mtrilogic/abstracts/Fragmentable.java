@@ -9,24 +9,27 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
 import com.mtrilogic.adapters.FragmentableAdapter;
 import com.mtrilogic.interfaces.FragmentableAdapterListener;
 import com.mtrilogic.interfaces.OnMakeToastListener;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused","WeakerAccess"})
 public abstract class Fragmentable<P extends Paginable> extends Fragment implements OnMakeToastListener {
     private static final String PAGINABLE = "paginable", STATE = "state";
-    private FragmentableAdapterListener listener;
-    private P page;
-    private int position;
-    protected Bundle state;
-
     protected abstract View onCreateViewFragment(@NonNull LayoutInflater inflater,
                                                  @Nullable ViewGroup container,
-                                                 @Nullable Bundle savedInstanceState,
-                                                 P page, int position);
-    protected abstract void onNewPosition(int position);
+                                                 @Nullable Bundle savedInstanceState);
+
+    protected abstract void onNewPosition();
+    protected FragmentableAdapterListener listener;
+    protected FragmentableAdapter adapter;
+    protected ViewPager viewPager;
+    protected Context context;
+    protected Bundle args;
+    protected int position;
+    protected P page;
 
 // ++++++++++++++++| PUBLIC STATIC METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -43,18 +46,20 @@ public abstract class Fragmentable<P extends Paginable> extends Fragment impleme
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
+        this.context = context;
         if (context instanceof FragmentableAdapterListener){
             listener = (FragmentableAdapterListener) context;
+            adapter = listener.getFragmentableAdapter();
+            viewPager = listener.getViewPager();
         }
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle args = getArguments();
+        args = getArguments();
         if (args != null){
             page = args.getParcelable(PAGINABLE);
-            state = args.getBundle(STATE);
         }
     }
 
@@ -64,7 +69,9 @@ public abstract class Fragmentable<P extends Paginable> extends Fragment impleme
                              @Nullable Bundle savedInstanceState) {
         if (page != null){
             position = listener.getFragmentableAdapter().getPaginablePosition(page);
-            return onCreateViewFragment(inflater, container, savedInstanceState, page, position);
+            View view = onCreateViewFragment(inflater, container, savedInstanceState);
+            onNewPosition();
+            return view;
         }
         return super.onCreateView(inflater, container, savedInstanceState);
     }
@@ -84,20 +91,7 @@ public abstract class Fragmentable<P extends Paginable> extends Fragment impleme
 
 // ++++++++++++++++| PUBLIC METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    public void deletePaginable(Paginable paginable){
-        if (listener != null){
-            FragmentableAdapter adapter = listener.getFragmentableAdapter();
-            if (adapter.removePaginable(paginable)){
-                adapter.notifyDataSetChanged();
-            }
-        }
-    }
-
-    public FragmentableAdapterListener getListener(){
-        return listener;
-    }
-
-    public P getPage(){
+    public Paginable getPaginable(){
         return page;
     }
 
@@ -107,6 +101,17 @@ public abstract class Fragmentable<P extends Paginable> extends Fragment impleme
 
     public void setPosition(int position) {
         this.position = position;
-        onNewPosition(position);
+        onNewPosition();
+        String s = super.getTag();
+    }
+
+// ++++++++++++++++| PROTECTED METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+    protected void autoDelete(){
+        if (adapter != null){
+            if (adapter.removePaginable(page)){
+                adapter.notifyDataSetChanged();
+            }
+        }
     }
 }

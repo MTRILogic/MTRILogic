@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import com.mtrilogic.abstracts.Modelable;
 import com.mtrilogic.abstracts.ModelableCreator;
+import com.mtrilogic.mtrilogicsample.types.ChildType;
 
 @SuppressWarnings({"unused","WeakerAccess"})
 public class DataModel extends Modelable{
@@ -30,8 +31,13 @@ public class DataModel extends Modelable{
         super(data);
     }
 
-    public DataModel(long itemId, int viewType){
+    public DataModel(long itemId, boolean checked){
+        this(itemId, ChildType.DATA, false);
+    }
+
+    public DataModel(long itemId, int viewType, boolean checked){
         super(itemId, viewType,true);
+        this.checked = checked;
     }
 
 // ++++++++++++++++| PUBLIC METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

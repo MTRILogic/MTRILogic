@@ -1,9 +1,6 @@
-package com.mtrilogic.abstracts.pages;
+package com.mtrilogic.abstracts;
 
 import android.os.Bundle;
-
-import com.mtrilogic.abstracts.Modelable;
-import com.mtrilogic.abstracts.Paginable;
 
 import java.util.ArrayList;
 

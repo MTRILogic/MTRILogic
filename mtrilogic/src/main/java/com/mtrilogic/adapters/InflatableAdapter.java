@@ -129,7 +129,7 @@ public class InflatableAdapter extends BaseAdapter{
             convertView = inflatable.getItemView();
             convertView.setTag(inflatable);
         }
-        inflatable.onBindHolder(modelable, position);
+        inflatable.bindHolder(modelable, position);
         return convertView;
     }
 

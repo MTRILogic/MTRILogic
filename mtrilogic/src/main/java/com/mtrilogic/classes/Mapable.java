@@ -23,14 +23,12 @@ public class Mapable<M extends Modelable>{
 
 // ++++++++++++++++| PUBLIC METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    // PUT ====================================================================
-
+    // PUT
     public Listable<M> putListable(M modelable, Listable<M> listable){
         return listableMap.put(modelable, listable);
     }
 
-    // GET ====================================================================
-
+    // GET
     public Map<M, Listable<M>> getListableMap(){
         return listableMap;
     }
@@ -39,32 +37,27 @@ public class Mapable<M extends Modelable>{
         return listableMap.get(modelable);
     }
 
-    // SET ====================================================================
-
+    // SET
     public void setListableMap(@NonNull LinkedHashMap<M, Listable<M>> listableMap){
         this.listableMap = listableMap;
     }
 
-    // CONTAINS ===============================================================
-
+    // CONTAINS
     public boolean containsModelableKey(M modelable){
         return listableMap.containsKey(modelable);
     }
 
-    // DELETE =================================================================
-
+    // DELETE
     public Listable<M> deleteListable(M modelable){
         return listableMap.remove(modelable);
     }
 
-    // COUNT ==================================================================
-
+    // COUNT
     public int getListableCount(){
         return listableMap.size();
     }
 
-    // RESET ==================================================================
-
+    // RESET
     public void reset(){
         listableMap.clear();
     }
