@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             PageType.RECYCLABLE,
             PageType.EXPANDABLE
     };
-    private static final String TAG = "MainActivityTAGY", LIST = "list", IDX = "idx";
+    private static final String TAG = "MainActivityTAG", LIST = "list", IDX = "idx";
     private ActionBar actionBar;
     private StateViewModel paginableState;
     private FragmentableAdapter adapter;
@@ -186,6 +187,11 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         makeToast(line);
     }
 
+    @Override
+    public void onMakeLog(String line) {
+        makeLog(line);
+    }
+
     private void pageSelected(int position){
         actionBar.setTitle(adapter.getPageTitle(position));
     }
@@ -225,5 +231,9 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
 
     private void makeToast(String line){
         Toast.makeText(this,line,Toast.LENGTH_LONG).show();
+    }
+
+    private void makeLog(String line){
+        Log.d(TAG, "makeLog: " + line);
     }
 }

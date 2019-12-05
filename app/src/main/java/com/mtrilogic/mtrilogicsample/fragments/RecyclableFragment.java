@@ -103,6 +103,8 @@ public class RecyclableFragment extends Fragmentable<RecyclablePage> implements 
         return lvwItems;
     }
 
+
+
     // ++++++++++++++++| PRIVATE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     private void addModelable(int viewType){

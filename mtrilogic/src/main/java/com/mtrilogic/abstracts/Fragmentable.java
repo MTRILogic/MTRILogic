@@ -89,7 +89,14 @@ public abstract class Fragmentable<P extends Paginable> extends Fragment impleme
         }
     }
 
-// ++++++++++++++++| PUBLIC METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    @Override
+    public void onMakeLog(String line) {
+        if (listener != null){
+            listener.onMakeLog(line);
+        }
+    }
+
+    // ++++++++++++++++| PUBLIC METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     public Paginable getPaginable(){
         return page;
