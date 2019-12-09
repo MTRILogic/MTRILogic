@@ -12,30 +12,21 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.mtrilogic.abstracts.ExpandableChild;
+import com.mtrilogic.abstracts.ExpandableFragment;
 import com.mtrilogic.abstracts.ExpandableGroup;
-import com.mtrilogic.abstracts.Fragmentable;
 import com.mtrilogic.abstracts.Modelable;
-import com.mtrilogic.adapters.ExpandableAdapter;
 import com.mtrilogic.classes.Listable;
-import com.mtrilogic.classes.Mapable;
-import com.mtrilogic.interfaces.ExpandableAdapterListener;
-import com.mtrilogic.interfaces.ExpandableListener;
 import com.mtrilogic.mtrilogicsample.items.expandables.childs.ChildDataItem;
 import com.mtrilogic.mtrilogicsample.items.expandables.childs.ChildImageItem;
 import com.mtrilogic.mtrilogicsample.items.expandables.groups.GroupDataItem;
 import com.mtrilogic.mtrilogicsample.models.DataModel;
-import com.mtrilogic.mtrilogicsample.pages.ExpandablePage;
+import com.mtrilogic.mtrilogicsample.pages.SampleMapablePage;
 import com.mtrilogic.mtrilogicsample.R;
 import com.mtrilogic.mtrilogicsample.types.GroupType;
 import com.mtrilogic.mtrilogicsample.types.ChildType;
-import com.mtrilogic.views.ExpandableView;
 
 @SuppressWarnings("unused")
-public class ExpandableFragment extends Fragmentable<ExpandablePage> implements
-        ExpandableListener, ExpandableAdapterListener {
-    private static final String TAG = "ExpandableFragmentTAG";
-    private ExpandableAdapter adapter;
-    private ExpandableView lvwItems;
+public class SampleExpandableFragment extends ExpandableFragment<SampleMapablePage> {
     private TextView lblContent;
 
 // PROTECTED OVERRIDE METHODS |*********************************************************************
@@ -44,12 +35,7 @@ public class ExpandableFragment extends Fragmentable<ExpandablePage> implements
     protected View onCreateViewFragment(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                                         @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_expandable,container,false);
-        Listable<Modelable> groupListable = page.getGroupListable();
-        Mapable<Modelable> childMapable = page.getChildMapable();
-        adapter = new ExpandableAdapter(this, groupListable, childMapable, GroupType.COUNT,
-                ChildType.COUNT);
-        lvwItems = view.findViewById(R.id.lvw_items);
-        lvwItems.setAdapter(adapter);
+        initExpandable(view, GroupType.COUNT, ChildType.COUNT);
         TextView lblTitle = view.findViewById(R.id.lbl_title);
         lblTitle.setText(getString(R.string.title_item, page.getItemId()));
         lblContent = view.findViewById(R.id.lbl_content);
@@ -75,23 +61,12 @@ public class ExpandableFragment extends Fragmentable<ExpandablePage> implements
         lblContent.setText(getString(R.string.content_item, position));
     }
 
+    @Override
+    protected void onExpandableCreated() {
+
+    }
+
 // ++++++++++++++++| PUBLIC OVERRIDE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        if (args != null && lvwItems != null){
-            lvwItems.restoreFromState(args);
-        }
-    }
-
-    @Override
-    public void onPause() {
-        if (args != null && lvwItems != null){
-            lvwItems.saveToState(args);
-        }
-        super.onPause();
-    }
 
     @Override
     public ExpandableGroup getExpandableGroup(int viewType, ViewGroup parent){
@@ -114,13 +89,13 @@ public class ExpandableFragment extends Fragmentable<ExpandablePage> implements
     }
 
     @Override
-    public ExpandableAdapter getExpandableAdapter(){
-        return adapter;
+    public boolean onItemLongClick(View view, Modelable modelable, int position) {
+        return false;
     }
 
     @Override
-    public ExpandableView getExpandableView() {
-        return lvwItems;
+    public void onItemClick(View view, Modelable modelable, int position) {
+
     }
 
 // *************************************************************************************************

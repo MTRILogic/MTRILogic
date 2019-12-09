@@ -26,21 +26,25 @@ import com.mtrilogic.classes.StateViewModel;
 import com.mtrilogic.interfaces.FragmentableAdapterListener;
 import com.mtrilogic.interfaces.FragmentableListener;
 import com.mtrilogic.interfaces.OnMakeToastListener;
-import com.mtrilogic.mtrilogicsample.fragments.ExpandableFragment;
-import com.mtrilogic.mtrilogicsample.fragments.InflatableFragment;
-import com.mtrilogic.mtrilogicsample.fragments.RecyclableFragment;
-import com.mtrilogic.mtrilogicsample.pages.ExpandablePage;
-import com.mtrilogic.mtrilogicsample.pages.InflatablePage;
-import com.mtrilogic.mtrilogicsample.pages.RecyclablePage;
+import com.mtrilogic.mtrilogicsample.fragments.SampleExpandableFragment;
+import com.mtrilogic.mtrilogicsample.fragments.SampleInflatableFragment;
+import com.mtrilogic.mtrilogicsample.fragments.SampleRecyclableFragment;
+import com.mtrilogic.mtrilogicsample.pages.SampleMapablePage;
+import com.mtrilogic.mtrilogicsample.pages.SampleListablePage;
 import com.mtrilogic.mtrilogicsample.types.PageType;
 
 @SuppressWarnings("unused")
 public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener,
         FragmentableListener, FragmentableAdapterListener, OnMakeToastListener{
-    private static final int[] TITLES = {
+    private static final int[] PAGE_TITLES = {
             R.string.inflatable,
             R.string.recyclable,
             R.string.expandable
+    };
+    private static final String[] TAG_NAMES = {
+            "inflatable",
+            "recyclable",
+            "expandable"
     };
     private static final int[] TYPES = {
             PageType.INFLATABLE,
@@ -151,11 +155,11 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     public Fragmentable getFragmentable(Paginable paginable, int position){
         switch(paginable.getViewType()){
             case PageType.INFLATABLE:
-                return Fragmentable.getInstance(paginable, new InflatableFragment());
+                return Fragmentable.getInstance(paginable, new SampleInflatableFragment());
             case PageType.RECYCLABLE:
-                return Fragmentable.getInstance(paginable, new RecyclableFragment());
+                return Fragmentable.getInstance(paginable, new SampleRecyclableFragment());
             case PageType.EXPANDABLE:
-                return Fragmentable.getInstance(paginable, new ExpandableFragment());
+                return Fragmentable.getInstance(paginable, new SampleExpandableFragment());
         }
         return null;
     }
@@ -215,16 +219,16 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     }
 
     private Paginable getNewPaginable(int index){
-        String pageTitle  = getString(TITLES[index]);
-        String tagName = pageTitle.toLowerCase();
+        String pageTitle  = getString(PAGE_TITLES[index]);
+        String tagName = TAG_NAMES[index];
         int viewType = TYPES[index];
         switch (viewType){
             case PageType.INFLATABLE:
-                return new InflatablePage(pageTitle, tagName, idx);
+                return new SampleListablePage(pageTitle, tagName, idx, PageType.INFLATABLE);
             case PageType.RECYCLABLE:
-                return new RecyclablePage(pageTitle, tagName, idx);
+                return new SampleListablePage(pageTitle, tagName, idx, PageType.RECYCLABLE);
             case PageType.EXPANDABLE:
-                return new ExpandablePage(pageTitle, tagName, idx);
+                return new SampleMapablePage(pageTitle, tagName, idx);
         }
         return null;
     }
@@ -234,6 +238,6 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     }
 
     private void makeLog(String line){
-        Log.d(TAG, "makeLog: " + line);
+        Log.d(TAG, "MTRI: " + line);
     }
 }
