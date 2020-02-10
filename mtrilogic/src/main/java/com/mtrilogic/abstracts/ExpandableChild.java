@@ -20,7 +20,6 @@ public abstract class ExpandableChild <M extends Modelable> extends LiveData<M> 
     protected final View itemView;
     protected ExpandableAdapter adapter;
     protected ExpandableView lvwItems;
-    protected Context context;
     protected int groupPosition;
     protected int childPosition;
     protected boolean lastChild;
@@ -34,10 +33,9 @@ public abstract class ExpandableChild <M extends Modelable> extends LiveData<M> 
 
 // ++++++++++++++++| PROTECTED CONSTRUCTORS |+++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    public ExpandableChild(@NonNull Context context, int resource, @NonNull ViewGroup parent,
+    public ExpandableChild(@NonNull LayoutInflater inflater, int resource, @NonNull ViewGroup parent,
                            @NonNull ExpandableAdapterListener listener){
-        itemView = LayoutInflater.from(context).inflate(resource, parent, false);
-        this.context = context;
+        itemView = inflater.inflate(resource, parent, false);
         this.listener = listener;
         adapter = listener.getExpandableAdapter();
         lvwItems = listener.getExpandableView();
@@ -58,6 +56,10 @@ public abstract class ExpandableChild <M extends Modelable> extends LiveData<M> 
     }
 
 // ++++++++++++++++| PROTECTED METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+    protected Context getContext(){
+        return itemView.getContext();
+    }
 
     protected void autoDelete(){
         if (adapter != null){

@@ -22,7 +22,6 @@ public abstract class ExpandableGroup<M extends Modelable> extends LiveData<M> i
     protected ExpandableAdapter adapter;
     protected Listable<Modelable> childListable;
     protected ExpandableView lvwItems;
-    protected Context context;
     protected int groupPosition;
     protected boolean expanded;
     protected M model;
@@ -35,10 +34,9 @@ public abstract class ExpandableGroup<M extends Modelable> extends LiveData<M> i
 
 // ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    public ExpandableGroup(@NonNull Context context, int resource, @NonNull ViewGroup parent,
+    public ExpandableGroup(@NonNull LayoutInflater inflater, int resource, @NonNull ViewGroup parent,
                            @NonNull ExpandableAdapterListener listener){
-        itemView = LayoutInflater.from(context).inflate(resource, parent, false);
-        this.context = context;
+        itemView = inflater.inflate(resource, parent, false);
         this.listener = listener;
         adapter = listener.getExpandableAdapter();
         lvwItems = listener.getExpandableView();
@@ -59,6 +57,10 @@ public abstract class ExpandableGroup<M extends Modelable> extends LiveData<M> i
     }
 
 // ++++++++++++++++| PROTECTED METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+    protected Context getContext(){
+        return itemView.getContext();
+    }
 
     protected void autoDelete(){
         if (adapter != null && adapter.deleteGroupModelable(model)){

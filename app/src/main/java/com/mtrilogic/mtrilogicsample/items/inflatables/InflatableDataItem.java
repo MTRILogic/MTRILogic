@@ -1,6 +1,7 @@
 package com.mtrilogic.mtrilogicsample.items.inflatables;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -15,19 +16,14 @@ import com.mtrilogic.mtrilogicsample.models.DataModel;
 
 @SuppressWarnings({"unused"})
 public class InflatableDataItem extends Inflatable<DataModel> {
-    private static final String TAG = "InflatableDataItemTAG";
     private TextView lblTitle, lblContent;
     private CheckBox chkItem;
 
 // ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    public InflatableDataItem(Context context, int resource, ViewGroup parent){
-        this(context, resource, parent,(InflatableAdapterListener)context);
-    }
-
-    public InflatableDataItem(Context context, int resource, ViewGroup parent,
-                                 InflatableAdapterListener listener){
-        super(context, resource, parent, listener);
+    public InflatableDataItem(LayoutInflater inflater, int resource, ViewGroup parent,
+                              InflatableAdapterListener listener){
+        super(inflater, resource, parent, listener);
         chkItem = itemView.findViewById(R.id.chk_item);
         chkItem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,6 +59,7 @@ public class InflatableDataItem extends Inflatable<DataModel> {
     @Override
     protected void onBindHolder(){
         chkItem.setChecked(model.isChecked());
+        Context context = getContext();
         lblTitle.setText(context.getString(R.string.title_item, model.getItemId()));
         lblContent.setText(context.getString(R.string.content_item, position));
     }

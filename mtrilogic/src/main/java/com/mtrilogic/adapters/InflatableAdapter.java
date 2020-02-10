@@ -1,5 +1,7 @@
 package com.mtrilogic.adapters;
 
+import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -14,6 +16,7 @@ import java.util.ArrayList;
 @SuppressWarnings({"unused","WeakerAccess"})
 public class InflatableAdapter extends BaseAdapter{
     private static final String TAG = "InflatableAdapter";
+    private LayoutInflater inflater;
     private InflatableListener listener;
     private ArrayList<Modelable> modelableList;
     private int typeCount;
@@ -21,8 +24,9 @@ public class InflatableAdapter extends BaseAdapter{
 
 // ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    public InflatableAdapter(InflatableListener listener, ArrayList<Modelable> modelableList,
+    public InflatableAdapter(Context context, InflatableListener listener, ArrayList<Modelable> modelableList,
                              int typeCount){
+        inflater = LayoutInflater.from(context);
         this.listener = listener;
         this.modelableList = modelableList;
         setTypeCount(typeCount);
@@ -125,7 +129,7 @@ public class InflatableAdapter extends BaseAdapter{
             inflatable = (Inflatable)convertView.getTag();
         }else{
             int viewType = modelable.getViewType();
-            inflatable = listener.getInflatable(viewType, parent);
+            inflatable = listener.getInflatable(viewType, inflater, parent);
             convertView = inflatable.getItemView();
             convertView.setTag(inflatable);
         }

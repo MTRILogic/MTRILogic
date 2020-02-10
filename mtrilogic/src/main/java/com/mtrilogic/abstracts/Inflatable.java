@@ -20,7 +20,6 @@ public abstract class Inflatable<M extends Modelable> extends LiveData<M> implem
     protected final View itemView;
     protected InflatableAdapter adapter;
     protected InflatableView lvwItems;
-    protected Context context;
     protected int position;
     protected M model;
 
@@ -32,10 +31,9 @@ public abstract class Inflatable<M extends Modelable> extends LiveData<M> implem
 
 // ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    public Inflatable(@NonNull Context context, int resource, @NonNull ViewGroup parent,
+    public Inflatable(@NonNull LayoutInflater inflater, int resource, @NonNull ViewGroup parent,
                       @NonNull InflatableAdapterListener listener){
-        itemView = LayoutInflater.from(context).inflate(resource, parent, false);
-        this.context = context;
+        itemView = inflater.inflate(resource, parent, false);
         this.listener = listener;
         adapter = listener.getInflatableAdapter();
         lvwItems = listener.getInflatableView();
@@ -54,6 +52,10 @@ public abstract class Inflatable<M extends Modelable> extends LiveData<M> implem
     }
 
 // ++++++++++++++++| PROTECTED METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+    protected Context getContext(){
+        return itemView.getContext();
+    }
 
     protected void autoDelete(){
         if (adapter != null){

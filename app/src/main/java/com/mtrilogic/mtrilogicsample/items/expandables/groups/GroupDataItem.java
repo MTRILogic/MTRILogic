@@ -1,6 +1,7 @@
 package com.mtrilogic.mtrilogicsample.items.expandables.groups;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -19,19 +20,14 @@ import java.util.ArrayList;
 
 @SuppressWarnings({"unused","FieldCanBeLocal"})
 public class GroupDataItem extends ExpandableGroup<DataModel> {
-    private static final String TAG = "GroupDataItemTAG";
     private TextView lblTitle, lblContent;
     private CheckBox chkItem;
 
 // ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    public GroupDataItem(Context context, int resource, ViewGroup parent){
-        this(context, resource, parent,(ExpandableAdapterListener)context);
-    }
-
-    public GroupDataItem(Context context, int resource, ViewGroup parent,
+    public GroupDataItem(LayoutInflater inflater, int resource, ViewGroup parent,
                          ExpandableAdapterListener listener){
-        super(context, resource, parent, listener);
+        super(inflater, resource, parent, listener);
         chkItem = itemView.findViewById(R.id.chk_item);
         chkItem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,6 +81,7 @@ public class GroupDataItem extends ExpandableGroup<DataModel> {
     @Override
     protected void onBindHolder(){
         chkItem.setChecked(model.isChecked());
+        Context context = getContext();
         lblTitle.setText(context.getString(R.string.title_item, model.getItemId()));
         lblContent.setText(context.getString(R.string.content_item, groupPosition));
     }
@@ -107,6 +104,7 @@ public class GroupDataItem extends ExpandableGroup<DataModel> {
     private void addNewModelable(int viewType){
         if (childListable != null){
             long idx = childListable.getIdx();
+            Context context = getContext();
             Modelable modelable = Utils.getNewModelable(context, viewType, idx, chkItem.isChecked());
             addNewChildModelable(modelable, idx);
         }

@@ -72,13 +72,13 @@ public class SampleInflatableFragment extends InflatableFragment<SampleListableP
     // ++++++++++++++++| PUBLIC OVERRIDE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     @Override
-    public Inflatable getInflatable(int viewType, ViewGroup parent) {
+    public Inflatable getInflatable(int viewType, LayoutInflater inflater, ViewGroup parent) {
         Context context = getContext();
         switch(viewType){
             case ChildType.DATA:
-                return new InflatableDataItem(context, R.layout.item_data, parent, this);
+                return new InflatableDataItem(inflater, R.layout.item_data, parent, this);
             case ChildType.IMAGE:
-                return new InflatableImageItem(context, R.layout.item_image, parent, this);
+                return new InflatableImageItem(inflater, R.layout.item_image, parent, this);
         }
         return null;
     }

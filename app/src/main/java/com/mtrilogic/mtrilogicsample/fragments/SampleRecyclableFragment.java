@@ -73,13 +73,13 @@ public class SampleRecyclableFragment extends RecyclableFragment<SampleListableP
 // ++++++++++++++++| PUBLIC OVERRIDE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     @Override
-    public Recyclable getRecyclable(int viewType, ViewGroup parent){
+    public Recyclable getRecyclable(int viewType, LayoutInflater inflater, ViewGroup parent){
         Context context = getContext();
         switch(viewType){
             case ChildType.DATA:
-                return new RecyclableDataItem(context, R.layout.item_data, parent, this);
+                return new RecyclableDataItem(inflater, R.layout.item_data, parent, this);
             case ChildType.IMAGE:
-                return new RecyclableImageItem(context, R.layout.item_image, parent, this);
+                return new RecyclableImageItem(inflater, R.layout.item_image, parent, this);
         }
         return null;
     }

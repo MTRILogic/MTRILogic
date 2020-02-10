@@ -18,7 +18,6 @@ public abstract class Recyclable<M extends Modelable> extends RecyclerView.ViewH
     protected final OnMakeToastListener listener;
     protected RecyclableAdapter adapter;
     protected RecyclerView lvwItems;
-    protected Context context;
     protected int position;
     protected M model;
 
@@ -30,10 +29,9 @@ public abstract class Recyclable<M extends Modelable> extends RecyclerView.ViewH
 
 // ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    public Recyclable(@NonNull Context context, int resource, @NonNull ViewGroup parent,
+    public Recyclable(@NonNull LayoutInflater inflater, int resource, @NonNull ViewGroup parent,
                       @NonNull RecyclableAdapterListener listener){
-        super(LayoutInflater.from(context).inflate(resource, parent, false));
-        this.context = context;
+        super(inflater.inflate(resource, parent, false));
         this.listener = listener;
         adapter = listener.getRecyclableAdapter();
         lvwItems = listener.getRecyclerView();
@@ -48,6 +46,10 @@ public abstract class Recyclable<M extends Modelable> extends RecyclerView.ViewH
     }
 
 // ++++++++++++++++| PROTECTED METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+    protected Context getContext(){
+        return itemView.getContext();
+    }
 
     protected void autoDelete(){
         if (adapter != null){

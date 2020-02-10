@@ -1,6 +1,7 @@
 package com.mtrilogic.mtrilogicsample.items.recyclables;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -27,13 +28,9 @@ public class RecyclableImageItem extends Recyclable<ImageModel> implements
 
 // ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    public RecyclableImageItem(Context context, int resource, ViewGroup parent){
-        this(context, resource, parent, (RecyclableAdapterListener)context);
-    }
-
-    public RecyclableImageItem(Context context, int resource, ViewGroup parent,
+    public RecyclableImageItem(LayoutInflater inflater, int resource, ViewGroup parent,
                                RecyclableAdapterListener listener){
-        super(context, resource, parent, listener);
+        super(inflater, resource, parent, listener);
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,6 +90,7 @@ public class RecyclableImageItem extends Recyclable<ImageModel> implements
     @Override
     protected void onBindHolder(){
         chkItem.setChecked(model.isChecked());
+        Context context = getContext();
         lblTitle.setText(context.getString(R.string.title_item, model.getItemId()));
         lblContent.setText(context.getString(R.string.content_item, position));
         ratingBar.setRating(model.getRating());

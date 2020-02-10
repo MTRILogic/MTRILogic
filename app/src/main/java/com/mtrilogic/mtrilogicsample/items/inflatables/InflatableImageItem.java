@@ -1,6 +1,7 @@
 package com.mtrilogic.mtrilogicsample.items.inflatables;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -27,12 +28,8 @@ public class InflatableImageItem extends Inflatable<ImageModel> implements
 
 // ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    public InflatableImageItem(Context context, int resource, ViewGroup parent){
-        this(context, resource, parent, (InflatableAdapterListener)context);
-    }
-
-    public InflatableImageItem(Context context, int resource, ViewGroup parent, InflatableAdapterListener listener){
-        super(context, resource, parent, listener);
+    public InflatableImageItem(LayoutInflater inflater, int resource, ViewGroup parent, InflatableAdapterListener listener){
+        super(inflater, resource, parent, listener);
         chkItem = itemView.findViewById(R.id.chk_item);
         chkItem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,6 +74,7 @@ public class InflatableImageItem extends Inflatable<ImageModel> implements
     @Override
     protected void onBindHolder(){
         chkItem.setChecked(model.isChecked());
+        Context context = getContext();
         lblTitle.setText(context.getString(R.string.title_item, model.getItemId()));
         lblContent.setText(context.getString(R.string.content_item, position));
         ratingBar.setRating(model.getRating());

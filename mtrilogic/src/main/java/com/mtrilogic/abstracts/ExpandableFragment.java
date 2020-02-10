@@ -27,7 +27,7 @@ public abstract class ExpandableFragment<P extends MapablePage> extends Fragment
     protected void initExpandable(View view, int groupTypeCount, int childTypeCount){
         Listable<Modelable> groupListable = page.getGroupListable();
         Mapable<Modelable> childMapable = page.getChildMapable();
-        adapter = new ExpandableAdapter(this, groupListable, childMapable,
+        adapter = new ExpandableAdapter(context,this, groupListable, childMapable,
                 groupTypeCount, childTypeCount);
         lvwItems = view.findViewById(R.id.lvw_items);
         lvwItems.setAdapter(adapter);

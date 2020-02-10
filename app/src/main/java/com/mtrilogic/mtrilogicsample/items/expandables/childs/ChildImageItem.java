@@ -1,6 +1,7 @@
 package com.mtrilogic.mtrilogicsample.items.expandables.childs;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -20,7 +21,6 @@ import com.mtrilogic.views.SquareImageView;
 @SuppressWarnings({"unused","FieldCanBeLocal"})
 public class ChildImageItem extends ExpandableChild<ImageModel> implements
         RatingBar.OnRatingBarChangeListener{
-    private static final String TAG = "ChildImageItemTAG";
     private TextView lblTitle, lblContent;
     private CheckBox chkItem;
     private SquareImageView ivwImage;
@@ -28,13 +28,9 @@ public class ChildImageItem extends ExpandableChild<ImageModel> implements
 
 // ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    public ChildImageItem(Context context, int resource, ViewGroup parent){
-        this(context, resource, parent,(ExpandableAdapterListener)context);
-    }
-
-    public ChildImageItem(Context context, int resource, ViewGroup parent,
+    public ChildImageItem(LayoutInflater inflater, int resource, ViewGroup parent,
                           ExpandableAdapterListener listener){
-        super(context, resource, parent, listener);
+        super(inflater, resource, parent, listener);
         chkItem = itemView.findViewById(R.id.chk_item);
         chkItem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,6 +83,7 @@ public class ChildImageItem extends ExpandableChild<ImageModel> implements
     @Override
     protected void onBindHolder(){
         chkItem.setChecked(model.isChecked());
+        Context context = getContext();
         lblTitle.setText(context.getString(R.string.title_item, model.getItemId()));
         lblContent.setText(context.getString(R.string.content_item, childPosition));
         ratingBar.setRating(model.getRating());

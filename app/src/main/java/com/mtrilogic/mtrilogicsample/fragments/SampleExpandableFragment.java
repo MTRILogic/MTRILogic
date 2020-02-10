@@ -69,21 +69,21 @@ public class SampleExpandableFragment extends ExpandableFragment<SampleMapablePa
 // ++++++++++++++++| PUBLIC OVERRIDE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     @Override
-    public ExpandableGroup getExpandableGroup(int viewType, ViewGroup parent){
+    public ExpandableGroup getExpandableGroup(int viewType, LayoutInflater inflater, ViewGroup parent){
         if (viewType == GroupType.GROUP) {
-            return new GroupDataItem(getContext(), R.layout.item_group, parent, this);
+            return new GroupDataItem(inflater, R.layout.item_group, parent, this);
         }
         return null;
     }
 
     @Override
-    public ExpandableChild getExpandableChild(int viewType, ViewGroup parent){
+    public ExpandableChild getExpandableChild(int viewType, LayoutInflater inflater, ViewGroup parent){
         Context context = getContext();
         switch(viewType){
             case ChildType.DATA:
-                return new ChildDataItem(context, R.layout.item_child_data, parent, this);
+                return new ChildDataItem(inflater, R.layout.item_child_data, parent, this);
             case ChildType.IMAGE:
-                return new ChildImageItem(context, R.layout.item_child_image, parent, this);
+                return new ChildImageItem(inflater, R.layout.item_child_image, parent, this);
         }
         return null;
     }

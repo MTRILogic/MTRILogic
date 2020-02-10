@@ -25,7 +25,7 @@ public abstract class InflatableFragment<P extends ListablePage> extends Fragmen
 
     protected void initInflatable(View view, int typeCount){
         ArrayList<Modelable> modelableList = page.getModelableList();
-        adapter = new InflatableAdapter(this, modelableList, typeCount);
+        adapter = new InflatableAdapter(context,this, modelableList, typeCount);
         lvwItems = view.findViewById(R.id.lvw_items);
         lvwItems.setAdapter(adapter);
         onInflatableCreated();

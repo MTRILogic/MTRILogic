@@ -2,6 +2,9 @@ package com.mtrilogic.adapters;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.mtrilogic.abstracts.Modelable;
@@ -14,13 +17,15 @@ import java.util.ArrayList;
 @SuppressWarnings({"unused"})
 public class RecyclableAdapter extends RecyclerView.Adapter<Recyclable>{
     private static final String TAG = "RecyclableAdapter";
+    private LayoutInflater inflater;
     private RecyclableListener listener;
     private ArrayList<Modelable> modelableList;
 
 // ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    public RecyclableAdapter(RecyclableListener listener){
+    public RecyclableAdapter(Context context, RecyclableListener listener){
         this(listener, new ArrayList<Modelable>());
+        inflater = LayoutInflater.from(context);
     }
 
     public RecyclableAdapter(RecyclableListener listener, ArrayList<Modelable> modelableList){
@@ -94,7 +99,7 @@ public class RecyclableAdapter extends RecyclerView.Adapter<Recyclable>{
     @NonNull
     @Override
     public Recyclable onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
-        return listener.getRecyclable(viewType, parent);
+        return listener.getRecyclable(viewType, inflater, parent);
     }
 
     @Override
