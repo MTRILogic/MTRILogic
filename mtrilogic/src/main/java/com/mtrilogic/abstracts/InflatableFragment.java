@@ -1,5 +1,6 @@
 package com.mtrilogic.abstracts;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 
@@ -15,15 +16,19 @@ import com.mtrilogic.views.InflatableView;
 import java.util.ArrayList;
 
 @SuppressWarnings({"unused","WeakerAccess"})
-public abstract class InflatableFragment<P extends ListablePage> extends Fragmentable<P> implements InflatableListener, InflatableAdapterListener {
+public abstract class InflatableFragment<P extends ListablePage> extends Fragmentable<P>
+        implements InflatableListener, InflatableAdapterListener {
     protected InflatableAdapter adapter;
     protected InflatableView lvwItems;
 
+    // ++++++++++++++++| PROTECTED ABSTRACT METHODS |+++++++++++++++++++++++++++++++++++++++++++++++
+
     protected abstract void onInflatableCreated();
 
-// ****************| PROTECTED METHODS |************************************************************
+    // ****************| PROTECTED METHODS |********************************************************
 
-    protected void initInflatable(View view, int typeCount){
+    protected void initInflatable(@NonNull View view, int typeCount){
+        Context context = getContext();
         ArrayList<Modelable> modelableList = page.getModelableList();
         adapter = new InflatableAdapter(context,this, modelableList, typeCount);
         lvwItems = view.findViewById(R.id.lvw_items);
@@ -31,7 +36,7 @@ public abstract class InflatableFragment<P extends ListablePage> extends Fragmen
         onInflatableCreated();
     }
 
-// ****************| PUBLIC OVERRIDE METHODS |******************************************************
+    // ****************| PUBLIC OVERRIDE METHODS |**************************************************
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -50,7 +55,7 @@ public abstract class InflatableFragment<P extends ListablePage> extends Fragmen
     }
 
     @Override
-    protected void onNewPosition() {
+    public void onNewPosition(int position) {
 
     }
 

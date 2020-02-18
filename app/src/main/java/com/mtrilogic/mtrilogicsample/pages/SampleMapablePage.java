@@ -2,6 +2,8 @@ package com.mtrilogic.mtrilogicsample.pages;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+
 import com.mtrilogic.abstracts.PaginableCreator;
 import com.mtrilogic.abstracts.MapablePage;
 import com.mtrilogic.mtrilogicsample.types.PageType;
@@ -22,11 +24,11 @@ public class SampleMapablePage extends MapablePage {
 
     public SampleMapablePage(){}
 
-    public SampleMapablePage(String pageTitle, String tagName, long itemId){
+    public SampleMapablePage(@NonNull String pageTitle, @NonNull String tagName, long itemId){
         super(pageTitle, tagName, itemId, PageType.EXPANDABLE);
     }
 
-    private SampleMapablePage(Bundle data){
+    private SampleMapablePage(@NonNull Bundle data){
         super(data);
     }
 }

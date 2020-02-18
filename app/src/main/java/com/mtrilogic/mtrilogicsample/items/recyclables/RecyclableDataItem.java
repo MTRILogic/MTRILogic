@@ -8,9 +8,12 @@ import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import com.mtrilogic.abstracts.Modelable;
 import com.mtrilogic.abstracts.Recyclable;
 
+import com.mtrilogic.adapters.RecyclableAdapter;
 import com.mtrilogic.interfaces.RecyclableAdapterListener;
 import com.mtrilogic.mtrilogicsample.R;
 import com.mtrilogic.mtrilogicsample.models.DataModel;
@@ -22,8 +25,8 @@ public class RecyclableDataItem extends Recyclable<DataModel> {
 
 // ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    public RecyclableDataItem(LayoutInflater inflater, int resource, ViewGroup parent,
-                              RecyclableAdapterListener listener){
+    public RecyclableDataItem(@NonNull LayoutInflater inflater, int resource, @NonNull ViewGroup parent,
+                              @NonNull RecyclableAdapterListener listener){
         super(inflater, resource, parent, listener);
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,8 +61,9 @@ public class RecyclableDataItem extends Recyclable<DataModel> {
 
 // ++++++++++++++++| PROTECTED OVERRIDE METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++
 
+    @NonNull
     @Override
-    protected DataModel getModel(Modelable modelable) {
+    protected DataModel getModel(@NonNull Modelable modelable) {
         return (DataModel) modelable;
     }
 
@@ -74,6 +78,7 @@ public class RecyclableDataItem extends Recyclable<DataModel> {
 // ++++++++++++++++| PRIVATE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     private void updateChecked(){
+        RecyclableAdapter adapter = listener.getRecyclableAdapter();
         if (adapter != null){
             boolean checked = chkItem.isChecked();
             model.setChecked(checked);

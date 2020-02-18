@@ -48,6 +48,7 @@ public class Listable<M extends Modelable>{
     }
 
     // GET
+    @NonNull
     public ArrayList<M> getModelableList(){
         return modelableList;
     }

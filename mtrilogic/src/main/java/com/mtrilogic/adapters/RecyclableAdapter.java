@@ -23,48 +23,47 @@ public class RecyclableAdapter extends RecyclerView.Adapter<Recyclable>{
 
 // ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    public RecyclableAdapter(Context context, RecyclableListener listener){
-        this(listener, new ArrayList<Modelable>());
+    public RecyclableAdapter(Context context, @NonNull RecyclableListener listener,
+                             @NonNull ArrayList<Modelable> modelableList){
         inflater = LayoutInflater.from(context);
-    }
-
-    public RecyclableAdapter(RecyclableListener listener, ArrayList<Modelable> modelableList){
-        this.listener = listener;
         this.modelableList = modelableList;
+        this.listener = listener;
         setHasStableIds(true);
     }
 
 // ++++++++++++++++| PUBLIC METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    public int getModelablePosition(Modelable modelable){
+    public int getModelablePosition(@NonNull Modelable modelable){
         return modelableList.indexOf(modelable);
     }
 
+    @NonNull
     public Modelable[] getModelableArray(){
         return modelableList.toArray(new Modelable[getItemCount()]);
     }
 
+    @NonNull
     public ArrayList<Modelable> getModelableList(){
         return modelableList;
     }
 
-    public void setModelableList(ArrayList<Modelable> modelableList){
+    public void setModelableList(@NonNull ArrayList<Modelable> modelableList){
         this.modelableList = modelableList;
     }
 
-    public boolean addModelableList(ArrayList<Modelable> modelableList){
+    public boolean addModelableList(@NonNull ArrayList<Modelable> modelableList){
         return this.modelableList.addAll(modelableList);
     }
 
-    public boolean insertModelableList(int position, ArrayList<Modelable> modelableList){
+    public boolean insertModelableList(int position, @NonNull ArrayList<Modelable> modelableList){
         return isValidPosition(position) && this.modelableList.addAll(position, modelableList);
     }
 
-    public boolean removeModelableList(ArrayList<Modelable> modelableList){
+    public boolean removeModelableList(@NonNull ArrayList<Modelable> modelableList){
         return this.modelableList.removeAll(modelableList);
     }
 
-    public boolean retainModelableList(ArrayList<Modelable> modelableList){
+    public boolean retainModelableList(@NonNull ArrayList<Modelable> modelableList){
         return this.modelableList.retainAll(modelableList);
     }
 
@@ -72,21 +71,21 @@ public class RecyclableAdapter extends RecyclerView.Adapter<Recyclable>{
         return isValidPosition(position) ? getItem(position) : null;
     }
 
-    public Modelable setModelable(int position, Modelable modelable){
+    public Modelable setModelable(int position, @NonNull Modelable modelable){
         return isValidPosition(position) ? modelableList.set(position,modelable) : null;
     }
 
-    public boolean addModelable(Modelable modelable){
+    public boolean addModelable(@NonNull Modelable modelable){
         return modelableList.add(modelable);
     }
 
-    public void insertModelable(int position, Modelable modelable){
+    public void insertModelable(int position, @NonNull Modelable modelable){
         if(isValidPosition(position)){
             modelableList.add(position, modelable);
         }
     }
 
-    public boolean removeModelable(Modelable modelable){
+    public boolean removeModelable(@NonNull Modelable modelable){
         return modelableList.remove(modelable);
     }
 
@@ -129,6 +128,7 @@ public class RecyclableAdapter extends RecyclerView.Adapter<Recyclable>{
         return position > Base.INVALID_POSITION && position < getItemCount();
     }
 
+    @NonNull
     private Modelable getItem(int position){
         return modelableList.get(position);
     }

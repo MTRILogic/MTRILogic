@@ -2,6 +2,8 @@ package com.mtrilogic.mtrilogicsample.models;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+
 import com.mtrilogic.abstracts.Modelable;
 import com.mtrilogic.abstracts.ModelableCreator;
 import com.mtrilogic.mtrilogicsample.types.ChildType;
@@ -27,7 +29,7 @@ public class DataModel extends Modelable{
 
     public DataModel(){}
 
-    public DataModel(Bundle data){
+    public DataModel(@NonNull Bundle data){
         super(data);
     }
 

@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
+
 @SuppressWarnings("unused")
 public class Datable implements Parcelable {
     public static final Creator<Datable> CREATOR = new ClassLoaderCreator<Datable>() {
@@ -25,7 +27,7 @@ public class Datable implements Parcelable {
 
     private Bundle data;
 
-    public Datable(Bundle data){
+    public Datable(@NonNull Bundle data){
         this.data = data;
     }
 
@@ -35,6 +37,7 @@ public class Datable implements Parcelable {
         }
     }
 
+    @NonNull
     public Bundle getData() {
         return data;
     }

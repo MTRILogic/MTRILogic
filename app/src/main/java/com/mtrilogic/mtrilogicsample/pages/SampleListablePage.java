@@ -2,6 +2,8 @@ package com.mtrilogic.mtrilogicsample.pages;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+
 import com.mtrilogic.abstracts.PaginableCreator;
 import com.mtrilogic.abstracts.ListablePage;
 
@@ -21,11 +23,11 @@ public class SampleListablePage extends ListablePage {
 
     public SampleListablePage(){}
 
-    public SampleListablePage(String pageTitle, String tagName, long itemId, int viewType){
+    public SampleListablePage(@NonNull String pageTitle, @NonNull String tagName, long itemId, int viewType){
         super(pageTitle, tagName, itemId, viewType);
     }
 
-    private SampleListablePage(Bundle data){
+    private SampleListablePage(@NonNull Bundle data){
         super(data);
     }
 }

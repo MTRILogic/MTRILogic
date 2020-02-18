@@ -2,6 +2,8 @@ package com.mtrilogic.mtrilogicsample.extras;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+
 import com.mtrilogic.abstracts.Modelable;
 import com.mtrilogic.mtrilogicsample.R;
 import com.mtrilogic.mtrilogicsample.models.DataModel;
@@ -27,7 +29,8 @@ public class Utils {
         return null;
     }
 
-    private static ImageModel getImageModel(Context context, long idx, boolean checked){
+    @NonNull
+    private static ImageModel getImageModel(@NonNull Context context, long idx, boolean checked){
         ImageModel model = new ImageModel(idx, checked);
         model.setImageLink(context.getString(LINKS[getRandomInt()]));
         model.setRating(getRandomInt());

@@ -2,6 +2,8 @@ package com.mtrilogic.abstracts;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+
 import com.mtrilogic.classes.Listable;
 import com.mtrilogic.classes.Mapable;
 
@@ -18,11 +20,11 @@ public abstract class MapablePage extends Paginable {
 
     public MapablePage(){}
 
-    public MapablePage(Bundle data){
+    public MapablePage(@NonNull Bundle data){
         super(data);
     }
 
-    public MapablePage(String pageTitle, String tagName, long itemId, int viewType){
+    public MapablePage(@NonNull String pageTitle, @NonNull String tagName, long itemId, int viewType){
         super(pageTitle, tagName, itemId, viewType);
         groupListable = new Listable<>();
         childMapable = new Mapable<>();
@@ -30,26 +32,28 @@ public abstract class MapablePage extends Paginable {
 
 // ++++++++++++++++| PUBLIC METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+    @NonNull
     public Listable<Modelable> getGroupListable(){
         return groupListable;
     }
 
-    public void setGroupListable(Listable<Modelable> groupListable){
+    public void setGroupListable(@NonNull Listable<Modelable> groupListable){
         this.groupListable = groupListable;
     }
 
+    @NonNull
     public Mapable<Modelable> getChildMapable(){
         return childMapable;
     }
 
-    public void setChildMapable(Mapable<Modelable> childMapable){
+    public void setChildMapable(@NonNull Mapable<Modelable> childMapable){
         this.childMapable = childMapable;
     }
 
 // ++++++++++++++++| PROTECTED METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     @Override
-    protected void onRestoreFromData(Bundle data){
+    protected void onRestoreFromData(@NonNull Bundle data){
         super.onRestoreFromData(data);
         childMapable = new Mapable<>(new LinkedHashMap<Modelable, Listable<Modelable>>());
         ArrayList<Modelable> groupModelableList = data.getParcelableArrayList(LIST);
@@ -72,7 +76,7 @@ public abstract class MapablePage extends Paginable {
     }
 
     @Override
-    protected void onSaveToData(Bundle data){
+    protected void onSaveToData(@NonNull Bundle data){
         super.onSaveToData(data);
         ArrayList<Modelable> groupModelableList = groupListable.getModelableList();
         long groupIdx = groupListable.getIdx();

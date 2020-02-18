@@ -8,6 +8,8 @@ import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import com.mtrilogic.abstracts.ExpandableGroup;
 import com.mtrilogic.abstracts.Modelable;
 import com.mtrilogic.interfaces.ExpandableAdapterListener;
@@ -25,8 +27,8 @@ public class GroupDataItem extends ExpandableGroup<DataModel> {
 
 // ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    public GroupDataItem(LayoutInflater inflater, int resource, ViewGroup parent,
-                         ExpandableAdapterListener listener){
+    public GroupDataItem(@NonNull LayoutInflater inflater, int resource, @NonNull ViewGroup parent,
+                         @NonNull ExpandableAdapterListener listener){
         super(inflater, resource, parent, listener);
         chkItem = itemView.findViewById(R.id.chk_item);
         chkItem.setOnClickListener(new View.OnClickListener() {
@@ -73,8 +75,9 @@ public class GroupDataItem extends ExpandableGroup<DataModel> {
 
 // ++++++++++++++++| PROTECTED OVERRIDE METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++
 
+    @NonNull
     @Override
-    protected DataModel getModel(Modelable modelable) {
+    protected DataModel getModel(@NonNull Modelable modelable) {
         return (DataModel) modelable;
     }
 
@@ -97,7 +100,7 @@ public class GroupDataItem extends ExpandableGroup<DataModel> {
                 DataModel model = (DataModel) childModelable;
                 model.setChecked(checked);
             }
-            adapter.notifyDataSetChanged();
+            listener.getExpandableAdapter().notifyDataSetChanged();
         }
     }
 
@@ -106,7 +109,9 @@ public class GroupDataItem extends ExpandableGroup<DataModel> {
             long idx = childListable.getIdx();
             Context context = getContext();
             Modelable modelable = Utils.getNewModelable(context, viewType, idx, chkItem.isChecked());
-            addNewChildModelable(modelable, idx);
+            if (modelable != null) {
+                addNewChildModelable(modelable, idx);
+            }
         }
     }
 }

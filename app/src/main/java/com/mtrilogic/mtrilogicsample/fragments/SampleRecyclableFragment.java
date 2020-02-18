@@ -61,7 +61,7 @@ public class SampleRecyclableFragment extends RecyclableFragment<SampleListableP
     }
 
     @Override
-    protected void onNewPosition() {
+    public void onNewPosition(int position) {
         lblContent.setText(getString(R.string.content_item, position));
     }
 
@@ -97,6 +97,7 @@ public class SampleRecyclableFragment extends RecyclableFragment<SampleListableP
 // ++++++++++++++++| PRIVATE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     private void addModelable(int viewType){
+        Context context = getContext();
         long idx = page.getIdx();
         Modelable modelable = Utils.getNewModelable(context, viewType, idx, false);
         if (modelable != null && adapter.addModelable(modelable)){

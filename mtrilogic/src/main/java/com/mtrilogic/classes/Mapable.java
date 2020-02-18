@@ -24,16 +24,17 @@ public class Mapable<M extends Modelable>{
 // ++++++++++++++++| PUBLIC METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     // PUT
-    public Listable<M> putListable(M modelable, Listable<M> listable){
+    public Listable<M> putListable(@NonNull M modelable, @NonNull Listable<M> listable){
         return listableMap.put(modelable, listable);
     }
 
     // GET
+    @NonNull
     public Map<M, Listable<M>> getListableMap(){
         return listableMap;
     }
 
-    public Listable<M> getListable(M modelable){
+    public Listable<M> getListable(@NonNull M modelable){
         return listableMap.get(modelable);
     }
 
@@ -43,12 +44,12 @@ public class Mapable<M extends Modelable>{
     }
 
     // CONTAINS
-    public boolean containsModelableKey(M modelable){
+    public boolean containsModelableKey(@NonNull M modelable){
         return listableMap.containsKey(modelable);
     }
 
     // DELETE
-    public Listable<M> deleteListable(M modelable){
+    public Listable<M> deleteListable(@NonNull M modelable){
         return listableMap.remove(modelable);
     }
 

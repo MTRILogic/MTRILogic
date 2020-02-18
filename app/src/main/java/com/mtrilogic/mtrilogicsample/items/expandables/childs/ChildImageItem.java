@@ -9,10 +9,13 @@ import android.widget.ImageButton;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.mtrilogic.abstracts.ExpandableChild;
 import com.mtrilogic.abstracts.Modelable;
+import com.mtrilogic.adapters.ExpandableAdapter;
 import com.mtrilogic.interfaces.ExpandableAdapterListener;
 import com.mtrilogic.mtrilogicsample.R;
 import com.mtrilogic.mtrilogicsample.models.ImageModel;
@@ -28,8 +31,8 @@ public class ChildImageItem extends ExpandableChild<ImageModel> implements
 
 // ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    public ChildImageItem(LayoutInflater inflater, int resource, ViewGroup parent,
-                          ExpandableAdapterListener listener){
+    public ChildImageItem(@NonNull LayoutInflater inflater, int resource, @NonNull ViewGroup parent,
+                          @NonNull ExpandableAdapterListener listener){
         super(inflater, resource, parent, listener);
         chkItem = itemView.findViewById(R.id.chk_item);
         chkItem.setOnClickListener(new View.OnClickListener() {
@@ -67,6 +70,7 @@ public class ChildImageItem extends ExpandableChild<ImageModel> implements
 
     @Override
     public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser){
+        ExpandableAdapter adapter = listener.getExpandableAdapter();
         if(adapter != null && fromUser){
             model.setRating(rating);
             adapter.notifyDataSetChanged();
@@ -75,8 +79,9 @@ public class ChildImageItem extends ExpandableChild<ImageModel> implements
         }
     }
 
+    @NonNull
     @Override
-    protected ImageModel getModel(Modelable modelable) {
+    protected ImageModel getModel(@NonNull Modelable modelable) {
         return (ImageModel) modelable;
     }
 
@@ -98,6 +103,7 @@ public class ChildImageItem extends ExpandableChild<ImageModel> implements
 // ++++++++++++++++| PRIVATE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     private void updateChecked(){
+        ExpandableAdapter adapter = listener.getExpandableAdapter();
         if (adapter != null) {
             boolean checked = chkItem.isChecked();
             model.setChecked(checked);

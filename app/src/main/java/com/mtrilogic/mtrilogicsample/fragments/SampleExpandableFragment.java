@@ -57,7 +57,7 @@ public class SampleExpandableFragment extends ExpandableFragment<SampleMapablePa
     }
 
     @Override
-    protected void onNewPosition() {
+    public void onNewPosition(int position) {
         lblContent.setText(getString(R.string.content_item, position));
     }
 

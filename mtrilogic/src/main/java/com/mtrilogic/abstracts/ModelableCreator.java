@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
+
 @SuppressWarnings("unused")
 public abstract class ModelableCreator<M extends Modelable> implements Parcelable.ClassLoaderCreator<M>{
 
@@ -26,6 +28,7 @@ public abstract class ModelableCreator<M extends Modelable> implements Parcelabl
         return getParcelableArray(size);
     }
 
+    @NonNull
     private M getParcelable(Parcel source, ClassLoader loader){
         Bundle data;
         if (source == null || loader == null || (data = source.readBundle(loader)) == null){

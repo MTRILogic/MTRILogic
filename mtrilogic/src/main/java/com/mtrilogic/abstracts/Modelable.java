@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
+
 @SuppressWarnings({"unused"})
 public abstract class Modelable implements Parcelable {
     private static final String ITEM_ID = "itemId", VIEW_TYPE = "viewType", ENABLED = "enabled";
@@ -15,7 +17,7 @@ public abstract class Modelable implements Parcelable {
 
     public Modelable(){}
 
-    public Modelable(Bundle data){
+    public Modelable(@NonNull Bundle data){
         onRestoreFromData(data);
     }
 
@@ -56,7 +58,7 @@ public abstract class Modelable implements Parcelable {
 // ++++++++++++++++| PUBLIC OVERRIDE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     @Override
-    public void writeToParcel(Parcel dest, int flags){
+    public void writeToParcel(@NonNull Parcel dest, int flags){
         Bundle data = new Bundle();
         onSaveToData(data);
         dest.writeBundle(data);

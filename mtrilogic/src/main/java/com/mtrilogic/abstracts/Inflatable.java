@@ -11,15 +11,11 @@ import androidx.lifecycle.Observer;
 
 import com.mtrilogic.adapters.InflatableAdapter;
 import com.mtrilogic.interfaces.InflatableAdapterListener;
-import com.mtrilogic.interfaces.OnMakeToastListener;
-import com.mtrilogic.views.InflatableView;
 
-@SuppressWarnings({"unused","WeakerAccess"})
+@SuppressWarnings({"unused"})
 public abstract class Inflatable<M extends Modelable> extends LiveData<M> implements Observer<M> {
-    protected final OnMakeToastListener listener;
+    protected final InflatableAdapterListener listener;
     protected final View itemView;
-    protected InflatableAdapter adapter;
-    protected InflatableView lvwItems;
     protected int position;
     protected M model;
 
@@ -35,17 +31,16 @@ public abstract class Inflatable<M extends Modelable> extends LiveData<M> implem
                       @NonNull InflatableAdapterListener listener){
         itemView = inflater.inflate(resource, parent, false);
         this.listener = listener;
-        adapter = listener.getInflatableAdapter();
-        lvwItems = listener.getInflatableView();
     }
 
 // ++++++++++++++++| PUBLIC METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+    @NonNull
     public View getItemView(){
         return itemView;
     }
 
-    public void bindHolder(Modelable modelable, int position){
+    public void bindHolder(@NonNull Modelable modelable, int position){
         model = getModel(modelable);
         this.position = position;
         onBindHolder();
@@ -53,11 +48,13 @@ public abstract class Inflatable<M extends Modelable> extends LiveData<M> implem
 
 // ++++++++++++++++| PROTECTED METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+    @NonNull
     protected Context getContext(){
         return itemView.getContext();
     }
 
     protected void autoDelete(){
+        InflatableAdapter adapter = listener.getInflatableAdapter();
         if (adapter != null){
             if (adapter.removeModelable(model)){
                 adapter.notifyDataSetChanged();

@@ -2,6 +2,8 @@ package com.mtrilogic.mtrilogicsample.models;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+
 import com.mtrilogic.abstracts.ModelableCreator;
 import com.mtrilogic.mtrilogicsample.types.ChildType;
 
@@ -30,7 +32,7 @@ public class ImageModel extends DataModel{
         super(itemId, ChildType.IMAGE, checked);
     }
 
-    private ImageModel(Bundle data){
+    private ImageModel(@NonNull Bundle data){
         super(data);
     }
 

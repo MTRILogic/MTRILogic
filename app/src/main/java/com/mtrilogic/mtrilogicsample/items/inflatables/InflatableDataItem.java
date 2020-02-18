@@ -8,8 +8,11 @@ import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import com.mtrilogic.abstracts.Inflatable;
 import com.mtrilogic.abstracts.Modelable;
+import com.mtrilogic.adapters.InflatableAdapter;
 import com.mtrilogic.interfaces.InflatableAdapterListener;
 import com.mtrilogic.mtrilogicsample.R;
 import com.mtrilogic.mtrilogicsample.models.DataModel;
@@ -21,8 +24,8 @@ public class InflatableDataItem extends Inflatable<DataModel> {
 
 // ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    public InflatableDataItem(LayoutInflater inflater, int resource, ViewGroup parent,
-                              InflatableAdapterListener listener){
+    public InflatableDataItem(@NonNull LayoutInflater inflater, int resource, @NonNull ViewGroup parent,
+                              @NonNull InflatableAdapterListener listener){
         super(inflater, resource, parent, listener);
         chkItem = itemView.findViewById(R.id.chk_item);
         chkItem.setOnClickListener(new View.OnClickListener() {
@@ -51,8 +54,9 @@ public class InflatableDataItem extends Inflatable<DataModel> {
 
 // ++++++++++++++++| PROTECTED OVERRIDE METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++
 
+    @NonNull
     @Override
-    protected DataModel getModel(Modelable modelable) {
+    protected DataModel getModel(@NonNull Modelable modelable) {
         return (DataModel) modelable;
     }
 
@@ -67,6 +71,7 @@ public class InflatableDataItem extends Inflatable<DataModel> {
 // ++++++++++++++++| PRIVATE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     private void updateChecked(){
+        InflatableAdapter adapter = listener.getInflatableAdapter();
         if (adapter != null){
             boolean checked = chkItem.isChecked();
             model.setChecked(checked);

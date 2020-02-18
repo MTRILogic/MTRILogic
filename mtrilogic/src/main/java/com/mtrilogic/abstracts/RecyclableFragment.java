@@ -1,7 +1,9 @@
 package com.mtrilogic.abstracts;
 
+import android.content.Context;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mtrilogic.adapters.RecyclableAdapter;
@@ -21,9 +23,10 @@ public abstract class RecyclableFragment<P extends ListablePage> extends Fragmen
 
 // ****************| PROTECTED METHODS |************************************************************
 
-    protected void initRecyclable(View view, RecyclerView.LayoutManager layoutManager){
+    protected void initRecyclable(@NonNull View view, @NonNull RecyclerView.LayoutManager layoutManager){
+        Context context = getContext();
         ArrayList<Modelable> modelables = page.getModelableList();
-        adapter = new RecyclableAdapter(this, modelables);
+        adapter = new RecyclableAdapter(context,this, modelables);
         lvwItems = view.findViewById(R.id.lvw_items);
         lvwItems.setLayoutManager(layoutManager);
         lvwItems.setAdapter(adapter);
@@ -33,7 +36,7 @@ public abstract class RecyclableFragment<P extends ListablePage> extends Fragmen
 // ++++++++++++++++| PUBLIC OVERRIDE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     @Override
-    protected void onNewPosition() {
+    public void onNewPosition(int position) {
 
     }
 

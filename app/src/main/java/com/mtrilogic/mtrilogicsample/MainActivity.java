@@ -167,13 +167,13 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     @Override
     public void onPositionChanged(int position){
         if (position == Base.INVALID_POSITION){
-            paginableState.setUpdate();
             if (adapter.getCount() == 0) {
                 actionBar.setTitle(R.string.app_name);
             }
         }else {
             pageSelected(position);
         }
+        paginableState.setUpdate();
     }
 
     @Override
@@ -194,6 +194,11 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     @Override
     public void onMakeLog(String line) {
         makeLog(line);
+    }
+
+    @Override
+    public void uncaughtException(@NonNull Thread t, @NonNull Throwable e) {
+        makeLog("Exception: Thread: " + t + ", Line number: " + e.getStackTrace()[0].getLineNumber());
     }
 
     private void pageSelected(int position){

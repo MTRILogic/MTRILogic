@@ -12,16 +12,13 @@ import androidx.lifecycle.Observer;
 import com.mtrilogic.adapters.ExpandableAdapter;
 import com.mtrilogic.classes.Listable;
 import com.mtrilogic.interfaces.ExpandableAdapterListener;
-import com.mtrilogic.interfaces.OnMakeToastListener;
 import com.mtrilogic.views.ExpandableView;
 
 @SuppressWarnings({"unused","WeakerAccess"})
 public abstract class ExpandableGroup<M extends Modelable> extends LiveData<M> implements Observer<M> {
-    protected final OnMakeToastListener listener;
+    protected final ExpandableAdapterListener listener;
     protected final View itemView;
-    protected ExpandableAdapter adapter;
     protected Listable<Modelable> childListable;
-    protected ExpandableView lvwItems;
     protected int groupPosition;
     protected boolean expanded;
     protected M model;
@@ -38,17 +35,17 @@ public abstract class ExpandableGroup<M extends Modelable> extends LiveData<M> i
                            @NonNull ExpandableAdapterListener listener){
         itemView = inflater.inflate(resource, parent, false);
         this.listener = listener;
-        adapter = listener.getExpandableAdapter();
-        lvwItems = listener.getExpandableView();
     }
 
 // ++++++++++++++++| PUBLIC METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+    @NonNull
     public View getItemView() {
         return itemView;
     }
 
-    public void bindHolder(Modelable modelable, int groupPosition, boolean expanded){
+    public void bindHolder(@NonNull Modelable modelable, int groupPosition, boolean expanded){
+        ExpandableAdapter adapter = listener.getExpandableAdapter();
         model = getModel(modelable);
         childListable = adapter != null ? adapter.getChildListable(model) : null;
         this.groupPosition = groupPosition;
@@ -58,21 +55,25 @@ public abstract class ExpandableGroup<M extends Modelable> extends LiveData<M> i
 
 // ++++++++++++++++| PROTECTED METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+    @NonNull
     protected Context getContext(){
         return itemView.getContext();
     }
 
     protected void autoDelete(){
+        ExpandableAdapter adapter = listener.getExpandableAdapter();
         if (adapter != null && adapter.deleteGroupModelable(model)){
             adapter.notifyDataSetChanged();
         }
     }
 
-    protected void addNewChildModelable(Modelable childModelable, long idx){
-        if (childModelable != null && adapter != null && adapter.appendChildModelable(model, childModelable)) {
+    protected void addNewChildModelable(@NonNull Modelable childModelable, long idx){
+        ExpandableAdapter adapter = listener.getExpandableAdapter();
+        if (adapter != null && adapter.appendChildModelable(model, childModelable)) {
             adapter.notifyDataSetChanged();
             childListable.setIdx(++idx);
             if (adapter.getChildrenCount(groupPosition) == 1){
+                ExpandableView lvwItems = listener.getExpandableView();
                 if (lvwItems != null && !lvwItems.isGroupExpanded(groupPosition)){
                     lvwItems.expandGroup(groupPosition);
                 }

@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import androidx.annotation.NonNull;
+
 import com.mtrilogic.abstracts.Inflatable;
 import com.mtrilogic.abstracts.Modelable;
 import com.mtrilogic.classes.Base;
@@ -24,8 +26,8 @@ public class InflatableAdapter extends BaseAdapter{
 
 // ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    public InflatableAdapter(Context context, InflatableListener listener, ArrayList<Modelable> modelableList,
-                             int typeCount){
+    public InflatableAdapter(Context context, @NonNull InflatableListener listener,
+                             @NonNull ArrayList<Modelable> modelableList, int typeCount){
         inflater = LayoutInflater.from(context);
         this.listener = listener;
         this.modelableList = modelableList;
@@ -44,35 +46,37 @@ public class InflatableAdapter extends BaseAdapter{
         this.stableIds = stableIds;
     }
 
-    public int getModelablePosition(Modelable modelable){
+    public int getModelablePosition(@NonNull Modelable modelable){
         return modelableList.indexOf(modelable);
     }
 
+    @NonNull
     private Modelable[] getModelableArray(){
         return modelableList.toArray(new Modelable[getCount()]);
     }
 
+    @NonNull
     public ArrayList<Modelable> getModelableList(){
         return modelableList;
     }
 
-    public void setModelableList(ArrayList<Modelable> modelableList){
+    public void setModelableList(@NonNull ArrayList<Modelable> modelableList){
         this.modelableList = modelableList;
     }
 
-    public boolean addModelableList(ArrayList<Modelable> modelableList){
+    public boolean addModelableList(@NonNull ArrayList<Modelable> modelableList){
         return this.modelableList.addAll(modelableList);
     }
 
-    public boolean insertModelableList(int position, ArrayList<Modelable> modelableList){
+    public boolean insertModelableList(int position, @NonNull ArrayList<Modelable> modelableList){
         return isValidPosition(position) && this.modelableList.addAll(position, modelableList);
     }
 
-    public boolean removeModelableList(ArrayList<Modelable> modelableList){
+    public boolean removeModelableList(@NonNull ArrayList<Modelable> modelableList){
         return this.modelableList.removeAll(modelableList);
     }
 
-    public boolean retainModelableList(ArrayList<Modelable> modelableList){
+    public boolean retainModelableList(@NonNull ArrayList<Modelable> modelableList){
         return this.modelableList.retainAll(modelableList);
     }
 
@@ -80,21 +84,21 @@ public class InflatableAdapter extends BaseAdapter{
         return isValidPosition(position) ? modelableList.get(position) : null;
     }
 
-    public Modelable setModelable(int position, Modelable modelable){
+    public Modelable setModelable(int position, @NonNull Modelable modelable){
         return isValidPosition(position) ? modelableList.set(position, modelable) : null;
     }
 
-    public boolean addModelable(Modelable modelable){
+    public boolean addModelable(@NonNull Modelable modelable){
         return modelableList.add(modelable);
     }
 
-    public void insertModelable(int position, Modelable modelable){
+    public void insertModelable(int position, @NonNull Modelable modelable){
         if(isValidPosition(position)){
             modelableList.add(position, modelable);
         }
     }
 
-    public boolean removeModelable(Modelable modelable){
+    public boolean removeModelable(@NonNull Modelable modelable){
         return modelableList.remove(modelable);
     }
 

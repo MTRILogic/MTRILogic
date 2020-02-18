@@ -9,10 +9,13 @@ import android.widget.ImageButton;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.mtrilogic.abstracts.Modelable;
 import com.mtrilogic.abstracts.Recyclable;
+import com.mtrilogic.adapters.RecyclableAdapter;
 import com.mtrilogic.interfaces.RecyclableAdapterListener;
 import com.mtrilogic.mtrilogicsample.R;
 import com.mtrilogic.mtrilogicsample.models.ImageModel;
@@ -28,8 +31,8 @@ public class RecyclableImageItem extends Recyclable<ImageModel> implements
 
 // ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    public RecyclableImageItem(LayoutInflater inflater, int resource, ViewGroup parent,
-                               RecyclableAdapterListener listener){
+    public RecyclableImageItem(@NonNull LayoutInflater inflater, int resource, @NonNull ViewGroup parent,
+                               @NonNull RecyclableAdapterListener listener){
         super(inflater, resource, parent, listener);
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,6 +76,7 @@ public class RecyclableImageItem extends Recyclable<ImageModel> implements
 
     @Override
     public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser){
+        RecyclableAdapter adapter = listener.getRecyclableAdapter();
         if(adapter != null && fromUser){
             model.setRating(rating);
             adapter.notifyDataSetChanged();
@@ -82,8 +86,9 @@ public class RecyclableImageItem extends Recyclable<ImageModel> implements
 
 // ++++++++++++++++| PROTECTED OVERRIDE METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++
 
+    @NonNull
     @Override
-    protected ImageModel getModel(Modelable modelable) {
+    protected ImageModel getModel(@NonNull Modelable modelable) {
         return (ImageModel) modelable;
     }
 
@@ -105,6 +110,7 @@ public class RecyclableImageItem extends Recyclable<ImageModel> implements
 // ++++++++++++++++| PRIVATE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     private void updateChecked(){
+        RecyclableAdapter adapter = listener.getRecyclableAdapter();
         if (adapter != null){
             boolean checked = chkItem.isChecked();
             model.setChecked(checked);

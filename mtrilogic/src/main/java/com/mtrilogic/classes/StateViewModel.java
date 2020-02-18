@@ -1,5 +1,6 @@
 package com.mtrilogic.classes;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -11,10 +12,12 @@ public class StateViewModel extends ViewModel {
     private MutableLiveData<Listable<Paginable>> listableLiveData;
     private Listable<Paginable> listable;
 
+    @NonNull
     public Listable<Paginable> getListable() {
         return listable;
     }
 
+    @NonNull
     public LiveData<Listable<Paginable>> getListableLiveData() {
         if (listableLiveData == null){
             listableLiveData = new MutableLiveData<>();

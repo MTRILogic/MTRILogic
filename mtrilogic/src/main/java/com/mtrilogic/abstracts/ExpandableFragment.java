@@ -1,5 +1,6 @@
 package com.mtrilogic.abstracts;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 
@@ -24,7 +25,8 @@ public abstract class ExpandableFragment<P extends MapablePage> extends Fragment
 
 // ****************| PROTECTED METHODS |************************************************************
 
-    protected void initExpandable(View view, int groupTypeCount, int childTypeCount){
+    protected void initExpandable(@NonNull View view, int groupTypeCount, int childTypeCount){
+        Context context = getContext();
         Listable<Modelable> groupListable = page.getGroupListable();
         Mapable<Modelable> childMapable = page.getChildMapable();
         adapter = new ExpandableAdapter(context,this, groupListable, childMapable,
@@ -53,7 +55,7 @@ public abstract class ExpandableFragment<P extends MapablePage> extends Fragment
     }
 
     @Override
-    protected void onNewPosition() {
+    public void onNewPosition(int position) {
 
     }
 

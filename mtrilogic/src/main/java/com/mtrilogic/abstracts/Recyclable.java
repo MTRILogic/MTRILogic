@@ -10,14 +10,11 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.mtrilogic.adapters.RecyclableAdapter;
-import com.mtrilogic.interfaces.OnMakeToastListener;
 import com.mtrilogic.interfaces.RecyclableAdapterListener;
 
-@SuppressWarnings({"unused","WeakerAccess"})
+@SuppressWarnings({"unused"})
 public abstract class Recyclable<M extends Modelable> extends RecyclerView.ViewHolder implements Observer<M> {
-    protected final OnMakeToastListener listener;
-    protected RecyclableAdapter adapter;
-    protected RecyclerView lvwItems;
+    protected final RecyclableAdapterListener listener;
     protected int position;
     protected M model;
 
@@ -33,13 +30,11 @@ public abstract class Recyclable<M extends Modelable> extends RecyclerView.ViewH
                       @NonNull RecyclableAdapterListener listener){
         super(inflater.inflate(resource, parent, false));
         this.listener = listener;
-        adapter = listener.getRecyclableAdapter();
-        lvwItems = listener.getRecyclerView();
     }
 
 // ++++++++++++++++| PUBLIC METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    public void bindHolder(Modelable modelable, int position){
+    public void bindHolder(@NonNull Modelable modelable, int position){
         model = getModel(modelable);
         this.position = position;
         onBindHolder();
@@ -47,11 +42,13 @@ public abstract class Recyclable<M extends Modelable> extends RecyclerView.ViewH
 
 // ++++++++++++++++| PROTECTED METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+    @NonNull
     protected Context getContext(){
         return itemView.getContext();
     }
 
     protected void autoDelete(){
+        RecyclableAdapter adapter = listener.getRecyclableAdapter();
         if (adapter != null){
             if (adapter.removeModelable(model)){
                 adapter.notifyDataSetChanged();

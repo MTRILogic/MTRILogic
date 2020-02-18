@@ -2,6 +2,8 @@ package com.mtrilogic.abstracts;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+
 import java.util.ArrayList;
 
 @SuppressWarnings({"unused","WeakerAccess"})
@@ -10,32 +12,33 @@ public abstract class ListablePage extends Paginable {
     private ArrayList<Modelable> modelableList;
     private long idx;
 
-// ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     public ListablePage(){}
 
-    public ListablePage(Bundle data){
+    public ListablePage(@NonNull Bundle data){
         super(data);
     }
 
-    public ListablePage(String pageTitle, String tagName, long itemId, int viewType){
+    public ListablePage(@NonNull String pageTitle, @NonNull String tagName, long itemId, int viewType){
         this(pageTitle, tagName, itemId, viewType, new ArrayList<Modelable>(), 0);
     }
 
-    public ListablePage(String pageTitle, String tagName, long itemId, int viewType,
-                        ArrayList<Modelable> modelableList, long idx){
+    public ListablePage(@NonNull String pageTitle, @NonNull String tagName, long itemId, int viewType,
+                        @NonNull ArrayList<Modelable> modelableList, long idx){
         super(pageTitle, tagName, itemId, viewType);
         this.modelableList = modelableList;
         this.idx = idx;
     }
 
-// ++++++++++++++++| PUBLIC METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ++++++++++++++++| PUBLIC METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+    @NonNull
     public ArrayList<Modelable> getModelableList(){
         return modelableList;
     }
 
-    public void setModelableList(ArrayList<Modelable> modelableList){
+    public void setModelableList(@NonNull ArrayList<Modelable> modelableList){
         this.modelableList = modelableList;
     }
 
@@ -47,17 +50,17 @@ public abstract class ListablePage extends Paginable {
         this.idx = idx;
     }
 
-// ++++++++++++++++| PROTECTED METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ++++++++++++++++| PROTECTED METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     @Override
-    protected void onRestoreFromData(Bundle data) {
+    protected void onRestoreFromData(@NonNull Bundle data) {
         super.onRestoreFromData(data);
         modelableList = data.getParcelableArrayList(LIST);
         idx = data.getLong(IDX);
     }
 
     @Override
-    protected void onSaveToData(Bundle data) {
+    protected void onSaveToData(@NonNull Bundle data) {
         super.onSaveToData(data);
         data.putParcelableArrayList(LIST, modelableList);
         data.putLong(IDX, idx);
