@@ -3,4 +3,16 @@
     <declare-styleable name="SquareImageView">
         <attr name="portrait" format="boolean"/>
     </declare-styleable>
+
+    <declare-styleable name="SquareGridView">
+        <attr name="portrait"/>
+    </declare-styleable>
+
+    <declare-styleable name="SquareTableLayout">
+        <attr name="portrait"/>
+    </declare-styleable>
+
+    <declare-styleable name="ScaleTableRow">
+        <attr name="scale" format="integer"/>
+    </declare-styleable>
 </resources>
