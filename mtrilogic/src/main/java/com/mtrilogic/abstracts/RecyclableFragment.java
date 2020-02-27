@@ -14,7 +14,7 @@ import com.mtrilogic.mtrilogic.R;
 import java.util.ArrayList;
 
 @SuppressWarnings({"unused","WeakerAccess"})
-public abstract class RecyclableFragment<P extends ListablePage> extends Fragmentable<P>
+public abstract class RecyclableFragment<P extends ListPaginable<Modelable>> extends Fragmentable<P>
         implements RecyclableListener, RecyclableAdapterListener {
     protected RecyclableAdapter adapter;
     protected RecyclerView lvwItems;
@@ -25,7 +25,7 @@ public abstract class RecyclableFragment<P extends ListablePage> extends Fragmen
 
     protected void initRecyclable(@NonNull View view, @NonNull RecyclerView.LayoutManager layoutManager){
         Context context = getContext();
-        ArrayList<Modelable> modelables = page.getModelableList();
+        ArrayList<Modelable> modelables = page.getListable().getModelableList();
         adapter = new RecyclableAdapter(context,this, modelables);
         lvwItems = view.findViewById(R.id.lvw_items);
         lvwItems.setLayoutManager(layoutManager);

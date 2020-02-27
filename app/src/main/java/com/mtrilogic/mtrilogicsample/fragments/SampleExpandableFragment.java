@@ -20,13 +20,13 @@ import com.mtrilogic.mtrilogicsample.items.expandables.childs.ChildDataItem;
 import com.mtrilogic.mtrilogicsample.items.expandables.childs.ChildImageItem;
 import com.mtrilogic.mtrilogicsample.items.expandables.groups.GroupDataItem;
 import com.mtrilogic.mtrilogicsample.models.DataModel;
-import com.mtrilogic.mtrilogicsample.pages.SampleMapablePage;
+import com.mtrilogic.mtrilogicsample.pages.SampleMapPaginable;
 import com.mtrilogic.mtrilogicsample.R;
 import com.mtrilogic.mtrilogicsample.types.GroupType;
 import com.mtrilogic.mtrilogicsample.types.ChildType;
 
 @SuppressWarnings("unused")
-public class SampleExpandableFragment extends ExpandableFragment<SampleMapablePage> {
+public class SampleExpandableFragment extends ExpandableFragment<SampleMapPaginable> {
     private TextView lblContent;
 
 // PROTECTED OVERRIDE METHODS |*********************************************************************

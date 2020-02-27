@@ -19,11 +19,11 @@ import com.mtrilogic.mtrilogicsample.R;
 import com.mtrilogic.mtrilogicsample.extras.Utils;
 import com.mtrilogic.mtrilogicsample.items.recyclables.RecyclableDataItem;
 import com.mtrilogic.mtrilogicsample.items.recyclables.RecyclableImageItem;
-import com.mtrilogic.mtrilogicsample.pages.SampleListablePage;
+import com.mtrilogic.mtrilogicsample.pages.SampleListPaginable;
 import com.mtrilogic.mtrilogicsample.types.ChildType;
 
 @SuppressWarnings("unused")
-public class SampleRecyclableFragment extends RecyclableFragment<SampleListablePage>{
+public class SampleRecyclableFragment extends RecyclableFragment<SampleListPaginable>{
     private TextView lblContent;
 
 // PROTECTED OVERRIDE METHODS |*********************************************************************
@@ -98,11 +98,11 @@ public class SampleRecyclableFragment extends RecyclableFragment<SampleListableP
 
     private void addModelable(int viewType){
         Context context = getContext();
-        long idx = page.getIdx();
+        long idx = page.getListable().getIdx();
         Modelable modelable = Utils.getNewModelable(context, viewType, idx, false);
         if (modelable != null && adapter.addModelable(modelable)){
             adapter.notifyDataSetChanged();
-            page.setIdx(++idx);
+            page.getListable().setIdx(++idx);
         }
     }
 }

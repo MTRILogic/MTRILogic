@@ -18,11 +18,11 @@ import com.mtrilogic.mtrilogicsample.R;
 import com.mtrilogic.mtrilogicsample.extras.Utils;
 import com.mtrilogic.mtrilogicsample.items.inflatables.InflatableImageItem;
 import com.mtrilogic.mtrilogicsample.items.inflatables.InflatableDataItem;
-import com.mtrilogic.mtrilogicsample.pages.SampleListablePage;
+import com.mtrilogic.mtrilogicsample.pages.SampleListPaginable;
 import com.mtrilogic.mtrilogicsample.types.ChildType;
 
 @SuppressWarnings("unused")
-public class SampleInflatableFragment extends InflatableFragment<SampleListablePage> {
+public class SampleInflatableFragment extends InflatableFragment<SampleListPaginable> {
     private TextView lblContent;
 
 // PROTECTED OVERRIDE METHODS |*********************************************************************
@@ -97,11 +97,11 @@ public class SampleInflatableFragment extends InflatableFragment<SampleListableP
 
     private void addModelable(int viewType){
         Context context = getContext();
-        long idx = page.getIdx();
+        long idx = page.getListable().getIdx();
         Modelable modelable = Utils.getNewModelable(context, viewType, idx, false);
         if (modelable != null && adapter.addModelable(modelable)){
             adapter.notifyDataSetChanged();
-            page.setIdx(++idx);
+            page.getListable().setIdx(++idx);
         }
     }
 }

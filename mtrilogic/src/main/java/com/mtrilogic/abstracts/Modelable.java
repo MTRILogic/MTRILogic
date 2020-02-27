@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 @SuppressWarnings({"unused"})
 public abstract class Modelable implements Parcelable {
     private static final String ITEM_ID = "itemId", VIEW_TYPE = "viewType", ENABLED = "enabled";
+
     private long itemId;
     private int viewType;
     private boolean enabled;

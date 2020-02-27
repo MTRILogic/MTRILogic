@@ -6,7 +6,7 @@ import com.google.android.material.tabs.TabLayout;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,8 +29,8 @@ import com.mtrilogic.interfaces.OnMakeToastListener;
 import com.mtrilogic.mtrilogicsample.fragments.SampleExpandableFragment;
 import com.mtrilogic.mtrilogicsample.fragments.SampleInflatableFragment;
 import com.mtrilogic.mtrilogicsample.fragments.SampleRecyclableFragment;
-import com.mtrilogic.mtrilogicsample.pages.SampleMapablePage;
-import com.mtrilogic.mtrilogicsample.pages.SampleListablePage;
+import com.mtrilogic.mtrilogicsample.pages.SampleMapPaginable;
+import com.mtrilogic.mtrilogicsample.pages.SampleListPaginable;
 import com.mtrilogic.mtrilogicsample.types.PageType;
 
 @SuppressWarnings("unused")
@@ -77,7 +77,8 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
                 makeToast("Count: " + listable.getModelableCount());
             }
         };
-        paginableState = ViewModelProviders.of(this).get(StateViewModel.class);
+
+        paginableState = new ViewModelProvider(this).get(StateViewModel.class);
         paginableState.getListableLiveData().observe(this, paginableObserver);
 
         if(savedInstanceState != null) {
@@ -229,11 +230,11 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         int viewType = TYPES[index];
         switch (viewType){
             case PageType.INFLATABLE:
-                return new SampleListablePage(pageTitle, tagName, idx, PageType.INFLATABLE);
+                return new SampleListPaginable(pageTitle, tagName, idx, PageType.INFLATABLE);
             case PageType.RECYCLABLE:
-                return new SampleListablePage(pageTitle, tagName, idx, PageType.RECYCLABLE);
+                return new SampleListPaginable(pageTitle, tagName, idx, PageType.RECYCLABLE);
             case PageType.EXPANDABLE:
-                return new SampleMapablePage(pageTitle, tagName, idx);
+                return new SampleMapPaginable(pageTitle, tagName, idx);
         }
         return null;
     }

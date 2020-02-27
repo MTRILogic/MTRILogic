@@ -16,7 +16,7 @@ import com.mtrilogic.mtrilogic.R;
 import com.mtrilogic.views.ExpandableView;
 
 @SuppressWarnings({"unused","WeakerAccess"})
-public abstract class ExpandableFragment<P extends MapablePage> extends Fragmentable<P> implements
+public abstract class ExpandableFragment<P extends MapPaginable<Modelable>> extends Fragmentable<P> implements
         ExpandableListener, ExpandableAdapterListener {
     protected ExpandableAdapter adapter;
     protected ExpandableView lvwItems;

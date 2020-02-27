@@ -16,7 +16,7 @@ import com.mtrilogic.views.InflatableView;
 import java.util.ArrayList;
 
 @SuppressWarnings({"unused","WeakerAccess"})
-public abstract class InflatableFragment<P extends ListablePage> extends Fragmentable<P>
+public abstract class InflatableFragment<P extends ListPaginable<Modelable>> extends Fragmentable<P>
         implements InflatableListener, InflatableAdapterListener {
     protected InflatableAdapter adapter;
     protected InflatableView lvwItems;
@@ -29,7 +29,7 @@ public abstract class InflatableFragment<P extends ListablePage> extends Fragmen
 
     protected void initInflatable(@NonNull View view, int typeCount){
         Context context = getContext();
-        ArrayList<Modelable> modelableList = page.getModelableList();
+        ArrayList<Modelable> modelableList = page.getListable().getModelableList();
         adapter = new InflatableAdapter(context,this, modelableList, typeCount);
         lvwItems = view.findViewById(R.id.lvw_items);
         lvwItems.setAdapter(adapter);

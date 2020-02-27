@@ -7,14 +7,14 @@ import java.util.Map;
 
 import androidx.annotation.NonNull;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class Mapable<M extends Modelable>{
     private Map<M, Listable<M>> listableMap;
 
 // ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     public Mapable(){
-        listableMap = new LinkedHashMap<>();
+        this(new LinkedHashMap<M, Listable<M>>());
     }
 
     public Mapable(@NonNull LinkedHashMap<M, Listable<M>> listableMap){
@@ -43,22 +43,35 @@ public class Mapable<M extends Modelable>{
         this.listableMap = listableMap;
     }
 
-    // CONTAINS
+    /**
+     * Checks if this map contains a mapping for the especified modelable.
+     * @param modelable the modelable key to be tested.
+     * @return true if this map contains a mapping for modelable key
+     */
     public boolean containsModelableKey(@NonNull M modelable){
         return listableMap.containsKey(modelable);
     }
 
-    // DELETE
+    /**
+     * Deletes the modelable's list from modelable's map
+     * @param modelable The modelable key
+     * @return The removed modelable's list
+     */
     public Listable<M> deleteListable(@NonNull M modelable){
         return listableMap.remove(modelable);
     }
 
-    // COUNT
+    /**
+     * Get listable's map size.
+     * @return The size listable's map.
+     */
     public int getListableCount(){
         return listableMap.size();
     }
 
-    // RESET
+    /**
+     * Clear the listable map.
+     */
     public void reset(){
         listableMap.clear();
     }

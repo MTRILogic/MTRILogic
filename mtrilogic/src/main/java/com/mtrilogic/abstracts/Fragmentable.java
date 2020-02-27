@@ -68,6 +68,10 @@ public abstract class Fragmentable<P extends Paginable> extends Fragment
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         if (page != null){
+            String tag = getTag();
+            if (tag != null) {
+                page.setTagName(tag);
+            }
             View view = onCreateViewFragment(inflater, container, savedInstanceState);
             if (listener != null) {
                 int position = listener.getFragmentableAdapter().getPaginablePosition(page);

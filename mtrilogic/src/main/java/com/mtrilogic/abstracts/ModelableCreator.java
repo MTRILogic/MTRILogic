@@ -31,7 +31,9 @@ public abstract class ModelableCreator<M extends Modelable> implements Parcelabl
     @NonNull
     private M getParcelable(Parcel source, ClassLoader loader){
         Bundle data;
-        if (source == null || loader == null || (data = source.readBundle(loader)) == null){
+        if (source != null && loader != null){
+            data = source.readBundle(loader);
+        }else {
             data = new Bundle();
         }
         return getParcelable(data);
