@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 
 import com.mtrilogic.abstracts.Modelable;
 import com.mtrilogic.abstracts.ModelableCreator;
-import com.mtrilogic.mtrilogicsample.types.ChildType;
+import com.mtrilogic.mtrilogicsample.types.ItemChildType;
 
 @SuppressWarnings({"unused","WeakerAccess"})
 public class DataModel extends Modelable{
@@ -34,7 +34,7 @@ public class DataModel extends Modelable{
     }
 
     public DataModel(long itemId, boolean checked){
-        this(itemId, ChildType.DATA, false);
+        this(itemId, ItemChildType.DATA, false);
     }
 
     public DataModel(long itemId, int viewType, boolean checked){

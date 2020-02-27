@@ -15,28 +15,28 @@ import com.mtrilogic.abstracts.Modelable;
 import com.mtrilogic.adapters.ExpandableAdapter;
 import com.mtrilogic.interfaces.ExpandableAdapterListener;
 import com.mtrilogic.mtrilogicsample.R;
+import com.mtrilogic.mtrilogicsample.databinding.ItemChildDataBinding;
 import com.mtrilogic.mtrilogicsample.models.DataModel;
 
 @SuppressWarnings({"unused","FieldCanBeLocal"})
-public class ChildDataItem extends ExpandableChild<DataModel> {
+public class ChildDataItem extends ExpandableChild<DataModel, ItemChildDataBinding> {
     private TextView lblTitle, lblContent;
     private CheckBox chkItem;
 
 // ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    public ChildDataItem(@NonNull LayoutInflater inflater, int resource, @NonNull ViewGroup parent,
-                         @NonNull ExpandableAdapterListener listener){
-        super(inflater, resource, parent, listener);
-        chkItem = itemView.findViewById(R.id.chk_item);
+    public ChildDataItem(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent, @NonNull ExpandableAdapterListener listener){
+        super(ItemChildDataBinding.inflate(inflater, parent, false), listener);
+        chkItem = binding.chkItem;
         chkItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 updateChecked();
             }
         });
-        lblTitle = itemView.findViewById(R.id.lbl_title);
-        lblContent = itemView.findViewById(R.id.lbl_content);
-        ImageButton btnDelete = itemView.findViewById(R.id.btn_delete);
+        lblTitle = binding.lblTitle;
+        lblContent = binding.lblContent;
+        ImageButton btnDelete = binding.btnDelete;
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,7 +63,7 @@ public class ChildDataItem extends ExpandableChild<DataModel> {
     @Override
     protected void onBindHolder(){
         chkItem.setChecked(model.isChecked());
-        Context context = getContext();
+        Context context = itemView.getContext();
         lblTitle.setText(context.getString(R.string.title_item, model.getItemId()));
         lblContent.setText(context.getString(R.string.content_item, childPosition));
     }

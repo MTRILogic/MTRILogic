@@ -15,28 +15,29 @@ import com.mtrilogic.abstracts.Modelable;
 import com.mtrilogic.adapters.InflatableAdapter;
 import com.mtrilogic.interfaces.InflatableAdapterListener;
 import com.mtrilogic.mtrilogicsample.R;
+import com.mtrilogic.mtrilogicsample.databinding.ItemDataBinding;
 import com.mtrilogic.mtrilogicsample.models.DataModel;
 
 @SuppressWarnings({"unused"})
-public class InflatableDataItem extends Inflatable<DataModel> {
+public class InflatableDataItem extends Inflatable<DataModel, ItemDataBinding> {
     private TextView lblTitle, lblContent;
     private CheckBox chkItem;
 
 // ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    public InflatableDataItem(@NonNull LayoutInflater inflater, int resource, @NonNull ViewGroup parent,
+    public InflatableDataItem(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent,
                               @NonNull InflatableAdapterListener listener){
-        super(inflater, resource, parent, listener);
-        chkItem = itemView.findViewById(R.id.chk_item);
+        super(ItemDataBinding.inflate(inflater, parent, false), listener);
+        chkItem = binding.chkItem;
         chkItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 updateChecked();
             }
         });
-        lblTitle = itemView.findViewById(R.id.lbl_title);
-        lblContent = itemView.findViewById(R.id.lbl_content);
-        ImageButton btnDelete = itemView.findViewById(R.id.btn_delete);
+        lblTitle = binding.lblTitle;
+        lblContent = binding.lblContent;
+        ImageButton btnDelete = binding.btnDelete;
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,7 +64,7 @@ public class InflatableDataItem extends Inflatable<DataModel> {
     @Override
     protected void onBindHolder(){
         chkItem.setChecked(model.isChecked());
-        Context context = getContext();
+        Context context = itemView.getContext();
         lblTitle.setText(context.getString(R.string.title_item, model.getItemId()));
         lblContent.setText(context.getString(R.string.content_item, position));
     }

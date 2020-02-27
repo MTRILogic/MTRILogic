@@ -16,62 +16,61 @@ import com.mtrilogic.abstracts.ExpandableFragment;
 import com.mtrilogic.abstracts.ExpandableGroup;
 import com.mtrilogic.abstracts.Modelable;
 import com.mtrilogic.classes.Listable;
+import com.mtrilogic.mtrilogicsample.databinding.FragmentExpandableBinding;
 import com.mtrilogic.mtrilogicsample.items.expandables.childs.ChildDataItem;
 import com.mtrilogic.mtrilogicsample.items.expandables.childs.ChildImageItem;
 import com.mtrilogic.mtrilogicsample.items.expandables.groups.GroupDataItem;
 import com.mtrilogic.mtrilogicsample.models.DataModel;
 import com.mtrilogic.mtrilogicsample.pages.SampleMapPaginable;
 import com.mtrilogic.mtrilogicsample.R;
-import com.mtrilogic.mtrilogicsample.types.GroupType;
-import com.mtrilogic.mtrilogicsample.types.ChildType;
+import com.mtrilogic.mtrilogicsample.types.ItemGroupType;
+import com.mtrilogic.mtrilogicsample.types.ItemChildType;
+import com.mtrilogic.views.ExpandableView;
 
 @SuppressWarnings("unused")
-public class SampleExpandableFragment extends ExpandableFragment<SampleMapPaginable> {
+public class SampleExpandableFragment extends ExpandableFragment<SampleMapPaginable, FragmentExpandableBinding> {
     private TextView lblContent;
 
 // PROTECTED OVERRIDE METHODS |*********************************************************************
-
-    @Override
-    protected View onCreateViewFragment(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                                        @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_expandable,container,false);
-        initExpandable(view, GroupType.COUNT, ChildType.COUNT);
-        TextView lblTitle = view.findViewById(R.id.lbl_title);
-        lblTitle.setText(getString(R.string.title_item, page.getItemId()));
-        lblContent = view.findViewById(R.id.lbl_content);
-        ImageButton btnAddGroup = view.findViewById(R.id.btn_addGroup);
-        btnAddGroup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addGroupModelable();
-            }
-        });
-        ImageButton btnDelete = view.findViewById(R.id.btn_delete);
-        btnDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                autoDelete();
-            }
-        });
-        return view;
-    }
 
     @Override
     public void onNewPosition(int position) {
         lblContent.setText(getString(R.string.content_item, position));
     }
 
-    @Override
-    protected void onExpandableCreated() {
-
-    }
-
 // ++++++++++++++++| PUBLIC OVERRIDE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        binding = FragmentExpandableBinding.inflate(inflater, container, false);
+        ExpandableView lvwItems = binding.lvwItems;
+        bindExpandable(lvwItems, ItemGroupType.COUNT, ItemChildType.COUNT);
+        TextView lblTitle = binding.lblTitle;
+        lblTitle.setText(getString(R.string.title_item, page.getItemId()));
+        lblContent = binding.lblContent;
+        ImageButton btnAddGroup = binding.btnAddGroup;
+        btnAddGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addGroupModelable();
+            }
+        });
+        ImageButton btnDelete = binding.btnDelete;
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                autoDelete();
+            }
+        });
+        return binding.getRoot();
+    }
 
     @Override
     public ExpandableGroup getExpandableGroup(int viewType, LayoutInflater inflater, ViewGroup parent){
-        if (viewType == GroupType.GROUP) {
-            return new GroupDataItem(inflater, R.layout.item_group, parent, this);
+        if (viewType == ItemGroupType.GROUP) {
+            return new GroupDataItem(inflater, parent, this);
         }
         return null;
     }
@@ -80,10 +79,10 @@ public class SampleExpandableFragment extends ExpandableFragment<SampleMapPagina
     public ExpandableChild getExpandableChild(int viewType, LayoutInflater inflater, ViewGroup parent){
         Context context = getContext();
         switch(viewType){
-            case ChildType.DATA:
-                return new ChildDataItem(inflater, R.layout.item_child_data, parent, this);
-            case ChildType.IMAGE:
-                return new ChildImageItem(inflater, R.layout.item_child_image, parent, this);
+            case ItemChildType.DATA:
+                return new ChildDataItem(inflater, parent, this);
+            case ItemChildType.IMAGE:
+                return new ChildImageItem(inflater, parent, this);
         }
         return null;
     }

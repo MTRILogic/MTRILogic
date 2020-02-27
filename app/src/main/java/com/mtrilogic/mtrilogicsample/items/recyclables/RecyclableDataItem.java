@@ -3,6 +3,7 @@ package com.mtrilogic.mtrilogicsample.items.recyclables;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
@@ -16,34 +17,35 @@ import com.mtrilogic.abstracts.Recyclable;
 import com.mtrilogic.adapters.RecyclableAdapter;
 import com.mtrilogic.interfaces.RecyclableAdapterListener;
 import com.mtrilogic.mtrilogicsample.R;
+import com.mtrilogic.mtrilogicsample.databinding.ItemDataBinding;
 import com.mtrilogic.mtrilogicsample.models.DataModel;
 
 @SuppressWarnings({"unused","FieldCanBeLocal"})
-public class RecyclableDataItem extends Recyclable<DataModel> {
+public class RecyclableDataItem extends Recyclable<DataModel, ItemDataBinding> {
     private TextView lblTitle, lblContent;
     private CheckBox chkItem;
 
 // ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    public RecyclableDataItem(@NonNull LayoutInflater inflater, int resource, @NonNull ViewGroup parent,
+    public RecyclableDataItem(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent,
                               @NonNull RecyclableAdapterListener listener){
-        super(inflater, resource, parent, listener);
+        super(ItemDataBinding.inflate(inflater, parent, false), listener);
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
             }
         });
-        chkItem = itemView.findViewById(R.id.chk_item);
+        chkItem = binding.chkItem;
         chkItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 updateChecked();
             }
         });
-        lblTitle = itemView.findViewById(R.id.lbl_title);
-        lblContent = itemView.findViewById(R.id.lbl_content);
-        ImageButton btnDelete = itemView.findViewById(R.id.btn_delete);
+        lblTitle = binding.lblTitle;
+        lblContent = binding.lblContent;
+        ImageButton btnDelete = binding.btnDelete;
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,7 +72,7 @@ public class RecyclableDataItem extends Recyclable<DataModel> {
     @Override
     protected void onBindHolder(){
         chkItem.setChecked(model.isChecked());
-        Context context = getContext();
+        Context context = itemView.getContext();
         lblTitle.setText(context.getString(R.string.title_item, model.getItemId()));
         lblContent.setText(context.getString(R.string.content_item, position));
     }

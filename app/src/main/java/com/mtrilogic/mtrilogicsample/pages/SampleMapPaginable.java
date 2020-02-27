@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 import com.mtrilogic.abstracts.Modelable;
 import com.mtrilogic.abstracts.PaginableCreator;
 import com.mtrilogic.abstracts.MapPaginable;
-import com.mtrilogic.mtrilogicsample.types.PageType;
+import com.mtrilogic.mtrilogicsample.types.FragmentableType;
 
 @SuppressWarnings("unused")
 public class SampleMapPaginable extends MapPaginable<Modelable> {
@@ -26,7 +26,7 @@ public class SampleMapPaginable extends MapPaginable<Modelable> {
     public SampleMapPaginable(){}
 
     public SampleMapPaginable(@NonNull String pageTitle, @NonNull String tagName, long itemId){
-        super(pageTitle, tagName, itemId, PageType.EXPANDABLE);
+        super(pageTitle, tagName, itemId, FragmentableType.EXPANDABLE);
     }
 
     private SampleMapPaginable(@NonNull Bundle data){

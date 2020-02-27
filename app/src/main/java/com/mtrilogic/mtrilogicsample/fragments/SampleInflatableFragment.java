@@ -15,58 +15,57 @@ import com.mtrilogic.abstracts.Inflatable;
 import com.mtrilogic.abstracts.InflatableFragment;
 import com.mtrilogic.abstracts.Modelable;
 import com.mtrilogic.mtrilogicsample.R;
+import com.mtrilogic.mtrilogicsample.databinding.FragmentInflatableBinding;
 import com.mtrilogic.mtrilogicsample.extras.Utils;
 import com.mtrilogic.mtrilogicsample.items.inflatables.InflatableImageItem;
 import com.mtrilogic.mtrilogicsample.items.inflatables.InflatableDataItem;
 import com.mtrilogic.mtrilogicsample.pages.SampleListPaginable;
-import com.mtrilogic.mtrilogicsample.types.ChildType;
+import com.mtrilogic.mtrilogicsample.types.ItemChildType;
+import com.mtrilogic.views.InflatableView;
 
 @SuppressWarnings("unused")
-public class SampleInflatableFragment extends InflatableFragment<SampleListPaginable> {
+public class SampleInflatableFragment extends InflatableFragment<SampleListPaginable, FragmentInflatableBinding> {
     private TextView lblContent;
 
 // PROTECTED OVERRIDE METHODS |*********************************************************************
 
+    @Nullable
     @Override
-    protected View onCreateViewFragment(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                                        @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_inflatable,container,false);
-        initInflatable(view, ChildType.COUNT);
-        TextView lblTitle = view.findViewById(R.id.lbl_title);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        binding = FragmentInflatableBinding.inflate(inflater, container, false);
+        InflatableView lvwItems = binding.lvwItems;
+        bindInflatable(lvwItems, ItemChildType.COUNT);
+        TextView lblTitle = binding.lblTitle;
         lblTitle.setText(getString(R.string.title_item, page.getItemId()));
-        lblContent = view.findViewById(R.id.lbl_content);
-        ImageButton btnAddData = view.findViewById(R.id.btn_addData);
+        lblContent = binding.lblContent;
+        ImageButton btnAddData = binding.btnAddData;
         btnAddData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addModelable(ChildType.DATA);
+                addModelable(ItemChildType.DATA);
             }
         });
-        ImageButton btnAddImage = view.findViewById(R.id.btn_addImage);
+        ImageButton btnAddImage = binding.btnAddImage;
         btnAddImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addModelable(ChildType.IMAGE);
+                addModelable(ItemChildType.IMAGE);
             }
         });
-        ImageButton btnDelete = view.findViewById(R.id.btn_delete);
+        ImageButton btnDelete = binding.btnDelete;
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 autoDelete();
             }
         });
-        return view;
+        return binding.getRoot();
     }
 
     @Override
     public void onNewPosition(int position) {
         lblContent.setText(getString(R.string.content_item, position));
-    }
-
-    @Override
-    protected void onInflatableCreated() {
-
     }
 
     // ++++++++++++++++| PUBLIC OVERRIDE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -75,10 +74,10 @@ public class SampleInflatableFragment extends InflatableFragment<SampleListPagin
     public Inflatable getInflatable(int viewType, LayoutInflater inflater, ViewGroup parent) {
         Context context = getContext();
         switch(viewType){
-            case ChildType.DATA:
-                return new InflatableDataItem(inflater, R.layout.item_data, parent, this);
-            case ChildType.IMAGE:
-                return new InflatableImageItem(inflater, R.layout.item_image, parent, this);
+            case ItemChildType.DATA:
+                return new InflatableDataItem(inflater, parent, this);
+            case ItemChildType.IMAGE:
+                return new InflatableImageItem(inflater, parent, this);
         }
         return null;
     }

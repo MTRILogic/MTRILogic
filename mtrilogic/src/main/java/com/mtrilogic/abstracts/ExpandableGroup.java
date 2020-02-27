@@ -1,6 +1,5 @@
 package com.mtrilogic.abstracts;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +7,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
+import androidx.viewbinding.ViewBinding;
 
 import com.mtrilogic.adapters.ExpandableAdapter;
 import com.mtrilogic.classes.Listable;
@@ -15,34 +15,29 @@ import com.mtrilogic.interfaces.ExpandableAdapterListener;
 import com.mtrilogic.views.ExpandableView;
 
 @SuppressWarnings({"unused","WeakerAccess"})
-public abstract class ExpandableGroup<M extends Modelable> extends LiveData<M> implements Observer<M> {
+public abstract class ExpandableGroup<M extends Modelable, VB extends ViewBinding> extends LiveData<M> implements Observer<M> {
     protected final ExpandableAdapterListener listener;
     protected final View itemView;
     protected Listable<Modelable> childListable;
     protected int groupPosition;
     protected boolean expanded;
+    protected VB binding;
     protected M model;
 
 // ++++++++++++++++| PROTECTED ABSTRACT METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++
 
     protected abstract M getModel(Modelable modelable);
-
     protected abstract void onBindHolder();
 
 // ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    public ExpandableGroup(@NonNull LayoutInflater inflater, int resource, @NonNull ViewGroup parent,
-                           @NonNull ExpandableAdapterListener listener){
-        itemView = inflater.inflate(resource, parent, false);
+    public ExpandableGroup(@NonNull VB binding, @NonNull ExpandableAdapterListener listener){
+        itemView = binding.getRoot();
         this.listener = listener;
+        this.binding = binding;
     }
 
 // ++++++++++++++++| PUBLIC METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-    @NonNull
-    public View getItemView() {
-        return itemView;
-    }
 
     public void bindHolder(@NonNull Modelable modelable, int groupPosition, boolean expanded){
         ExpandableAdapter adapter = listener.getExpandableAdapter();
@@ -53,12 +48,11 @@ public abstract class ExpandableGroup<M extends Modelable> extends LiveData<M> i
         onBindHolder();
     }
 
-// ++++++++++++++++| PROTECTED METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-    @NonNull
-    protected Context getContext(){
-        return itemView.getContext();
+    public View getItemView() {
+        return itemView;
     }
+
+    // ++++++++++++++++| PROTECTED METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     protected void autoDelete(){
         ExpandableAdapter adapter = listener.getExpandableAdapter();

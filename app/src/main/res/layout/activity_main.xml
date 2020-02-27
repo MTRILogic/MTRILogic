@@ -45,7 +45,7 @@
         app:fab_labelStyle="@style/FloatingButtonLabelStyle">
 
         <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_inflatable"
+            android:id="@+id/fabInflatable"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:fab_title="@string/inflatable"
@@ -55,7 +55,7 @@
             app:fab_size="mini"/>
 
         <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_recyclable"
+            android:id="@+id/fabRecyclable"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:fab_title="@string/recyclable"
@@ -65,7 +65,7 @@
             app:fab_size="mini"/>
 
         <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_expandable"
+            android:id="@+id/fabExpandable"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:fab_title="@string/expandable"

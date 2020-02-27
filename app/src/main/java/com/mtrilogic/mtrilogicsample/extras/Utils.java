@@ -8,7 +8,7 @@ import com.mtrilogic.abstracts.Modelable;
 import com.mtrilogic.mtrilogicsample.R;
 import com.mtrilogic.mtrilogicsample.models.DataModel;
 import com.mtrilogic.mtrilogicsample.models.ImageModel;
-import com.mtrilogic.mtrilogicsample.types.ChildType;
+import com.mtrilogic.mtrilogicsample.types.ItemChildType;
 
 public class Utils {
     private static final int[] LINKS = {
@@ -21,9 +21,9 @@ public class Utils {
 
     public static Modelable getNewModelable(Context context, int viewType, long idx, boolean checked){
         switch (viewType) {
-            case ChildType.DATA:
+            case ItemChildType.DATA:
                 return new DataModel(idx, checked);
-            case ChildType.IMAGE:
+            case ItemChildType.IMAGE:
                 return getImageModel(context, idx, checked);
         }
         return null;

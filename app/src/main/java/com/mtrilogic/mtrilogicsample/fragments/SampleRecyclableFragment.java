@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,48 +17,58 @@ import com.mtrilogic.abstracts.Modelable;
 import com.mtrilogic.abstracts.Recyclable;
 import com.mtrilogic.abstracts.RecyclableFragment;
 import com.mtrilogic.mtrilogicsample.R;
+import com.mtrilogic.mtrilogicsample.databinding.FragmentRecyclableBinding;
 import com.mtrilogic.mtrilogicsample.extras.Utils;
 import com.mtrilogic.mtrilogicsample.items.recyclables.RecyclableDataItem;
 import com.mtrilogic.mtrilogicsample.items.recyclables.RecyclableImageItem;
 import com.mtrilogic.mtrilogicsample.pages.SampleListPaginable;
-import com.mtrilogic.mtrilogicsample.types.ChildType;
+import com.mtrilogic.mtrilogicsample.types.ItemChildType;
 
 @SuppressWarnings("unused")
-public class SampleRecyclableFragment extends RecyclableFragment<SampleListPaginable>{
+public class SampleRecyclableFragment extends RecyclableFragment<SampleListPaginable, FragmentRecyclableBinding>{
     private TextView lblContent;
 
-// PROTECTED OVERRIDE METHODS |*********************************************************************
+    // PROTECTED OVERRIDE METHODS ******************************************************************
 
     @Override
-    protected View onCreateViewFragment(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                                        @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_recyclable,container,false);
-        initRecyclable(view, new LinearLayoutManager(getContext()));
-        TextView lblTitle = view.findViewById(R.id.lbl_title);
+    protected RecyclerView.LayoutManager getLayoutManager(Context context) {
+        return new LinearLayoutManager(context);
+    }
+
+    // PUBLIC OVERRIDE METHODS =====================================================================
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        binding = FragmentRecyclableBinding.inflate(inflater, container, false);
+        RecyclerView lvwItems = binding.lvwItems;
+        bindRecyclable(lvwItems);
+        TextView lblTitle = binding.lblTitle;
         lblTitle.setText(getString(R.string.title_item, page.getItemId()));
-        lblContent = view.findViewById(R.id.lbl_content);
-        ImageButton btnAddData = view.findViewById(R.id.btn_addData);
+        lblContent = binding.lblContent;
+        ImageButton btnAddData = binding.btnAddData;
         btnAddData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addModelable(ChildType.DATA);
+                addModelable(ItemChildType.DATA);
             }
         });
-        ImageButton btnAddImage = view.findViewById(R.id.btn_addImage);
+        ImageButton btnAddImage = binding.btnAddImage;
         btnAddImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addModelable(ChildType.IMAGE);
+                addModelable(ItemChildType.IMAGE);
             }
         });
-        ImageButton btnDelete = view.findViewById(R.id.btn_delete);
+        ImageButton btnDelete = binding.btnDelete;
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 autoDelete();
             }
         });
-        return view;
+        return binding.getRoot();
     }
 
     @Override
@@ -66,20 +77,13 @@ public class SampleRecyclableFragment extends RecyclableFragment<SampleListPagin
     }
 
     @Override
-    protected void onRecyclableCreated() {
-
-    }
-
-// ++++++++++++++++| PUBLIC OVERRIDE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-    @Override
     public Recyclable getRecyclable(int viewType, LayoutInflater inflater, ViewGroup parent){
         Context context = getContext();
         switch(viewType){
-            case ChildType.DATA:
-                return new RecyclableDataItem(inflater, R.layout.item_data, parent, this);
-            case ChildType.IMAGE:
-                return new RecyclableImageItem(inflater, R.layout.item_image, parent, this);
+            case ItemChildType.DATA:
+                return new RecyclableDataItem(inflater, parent, this);
+            case ItemChildType.IMAGE:
+                return new RecyclableImageItem(inflater, parent, this);
         }
         return null;
     }
@@ -94,7 +98,7 @@ public class SampleRecyclableFragment extends RecyclableFragment<SampleListPagin
 
     }
 
-// ++++++++++++++++| PRIVATE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ++++++++++++++++| PRIVATE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     private void addModelable(int viewType){
         Context context = getContext();

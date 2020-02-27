@@ -1,6 +1,6 @@
 package com.mtrilogic.mtrilogicsample.types;
 
-public class GroupType{
+public class ItemGroupType {
     public static final int
             GROUP = 0,
             COUNT = 1;

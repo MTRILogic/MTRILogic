@@ -18,45 +18,46 @@ import com.mtrilogic.abstracts.Recyclable;
 import com.mtrilogic.adapters.RecyclableAdapter;
 import com.mtrilogic.interfaces.RecyclableAdapterListener;
 import com.mtrilogic.mtrilogicsample.R;
+import com.mtrilogic.mtrilogicsample.databinding.ItemImageBinding;
 import com.mtrilogic.mtrilogicsample.models.ImageModel;
 import com.mtrilogic.views.SquareImageView;
 
 @SuppressWarnings({"unused"})
-public class RecyclableImageItem extends Recyclable<ImageModel> implements
+public class RecyclableImageItem extends Recyclable<ImageModel, ItemImageBinding> implements
         RatingBar.OnRatingBarChangeListener{
     private TextView lblTitle, lblContent;
-    private CheckBox chkItem;
     private SquareImageView ivwImage;
     private RatingBar ratingBar;
+    private CheckBox chkItem;
 
 // ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    public RecyclableImageItem(@NonNull LayoutInflater inflater, int resource, @NonNull ViewGroup parent,
+    public RecyclableImageItem(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent,
                                @NonNull RecyclableAdapterListener listener){
-        super(inflater, resource, parent, listener);
+        super(ItemImageBinding.inflate(inflater, parent, false), listener);
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
             }
         });
-        chkItem = itemView.findViewById(R.id.chk_item);
+        chkItem = binding.chkItem;
         chkItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 updateChecked();
             }
         });
-        lblTitle = itemView.findViewById(R.id.lbl_title);
-        lblContent = itemView.findViewById(R.id.lbl_content);
-        ImageButton btnDelete = itemView.findViewById(R.id.btn_delete);
+        lblTitle = binding.lblTitle;
+        lblContent = binding.lblContent;
+        ImageButton btnDelete = binding.btnDelete;
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 autoDelete();
             }
         });
-        ivwImage = itemView.findViewById(R.id.ivw_image);
+        ivwImage = binding.ivwImage;
         ivwImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,7 +96,7 @@ public class RecyclableImageItem extends Recyclable<ImageModel> implements
     @Override
     protected void onBindHolder(){
         chkItem.setChecked(model.isChecked());
-        Context context = getContext();
+        Context context = itemView.getContext();
         lblTitle.setText(context.getString(R.string.title_item, model.getItemId()));
         lblContent.setText(context.getString(R.string.content_item, position));
         ratingBar.setRating(model.getRating());

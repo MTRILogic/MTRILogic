@@ -26,12 +26,13 @@ import com.mtrilogic.classes.StateViewModel;
 import com.mtrilogic.interfaces.FragmentableAdapterListener;
 import com.mtrilogic.interfaces.FragmentableListener;
 import com.mtrilogic.interfaces.OnMakeToastListener;
+import com.mtrilogic.mtrilogicsample.databinding.ActivityMainBinding;
 import com.mtrilogic.mtrilogicsample.fragments.SampleExpandableFragment;
 import com.mtrilogic.mtrilogicsample.fragments.SampleInflatableFragment;
 import com.mtrilogic.mtrilogicsample.fragments.SampleRecyclableFragment;
 import com.mtrilogic.mtrilogicsample.pages.SampleMapPaginable;
 import com.mtrilogic.mtrilogicsample.pages.SampleListPaginable;
-import com.mtrilogic.mtrilogicsample.types.PageType;
+import com.mtrilogic.mtrilogicsample.types.FragmentableType;
 
 @SuppressWarnings("unused")
 public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener,
@@ -47,9 +48,9 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             "expandable"
     };
     private static final int[] TYPES = {
-            PageType.INFLATABLE,
-            PageType.RECYCLABLE,
-            PageType.EXPANDABLE
+            FragmentableType.INFLATABLE,
+            FragmentableType.RECYCLABLE,
+            FragmentableType.EXPANDABLE
     };
     private static final String TAG = "MainActivityTAG", LIST = "list", IDX = "idx";
     private ActionBar actionBar;
@@ -62,9 +63,10 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = binding.toolbar;
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
         if(actionBar != null){
@@ -96,10 +98,11 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
 
         adapter = new FragmentableAdapter(getSupportFragmentManager(),this,
                 paginableState.getListable().getModelableList());
-        pager = findViewById(R.id.pager);
+        pager = binding.pager;
         pager.setAdapter(adapter);
         pager.addOnPageChangeListener(this);
-        TabLayout tabs = findViewById(R.id.tabs);
+
+        TabLayout tabs = binding.tabs;
         tabs.setupWithViewPager(pager);
 
         if(tabs.getTabCount() > 0){
@@ -109,9 +112,9 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             pageSelected(0);
         }
 
-        fam = findViewById(R.id.fam);
+        fam = binding.fam;
 
-        FloatingActionButton fabInflatable = findViewById(R.id.fab_inflatable);
+        FloatingActionButton fabInflatable = binding.fabInflatable;
         fabInflatable.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -119,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             }
         });
 
-        FloatingActionButton fabRecyclable = findViewById(R.id.fab_recyclable);
+        FloatingActionButton fabRecyclable = binding.fabRecyclable;
         fabRecyclable.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             }
         });
 
-        FloatingActionButton fabExpandable = findViewById(R.id.fab_expandable);
+        FloatingActionButton fabExpandable = binding.fabExpandable;
         fabExpandable.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -155,11 +158,11 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     @Override
     public Fragmentable getFragmentable(Paginable paginable, int position){
         switch(paginable.getViewType()){
-            case PageType.INFLATABLE:
+            case FragmentableType.INFLATABLE:
                 return Fragmentable.getInstance(paginable, new SampleInflatableFragment());
-            case PageType.RECYCLABLE:
+            case FragmentableType.RECYCLABLE:
                 return Fragmentable.getInstance(paginable, new SampleRecyclableFragment());
-            case PageType.EXPANDABLE:
+            case FragmentableType.EXPANDABLE:
                 return Fragmentable.getInstance(paginable, new SampleExpandableFragment());
         }
         return null;
@@ -229,11 +232,11 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         String tagName = TAG_NAMES[index];
         int viewType = TYPES[index];
         switch (viewType){
-            case PageType.INFLATABLE:
-                return new SampleListPaginable(pageTitle, tagName, idx, PageType.INFLATABLE);
-            case PageType.RECYCLABLE:
-                return new SampleListPaginable(pageTitle, tagName, idx, PageType.RECYCLABLE);
-            case PageType.EXPANDABLE:
+            case FragmentableType.INFLATABLE:
+                return new SampleListPaginable(pageTitle, tagName, idx, FragmentableType.INFLATABLE);
+            case FragmentableType.RECYCLABLE:
+                return new SampleListPaginable(pageTitle, tagName, idx, FragmentableType.RECYCLABLE);
+            case FragmentableType.EXPANDABLE:
                 return new SampleMapPaginable(pageTitle, tagName, idx);
         }
         return null;

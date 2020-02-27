@@ -6,34 +6,31 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.viewbinding.ViewBinding;
 
 import com.mtrilogic.adapters.ExpandableAdapter;
 import com.mtrilogic.classes.Listable;
 import com.mtrilogic.classes.Mapable;
 import com.mtrilogic.interfaces.ExpandableAdapterListener;
 import com.mtrilogic.interfaces.ExpandableListener;
-import com.mtrilogic.mtrilogic.R;
 import com.mtrilogic.views.ExpandableView;
 
-@SuppressWarnings({"unused","WeakerAccess"})
-public abstract class ExpandableFragment<P extends MapPaginable<Modelable>> extends Fragmentable<P> implements
+@SuppressWarnings({"unused"})
+public abstract class ExpandableFragment<P extends MapPaginable<Modelable>, VB extends ViewBinding> extends Fragmentable<P, VB> implements
         ExpandableListener, ExpandableAdapterListener {
     protected ExpandableAdapter adapter;
     protected ExpandableView lvwItems;
 
-    protected abstract void onExpandableCreated();
-
 // ****************| PROTECTED METHODS |************************************************************
 
-    protected void initExpandable(@NonNull View view, int groupTypeCount, int childTypeCount){
+    protected void bindExpandable(@NonNull ExpandableView lvwItems, int groupTypeCount, int childTypeCount){
+        this.lvwItems = lvwItems;
         Context context = getContext();
         Listable<Modelable> groupListable = page.getGroupListable();
         Mapable<Modelable> childMapable = page.getChildMapable();
         adapter = new ExpandableAdapter(context,this, groupListable, childMapable,
                 groupTypeCount, childTypeCount);
-        lvwItems = view.findViewById(R.id.lvw_items);
         lvwItems.setAdapter(adapter);
-        onExpandableCreated();
     }
 
 // ****************| PUBLIC OVERRIDE METHODS |******************************************************
