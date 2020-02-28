@@ -6,5 +6,8 @@ import com.mtrilogic.abstracts.Modelable;
 
 @SuppressWarnings("unused")
 public interface OnItemClickListener extends OnMakeToastListener {
+
+    // ================< PUBLIC ABSTRACT METHODS >==================================================
+
     void onItemClick(View view, Modelable modelable, int position);
 }

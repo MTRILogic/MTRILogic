@@ -24,7 +24,7 @@ public class ImageModel extends DataModel{
     private String imageLink;
     private float rating;
 
-// ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PUBLIC CONSTRUCTORS >======================================================
 
     public ImageModel(){}
 
@@ -36,7 +36,7 @@ public class ImageModel extends DataModel{
         super(data);
     }
 
-// ++++++++++++++++| PUBLIC METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PUBLIC METHODS >===========================================================
 
     public String getImageLink(){
         return imageLink;
@@ -54,7 +54,7 @@ public class ImageModel extends DataModel{
         this.rating = rating;
     }
 
-// ++++++++++++++++| PROTECTED OVERRIDE METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PROTECTED OVERRIDE METHODS >===============================================
 
     @Override
     protected void onRestoreFromData(Bundle data) {

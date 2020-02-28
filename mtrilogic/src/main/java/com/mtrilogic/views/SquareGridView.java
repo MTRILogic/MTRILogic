@@ -9,7 +9,10 @@ import com.mtrilogic.mtrilogic.R;
 
 @SuppressWarnings("unused")
 public class SquareGridView extends GridView {
+
     private boolean portrait;
+
+    // ================< PUBLIC CONSTRUCTORS >======================================================
 
     public SquareGridView(Context context, boolean portrait) {
         super(context);
@@ -22,6 +25,8 @@ public class SquareGridView extends GridView {
         portrait = typedArray.getBoolean(R.styleable.SquareGridView_portrait, false);
         typedArray.recycle();
     }
+
+    // ================< PROTECTED OVERRIDE METHODS >===============================================
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {

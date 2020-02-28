@@ -11,19 +11,21 @@ import com.mtrilogic.adapters.InflatableAdapter;
 import com.mtrilogic.interfaces.InflatableAdapterListener;
 
 @SuppressWarnings({"unused"})
-public abstract class Inflatable<M extends Modelable, VB extends ViewBinding> extends LiveData<M> implements Observer<M> {
+public abstract class Inflatable<M extends Modelable, VB extends ViewBinding> extends LiveData<M>
+        implements Observer<M> {
+
     protected final InflatableAdapterListener listener;
     protected final View itemView;
     protected int position;
     protected VB binding;
     protected M model;
 
-// ++++++++++++++++| PROTECTED ABSTRACT METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PROTECTED ABSTRACT METHODS >===============================================
 
     protected abstract M getModel(Modelable modelable);
     protected abstract void onBindHolder();
 
-// ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PUBLIC CONSTRUCTORS >======================================================
 
     public Inflatable(@NonNull VB binding, @NonNull InflatableAdapterListener listener){
         itemView = binding.getRoot();
@@ -31,7 +33,7 @@ public abstract class Inflatable<M extends Modelable, VB extends ViewBinding> ex
         this.binding = binding;
     }
 
-// ++++++++++++++++| PUBLIC METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PUBLIC METHODS >===========================================================
 
     public void bindHolder(@NonNull Modelable modelable, int position){
         model = getModel(modelable);
@@ -43,7 +45,7 @@ public abstract class Inflatable<M extends Modelable, VB extends ViewBinding> ex
         return itemView;
     }
 
-    // ++++++++++++++++| PROTECTED METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PROTECTED METHODS >========================================================
 
     protected void autoDelete(){
         InflatableAdapter adapter = listener.getInflatableAdapter();

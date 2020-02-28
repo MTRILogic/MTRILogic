@@ -9,7 +9,10 @@ import android.widget.ExpandableListView;
 import com.mtrilogic.classes.Base;
 
 public class ExpandableView extends ExpandableListView {
+
     private static final String INDEX = "index", TOP = "top";
+
+    // ================< PUBLIC CONSTRUCTORS >======================================================
 
     public ExpandableView(Context context) {
         super(context);
@@ -22,6 +25,8 @@ public class ExpandableView extends ExpandableListView {
     public ExpandableView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
+
+    // ================< PUBLIC METHODS >===========================================================
 
     public void restoreFromState(Bundle state){
         int index = state.getInt(INDEX, Base.INVALID_POSITION);

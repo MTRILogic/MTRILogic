@@ -1,9 +1,7 @@
 package com.mtrilogic.mtrilogicsample.items.inflatables;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.RatingBar;
@@ -30,11 +28,10 @@ public class InflatableImageItem extends Inflatable<ImageModel, ItemImageBinding
     private SquareImageView ivwImage;
     private RatingBar ratingBar;
 
-// ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PUBLIC CONSTRUCTORS >======================================================
 
-    public InflatableImageItem(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent,
-                               @NonNull InflatableAdapterListener listener){
-        super(ItemImageBinding.inflate(inflater, parent, false), listener);
+    public InflatableImageItem(@NonNull ItemImageBinding binding, @NonNull InflatableAdapterListener listener){
+        super(binding, listener);
         chkItem = binding.chkItem;
         chkItem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,14 +59,24 @@ public class InflatableImageItem extends Inflatable<ImageModel, ItemImageBinding
         ratingBar.setOnRatingBarChangeListener(this);
     }
 
-// ++++++++++++++++| PUBLIC OVERRIDE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PUBLIC OVERRIDE METHODS >==================================================
     
     @Override
     public void onChanged(ImageModel imageModel) {
 
     }
 
-// ++++++++++++++++| PROTECTED OVERRIDE METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++
+    @Override
+    public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser){
+        InflatableAdapter adapter = listener.getInflatableAdapter();
+        if(adapter != null && fromUser){
+            model.setRating(rating);
+            adapter.notifyDataSetChanged();
+            listener.onMakeToast("Rating Bar [" + position + "] set to " + rating );
+        }
+    }
+
+    // ================< PROTECTED OVERRIDE METHODS >===============================================
 
     @NonNull
     @Override
@@ -92,17 +99,7 @@ public class InflatableImageItem extends Inflatable<ImageModel, ItemImageBinding
             .into(ivwImage);
     }
 
-    @Override
-    public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser){
-        InflatableAdapter adapter = listener.getInflatableAdapter();
-        if(adapter != null && fromUser){
-            model.setRating(rating);
-            adapter.notifyDataSetChanged();
-            listener.onMakeToast("Rating Bar [" + position + "] set to " + rating );
-        }
-    }
-
-// ++++++++++++++++| PRIVATE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PRIVATE METHODS >==========================================================
 
     private void updateChecked(){
         InflatableAdapter adapter = listener.getInflatableAdapter();

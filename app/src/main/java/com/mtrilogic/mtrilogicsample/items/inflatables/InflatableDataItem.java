@@ -1,9 +1,7 @@
 package com.mtrilogic.mtrilogicsample.items.inflatables;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -23,11 +21,10 @@ public class InflatableDataItem extends Inflatable<DataModel, ItemDataBinding> {
     private TextView lblTitle, lblContent;
     private CheckBox chkItem;
 
-// ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PUBLIC CONSTRUCTORS >======================================================
 
-    public InflatableDataItem(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent,
-                              @NonNull InflatableAdapterListener listener){
-        super(ItemDataBinding.inflate(inflater, parent, false), listener);
+    public InflatableDataItem(@NonNull ItemDataBinding binding, @NonNull InflatableAdapterListener listener){
+        super(binding, listener);
         chkItem = binding.chkItem;
         chkItem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,14 +43,14 @@ public class InflatableDataItem extends Inflatable<DataModel, ItemDataBinding> {
         });
     }
 
-// ++++++++++++++++| PUBLIC OVERRIDE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PUBLIC OVERRIDE METHODS >==================================================
 
     @Override
     public void onChanged(DataModel dataModel) {
 
     }
 
-// ++++++++++++++++| PROTECTED OVERRIDE METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PROTECTED OVERRIDE METHODS >===============================================
 
     @NonNull
     @Override
@@ -69,7 +66,7 @@ public class InflatableDataItem extends Inflatable<DataModel, ItemDataBinding> {
         lblContent.setText(context.getString(R.string.content_item, position));
     }
 
-// ++++++++++++++++| PRIVATE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PRIVATE METHODS >==========================================================
 
     private void updateChecked(){
         InflatableAdapter adapter = listener.getInflatableAdapter();

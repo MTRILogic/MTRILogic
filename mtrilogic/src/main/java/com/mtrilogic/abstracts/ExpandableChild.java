@@ -12,7 +12,9 @@ import com.mtrilogic.interfaces.ExpandableAdapterListener;
 import com.mtrilogic.views.ExpandableView;
 
 @SuppressWarnings({"unused","WeakerAccess"})
-public abstract class ExpandableChild <M extends Modelable, VB extends ViewBinding> extends LiveData<M> implements Observer<M> {
+public abstract class ExpandableChild <M extends Modelable, VB extends ViewBinding>
+        extends LiveData<M> implements Observer<M> {
+
     protected final ExpandableAdapterListener listener;
     protected final View itemView;
     protected int groupPosition;
@@ -21,12 +23,12 @@ public abstract class ExpandableChild <M extends Modelable, VB extends ViewBindi
     protected VB binding;
     protected M model;
 
-// ++++++++++++++++| PUBLIC ABSTRACT METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PUBLIC ABSTRACT METHODS >==================================================
 
     protected abstract M getModel(Modelable modelable);
     protected abstract void onBindHolder();
 
-// ++++++++++++++++| PROTECTED CONSTRUCTORS |+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PROTECTED CONSTRUCTORS >===================================================
 
     public ExpandableChild(@NonNull VB binding, @NonNull ExpandableAdapterListener listener){
         itemView = binding.getRoot();
@@ -34,9 +36,10 @@ public abstract class ExpandableChild <M extends Modelable, VB extends ViewBindi
         this.binding = binding;
     }
 
-// ++++++++++++++++| PUBLIC METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PUBLIC METHODS >===========================================================
 
-    public void bindHolder(@NonNull Modelable modelable, int groupPosition, int childPosition, boolean lastChild){
+    public void bindHolder(@NonNull Modelable modelable, int groupPosition, int childPosition,
+                           boolean lastChild){
         model = getModel(modelable);
         this.groupPosition = groupPosition;
         this.childPosition = childPosition;
@@ -48,7 +51,7 @@ public abstract class ExpandableChild <M extends Modelable, VB extends ViewBindi
         return itemView;
     }
 
-    // ++++++++++++++++| PROTECTED METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PROTECTED METHODS >========================================================
 
     protected void autoDelete(){
         ExpandableAdapter adapter = listener.getExpandableAdapter();

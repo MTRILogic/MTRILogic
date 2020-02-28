@@ -10,9 +10,10 @@ import com.mtrilogic.interfaces.OnDialogDoneListener;
 
 @SuppressWarnings("unused")
 public abstract class Dialogable extends Dialog implements DialogInterface.OnClickListener{
+
     protected OnDialogDoneListener listener;
 
-// ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PUBLIC CONSTRUCTORS >======================================================
 
     public Dialogable(@NonNull Context context, @NonNull OnDialogDoneListener listener){
         super(context);

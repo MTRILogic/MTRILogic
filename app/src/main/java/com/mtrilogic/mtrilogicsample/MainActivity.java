@@ -60,6 +60,8 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     private ViewPager pager;
     private long idx;
 
+    // ================< PROTECTED OVERRIDE METHODS >===============================================
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -144,6 +146,8 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         super.onSaveInstanceState(outState);
     }
 
+    // ================< PUBLIC OVERRIDE METHODS >==================================================
+
     @Override
     public void onPageScrolled(int i, float v, int i1){}
 
@@ -204,6 +208,8 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     public void uncaughtException(@NonNull Thread t, @NonNull Throwable e) {
         makeLog("Exception: Thread: " + t + ", Line number: " + e.getStackTrace()[0].getLineNumber());
     }
+
+    // ================< PRIVATE METHODS >==========================================================
 
     private void pageSelected(int position){
         actionBar.setTitle(adapter.getPageTitle(position));

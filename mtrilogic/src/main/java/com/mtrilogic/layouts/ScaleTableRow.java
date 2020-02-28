@@ -9,7 +9,10 @@ import com.mtrilogic.mtrilogic.R;
 
 @SuppressWarnings("unused")
 public class ScaleTableRow extends TableRow {
+
     private int scale;
+
+    // ================< PUBLIC CONSTRUCTORS >======================================================
 
     public ScaleTableRow(Context context, int scale) {
         super(context);
@@ -22,6 +25,8 @@ public class ScaleTableRow extends TableRow {
         scale = typedArray.getInt(R.styleable.ScaleTableRow_scale, 1);
         typedArray.recycle();
     }
+
+    // ================< PROTECTED OVERRIDE METHODS >===============================================
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {

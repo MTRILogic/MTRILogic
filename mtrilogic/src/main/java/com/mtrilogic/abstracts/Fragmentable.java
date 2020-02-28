@@ -2,9 +2,7 @@ package com.mtrilogic.abstracts;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,17 +16,18 @@ import com.mtrilogic.interfaces.OnMakeToastListener;
 @SuppressWarnings({"unused","WeakerAccess"})
 public abstract class Fragmentable<P extends Paginable, VB extends ViewBinding> extends Fragment
         implements OnMakeToastListener {
+
     protected static final String PAGINABLE = "paginable", STATE = "state";
     protected FragmentableAdapterListener listener;
     protected Bundle args;
     protected VB binding;
     protected P page;
 
-    // ++++++++++++++++| PUBLIC ABSTRACT METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PUBLIC ABSTRACT METHODS >==================================================
 
     public abstract void onNewPosition(int position);
 
-    // ++++++++++++++++| PUBLIC STATIC METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PUBLIC STATIC METHODS >====================================================
 
     @NonNull
     public static Fragmentable getInstance(@NonNull Paginable paginable,
@@ -40,7 +39,7 @@ public abstract class Fragmentable<P extends Paginable, VB extends ViewBinding> 
         return fragmentable;
     }
 
-    // ++++++++++++++++| PUBLIC OVERRIDE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PUBLIC OVERRIDE METHODS >==================================================
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -98,14 +97,14 @@ public abstract class Fragmentable<P extends Paginable, VB extends ViewBinding> 
         }
     }
 
-    // ++++++++++++++++| PUBLIC METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PUBLIC METHODS >===========================================================
 
     @NonNull
     public Paginable getPaginable(){
         return page;
     }
 
-    // ++++++++++++++++| PROTECTED METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PROTECTED METHODS >========================================================
 
     protected void newPosition(){
         if (listener != null) {

@@ -9,10 +9,11 @@ import com.mtrilogic.classes.Mapable;
 
 @SuppressWarnings({"unused","WeakerAccess"})
 public abstract class MapPaginable<M extends Modelable> extends Paginable {
+
     private Listable<M> groupListable;
     private Mapable<M> childMapable;
 
-// ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PUBLIC CONSTRUCTORS >======================================================
 
     public MapPaginable(){}
 
@@ -26,7 +27,7 @@ public abstract class MapPaginable<M extends Modelable> extends Paginable {
         childMapable = new Mapable<>();
     }
 
-// ++++++++++++++++| PUBLIC METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PUBLIC METHODS >===========================================================
 
     public Listable<M> getGroupListable(){
         return groupListable;
@@ -44,7 +45,7 @@ public abstract class MapPaginable<M extends Modelable> extends Paginable {
         this.childMapable = childMapable;
     }
 
-// ++++++++++++++++| PROTECTED METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PROTECTED METHODS >========================================================
 
     @Override
     protected void onRestoreFromData(@NonNull Bundle data){

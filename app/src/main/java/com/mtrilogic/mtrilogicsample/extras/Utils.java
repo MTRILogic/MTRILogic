@@ -11,6 +11,7 @@ import com.mtrilogic.mtrilogicsample.models.ImageModel;
 import com.mtrilogic.mtrilogicsample.types.ItemChildType;
 
 public class Utils {
+
     private static final int[] LINKS = {
             R.string.link1,
             R.string.link2,
@@ -18,6 +19,8 @@ public class Utils {
             R.string.link4,
             R.string.link5
     };
+
+    // ================< PUBLIC STATIC METHODS >====================================================
 
     public static Modelable getNewModelable(Context context, int viewType, long idx, boolean checked){
         switch (viewType) {
@@ -28,6 +31,8 @@ public class Utils {
         }
         return null;
     }
+
+    // ================< PRIVATE STATIC METHODS >===================================================
 
     @NonNull
     private static ImageModel getImageModel(@NonNull Context context, long idx, boolean checked){

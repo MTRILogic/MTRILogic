@@ -23,11 +23,15 @@ public class SampleMapPaginable extends MapPaginable<Modelable> {
         }
     };
 
+    // ================< PUBLIC CONSTRUCTORS >======================================================
+
     public SampleMapPaginable(){}
 
     public SampleMapPaginable(@NonNull String pageTitle, @NonNull String tagName, long itemId){
         super(pageTitle, tagName, itemId, FragmentableType.EXPANDABLE);
     }
+
+    // ================< PRIVATE CONSTRUCTORS >=====================================================
 
     private SampleMapPaginable(@NonNull Bundle data){
         super(data);

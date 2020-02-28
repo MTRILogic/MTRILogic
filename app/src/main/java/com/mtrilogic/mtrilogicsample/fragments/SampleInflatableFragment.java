@@ -16,6 +16,8 @@ import com.mtrilogic.abstracts.InflatableFragment;
 import com.mtrilogic.abstracts.Modelable;
 import com.mtrilogic.mtrilogicsample.R;
 import com.mtrilogic.mtrilogicsample.databinding.FragmentInflatableBinding;
+import com.mtrilogic.mtrilogicsample.databinding.ItemDataBinding;
+import com.mtrilogic.mtrilogicsample.databinding.ItemImageBinding;
 import com.mtrilogic.mtrilogicsample.extras.Utils;
 import com.mtrilogic.mtrilogicsample.items.inflatables.InflatableImageItem;
 import com.mtrilogic.mtrilogicsample.items.inflatables.InflatableDataItem;
@@ -27,7 +29,7 @@ import com.mtrilogic.views.InflatableView;
 public class SampleInflatableFragment extends InflatableFragment<SampleListPaginable, FragmentInflatableBinding> {
     private TextView lblContent;
 
-// PROTECTED OVERRIDE METHODS |*********************************************************************
+    // ================< PUBLIC OVERRIDE METHODS >==================================================
 
     @Nullable
     @Override
@@ -68,16 +70,14 @@ public class SampleInflatableFragment extends InflatableFragment<SampleListPagin
         lblContent.setText(getString(R.string.content_item, position));
     }
 
-    // ++++++++++++++++| PUBLIC OVERRIDE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
     @Override
     public Inflatable getInflatable(int viewType, LayoutInflater inflater, ViewGroup parent) {
         Context context = getContext();
         switch(viewType){
             case ItemChildType.DATA:
-                return new InflatableDataItem(inflater, parent, this);
+                return new InflatableDataItem(ItemDataBinding.inflate(inflater, parent, false), this);
             case ItemChildType.IMAGE:
-                return new InflatableImageItem(inflater, parent, this);
+                return new InflatableImageItem(ItemImageBinding.inflate(inflater, parent, false), this);
         }
         return null;
     }
@@ -92,7 +92,7 @@ public class SampleInflatableFragment extends InflatableFragment<SampleListPagin
 
     }
 
-// ++++++++++++++++| PRIVATE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PRIVATE METHODS >==========================================================
 
     private void addModelable(int viewType){
         Context context = getContext();

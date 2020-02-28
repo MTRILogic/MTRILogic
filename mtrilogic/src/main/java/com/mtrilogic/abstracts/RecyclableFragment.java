@@ -13,14 +13,15 @@ import com.mtrilogic.interfaces.RecyclableListener;
 import java.util.ArrayList;
 
 @SuppressWarnings({"unused"})
-public abstract class RecyclableFragment<P extends ListPaginable<Modelable>, VB extends ViewBinding> extends Fragmentable<P, VB>
-        implements RecyclableListener, RecyclableAdapterListener {
+public abstract class RecyclableFragment<P extends ListPaginable<Modelable>, VB extends ViewBinding>
+        extends Fragmentable<P, VB> implements RecyclableListener, RecyclableAdapterListener {
+
     protected RecyclableAdapter adapter;
     protected RecyclerView lvwItems;
 
     protected abstract RecyclerView.LayoutManager getLayoutManager(Context context);
 
-// ****************| PROTECTED METHODS |************************************************************
+    // ================< PROTECTED METHODS >========================================================
 
     protected void bindRecyclable(@NonNull RecyclerView lvwItems){
         this.lvwItems = lvwItems;
@@ -32,7 +33,7 @@ public abstract class RecyclableFragment<P extends ListPaginable<Modelable>, VB 
         lvwItems.setAdapter(adapter);
     }
 
-// ++++++++++++++++| PUBLIC OVERRIDE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PUBLIC OVERRIDE METHODS >==================================================
 
     @Override
     public void onNewPosition(int position) {

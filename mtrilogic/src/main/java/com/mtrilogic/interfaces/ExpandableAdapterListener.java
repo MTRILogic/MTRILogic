@@ -5,6 +5,9 @@ import com.mtrilogic.views.ExpandableView;
 
 @SuppressWarnings("unused")
 public interface ExpandableAdapterListener extends OnItemLongClickListener{
+
+    // ================< PUBLIC ABSTRACT METHODS >==================================================
+
     ExpandableAdapter getExpandableAdapter();
     ExpandableView getExpandableView();
 }

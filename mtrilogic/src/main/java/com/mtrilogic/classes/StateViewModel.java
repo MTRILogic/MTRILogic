@@ -9,8 +9,11 @@ import com.mtrilogic.abstracts.Paginable;
 
 @SuppressWarnings("unused")
 public class StateViewModel extends ViewModel {
+
     private MutableLiveData<Listable<Paginable>> listableLiveData;
     private Listable<Paginable> listable;
+
+    // ================< PUBLIC METHODS >===========================================================
 
     @NonNull
     public Listable<Paginable> getListable() {

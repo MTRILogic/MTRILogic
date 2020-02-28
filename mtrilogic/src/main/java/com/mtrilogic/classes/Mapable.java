@@ -9,9 +9,10 @@ import androidx.annotation.NonNull;
 
 @SuppressWarnings({"unused", "WeakerAccess"})
 public class Mapable<M extends Modelable>{
+
     private Map<M, Listable<M>> listableMap;
 
-// ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PUBLIC CONSTRUCTORS >======================================================
 
     public Mapable(){
         this(new LinkedHashMap<M, Listable<M>>());
@@ -21,7 +22,7 @@ public class Mapable<M extends Modelable>{
         this.listableMap = listableMap;
     }
 
-// ++++++++++++++++| PUBLIC METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PUBLIC METHODS >===========================================================
 
     // PUT
     public Listable<M> putListable(@NonNull M modelable, @NonNull Listable<M> listable){

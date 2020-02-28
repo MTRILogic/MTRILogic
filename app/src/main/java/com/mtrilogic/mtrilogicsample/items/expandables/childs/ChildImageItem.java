@@ -1,9 +1,7 @@
 package com.mtrilogic.mtrilogicsample.items.expandables.childs;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.RatingBar;
@@ -30,11 +28,10 @@ public class ChildImageItem extends ExpandableChild<ImageModel, ItemChildImageBi
     private SquareImageView ivwImage;
     private RatingBar ratingBar;
 
-// ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PUBLIC CONSTRUCTORS >======================================================
 
-    public ChildImageItem(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent,
-                          @NonNull ExpandableAdapterListener listener){
-        super(ItemChildImageBinding.inflate(inflater, parent, false), listener);
+    public ChildImageItem(@NonNull ItemChildImageBinding binding, @NonNull ExpandableAdapterListener listener){
+        super(binding, listener);
         chkItem = binding.chkItem;
         chkItem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,7 +59,7 @@ public class ChildImageItem extends ExpandableChild<ImageModel, ItemChildImageBi
         ratingBar.setOnRatingBarChangeListener(this);
     }
 
-// ++++++++++++++++| PUBLIC OVERRIDE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PUBLIC OVERRIDE METHODS >==================================================
 
     @Override
     public void onChanged(ImageModel imageModel) {
@@ -79,6 +76,8 @@ public class ChildImageItem extends ExpandableChild<ImageModel, ItemChildImageBi
                     "] set to " + rating );
         }
     }
+
+    // ================< PROTECTED OVERRIDE METHODS >===============================================
 
     @NonNull
     @Override
@@ -101,7 +100,7 @@ public class ChildImageItem extends ExpandableChild<ImageModel, ItemChildImageBi
             .into(ivwImage);
     }
 
-// ++++++++++++++++| PRIVATE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PRIVATE METHODS >==========================================================
 
     private void updateChecked(){
         ExpandableAdapter adapter = listener.getExpandableAdapter();

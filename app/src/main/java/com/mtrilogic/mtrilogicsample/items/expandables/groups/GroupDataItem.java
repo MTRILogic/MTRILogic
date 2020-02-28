@@ -1,9 +1,7 @@
 package com.mtrilogic.mtrilogicsample.items.expandables.groups;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -26,11 +24,10 @@ public class GroupDataItem extends ExpandableGroup<DataModel, ItemGroupBinding> 
     private TextView lblTitle, lblContent;
     private CheckBox chkItem;
 
-// ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PUBLIC CONSTRUCTORS >======================================================
 
-    public GroupDataItem(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent,
-                         @NonNull ExpandableAdapterListener listener){
-        super(ItemGroupBinding.inflate(inflater, parent, false), listener);
+    public GroupDataItem(@NonNull ItemGroupBinding binding, @NonNull ExpandableAdapterListener listener){
+        super(binding, listener);
         chkItem = binding.chkItem;
         chkItem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,14 +64,14 @@ public class GroupDataItem extends ExpandableGroup<DataModel, ItemGroupBinding> 
         btnDelete.setFocusable(false);
     }
 
-// ++++++++++++++++| PUBLIC OVERRIDE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PUBLIC OVERRIDE METHODS >==================================================
 
     @Override
     public void onChanged(DataModel dataModel) {
 
     }
 
-// ++++++++++++++++| PROTECTED OVERRIDE METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PROTECTED OVERRIDE METHODS >===============================================
 
     @NonNull
     @Override
@@ -90,7 +87,7 @@ public class GroupDataItem extends ExpandableGroup<DataModel, ItemGroupBinding> 
         lblContent.setText(context.getString(R.string.content_item, groupPosition));
     }
 
-// ++++++++++++++++| PRIVATE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PRIVATE METHODS >==========================================================
 
     private void updateChecked(){
         if (childListable != null) {

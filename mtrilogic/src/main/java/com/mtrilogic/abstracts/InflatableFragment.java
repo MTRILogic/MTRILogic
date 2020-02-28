@@ -16,12 +16,13 @@ import com.mtrilogic.views.InflatableView;
 import java.util.ArrayList;
 
 @SuppressWarnings({"unused"})
-public abstract class InflatableFragment<P extends ListPaginable<Modelable>, VB extends ViewBinding> extends Fragmentable<P, VB>
-        implements InflatableListener, InflatableAdapterListener {
+public abstract class InflatableFragment<P extends ListPaginable<Modelable>, VB extends ViewBinding>
+        extends Fragmentable<P, VB> implements InflatableListener, InflatableAdapterListener {
+
     protected InflatableAdapter adapter;
     protected InflatableView lvwItems;
 
-    // ****************| PROTECTED METHODS |********************************************************
+    // ================< PROTECTED METHODS >========================================================
 
     protected void bindInflatable(@NonNull InflatableView lvwItems, int typeCount){
         this.lvwItems = lvwItems;
@@ -31,7 +32,7 @@ public abstract class InflatableFragment<P extends ListPaginable<Modelable>, VB 
         lvwItems.setAdapter(adapter);
     }
 
-    // ****************| PUBLIC OVERRIDE METHODS |**************************************************
+    // ================< PUBLIC OVERRIDE METHODS >==================================================
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

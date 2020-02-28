@@ -1,9 +1,7 @@
 package com.mtrilogic.mtrilogicsample.items.expandables.childs;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -23,10 +21,10 @@ public class ChildDataItem extends ExpandableChild<DataModel, ItemChildDataBindi
     private TextView lblTitle, lblContent;
     private CheckBox chkItem;
 
-// ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PUBLIC CONSTRUCTORS >======================================================
 
-    public ChildDataItem(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent, @NonNull ExpandableAdapterListener listener){
-        super(ItemChildDataBinding.inflate(inflater, parent, false), listener);
+    public ChildDataItem(@NonNull ItemChildDataBinding binding, @NonNull ExpandableAdapterListener listener){
+        super(binding, listener);
         chkItem = binding.chkItem;
         chkItem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,14 +43,14 @@ public class ChildDataItem extends ExpandableChild<DataModel, ItemChildDataBindi
         });
     }
 
-// ++++++++++++++++| PUBLIC OVERRIDE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PUBLIC OVERRIDE METHODS >==================================================
 
     @Override
     public void onChanged(DataModel dataModel) {
 
     }
 
-// ++++++++++++++++| PROTECTED OVERRIDE METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PROTECTED OVERRIDE METHODS >===============================================
 
     @NonNull
     @Override
@@ -68,7 +66,7 @@ public class ChildDataItem extends ExpandableChild<DataModel, ItemChildDataBindi
         lblContent.setText(context.getString(R.string.content_item, childPosition));
     }
 
-// ++++++++++++++++| PRIVATE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PRIVATE METHODS >==========================================================
 
     private void updateChecked(){
         ExpandableAdapter adapter = listener.getExpandableAdapter();

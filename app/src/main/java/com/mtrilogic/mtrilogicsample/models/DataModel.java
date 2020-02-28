@@ -25,7 +25,7 @@ public class DataModel extends Modelable{
     private String title, content;
     private boolean checked;
 
-// ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PUBLIC CONSTRUCTORS >======================================================
 
     public DataModel(){}
 
@@ -42,7 +42,7 @@ public class DataModel extends Modelable{
         this.checked = checked;
     }
 
-// ++++++++++++++++| PUBLIC METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PUBLIC METHODS >===========================================================
 
     public String getTitle(){
         return title;
@@ -68,7 +68,7 @@ public class DataModel extends Modelable{
         this.checked = checked;
     }
 
-// ++++++++++++++++| PROTECTED OVERRIDE METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PROTECTED OVERRIDE METHODS >===============================================
 
     @Override
     protected void onRestoreFromData(Bundle data) {

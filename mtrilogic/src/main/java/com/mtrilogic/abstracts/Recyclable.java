@@ -9,18 +9,20 @@ import com.mtrilogic.adapters.RecyclableAdapter;
 import com.mtrilogic.interfaces.RecyclableAdapterListener;
 
 @SuppressWarnings({"unused"})
-public abstract class Recyclable<M extends Modelable, VB extends ViewBinding> extends RecyclerView.ViewHolder implements Observer<M> {
+public abstract class Recyclable<M extends Modelable, VB extends ViewBinding>
+        extends RecyclerView.ViewHolder implements Observer<M> {
+
     protected final RecyclableAdapterListener listener;
     protected int position;
     protected VB binding;
     protected M model;
 
-// ++++++++++++++++| PROTECTED ABSTRACT METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PROTECTED ABSTRACT METHODS >===============================================
 
     protected abstract M getModel(Modelable modelable);
     protected abstract void onBindHolder();
 
-// ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PUBLIC CONSTRUCTORS >======================================================
 
     public Recyclable(@NonNull VB binding, @NonNull RecyclableAdapterListener listener){
         super(binding.getRoot());
@@ -28,7 +30,7 @@ public abstract class Recyclable<M extends Modelable, VB extends ViewBinding> ex
         this.binding = binding;
     }
 
-// ++++++++++++++++| PUBLIC METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PUBLIC METHODS >===========================================================
 
     public void bindHolder(@NonNull Modelable modelable, int position){
         model = getModel(modelable);
@@ -36,7 +38,7 @@ public abstract class Recyclable<M extends Modelable, VB extends ViewBinding> ex
         onBindHolder();
     }
 
-// ++++++++++++++++| PROTECTED METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PROTECTED METHODS >========================================================
 
     protected void autoDelete(){
         RecyclableAdapter adapter = listener.getRecyclableAdapter();

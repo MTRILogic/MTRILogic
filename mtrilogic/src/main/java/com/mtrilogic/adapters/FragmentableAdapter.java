@@ -14,11 +14,12 @@ import java.util.ArrayList;
 
 @SuppressWarnings({"unused"})
 public class FragmentableAdapter extends FragmentPagerAdapter{
+
     private static final String TAG = "FragmentableAdapterTAG";
     private FragmentableListener listener;
     private ArrayList<Paginable> paginableList;
 
-// ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PUBLIC CONSTRUCTORS >======================================================
 
     public FragmentableAdapter(@NonNull FragmentManager manager, @NonNull FragmentableListener listener,
                                @NonNull ArrayList<Paginable> paginableList){
@@ -27,7 +28,7 @@ public class FragmentableAdapter extends FragmentPagerAdapter{
         this.paginableList = paginableList;
     }
 
-// ++++++++++++++++| PUBLIC METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PUBLIC METHODS >===========================================================
 
     public int getPaginablePosition(@NonNull Paginable paginable){
         return paginableList.indexOf(paginable);
@@ -88,7 +89,7 @@ public class FragmentableAdapter extends FragmentPagerAdapter{
         paginableList.clear();
     }
 
-// ++++++++++++++++| PUBLIC OVERRIDE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PUBLIC OVERRIDE METHODS >==================================================
 
     @NonNull
     @Override
@@ -129,7 +130,7 @@ public class FragmentableAdapter extends FragmentPagerAdapter{
         return paginableList.get(position).getItemId();
     }
 
-// ++++++++++++++++| PRIVATE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PRIVATE METHODS >==========================================================
 
     private boolean isValidPosition(int position){
         return position > Base.INVALID_POSITION && position < getCount();

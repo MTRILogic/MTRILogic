@@ -16,14 +16,16 @@ import com.mtrilogic.interfaces.ExpandableListener;
 import com.mtrilogic.views.ExpandableView;
 
 @SuppressWarnings({"unused"})
-public abstract class ExpandableFragment<P extends MapPaginable<Modelable>, VB extends ViewBinding> extends Fragmentable<P, VB> implements
-        ExpandableListener, ExpandableAdapterListener {
+public abstract class ExpandableFragment<P extends MapPaginable<Modelable>, VB extends ViewBinding>
+        extends Fragmentable<P, VB> implements ExpandableListener, ExpandableAdapterListener {
+
     protected ExpandableAdapter adapter;
     protected ExpandableView lvwItems;
 
-// ****************| PROTECTED METHODS |************************************************************
+    // ================< PROTECTED METHODS >========================================================
 
-    protected void bindExpandable(@NonNull ExpandableView lvwItems, int groupTypeCount, int childTypeCount){
+    protected void bindExpandable(@NonNull ExpandableView lvwItems, int groupTypeCount,
+                                  int childTypeCount){
         this.lvwItems = lvwItems;
         Context context = getContext();
         Listable<Modelable> groupListable = page.getGroupListable();
@@ -33,7 +35,7 @@ public abstract class ExpandableFragment<P extends MapPaginable<Modelable>, VB e
         lvwItems.setAdapter(adapter);
     }
 
-// ****************| PUBLIC OVERRIDE METHODS |******************************************************
+    // ================< PUBLIC OVERRIDE METHODS >==================================================
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

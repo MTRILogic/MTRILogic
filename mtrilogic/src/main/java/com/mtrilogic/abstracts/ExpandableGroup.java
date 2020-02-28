@@ -1,8 +1,6 @@
 package com.mtrilogic.abstracts;
 
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
@@ -15,7 +13,9 @@ import com.mtrilogic.interfaces.ExpandableAdapterListener;
 import com.mtrilogic.views.ExpandableView;
 
 @SuppressWarnings({"unused","WeakerAccess"})
-public abstract class ExpandableGroup<M extends Modelable, VB extends ViewBinding> extends LiveData<M> implements Observer<M> {
+public abstract class ExpandableGroup<M extends Modelable, VB extends ViewBinding>
+        extends LiveData<M> implements Observer<M> {
+
     protected final ExpandableAdapterListener listener;
     protected final View itemView;
     protected Listable<Modelable> childListable;
@@ -24,12 +24,12 @@ public abstract class ExpandableGroup<M extends Modelable, VB extends ViewBindin
     protected VB binding;
     protected M model;
 
-// ++++++++++++++++| PROTECTED ABSTRACT METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PROTECTED ABSTRACT METHODS >===============================================
 
     protected abstract M getModel(Modelable modelable);
     protected abstract void onBindHolder();
 
-// ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PUBLIC CONSTRUCTORS >======================================================
 
     public ExpandableGroup(@NonNull VB binding, @NonNull ExpandableAdapterListener listener){
         itemView = binding.getRoot();
@@ -37,7 +37,7 @@ public abstract class ExpandableGroup<M extends Modelable, VB extends ViewBindin
         this.binding = binding;
     }
 
-// ++++++++++++++++| PUBLIC METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PUBLIC METHODS >===========================================================
 
     public void bindHolder(@NonNull Modelable modelable, int groupPosition, boolean expanded){
         ExpandableAdapter adapter = listener.getExpandableAdapter();
@@ -52,7 +52,7 @@ public abstract class ExpandableGroup<M extends Modelable, VB extends ViewBindin
         return itemView;
     }
 
-    // ++++++++++++++++| PROTECTED METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PROTECTED METHODS >========================================================
 
     protected void autoDelete(){
         ExpandableAdapter adapter = listener.getExpandableAdapter();

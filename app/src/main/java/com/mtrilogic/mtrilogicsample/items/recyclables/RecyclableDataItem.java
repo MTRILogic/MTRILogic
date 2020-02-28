@@ -1,10 +1,8 @@
 package com.mtrilogic.mtrilogicsample.items.recyclables;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 
-import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -25,11 +23,10 @@ public class RecyclableDataItem extends Recyclable<DataModel, ItemDataBinding> {
     private TextView lblTitle, lblContent;
     private CheckBox chkItem;
 
-// ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PUBLIC CONSTRUCTORS >======================================================
 
-    public RecyclableDataItem(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent,
-                              @NonNull RecyclableAdapterListener listener){
-        super(ItemDataBinding.inflate(inflater, parent, false), listener);
+    public RecyclableDataItem(@NonNull ItemDataBinding binding, @NonNull RecyclableAdapterListener listener){
+        super(binding, listener);
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,14 +51,14 @@ public class RecyclableDataItem extends Recyclable<DataModel, ItemDataBinding> {
         });
     }
 
-// ++++++++++++++++| PUBLIC OVERRIDE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PUBLIC OVERRIDE METHODS >==================================================
 
     @Override
     public void onChanged(DataModel dataModel) {
 
     }
 
-// ++++++++++++++++| PROTECTED OVERRIDE METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PROTECTED OVERRIDE METHODS >===============================================
 
     @NonNull
     @Override
@@ -77,7 +74,7 @@ public class RecyclableDataItem extends Recyclable<DataModel, ItemDataBinding> {
         lblContent.setText(context.getString(R.string.content_item, position));
     }
 
-// ++++++++++++++++| PRIVATE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PRIVATE METHODS >==========================================================
 
     private void updateChecked(){
         RecyclableAdapter adapter = listener.getRecyclableAdapter();

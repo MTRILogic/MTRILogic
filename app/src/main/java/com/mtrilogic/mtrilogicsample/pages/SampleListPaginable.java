@@ -22,11 +22,15 @@ public class SampleListPaginable extends ListPaginable<Modelable> {
         }
     };
 
+    // ================< PUBLIC CONSTRUCTORS >======================================================
+
     public SampleListPaginable(){}
 
     public SampleListPaginable(@NonNull String pageTitle, @NonNull String tagName, long itemId, int viewType){
         super(pageTitle, tagName, itemId, viewType);
     }
+
+    // ================< PRIVATE CONSTRUCTORS >=====================================================
 
     private SampleListPaginable(@NonNull Bundle data){
         super(data);

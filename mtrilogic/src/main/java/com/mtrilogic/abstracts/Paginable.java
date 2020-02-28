@@ -6,10 +6,11 @@ import androidx.annotation.NonNull;
 
 @SuppressWarnings({"unused", "WeakerAccess"})
 public abstract class Paginable extends Modelable {
+
     private static final String PAGE_TITLE = "pageTitle", TAG_NAME = "tagName";
     private String pageTitle, tagName;
 
-// ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PUBLIC CONSTRUCTORS >======================================================
 
     public Paginable(){}
 
@@ -23,7 +24,7 @@ public abstract class Paginable extends Modelable {
         this.tagName = tagName;
     }
 
-// ++++++++++++++++| PUBLIC METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PUBLIC METHODS >===========================================================
 
     @NonNull
     public String getPageTitle(){
@@ -43,7 +44,7 @@ public abstract class Paginable extends Modelable {
         this.tagName = tagName;
     }
 
-// ++++++++++++++++| PROTECTED OVERRIDE METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PROTECTED OVERRIDE METHODS >===============================================
 
     @Override
     protected void onRestoreFromData(@NonNull Bundle data) {

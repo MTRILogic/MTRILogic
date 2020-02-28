@@ -9,7 +9,10 @@ import com.mtrilogic.mtrilogic.R;
 
 @SuppressWarnings("unused")
 public class SquareTableLayout extends TableLayout {
+
     private boolean portrait;
+
+    // ================< PUBLIC CONSTRUCTORS >======================================================
 
     public SquareTableLayout(Context context, boolean portrait) {
         super(context);
@@ -22,6 +25,8 @@ public class SquareTableLayout extends TableLayout {
         portrait = typedArray.getBoolean(R.styleable.SquareTableLayout_portrait, false);
         typedArray.recycle();
     }
+
+    // ================< PROTECTED OVERRIDE METHODS >===============================================
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {

@@ -8,9 +8,10 @@ import com.mtrilogic.classes.Listable;
 
 @SuppressWarnings({"unused","WeakerAccess"})
 public abstract class ListPaginable<M extends Modelable> extends Paginable {
+
     private Listable<M> listable;
 
-    // ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PUBLIC CONSTRUCTORS >======================================================
 
     public ListPaginable(){}
 
@@ -23,7 +24,7 @@ public abstract class ListPaginable<M extends Modelable> extends Paginable {
         listable = new Listable<>();
     }
 
-    // ++++++++++++++++| PUBLIC METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PUBLIC METHODS >===========================================================
 
     @NonNull
     public Listable<M> getListable() {
@@ -34,7 +35,7 @@ public abstract class ListPaginable<M extends Modelable> extends Paginable {
         this.listable = listable;
     }
 
-    // ++++++++++++++++| PROTECTED METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PROTECTED METHODS >========================================================
 
     @Override
     protected void onRestoreFromData(@NonNull Bundle data) {

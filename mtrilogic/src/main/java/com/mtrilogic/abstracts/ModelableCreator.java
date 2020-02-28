@@ -7,11 +7,15 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
 @SuppressWarnings("unused")
-public abstract class ModelableCreator<M extends Modelable> implements Parcelable.ClassLoaderCreator<M>{
+public abstract class ModelableCreator<M extends Modelable>
+        implements Parcelable.ClassLoaderCreator<M>{
+
+    // ================< PUBLIC ABSTRACT METHODS >==================================================
 
     public abstract M getParcelable(Bundle data);
-
     public abstract M[] getParcelableArray(int size);
+
+    // ================< PUBLIC FINAL OVERRIDE METHODS >============================================
 
     @Override
     public final M createFromParcel(Parcel src, ClassLoader loader){
@@ -27,6 +31,8 @@ public abstract class ModelableCreator<M extends Modelable> implements Parcelabl
     public final M[] newArray(int size){
         return getParcelableArray(size);
     }
+
+    // ================< PRIVATE METHODS >==========================================================
 
     @NonNull
     private M getParcelable(Parcel source, ClassLoader loader){

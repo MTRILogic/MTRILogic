@@ -1,9 +1,7 @@
 package com.mtrilogic.mtrilogicsample.items.recyclables;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.RatingBar;
@@ -30,11 +28,10 @@ public class RecyclableImageItem extends Recyclable<ImageModel, ItemImageBinding
     private RatingBar ratingBar;
     private CheckBox chkItem;
 
-// ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PUBLIC CONSTRUCTORS >======================================================
 
-    public RecyclableImageItem(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent,
-                               @NonNull RecyclableAdapterListener listener){
-        super(ItemImageBinding.inflate(inflater, parent, false), listener);
+    public RecyclableImageItem(@NonNull ItemImageBinding binding, @NonNull RecyclableAdapterListener listener){
+        super(binding, listener);
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,7 +65,7 @@ public class RecyclableImageItem extends Recyclable<ImageModel, ItemImageBinding
         ratingBar.setOnRatingBarChangeListener(this);
     }
 
-// ++++++++++++++++| PUBLIC OVERRIDE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PUBLIC OVERRIDE METHODS >==================================================
 
     @Override
     public void onChanged(ImageModel imageModel) {
@@ -85,7 +82,7 @@ public class RecyclableImageItem extends Recyclable<ImageModel, ItemImageBinding
         }
     }
 
-// ++++++++++++++++| PROTECTED OVERRIDE METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PROTECTED OVERRIDE METHODS >===============================================
 
     @NonNull
     @Override
@@ -108,7 +105,7 @@ public class RecyclableImageItem extends Recyclable<ImageModel, ItemImageBinding
             .into(ivwImage);
     }
 
-// ++++++++++++++++| PRIVATE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PRIVATE METHODS >==========================================================
 
     private void updateChecked(){
         RecyclableAdapter adapter = listener.getRecyclableAdapter();

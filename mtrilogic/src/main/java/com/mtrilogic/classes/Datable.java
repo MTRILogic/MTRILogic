@@ -6,8 +6,10 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
-@SuppressWarnings("unused")
+@Deprecated
+@SuppressWarnings({"unused", "deprecation"})
 public class Datable implements Parcelable {
+
     public static final Creator<Datable> CREATOR = new ClassLoaderCreator<Datable>() {
         @Override
         public Datable createFromParcel(Parcel source, ClassLoader loader) {
@@ -27,6 +29,8 @@ public class Datable implements Parcelable {
 
     private Bundle data;
 
+    // ================< PUBLIC CONSTRUCTORS >======================================================
+
     public Datable(@NonNull Bundle data){
         this.data = data;
     }
@@ -41,6 +45,8 @@ public class Datable implements Parcelable {
     public Bundle getData() {
         return data;
     }
+
+    // ================< PUBLIC OVERRIDE METHODS >==================================================
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {

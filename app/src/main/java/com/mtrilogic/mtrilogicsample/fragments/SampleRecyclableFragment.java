@@ -18,6 +18,8 @@ import com.mtrilogic.abstracts.Recyclable;
 import com.mtrilogic.abstracts.RecyclableFragment;
 import com.mtrilogic.mtrilogicsample.R;
 import com.mtrilogic.mtrilogicsample.databinding.FragmentRecyclableBinding;
+import com.mtrilogic.mtrilogicsample.databinding.ItemDataBinding;
+import com.mtrilogic.mtrilogicsample.databinding.ItemImageBinding;
 import com.mtrilogic.mtrilogicsample.extras.Utils;
 import com.mtrilogic.mtrilogicsample.items.recyclables.RecyclableDataItem;
 import com.mtrilogic.mtrilogicsample.items.recyclables.RecyclableImageItem;
@@ -28,14 +30,14 @@ import com.mtrilogic.mtrilogicsample.types.ItemChildType;
 public class SampleRecyclableFragment extends RecyclableFragment<SampleListPaginable, FragmentRecyclableBinding>{
     private TextView lblContent;
 
-    // PROTECTED OVERRIDE METHODS ******************************************************************
+    // ================< PROTECTED OVERRIDE METHODS >===============================================
 
     @Override
     protected RecyclerView.LayoutManager getLayoutManager(Context context) {
         return new LinearLayoutManager(context);
     }
 
-    // PUBLIC OVERRIDE METHODS =====================================================================
+    // ================< PUBLIC OVERRIDE METHODS >==================================================
 
     @Nullable
     @Override
@@ -81,9 +83,9 @@ public class SampleRecyclableFragment extends RecyclableFragment<SampleListPagin
         Context context = getContext();
         switch(viewType){
             case ItemChildType.DATA:
-                return new RecyclableDataItem(inflater, parent, this);
+                return new RecyclableDataItem(ItemDataBinding.inflate(inflater, parent, false), this);
             case ItemChildType.IMAGE:
-                return new RecyclableImageItem(inflater, parent, this);
+                return new RecyclableImageItem(ItemImageBinding.inflate(inflater, parent, false), this);
         }
         return null;
     }
@@ -98,7 +100,7 @@ public class SampleRecyclableFragment extends RecyclableFragment<SampleListPagin
 
     }
 
-    // ++++++++++++++++| PRIVATE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PRIVATE METHODS >==========================================================
 
     private void addModelable(int viewType){
         Context context = getContext();

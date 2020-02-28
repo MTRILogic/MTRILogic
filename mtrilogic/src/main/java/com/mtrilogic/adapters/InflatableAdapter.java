@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 @SuppressWarnings({"unused","WeakerAccess"})
 public class InflatableAdapter extends BaseAdapter{
+
     private static final String TAG = "InflatableAdapter";
     private LayoutInflater inflater;
     private InflatableListener listener;
@@ -24,7 +25,7 @@ public class InflatableAdapter extends BaseAdapter{
     private int typeCount;
     private boolean stableIds;
 
-// ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PUBLIC CONSTRUCTORS >======================================================
 
     public InflatableAdapter(Context context, @NonNull InflatableListener listener,
                              @NonNull ArrayList<Modelable> modelableList, int typeCount){
@@ -35,7 +36,7 @@ public class InflatableAdapter extends BaseAdapter{
         stableIds = true;
     }
 
-// ++++++++++++++++| PUBLIC METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PUBLIC METHODS >===========================================================
 
     public void setTypeCount(int typeCount){
         typeCount = typeCount > 0 ? typeCount : 1;
@@ -106,7 +107,7 @@ public class InflatableAdapter extends BaseAdapter{
         modelableList.clear();
     }
 
-// +++++++++++++++++| PUBLIC OVERRIDE METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PUBLIC OVERRIDE METHODS >==================================================
 
     @Override
     public int getCount(){
@@ -161,7 +162,7 @@ public class InflatableAdapter extends BaseAdapter{
         return stableIds;
     }
 
-// ++++++++++++++++| PRIVATE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PRIVATE METHODS >==========================================================
 
     private boolean isValidPosition(int position){
         return position > Base.INVALID_POSITION && position < getCount();

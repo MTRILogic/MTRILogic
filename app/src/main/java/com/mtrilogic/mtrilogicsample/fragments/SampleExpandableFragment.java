@@ -17,6 +17,9 @@ import com.mtrilogic.abstracts.ExpandableGroup;
 import com.mtrilogic.abstracts.Modelable;
 import com.mtrilogic.classes.Listable;
 import com.mtrilogic.mtrilogicsample.databinding.FragmentExpandableBinding;
+import com.mtrilogic.mtrilogicsample.databinding.ItemChildDataBinding;
+import com.mtrilogic.mtrilogicsample.databinding.ItemChildImageBinding;
+import com.mtrilogic.mtrilogicsample.databinding.ItemGroupBinding;
 import com.mtrilogic.mtrilogicsample.items.expandables.childs.ChildDataItem;
 import com.mtrilogic.mtrilogicsample.items.expandables.childs.ChildImageItem;
 import com.mtrilogic.mtrilogicsample.items.expandables.groups.GroupDataItem;
@@ -31,14 +34,12 @@ import com.mtrilogic.views.ExpandableView;
 public class SampleExpandableFragment extends ExpandableFragment<SampleMapPaginable, FragmentExpandableBinding> {
     private TextView lblContent;
 
-// PROTECTED OVERRIDE METHODS |*********************************************************************
+    // ================< PUBLIC OVERRIDE METHODS >==================================================
 
     @Override
     public void onNewPosition(int position) {
         lblContent.setText(getString(R.string.content_item, position));
     }
-
-// ++++++++++++++++| PUBLIC OVERRIDE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     @Nullable
     @Override
@@ -70,7 +71,7 @@ public class SampleExpandableFragment extends ExpandableFragment<SampleMapPagina
     @Override
     public ExpandableGroup getExpandableGroup(int viewType, LayoutInflater inflater, ViewGroup parent){
         if (viewType == ItemGroupType.GROUP) {
-            return new GroupDataItem(inflater, parent, this);
+            return new GroupDataItem(ItemGroupBinding.inflate(inflater, parent, false), this);
         }
         return null;
     }
@@ -80,9 +81,9 @@ public class SampleExpandableFragment extends ExpandableFragment<SampleMapPagina
         Context context = getContext();
         switch(viewType){
             case ItemChildType.DATA:
-                return new ChildDataItem(inflater, parent, this);
+                return new ChildDataItem(ItemChildDataBinding.inflate(inflater, parent, false), this);
             case ItemChildType.IMAGE:
-                return new ChildImageItem(inflater, parent, this);
+                return new ChildImageItem(ItemChildImageBinding.inflate(inflater, parent, false), this);
         }
         return null;
     }
@@ -97,7 +98,7 @@ public class SampleExpandableFragment extends ExpandableFragment<SampleMapPagina
 
     }
 
-// *************************************************************************************************
+    // ================< PRIVATE METHODS >==========================================================
 
     private void addGroupModelable(){
         Listable groupListable = page.getGroupListable();

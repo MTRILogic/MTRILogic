@@ -10,11 +10,12 @@ import androidx.annotation.NonNull;
 
 @SuppressWarnings("unused")
 public class Listable<M extends Modelable>{
+
     private static final String LIST = "list", IDX = "idx";
     private ArrayList<M> modelableList;
     private long idx;
 
-// ++++++++++++++++| PUBLIC CONSTRUCTORS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PUBLIC CONSTRUCTORS >======================================================
 
     public Listable(){
         this(new ArrayList<M>(), 0);
@@ -25,7 +26,7 @@ public class Listable<M extends Modelable>{
         this.idx = idx;
     }
 
-// ++++++++++++++++| PUBLIC METHODS |+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PUBLIC METHODS >===========================================================
 
     // IDX
     public long getIdx(){
@@ -131,7 +132,7 @@ public class Listable<M extends Modelable>{
         }
     }
 
-// ++++++++++++++++| PRIVATE METHODS |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ================< PRIVATE METHODS >==========================================================
 
     private boolean isValidPosition(int position){
         return position > Base.INVALID_POSITION && position < getModelableCount();
