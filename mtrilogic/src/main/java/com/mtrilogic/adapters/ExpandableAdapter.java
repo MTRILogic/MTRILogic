@@ -448,6 +448,11 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
         return 0x7000000000000000L | ((groupId & 0x7FFFFFFF) << 32) | childId;
     }
 
+    @Override
+    public boolean areAllItemsEnabled() {
+        return false;
+    }
+
     // ================< PRIVATE METHODS >==========================================================
 
     @NonNull

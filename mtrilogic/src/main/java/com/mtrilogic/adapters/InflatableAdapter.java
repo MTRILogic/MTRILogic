@@ -143,6 +143,11 @@ public class InflatableAdapter extends BaseAdapter{
     }
 
     @Override
+    public boolean areAllItemsEnabled() {
+        return false;
+    }
+
+    @Override
     public boolean isEnabled(int position){
         return getItem(position).isEnabled();
     }
