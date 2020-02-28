@@ -18,6 +18,7 @@ import com.mtrilogic.mtrilogicsample.models.DataModel;
 
 @SuppressWarnings({"unused"})
 public class InflatableDataItem extends Inflatable<DataModel, ItemDataBinding> {
+
     private TextView lblTitle, lblContent;
     private CheckBox chkItem;
 
@@ -46,24 +47,17 @@ public class InflatableDataItem extends Inflatable<DataModel, ItemDataBinding> {
     // ================< PUBLIC OVERRIDE METHODS >==================================================
 
     @Override
-    public void onChanged(DataModel dataModel) {
-
-    }
-
-    // ================< PROTECTED OVERRIDE METHODS >===============================================
-
-    @NonNull
-    @Override
-    protected DataModel getModel(@NonNull Modelable modelable) {
-        return (DataModel) modelable;
-    }
-
-    @Override
-    protected void onBindHolder(){
+    public void onBindHolder(Modelable modelable, int position){
+        bindModel((DataModel) modelable, position);
         chkItem.setChecked(model.isChecked());
         Context context = itemView.getContext();
         lblTitle.setText(context.getString(R.string.title_item, model.getItemId()));
         lblContent.setText(context.getString(R.string.content_item, position));
+    }
+
+    @Override
+    public void onChanged(DataModel dataModel) {
+
     }
 
     // ================< PRIVATE METHODS >==========================================================

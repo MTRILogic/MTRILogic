@@ -9,6 +9,7 @@ import com.mtrilogic.mtrilogicsample.types.ItemChildType;
 
 @SuppressWarnings({"unused"})
 public class ImageModel extends DataModel{
+
     public static final Creator<ImageModel> CREATOR = new ModelableCreator<ImageModel>() {
         @Override
         public ImageModel getParcelable(Bundle data) {
@@ -20,6 +21,7 @@ public class ImageModel extends DataModel{
             return new ImageModel[size];
         }
     };
+
     private static final String IMAGE_LINK = "imageLink", RATING = "rating";
     private String imageLink;
     private float rating;

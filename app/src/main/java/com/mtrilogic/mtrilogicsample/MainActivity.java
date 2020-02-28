@@ -37,6 +37,7 @@ import com.mtrilogic.mtrilogicsample.types.FragmentableType;
 @SuppressWarnings("unused")
 public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener,
         FragmentableListener, FragmentableAdapterListener, OnMakeToastListener{
+
     private static final int[] PAGE_TITLES = {
             R.string.inflatable,
             R.string.recyclable,

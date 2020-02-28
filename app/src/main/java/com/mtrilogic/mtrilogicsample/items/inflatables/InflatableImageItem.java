@@ -23,6 +23,7 @@ import com.mtrilogic.views.SquareImageView;
 @SuppressWarnings({"unused"})
 public class InflatableImageItem extends Inflatable<ImageModel, ItemImageBinding> implements
         RatingBar.OnRatingBarChangeListener{
+
     private TextView lblTitle, lblContent;
     private CheckBox chkItem;
     private SquareImageView ivwImage;
@@ -60,6 +61,22 @@ public class InflatableImageItem extends Inflatable<ImageModel, ItemImageBinding
     }
 
     // ================< PUBLIC OVERRIDE METHODS >==================================================
+
+    @Override
+    public void onBindHolder(Modelable modelable, int position){
+        bindModel((ImageModel) modelable, position);
+        chkItem.setChecked(model.isChecked());
+        Context context = itemView.getContext();
+        lblTitle.setText(context.getString(R.string.title_item, model.getItemId()));
+        lblContent.setText(context.getString(R.string.content_item, position));
+        ratingBar.setRating(model.getRating());
+        Glide.with(context)
+                .load(model.getImageLink())
+                .apply(new RequestOptions()
+                        .placeholder(R.drawable.loading)
+                        .error(R.drawable.not_found))
+                .into(ivwImage);
+    }
     
     @Override
     public void onChanged(ImageModel imageModel) {
@@ -74,29 +91,6 @@ public class InflatableImageItem extends Inflatable<ImageModel, ItemImageBinding
             adapter.notifyDataSetChanged();
             listener.onMakeToast("Rating Bar [" + position + "] set to " + rating );
         }
-    }
-
-    // ================< PROTECTED OVERRIDE METHODS >===============================================
-
-    @NonNull
-    @Override
-    protected ImageModel getModel(@NonNull Modelable modelable) {
-        return (ImageModel) modelable;
-    }
-
-    @Override
-    protected void onBindHolder(){
-        chkItem.setChecked(model.isChecked());
-        Context context = itemView.getContext();
-        lblTitle.setText(context.getString(R.string.title_item, model.getItemId()));
-        lblContent.setText(context.getString(R.string.content_item, position));
-        ratingBar.setRating(model.getRating());
-        Glide.with(context)
-            .load(model.getImageLink())
-            .apply(new RequestOptions()
-                .placeholder(R.drawable.loading)
-                .error(R.drawable.not_found))
-            .into(ivwImage);
     }
 
     // ================< PRIVATE METHODS >==========================================================

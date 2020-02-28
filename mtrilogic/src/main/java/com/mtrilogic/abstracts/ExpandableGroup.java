@@ -24,10 +24,9 @@ public abstract class ExpandableGroup<M extends Modelable, VB extends ViewBindin
     protected VB binding;
     protected M model;
 
-    // ================< PROTECTED ABSTRACT METHODS >===============================================
+    // ================< PUBLIC ABSTRACT METHODS >==================================================
 
-    protected abstract M getModel(Modelable modelable);
-    protected abstract void onBindHolder();
+    public abstract void onBindHolder(Modelable modelable, int groupPosition, boolean expanded);
 
     // ================< PUBLIC CONSTRUCTORS >======================================================
 
@@ -39,20 +38,19 @@ public abstract class ExpandableGroup<M extends Modelable, VB extends ViewBindin
 
     // ================< PUBLIC METHODS >===========================================================
 
-    public void bindHolder(@NonNull Modelable modelable, int groupPosition, boolean expanded){
-        ExpandableAdapter adapter = listener.getExpandableAdapter();
-        model = getModel(modelable);
-        childListable = adapter != null ? adapter.getChildListable(model) : null;
-        this.groupPosition = groupPosition;
-        this.expanded = expanded;
-        onBindHolder();
-    }
-
     public View getItemView() {
         return itemView;
     }
 
     // ================< PROTECTED METHODS >========================================================
+
+    protected void bindModel(@NonNull M model, int groupPosition, boolean expanded){
+        ExpandableAdapter adapter = listener.getExpandableAdapter();
+        childListable = adapter != null ? adapter.getChildListable(model) : null;
+        this.groupPosition = groupPosition;
+        this.expanded = expanded;
+        this.model = model;
+    }
 
     protected void autoDelete(){
         ExpandableAdapter adapter = listener.getExpandableAdapter();

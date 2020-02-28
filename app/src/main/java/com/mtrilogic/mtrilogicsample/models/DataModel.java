@@ -10,6 +10,7 @@ import com.mtrilogic.mtrilogicsample.types.ItemChildType;
 
 @SuppressWarnings({"unused","WeakerAccess"})
 public class DataModel extends Modelable{
+
     public static final Creator<DataModel> CREATOR = new ModelableCreator<DataModel>() {
         @Override
         public DataModel getParcelable(Bundle data) {
@@ -21,6 +22,7 @@ public class DataModel extends Modelable{
             return new DataModel[size];
         }
     };
+
     private static final String TITLE = "title", CONTENT = "content", CHECKED = "checked";
     private String title, content;
     private boolean checked;

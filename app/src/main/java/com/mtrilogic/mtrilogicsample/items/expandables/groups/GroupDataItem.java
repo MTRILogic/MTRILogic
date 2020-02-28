@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 @SuppressWarnings({"unused","FieldCanBeLocal"})
 public class GroupDataItem extends ExpandableGroup<DataModel, ItemGroupBinding> {
+
     private TextView lblTitle, lblContent;
     private CheckBox chkItem;
 
@@ -67,24 +68,17 @@ public class GroupDataItem extends ExpandableGroup<DataModel, ItemGroupBinding> 
     // ================< PUBLIC OVERRIDE METHODS >==================================================
 
     @Override
-    public void onChanged(DataModel dataModel) {
-
-    }
-
-    // ================< PROTECTED OVERRIDE METHODS >===============================================
-
-    @NonNull
-    @Override
-    protected DataModel getModel(@NonNull Modelable modelable) {
-        return (DataModel) modelable;
-    }
-
-    @Override
-    protected void onBindHolder(){
+    public void onBindHolder(Modelable modelable, int groupPosition, boolean expanded){
+        bindModel((DataModel) modelable, groupPosition, expanded);
         chkItem.setChecked(model.isChecked());
         Context context = itemView.getContext();
         lblTitle.setText(context.getString(R.string.title_item, model.getItemId()));
         lblContent.setText(context.getString(R.string.content_item, groupPosition));
+    }
+
+    @Override
+    public void onChanged(DataModel dataModel) {
+
     }
 
     // ================< PRIVATE METHODS >==========================================================

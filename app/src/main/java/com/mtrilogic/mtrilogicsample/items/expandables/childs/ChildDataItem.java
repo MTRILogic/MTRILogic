@@ -18,6 +18,7 @@ import com.mtrilogic.mtrilogicsample.models.DataModel;
 
 @SuppressWarnings({"unused","FieldCanBeLocal"})
 public class ChildDataItem extends ExpandableChild<DataModel, ItemChildDataBinding> {
+
     private TextView lblTitle, lblContent;
     private CheckBox chkItem;
 
@@ -46,24 +47,17 @@ public class ChildDataItem extends ExpandableChild<DataModel, ItemChildDataBindi
     // ================< PUBLIC OVERRIDE METHODS >==================================================
 
     @Override
-    public void onChanged(DataModel dataModel) {
-
-    }
-
-    // ================< PROTECTED OVERRIDE METHODS >===============================================
-
-    @NonNull
-    @Override
-    protected DataModel getModel(@NonNull Modelable modelable) {
-        return (DataModel) modelable;
-    }
-
-    @Override
-    protected void onBindHolder(){
+    public void onBindHolder(Modelable modelable, int groupPosition, int childPosition, boolean lastChild){
+        bindModel((DataModel) modelable, groupPosition, childPosition, lastChild);
         chkItem.setChecked(model.isChecked());
         Context context = itemView.getContext();
         lblTitle.setText(context.getString(R.string.title_item, model.getItemId()));
         lblContent.setText(context.getString(R.string.content_item, childPosition));
+    }
+
+    @Override
+    public void onChanged(DataModel dataModel) {
+
     }
 
     // ================< PRIVATE METHODS >==========================================================

@@ -10,6 +10,7 @@ import com.mtrilogic.abstracts.ListPaginable;
 
 @SuppressWarnings("unused")
 public class SampleListPaginable extends ListPaginable<Modelable> {
+
     public static final Creator<SampleListPaginable> CREATOR = new PaginableCreator<SampleListPaginable>() {
         @Override
         public SampleListPaginable getParcelable(Bundle data) {

@@ -105,7 +105,7 @@ public class RecyclableAdapter extends RecyclerView.Adapter<Recyclable>{
     @Override
     public void onBindViewHolder(@NonNull Recyclable holder, int position){
         Modelable modelable = getItem(position);
-        holder.bindHolder(modelable, position);
+        holder.onBindHolder(modelable, position);
     }
 
     @Override

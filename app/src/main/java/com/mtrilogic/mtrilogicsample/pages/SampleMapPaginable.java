@@ -11,6 +11,7 @@ import com.mtrilogic.mtrilogicsample.types.FragmentableType;
 
 @SuppressWarnings("unused")
 public class SampleMapPaginable extends MapPaginable<Modelable> {
+
     public static final Creator<SampleMapPaginable> CREATOR = new PaginableCreator<SampleMapPaginable>() {
         @Override
         public SampleMapPaginable getParcelable(Bundle data) {

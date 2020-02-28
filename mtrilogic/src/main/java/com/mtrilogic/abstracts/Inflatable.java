@@ -20,10 +20,9 @@ public abstract class Inflatable<M extends Modelable, VB extends ViewBinding> ex
     protected VB binding;
     protected M model;
 
-    // ================< PROTECTED ABSTRACT METHODS >===============================================
+    // ================< PUBLIC ABSTRACT METHODS >==================================================
 
-    protected abstract M getModel(Modelable modelable);
-    protected abstract void onBindHolder();
+    public abstract void onBindHolder(Modelable modelable, int position);
 
     // ================< PUBLIC CONSTRUCTORS >======================================================
 
@@ -35,17 +34,16 @@ public abstract class Inflatable<M extends Modelable, VB extends ViewBinding> ex
 
     // ================< PUBLIC METHODS >===========================================================
 
-    public void bindHolder(@NonNull Modelable modelable, int position){
-        model = getModel(modelable);
-        this.position = position;
-        onBindHolder();
-    }
-
     public View getItemView() {
         return itemView;
     }
 
     // ================< PROTECTED METHODS >========================================================
+
+    protected void bindModel(@NonNull M model, int position){
+        this.position = position;
+        this.model = model;
+    }
 
     protected void autoDelete(){
         InflatableAdapter adapter = listener.getInflatableAdapter();
