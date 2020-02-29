@@ -12,7 +12,9 @@ public abstract class Paginable extends Modelable {
 
     // ================< PUBLIC CONSTRUCTORS >======================================================
 
-    public Paginable(){}
+    public Paginable(){
+        super();
+    }
 
     public Paginable(@NonNull Bundle data){
         super(data);

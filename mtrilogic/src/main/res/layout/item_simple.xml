@@ -2,7 +2,11 @@
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/lblText"
     android:text="@string/app_name"
+    android:textStyle="bold"
+    android:textColor="#FFF"
     android:textAppearance="?android:attr/textAppearanceMedium"
+    android:background="#F00"
+    android:gravity="center"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="5dp"/>

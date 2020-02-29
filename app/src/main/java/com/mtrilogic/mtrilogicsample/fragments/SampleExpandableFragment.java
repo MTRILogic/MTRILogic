@@ -32,6 +32,7 @@ import com.mtrilogic.views.ExpandableView;
 
 @SuppressWarnings("unused")
 public class SampleExpandableFragment extends ExpandableFragment<SampleMapPaginable, FragmentExpandableBinding> {
+
     private TextView lblContent;
 
     // ================< PUBLIC OVERRIDE METHODS >==================================================

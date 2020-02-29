@@ -48,12 +48,14 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             "recyclable",
             "expandable"
     };
-    private static final int[] TYPES = {
+    private static final int[] VIEW_TYPES = {
             FragmentableType.INFLATABLE,
             FragmentableType.RECYCLABLE,
             FragmentableType.EXPANDABLE
     };
+
     private static final String TAG = "MainActivityTAG", LIST = "list", IDX = "idx";
+
     private ActionBar actionBar;
     private StateViewModel paginableState;
     private FragmentableAdapter adapter;
@@ -89,8 +91,10 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         if(savedInstanceState != null) {
             idx = paginableState.getListable().getIdx();
         }else {
+            idx = 0;
             for(int i = 0; i < 3; i++){
-                Paginable paginable = getNewPaginable(i);
+                String pageTitle = getString(PAGE_TITLES[i]);
+                Paginable paginable = newPaginable(VIEW_TYPES[i], pageTitle, TAG_NAMES[i] + idx, idx);
                 if(paginable != null && paginableState.getListable().getModelableList().add(paginable)){
                     idx++;
                 }
@@ -121,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         fabInflatable.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addNewPaginable(getNewPaginable(0));
+                addPaginable(newPaginable(FragmentableType.INFLATABLE, "Inflatable", "inflatable" + idx, idx));
             }
         });
 
@@ -129,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         fabRecyclable.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addNewPaginable(getNewPaginable(1));
+                addPaginable(newPaginable(FragmentableType.RECYCLABLE, "Recyclable", "recyclable" + idx, idx));
             }
         });
 
@@ -137,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         fabExpandable.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addNewPaginable(getNewPaginable(2));
+                addPaginable(newPaginable(FragmentableType.EXPANDABLE, "Expandable", "expandable" + idx, idx));
             }
         });
     }
@@ -216,7 +220,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         actionBar.setTitle(adapter.getPageTitle(position));
     }
 
-    private void addNewPaginable(Paginable paginable){
+    private void addPaginable(Paginable paginable){
         if (paginable != null){
             Listable<Paginable> listable = paginableState.getListable();
             if (listable.appendModelable(paginable)){
@@ -234,10 +238,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         fam.collapse();
     }
 
-    private Paginable getNewPaginable(int index){
-        String pageTitle  = getString(PAGE_TITLES[index]);
-        String tagName = TAG_NAMES[index];
-        int viewType = TYPES[index];
+    private Paginable newPaginable(int viewType, String pageTitle, String tagName, long idx){
         switch (viewType){
             case FragmentableType.INFLATABLE:
                 return new SampleListPaginable(pageTitle, tagName, idx, FragmentableType.INFLATABLE);

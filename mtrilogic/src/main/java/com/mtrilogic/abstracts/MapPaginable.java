@@ -15,7 +15,9 @@ public abstract class MapPaginable<M extends Modelable> extends Paginable {
 
     // ================< PUBLIC CONSTRUCTORS >======================================================
 
-    public MapPaginable(){}
+    public MapPaginable(){
+        super();
+    }
 
     public MapPaginable(@NonNull Bundle data){
         super(data);

@@ -1,0 +1,38 @@
+package com.mtrilogic.fragments;
+
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.mtrilogic.abstracts.Fragmentable;
+import com.mtrilogic.mtrilogic.databinding.FragmentSimpleBinding;
+import com.mtrilogic.pages.SimplePage;
+
+@SuppressWarnings("unused")
+public class SimpleFragment extends Fragmentable<SimplePage, FragmentSimpleBinding> {
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        binding = FragmentSimpleBinding.inflate(inflater, container, false);
+        FrameLayout maingContainer = binding.mainContainer;
+        TextView lblText = binding.lblText;
+        if (page != null) {
+            maingContainer.setBackgroundColor(page.getBackColor());
+            lblText.setTextColor(page.getColor());
+            lblText.setText(page.getText());
+        }
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onNewPosition(int position) {
+
+    }
+}

@@ -27,6 +27,7 @@ import com.mtrilogic.views.InflatableView;
 
 @SuppressWarnings("unused")
 public class SampleInflatableFragment extends InflatableFragment<SampleListPaginable, FragmentInflatableBinding> {
+
     private TextView lblContent;
 
     // ================< PUBLIC OVERRIDE METHODS >==================================================

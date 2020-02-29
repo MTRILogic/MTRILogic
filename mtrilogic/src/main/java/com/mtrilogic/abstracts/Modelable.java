@@ -17,7 +17,9 @@ public abstract class Modelable implements Parcelable {
 
     // ================< PUBLIC CONSTRUCTORS >======================================================
 
-    public Modelable(){}
+    public Modelable(){
+        super();
+    }
 
     public Modelable(@NonNull Bundle data){
         onRestoreFromData(data);

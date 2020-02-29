@@ -13,7 +13,9 @@ public abstract class ListPaginable<M extends Modelable> extends Paginable {
 
     // ================< PUBLIC CONSTRUCTORS >======================================================
 
-    public ListPaginable(){}
+    public ListPaginable(){
+        super();
+    }
 
     public ListPaginable(@NonNull Bundle data){
         super(data);

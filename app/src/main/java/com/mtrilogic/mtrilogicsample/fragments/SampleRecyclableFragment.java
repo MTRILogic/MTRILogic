@@ -28,6 +28,7 @@ import com.mtrilogic.mtrilogicsample.types.ItemChildType;
 
 @SuppressWarnings("unused")
 public class SampleRecyclableFragment extends RecyclableFragment<SampleListPaginable, FragmentRecyclableBinding>{
+
     private TextView lblContent;
 
     // ================< PROTECTED OVERRIDE METHODS >===============================================
