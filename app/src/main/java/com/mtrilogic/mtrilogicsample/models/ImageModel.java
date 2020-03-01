@@ -12,7 +12,7 @@ public class ImageModel extends DataModel{
 
     public static final Creator<ImageModel> CREATOR = new ModelableCreator<ImageModel>() {
         @Override
-        public ImageModel getParcelable(Bundle data) {
+        public ImageModel getParcelable(@NonNull Bundle data) {
             return new ImageModel(data);
         }
 
@@ -59,14 +59,14 @@ public class ImageModel extends DataModel{
     // ================< PROTECTED OVERRIDE METHODS >===============================================
 
     @Override
-    protected void onRestoreFromData(Bundle data) {
+    protected void onRestoreFromData(@NonNull Bundle data) {
         super.onRestoreFromData(data);
         imageLink = data.getString(IMAGE_LINK);
         rating = data.getFloat(RATING);
     }
 
     @Override
-    protected void onSaveToData(Bundle data) {
+    protected void onSaveToData(@NonNull Bundle data) {
         super.onSaveToData(data);
         data.putString(IMAGE_LINK, imageLink);
         data.putFloat(RATING, rating);

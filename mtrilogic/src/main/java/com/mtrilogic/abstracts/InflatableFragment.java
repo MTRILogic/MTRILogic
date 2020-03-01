@@ -27,9 +27,11 @@ public abstract class InflatableFragment<P extends ListPaginable<Modelable>, VB 
     protected void bindInflatable(@NonNull InflatableView lvwItems, int typeCount){
         this.lvwItems = lvwItems;
         Context context = getContext();
-        ArrayList<Modelable> modelableList = page.getListable().getModelableList();
-        adapter = new InflatableAdapter(context,this, modelableList, typeCount);
-        lvwItems.setAdapter(adapter);
+        if (context != null) {
+            ArrayList<Modelable> modelableList = page.getListable().getModelableList();
+            adapter = new InflatableAdapter(context, this, modelableList, typeCount);
+            lvwItems.setAdapter(adapter);
+        }
     }
 
     // ================< PUBLIC OVERRIDE METHODS >==================================================

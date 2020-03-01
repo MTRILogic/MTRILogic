@@ -20,7 +20,7 @@ import androidx.annotation.NonNull;
 
 @SuppressWarnings({"unused","WeakerAccess","UnusedReturnValue"})
 public class ExpandableAdapter extends BaseExpandableListAdapter{
-    private static final String TAG = "ExpandableAdapter", LIST = "list", IDX = "idx";
+
     private LayoutInflater inflater;
     private ExpandableListener listener;
     private ArrayList<Listable<Modelable>> lastListableList;
@@ -31,7 +31,7 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
 
     // ================< PUBLIC CONSTRUCTORS >======================================================
 
-    public ExpandableAdapter(Context context, @NonNull ExpandableListener listener,
+    public ExpandableAdapter(@NonNull Context context, @NonNull ExpandableListener listener,
                              @NonNull Listable<Modelable> groupListable,
                              @NonNull Mapable<Modelable> childMapable, int groupTypeCount,
                              int childTypeCount){
@@ -58,11 +58,11 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
         this.childTypeCount = childTypeCount;
     }
 
-    public void setStableIds(boolean stableIds){
+    public final void setStableIds(boolean stableIds){
         this.stableIds = stableIds;
     }
 
-    public ArrayList<Listable<Modelable>> getLastListableList() {
+    public final ArrayList<Listable<Modelable>> getLastListableList() {
         return lastListableList;
     }
 
@@ -194,12 +194,11 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
      * Returns the current group modelable list
      * @return The current group modelable list
      */
-    @NonNull
-    public Listable<Modelable> getGroupListable(){
+    public final Listable<Modelable> getGroupListable(){
         return groupListable;
     }
 
-    public Listable<Modelable> getChildListable(@NonNull Modelable groupModelable){
+    public final Listable<Modelable> getChildListable(@NonNull Modelable groupModelable){
         return childMapable.containsModelableKey(groupModelable) ? childMapable.getListable(groupModelable) : null;
     }
 
@@ -207,17 +206,15 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
      * Returns the current child modelable map
      * @return The current child modelable map
      */
-    @NonNull
-    public Mapable<Modelable> getChildMapable(){
+    public final Mapable<Modelable> getChildMapable(){
         return childMapable;
     }
 
-    @NonNull
-    public Modelable getGroupModelable(int groupPosition){
+    public final Modelable getGroupModelable(int groupPosition){
         return groupListable.getModelable(groupPosition);
     }
 
-    public Modelable getChildModelable(@NonNull Modelable groupModelable, int childPosition){
+    public final Modelable getChildModelable(@NonNull Modelable groupModelable, int childPosition){
         return childMapable.containsModelableKey(groupModelable) ? childMapable.getListable(groupModelable).getModelable(childPosition) : null;
     }
 
@@ -228,7 +225,7 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
      * recreate a new child modelable map fro it
      * @param groupListable The new group modelable list
      */
-    public void setGroupListable(@NonNull Listable<Modelable> groupListable){
+    public final void setGroupListable(@NonNull Listable<Modelable> groupListable){
         this.groupListable = groupListable;
         childMapable.reset();
         for(Modelable groupModelable : groupListable.getModelableList()){
@@ -236,7 +233,7 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
         }
     }
 
-    public void setChildMapable(@NonNull Mapable<Modelable> childMapable){
+    public final void setChildMapable(@NonNull Mapable<Modelable> childMapable){
         this.childMapable = childMapable;
         lastListableList.clear();
         groupListable.reset();
@@ -255,8 +252,7 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
      * @param groupModelable The replacement group modelable
      * @return The replaced group modelable or null
      */
-    @NonNull
-    public Modelable setGroupModelable(int groupPosition, @NonNull Modelable groupModelable){
+    public final Modelable setGroupModelable(int groupPosition, @NonNull Modelable groupModelable){
         return groupListable.setModelable(groupPosition, groupModelable);
     }
 
@@ -267,13 +263,13 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
      * @param childModelable The childModelable's replacement to set
      * @return The Replaced child modelable or null
      */
-    public Modelable setChildModelable(@NonNull Modelable groupModelable, int childPosition, @NonNull Modelable childModelable){
+    public final Modelable setChildModelable(@NonNull Modelable groupModelable, int childPosition, @NonNull Modelable childModelable){
         return childMapable.containsModelableKey(groupModelable) ? childMapable.getListable(childModelable).setModelable(childPosition, childModelable) : null;
     }
 
     // DELETE =================================================================
 
-    public boolean deleteGroupModelableList(@NonNull ArrayList<Modelable> groupModelableList){
+    public final boolean deleteGroupModelableList(@NonNull ArrayList<Modelable> groupModelableList){
         int count = groupModelableList.size();
         lastListableList.clear();
         for(Modelable groupModelable : groupModelableList){
@@ -291,7 +287,7 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
      * @param groupModelable the modelable to remove from list
      * @return True if group modelable was removed
      */
-    public boolean deleteGroupModelable(@NonNull Modelable groupModelable){
+    public final boolean deleteGroupModelable(@NonNull Modelable groupModelable){
         if(groupListable.deleteModelable(groupModelable)){
             lastListable = childMapable.deleteListable(groupModelable);
             lastListableList.add(lastListable);
@@ -300,7 +296,7 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
         return false;
     }
 
-    public boolean deleteChildModelableList(@NonNull Modelable groupModelable, @NonNull ArrayList<Modelable> childModelableList){
+    public final boolean deleteChildModelableList(@NonNull Modelable groupModelable, @NonNull ArrayList<Modelable> childModelableList){
         int count = childModelableList.size();
         if(childMapable.containsModelableKey(groupModelable)){
             Listable<Modelable> childListable = childMapable.getListable(groupModelable);
@@ -319,7 +315,7 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
      * @param childModelable The position of the child modelable to remove
      * @return True if the child modelable was removed
      */
-    public boolean deleteChildModelable(@NonNull Modelable groupModelable, @NonNull Modelable childModelable){
+    public final boolean deleteChildModelable(@NonNull Modelable groupModelable, @NonNull Modelable childModelable){
         if(childMapable.containsModelableKey(groupModelable)){
             return childMapable.getListable(groupModelable).deleteModelable(childModelable);
         }
@@ -332,7 +328,7 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
      * Cleans all the group modelable list
      * Therefore, clean all the child modelable map
      */
-    public void resetGroupListable(){
+    public final void resetGroupListable(){
         groupListable.reset();
         childMapable.reset();
     }
@@ -341,7 +337,7 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
      * Resets the childModelableList associated with the groupModelable's itemId
      * @param groupModelable The groupModelable's itemId
      */
-    public void resetChildListable(Modelable groupModelable){
+    public final void resetChildListable(@NonNull Modelable groupModelable){
         if(childMapable.containsModelableKey(groupModelable)){
             childMapable.getListable(groupModelable).reset();
         }
@@ -398,7 +394,7 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
             view = expandableGroup.getItemView();
             view.setTag(expandableGroup);
         }
-        expandableGroup.onBindHolder(groupModelable, groupPosition, expanded);
+        expandableGroup.bindModel(groupModelable, groupPosition, expanded);
         return view;
     }
 
@@ -414,7 +410,7 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
             view = expandableChild.getItemView();
             view.setTag(expandableChild);
         }
-        expandableChild.onBindHolder(childModelable, groupPosition, childPosition, lastChild);
+        expandableChild.bindModel(childModelable, groupPosition, childPosition, lastChild);
         return view;
     }
 

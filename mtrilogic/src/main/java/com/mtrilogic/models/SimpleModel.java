@@ -12,7 +12,7 @@ public class SimpleModel extends Modelable {
 
     public static final Creator<SimpleModel> CREATOR = new ModelableCreator<SimpleModel>() {
         @Override
-        public SimpleModel getParcelable(Bundle data) {
+        public SimpleModel getParcelable(@NonNull Bundle data) {
             return new SimpleModel(data);
         }
 
@@ -64,7 +64,7 @@ public class SimpleModel extends Modelable {
     }
 
     @Override
-    protected void onRestoreFromData(Bundle data) {
+    protected void onRestoreFromData(@NonNull Bundle data) {
         super.onRestoreFromData(data);
         text = data.getString(TEXT);
         color = data.getInt(COLOR);
@@ -72,7 +72,7 @@ public class SimpleModel extends Modelable {
     }
 
     @Override
-    protected void onSaveToData(Bundle data) {
+    protected void onSaveToData(@NonNull Bundle data) {
         super.onSaveToData(data);
         data.putString(TEXT, text);
         data.putInt(COLOR, color);

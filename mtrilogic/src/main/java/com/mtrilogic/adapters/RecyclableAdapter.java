@@ -17,14 +17,13 @@ import java.util.ArrayList;
 @SuppressWarnings({"unused"})
 public class RecyclableAdapter extends RecyclerView.Adapter<Recyclable>{
 
-    private static final String TAG = "RecyclableAdapter";
     private LayoutInflater inflater;
     private RecyclableListener listener;
     private ArrayList<Modelable> modelableList;
 
     // ================< PUBLIC CONSTRUCTORS >======================================================
 
-    public RecyclableAdapter(Context context, @NonNull RecyclableListener listener,
+    public RecyclableAdapter(@NonNull Context context, @NonNull RecyclableListener listener,
                              @NonNull ArrayList<Modelable> modelableList){
         inflater = LayoutInflater.from(context);
         this.modelableList = modelableList;
@@ -34,63 +33,61 @@ public class RecyclableAdapter extends RecyclerView.Adapter<Recyclable>{
 
     // ================< PUBLIC METHODS >===========================================================
 
-    public int getModelablePosition(@NonNull Modelable modelable){
+    public final int getModelablePosition(@NonNull Modelable modelable){
         return modelableList.indexOf(modelable);
     }
 
-    @NonNull
-    public Modelable[] getModelableArray(){
+    public final Modelable[] getModelableArray(){
         return modelableList.toArray(new Modelable[getItemCount()]);
     }
 
-    @NonNull
-    public ArrayList<Modelable> getModelableList(){
+    public final ArrayList<Modelable> getModelableList(){
         return modelableList;
     }
 
-    public void setModelableList(@NonNull ArrayList<Modelable> modelableList){
+    public final void setModelableList(@NonNull ArrayList<Modelable> modelableList){
         this.modelableList = modelableList;
     }
 
-    public boolean addModelableList(@NonNull ArrayList<Modelable> modelableList){
+    public final boolean addModelableList(@NonNull ArrayList<Modelable> modelableList){
         return this.modelableList.addAll(modelableList);
     }
 
-    public boolean insertModelableList(int position, @NonNull ArrayList<Modelable> modelableList){
+    public final boolean insertModelableList(int position, @NonNull ArrayList<Modelable> modelableList){
         return isValidPosition(position) && this.modelableList.addAll(position, modelableList);
     }
 
-    public boolean removeModelableList(@NonNull ArrayList<Modelable> modelableList){
+    public final boolean removeModelableList(@NonNull ArrayList<Modelable> modelableList){
         return this.modelableList.removeAll(modelableList);
     }
 
-    public boolean retainModelableList(@NonNull ArrayList<Modelable> modelableList){
+    public final boolean retainModelableList(@NonNull ArrayList<Modelable> modelableList){
         return this.modelableList.retainAll(modelableList);
     }
 
-    public Modelable getModelable(int position){
+    public final Modelable getModelable(int position){
         return isValidPosition(position) ? getItem(position) : null;
     }
 
-    public Modelable setModelable(int position, @NonNull Modelable modelable){
+    public final Modelable setModelable(int position, @NonNull Modelable modelable){
         return isValidPosition(position) ? modelableList.set(position,modelable) : null;
     }
 
-    public boolean addModelable(@NonNull Modelable modelable){
+    public final boolean addModelable(@NonNull Modelable modelable){
         return modelableList.add(modelable);
     }
 
-    public void insertModelable(int position, @NonNull Modelable modelable){
+    public final void insertModelable(int position, @NonNull Modelable modelable){
         if(isValidPosition(position)){
             modelableList.add(position, modelable);
         }
     }
 
-    public boolean removeModelable(@NonNull Modelable modelable){
+    public final boolean removeModelable(@NonNull Modelable modelable){
         return modelableList.remove(modelable);
     }
 
-    public void clearModelableList(){
+    public final void clearModelableList(){
         modelableList.clear();
     }
 
@@ -105,7 +102,7 @@ public class RecyclableAdapter extends RecyclerView.Adapter<Recyclable>{
     @Override
     public void onBindViewHolder(@NonNull Recyclable holder, int position){
         Modelable modelable = getItem(position);
-        holder.onBindHolder(modelable, position);
+        holder.bindModel(modelable, position);
     }
 
     @Override

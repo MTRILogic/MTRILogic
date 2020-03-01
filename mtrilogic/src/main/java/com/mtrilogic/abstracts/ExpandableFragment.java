@@ -28,11 +28,13 @@ public abstract class ExpandableFragment<P extends MapPaginable<Modelable>, VB e
                                   int childTypeCount){
         this.lvwItems = lvwItems;
         Context context = getContext();
-        Listable<Modelable> groupListable = page.getGroupListable();
-        Mapable<Modelable> childMapable = page.getChildMapable();
-        adapter = new ExpandableAdapter(context,this, groupListable, childMapable,
-                groupTypeCount, childTypeCount);
-        lvwItems.setAdapter(adapter);
+        if (context != null) {
+            Listable<Modelable> groupListable = page.getGroupListable();
+            Mapable<Modelable> childMapable = page.getChildMapable();
+            adapter = new ExpandableAdapter(context, this, groupListable, childMapable,
+                    groupTypeCount, childTypeCount);
+            lvwItems.setAdapter(adapter);
+        }
     }
 
     // ================< PUBLIC OVERRIDE METHODS >==================================================

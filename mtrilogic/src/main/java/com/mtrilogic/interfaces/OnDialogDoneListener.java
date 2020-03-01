@@ -2,10 +2,12 @@ package com.mtrilogic.interfaces;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+
 @SuppressWarnings("unused")
 public interface OnDialogDoneListener extends OnMakeToastListener{
 
     // ================< PUBLIC ABSTRACT METHODS >==================================================
 
-    void onDialogDone(Bundle bundle);
+    void onDialogDone(@NonNull Bundle bundle);
 }

@@ -24,9 +24,9 @@ public abstract class ExpandableGroup<M extends Modelable, VB extends ViewBindin
     protected VB binding;
     protected M model;
 
-    // ================< PUBLIC ABSTRACT METHODS >==================================================
+    // ================< PROTECTED ABSTRACT METHODS >===============================================
 
-    public abstract void onBindHolder(Modelable modelable, int groupPosition, boolean expanded);
+    protected abstract void onBindHolder(@NonNull Modelable modelable);
 
     // ================< PUBLIC CONSTRUCTORS >======================================================
 
@@ -38,28 +38,28 @@ public abstract class ExpandableGroup<M extends Modelable, VB extends ViewBindin
 
     // ================< PUBLIC METHODS >===========================================================
 
-    public View getItemView() {
+    public final View getItemView() {
         return itemView;
+    }
+
+    public final void bindModel(@NonNull Modelable modelable, int groupPosition, boolean expanded){
+        ExpandableAdapter adapter = listener.getExpandableAdapter();
+        childListable = adapter != null ? adapter.getChildListable(modelable) : null;
+        this.groupPosition = groupPosition;
+        this.expanded = expanded;
+        onBindHolder(modelable);
     }
 
     // ================< PROTECTED METHODS >========================================================
 
-    protected void bindModel(@NonNull M model, int groupPosition, boolean expanded){
-        ExpandableAdapter adapter = listener.getExpandableAdapter();
-        childListable = adapter != null ? adapter.getChildListable(model) : null;
-        this.groupPosition = groupPosition;
-        this.expanded = expanded;
-        this.model = model;
-    }
-
-    protected void autoDelete(){
+    protected final void autoDelete(){
         ExpandableAdapter adapter = listener.getExpandableAdapter();
         if (adapter != null && adapter.deleteGroupModelable(model)){
             adapter.notifyDataSetChanged();
         }
     }
 
-    protected void addNewChildModelable(@NonNull Modelable childModelable, long idx){
+    protected final void addNewChildModelable(@NonNull Modelable childModelable, long idx){
         ExpandableAdapter adapter = listener.getExpandableAdapter();
         if (adapter != null && adapter.appendChildModelable(model, childModelable)) {
             adapter.notifyDataSetChanged();

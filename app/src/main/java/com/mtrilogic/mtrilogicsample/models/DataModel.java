@@ -13,7 +13,7 @@ public class DataModel extends Modelable{
 
     public static final Creator<DataModel> CREATOR = new ModelableCreator<DataModel>() {
         @Override
-        public DataModel getParcelable(Bundle data) {
+        public DataModel getParcelable(@NonNull Bundle data) {
             return new DataModel(data);
         }
 
@@ -73,7 +73,7 @@ public class DataModel extends Modelable{
     // ================< PROTECTED OVERRIDE METHODS >===============================================
 
     @Override
-    protected void onRestoreFromData(Bundle data) {
+    protected void onRestoreFromData(@NonNull Bundle data) {
         super.onRestoreFromData(data);
         title = data.getString(TITLE);
         content = data.getString(CONTENT);
@@ -81,7 +81,7 @@ public class DataModel extends Modelable{
     }
 
     @Override
-    protected void onSaveToData(Bundle data) {
+    protected void onSaveToData(@NonNull Bundle data) {
         super.onSaveToData(data);
         data.putString(TITLE, title);
         data.putString(CONTENT, content);

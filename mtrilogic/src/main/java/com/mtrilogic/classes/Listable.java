@@ -29,21 +29,21 @@ public class Listable<M extends Modelable>{
     // ================< PUBLIC METHODS >===========================================================
 
     // IDX
-    public long getIdx(){
+    public final long getIdx(){
         return idx;
     }
 
-    public void setIdx(long idx){
+    public final void setIdx(long idx){
         this.idx = idx;
     }
 
     // APPEND
-    public boolean appendModelable(@NonNull M modelable){
+    public final boolean appendModelable(@NonNull M modelable){
         return modelableList.add(modelable);
     }
 
     // INSERT
-    public boolean insertModelable(int position, @NonNull M modelable){
+    public final boolean insertModelable(int position, @NonNull M modelable){
         if(isValidPosition(position)){
             modelableList.add(position, modelable);
             return true;
@@ -52,52 +52,51 @@ public class Listable<M extends Modelable>{
     }
 
     // GET
-    @NonNull
-    public ArrayList<M> getModelableList(){
+    public final ArrayList<M> getModelableList(){
         return modelableList;
     }
 
-    public Modelable getModelable(int position){
+    public final Modelable getModelable(int position){
         return isValidPosition(position) ? modelableList.get(position) : null;
     }
 
     // SET
-    public void setModelableList(@NonNull ArrayList<M> modelableList){
+    public final void setModelableList(@NonNull ArrayList<M> modelableList){
         this.modelableList = modelableList;
     }
 
-    public Modelable setModelable(int position, @NonNull M modelable){
+    public final Modelable setModelable(int position, @NonNull M modelable){
         return isValidPosition(position) ? modelableList.set(position, modelable) : null;
     }
 
     // CONTAINS
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
-    public boolean containsModelable(@NonNull M modelable){
+    public final boolean containsModelable(@NonNull M modelable){
         return modelableList.contains(modelable);
     }
 
     // DELETE
-    public boolean deleteModelable(@NonNull M modelable){
+    public final boolean deleteModelable(@NonNull M modelable){
         return modelableList.remove(modelable);
     }
 
     // COUNT
-    public int getModelableCount(){
+    public final int getModelableCount(){
         return modelableList.size();
     }
 
     // RESET
-    public void reset(){
+    public final void reset(){
         modelableList.clear();
         idx = 0;
     }
 
-    public void restoreFromData(@NonNull Bundle data){
+    public final void restoreFromData(@NonNull Bundle data){
         modelableList = data.getParcelableArrayList(LIST);
         idx = data.getLong(IDX);
     }
 
-    public void restoreFromData(@NonNull Bundle data, @NonNull Mapable<M> mapable){
+    public final void restoreFromData(@NonNull Bundle data, @NonNull Mapable<M> mapable){
         restoreFromData(data);
         if (this.modelableList != null){
             for (M modelable : this.modelableList){
@@ -115,12 +114,12 @@ public class Listable<M extends Modelable>{
         }
     }
 
-    public void saveToData(@NonNull Bundle data){
+    public final void saveToData(@NonNull Bundle data){
         data.putParcelableArrayList(LIST, modelableList);
         data.putLong(IDX, idx);
     }
 
-    public void saveToData(@NonNull Bundle data, @NonNull Mapable<M> mapable){
+    public final void saveToData(@NonNull Bundle data, @NonNull Mapable<M> mapable){
         saveToData(data);
         for (M modelable : this.modelableList){
             long itemId = modelable.getItemId();

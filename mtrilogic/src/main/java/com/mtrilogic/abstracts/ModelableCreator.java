@@ -12,7 +12,7 @@ public abstract class ModelableCreator<M extends Modelable>
 
     // ================< PUBLIC ABSTRACT METHODS >==================================================
 
-    public abstract M getParcelable(Bundle data);
+    public abstract M getParcelable(@NonNull Bundle data);
     public abstract M[] getParcelableArray(int size);
 
     // ================< PUBLIC FINAL OVERRIDE METHODS >============================================
@@ -36,10 +36,11 @@ public abstract class ModelableCreator<M extends Modelable>
 
     @NonNull
     private M getParcelable(Parcel source, ClassLoader loader){
-        Bundle data;
+        Bundle data = null;
         if (source != null && loader != null){
             data = source.readBundle(loader);
-        }else {
+        }
+        if (data == null){
             data = new Bundle();
         }
         return getParcelable(data);

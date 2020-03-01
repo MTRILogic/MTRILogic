@@ -55,8 +55,8 @@ public class RecyclableDataItem extends Recyclable<DataModel, ItemDataBinding> {
     // ================< PUBLIC OVERRIDE METHODS >==================================================
 
     @Override
-    public void onBindHolder(Modelable modelable, int position){
-        bindModel((DataModel) modelable, position);
+    public void onBindHolder(@NonNull Modelable modelable){
+        model = (DataModel) modelable;
         chkItem.setChecked(model.isChecked());
         Context context = itemView.getContext();
         lblTitle.setText(context.getString(R.string.title_item, model.getItemId()));

@@ -21,39 +21,41 @@ public abstract class Modelable implements Parcelable {
         super();
     }
 
-    public Modelable(@NonNull Bundle data){
-        onRestoreFromData(data);
-    }
-
     public Modelable(long itemId, int viewType, boolean enabled){
         this.itemId = itemId;
         this.viewType = viewType;
         this.enabled = enabled;
     }
 
+    // ================< PROTECTED CONSTRUCTORS >===================================================
+
+    protected Modelable(@NonNull Bundle data){
+        onRestoreFromData(data);
+    }
+
     // ================< PUBLIC METHODS >===========================================================
 
-    public long getItemId(){
+    public final long getItemId(){
         return itemId;
     }
 
-    public int getViewType(){
+    public final int getViewType(){
         return viewType;
     }
 
-    public boolean isEnabled(){
+    public final boolean isEnabled(){
         return enabled;
     }
 
     // ================< PROTECTED METHODS >========================================================
 
-    protected void onRestoreFromData(Bundle data){
+    protected void onRestoreFromData(@NonNull Bundle data){
         itemId = data.getLong(ITEM_ID);
         viewType = data.getInt(VIEW_TYPE);
         enabled = data.getBoolean(ENABLED);
     }
 
-    protected void onSaveToData(Bundle data){
+    protected void onSaveToData(@NonNull Bundle data){
         data.putLong(ITEM_ID, itemId);
         data.putInt(VIEW_TYPE, viewType);
         data.putBoolean(ENABLED, enabled);
@@ -62,14 +64,14 @@ public abstract class Modelable implements Parcelable {
     // ================< PUBLIC OVERRIDE METHODS >==================================================
 
     @Override
-    public void writeToParcel(@NonNull Parcel dest, int flags){
+    public final void writeToParcel(@NonNull Parcel dest, int flags){
         Bundle data = new Bundle();
         onSaveToData(data);
         dest.writeBundle(data);
     }
 
     @Override
-    public final int describeContents(){
+    public final int describeContents() {
         return 0;
     }
 }

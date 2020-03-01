@@ -11,7 +11,7 @@ import com.mtrilogic.abstracts.PaginableCreator;
 public class SimplePage extends Paginable {
     public static final Creator<SimplePage> CREATOR = new PaginableCreator<SimplePage>() {
         @Override
-        public SimplePage getParcelable(Bundle data) {
+        public SimplePage getParcelable(@NonNull Bundle data) {
             return new SimplePage(data);
         }
 

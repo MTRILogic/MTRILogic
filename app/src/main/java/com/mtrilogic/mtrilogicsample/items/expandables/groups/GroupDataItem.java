@@ -68,8 +68,8 @@ public class GroupDataItem extends ExpandableGroup<DataModel, ItemGroupBinding> 
     // ================< PUBLIC OVERRIDE METHODS >==================================================
 
     @Override
-    public void onBindHolder(Modelable modelable, int groupPosition, boolean expanded){
-        bindModel((DataModel) modelable, groupPosition, expanded);
+    public void onBindHolder(@NonNull Modelable modelable){
+        model = (DataModel) modelable;
         chkItem.setChecked(model.isChecked());
         Context context = itemView.getContext();
         lblTitle.setText(context.getString(R.string.title_item, model.getItemId()));

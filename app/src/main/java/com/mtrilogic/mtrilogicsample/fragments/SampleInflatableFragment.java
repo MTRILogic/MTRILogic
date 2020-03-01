@@ -72,7 +72,7 @@ public class SampleInflatableFragment extends InflatableFragment<SampleListPagin
     }
 
     @Override
-    public Inflatable getInflatable(int viewType, LayoutInflater inflater, ViewGroup parent) {
+    public Inflatable getInflatable(int viewType, @NonNull LayoutInflater inflater, @NonNull ViewGroup parent) {
         Context context = getContext();
         switch(viewType){
             case ItemChildType.DATA:
@@ -84,12 +84,12 @@ public class SampleInflatableFragment extends InflatableFragment<SampleListPagin
     }
 
     @Override
-    public boolean onItemLongClick(View view, Modelable modelable, int position) {
+    public boolean onItemLongClick(@NonNull View view, @NonNull Modelable modelable, int position) {
         return false;
     }
 
     @Override
-    public void onItemClick(View view, Modelable modelable, int position) {
+    public void onItemClick(@NonNull View view, @NonNull Modelable modelable, int position) {
 
     }
 

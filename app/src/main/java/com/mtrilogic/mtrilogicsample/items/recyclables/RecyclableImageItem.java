@@ -69,8 +69,8 @@ public class RecyclableImageItem extends Recyclable<ImageModel, ItemImageBinding
     // ================< PUBLIC OVERRIDE METHODS >==================================================
 
     @Override
-    public void onBindHolder(Modelable modelable, int position){
-        bindModel((ImageModel) modelable, position);
+    public void onBindHolder(@NonNull Modelable modelable){
+        model = (ImageModel) modelable;
         chkItem.setChecked(model.isChecked());
         Context context = itemView.getContext();
         lblTitle.setText(context.getString(R.string.title_item, model.getItemId()));

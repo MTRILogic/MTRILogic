@@ -70,7 +70,7 @@ public class SampleExpandableFragment extends ExpandableFragment<SampleMapPagina
     }
 
     @Override
-    public ExpandableGroup getExpandableGroup(int viewType, LayoutInflater inflater, ViewGroup parent){
+    public ExpandableGroup getExpandableGroup(int viewType, @NonNull LayoutInflater inflater, @NonNull ViewGroup parent){
         if (viewType == ItemGroupType.GROUP) {
             return new GroupDataItem(ItemGroupBinding.inflate(inflater, parent, false), this);
         }
@@ -78,7 +78,7 @@ public class SampleExpandableFragment extends ExpandableFragment<SampleMapPagina
     }
 
     @Override
-    public ExpandableChild getExpandableChild(int viewType, LayoutInflater inflater, ViewGroup parent){
+    public ExpandableChild getExpandableChild(int viewType, @NonNull LayoutInflater inflater, @NonNull ViewGroup parent){
         Context context = getContext();
         switch(viewType){
             case ItemChildType.DATA:
@@ -90,12 +90,12 @@ public class SampleExpandableFragment extends ExpandableFragment<SampleMapPagina
     }
 
     @Override
-    public boolean onItemLongClick(View view, Modelable modelable, int position) {
+    public boolean onItemLongClick(@NonNull View view, @NonNull Modelable modelable, int position) {
         return false;
     }
 
     @Override
-    public void onItemClick(View view, Modelable modelable, int position) {
+    public void onItemClick(@NonNull View view, @NonNull Modelable modelable, int position) {
 
     }
 

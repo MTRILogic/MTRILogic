@@ -17,9 +17,9 @@ public abstract class Recyclable<M extends Modelable, VB extends ViewBinding>
     protected VB binding;
     protected M model;
 
-    // ================< PUBLIC ABSTRACT METHODS >==================================================
+    // ================< PROTECTED ABSTRACT METHODS >===============================================
 
-    public abstract void onBindHolder(Modelable modelable, int position);
+    protected abstract void onBindHolder(@NonNull Modelable modelable);
 
     // ================< PUBLIC CONSTRUCTORS >======================================================
 
@@ -29,14 +29,16 @@ public abstract class Recyclable<M extends Modelable, VB extends ViewBinding>
         this.binding = binding;
     }
 
-    // ================< PROTECTED METHODS >========================================================
+    // ================< PUBLIC METHODS >===========================================================
 
-    protected void bindModel(@NonNull M model, int position){
+    public final void bindModel(@NonNull Modelable modelable, int position){
         this.position = position;
-        this.model = model;
+        onBindHolder(modelable);
     }
 
-    protected void autoDelete(){
+    // ================< PROTECTED METHODS >========================================================
+
+    protected final void autoDelete(){
         RecyclableAdapter adapter = listener.getRecyclableAdapter();
         if (adapter != null){
             if (adapter.removeModelable(model)){

@@ -165,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     public void onPageScrollStateChanged(int i){}
 
     @Override
-    public Fragmentable getFragmentable(Paginable paginable, int position){
+    public Fragmentable getFragmentable(@NonNull Paginable paginable, int position){
         switch(paginable.getViewType()){
             case FragmentableType.INFLATABLE:
                 return Fragmentable.getInstance(paginable, new SampleInflatableFragment());

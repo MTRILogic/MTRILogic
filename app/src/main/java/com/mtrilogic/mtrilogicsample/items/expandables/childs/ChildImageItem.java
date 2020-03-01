@@ -63,8 +63,8 @@ public class ChildImageItem extends ExpandableChild<ImageModel, ItemChildImageBi
     // ================< PUBLIC OVERRIDE METHODS >==================================================
 
     @Override
-    public void onBindHolder(Modelable modelable, int groupPosition, int childPosition, boolean lastChild){
-        bindModel((ImageModel) modelable, groupPosition, childPosition, lastChild);
+    public void onBindHolder(@NonNull Modelable modelable){
+        model = (ImageModel) modelable;
         chkItem.setChecked(model.isChecked());
         Context context = itemView.getContext();
         lblTitle.setText(context.getString(R.string.title_item, model.getItemId()));

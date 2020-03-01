@@ -14,7 +14,7 @@ public class SampleMapPaginable extends MapPaginable<Modelable> {
 
     public static final Creator<SampleMapPaginable> CREATOR = new PaginableCreator<SampleMapPaginable>() {
         @Override
-        public SampleMapPaginable getParcelable(Bundle data) {
+        public SampleMapPaginable getParcelable(@NonNull Bundle data) {
             return new SampleMapPaginable(data);
         }
 

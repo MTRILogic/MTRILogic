@@ -6,6 +6,8 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ListView;
 
+import androidx.annotation.NonNull;
+
 import com.mtrilogic.classes.Base;
 
 public class InflatableView extends ListView {
@@ -28,7 +30,7 @@ public class InflatableView extends ListView {
 
     // ================< PUBLIC METHODS >===========================================================
 
-    public void restoreFromState(Bundle state){
+    public final void restoreFromState(@NonNull Bundle state){
         int index = state.getInt(INDEX, Base.INVALID_POSITION);
         if (index == 0) {
             int top = state.getInt(TOP);
@@ -36,7 +38,7 @@ public class InflatableView extends ListView {
         }
     }
 
-    public void saveToState(Bundle state){
+    public final void saveToState(@NonNull Bundle state){
         int index = getFirstVisiblePosition();
         if (index == 0){
             View view = getChildAt(0);

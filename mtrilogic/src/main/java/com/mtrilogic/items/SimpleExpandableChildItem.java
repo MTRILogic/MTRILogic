@@ -18,8 +18,8 @@ public class SimpleExpandableChildItem extends ExpandableChild<SimpleModel, Item
     }
 
     @Override
-    public void onBindHolder(Modelable modelable, int groupPosition, int childPosition, boolean lastChild) {
-        bindModel((SimpleModel) modelable, groupPosition, childPosition, lastChild);
+    public void onBindHolder(@NonNull Modelable modelable) {
+        model = (SimpleModel) modelable;
         TextView lblText = binding.lblText;
         lblText.setBackgroundColor(model.getBackColor());
         lblText.setTextColor(model.getColor());

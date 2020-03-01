@@ -26,11 +26,13 @@ public abstract class RecyclableFragment<P extends ListPaginable<Modelable>, VB 
     protected void bindRecyclable(@NonNull RecyclerView lvwItems){
         this.lvwItems = lvwItems;
         Context context = getContext();
-        ArrayList<Modelable> modelables = page.getListable().getModelableList();
-        adapter = new RecyclableAdapter(context,this, modelables);
-        RecyclerView.LayoutManager manager = getLayoutManager(context);
-        lvwItems.setLayoutManager(manager);
-        lvwItems.setAdapter(adapter);
+        if (context != null) {
+            ArrayList<Modelable> modelables = page.getListable().getModelableList();
+            adapter = new RecyclableAdapter(context, this, modelables);
+            RecyclerView.LayoutManager manager = getLayoutManager(context);
+            lvwItems.setLayoutManager(manager);
+            lvwItems.setAdapter(adapter);
+        }
     }
 
     // ================< PUBLIC OVERRIDE METHODS >==================================================

@@ -1,5 +1,7 @@
 package com.mtrilogic.interfaces;
 
+import androidx.annotation.NonNull;
+
 import com.mtrilogic.abstracts.Fragmentable;
 import com.mtrilogic.abstracts.Paginable;
 
@@ -8,6 +10,6 @@ public interface FragmentableListener extends OnMakeToastListener{
 
     // ================< PUBLIC ABSTRACT METHODS >==================================================
 
-    Fragmentable getFragmentable(Paginable paginable, int position);
+    Fragmentable getFragmentable(@NonNull Paginable paginable, int position);
     void onPositionChanged(int position);
 }

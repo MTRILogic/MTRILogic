@@ -13,7 +13,7 @@ public class SampleListPaginable extends ListPaginable<Modelable> {
 
     public static final Creator<SampleListPaginable> CREATOR = new PaginableCreator<SampleListPaginable>() {
         @Override
-        public SampleListPaginable getParcelable(Bundle data) {
+        public SampleListPaginable getParcelable(@NonNull Bundle data) {
             return new SampleListPaginable(data);
         }
 

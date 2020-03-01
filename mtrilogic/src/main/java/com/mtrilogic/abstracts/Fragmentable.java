@@ -17,7 +17,7 @@ import com.mtrilogic.interfaces.OnMakeToastListener;
 public abstract class Fragmentable<P extends Paginable, VB extends ViewBinding> extends Fragment
         implements OnMakeToastListener {
 
-    protected static final String PAGINABLE = "paginable", STATE = "state";
+    protected static final String PAGINABLE = "paginable";
     protected FragmentableAdapterListener listener;
     protected Bundle args;
     protected VB binding;
@@ -34,7 +34,6 @@ public abstract class Fragmentable<P extends Paginable, VB extends ViewBinding> 
                                            @NonNull Fragmentable fragmentable){
         Bundle args = new Bundle();
         args.putParcelable(PAGINABLE, paginable);
-        args.putBundle(STATE, new Bundle());
         fragmentable.setArguments(args);
         return fragmentable;
     }
@@ -67,7 +66,10 @@ public abstract class Fragmentable<P extends Paginable, VB extends ViewBinding> 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        newPosition();
+        if (listener != null) {
+            int position = listener.getFragmentableAdapter().getPaginablePosition(page);
+            onNewPosition(position);
+        }
     }
 
     @Override
@@ -99,21 +101,13 @@ public abstract class Fragmentable<P extends Paginable, VB extends ViewBinding> 
 
     // ================< PUBLIC METHODS >===========================================================
 
-    @NonNull
-    public Paginable getPaginable(){
+    public final Paginable getPaginable(){
         return page;
     }
 
     // ================< PROTECTED METHODS >========================================================
 
-    protected void newPosition(){
-        if (listener != null) {
-            int position = listener.getFragmentableAdapter().getPaginablePosition(page);
-            onNewPosition(position);
-        }
-    }
-
-    protected void autoDelete(){
+    protected final void autoDelete(){
         FragmentableAdapter adapter = listener.getFragmentableAdapter();
         if (adapter != null){
             if (adapter.removePaginable(page)){

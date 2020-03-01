@@ -25,22 +25,21 @@ public class Mapable<M extends Modelable>{
     // ================< PUBLIC METHODS >===========================================================
 
     // PUT
-    public Listable<M> putListable(@NonNull M modelable, @NonNull Listable<M> listable){
+    public final Listable<M> putListable(@NonNull M modelable, @NonNull Listable<M> listable){
         return listableMap.put(modelable, listable);
     }
 
     // GET
-    @NonNull
-    public Map<M, Listable<M>> getListableMap(){
+    public final Map<M, Listable<M>> getListableMap(){
         return listableMap;
     }
 
-    public Listable<M> getListable(@NonNull M modelable){
+    public final Listable<M> getListable(@NonNull M modelable){
         return listableMap.get(modelable);
     }
 
     // SET
-    public void setListableMap(@NonNull LinkedHashMap<M, Listable<M>> listableMap){
+    public final void setListableMap(@NonNull LinkedHashMap<M, Listable<M>> listableMap){
         this.listableMap = listableMap;
     }
 
@@ -49,7 +48,7 @@ public class Mapable<M extends Modelable>{
      * @param modelable the modelable key to be tested.
      * @return true if this map contains a mapping for modelable key
      */
-    public boolean containsModelableKey(@NonNull M modelable){
+    public final boolean containsModelableKey(@NonNull M modelable){
         return listableMap.containsKey(modelable);
     }
 
@@ -58,7 +57,7 @@ public class Mapable<M extends Modelable>{
      * @param modelable The modelable key
      * @return The removed modelable's list
      */
-    public Listable<M> deleteListable(@NonNull M modelable){
+    public final Listable<M> deleteListable(@NonNull M modelable){
         return listableMap.remove(modelable);
     }
 
@@ -66,14 +65,14 @@ public class Mapable<M extends Modelable>{
      * Get listable's map size.
      * @return The size listable's map.
      */
-    public int getListableCount(){
+    public final int getListableCount(){
         return listableMap.size();
     }
 
     /**
      * Clear the listable map.
      */
-    public void reset(){
+    public final void reset(){
         listableMap.clear();
     }
 }

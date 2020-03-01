@@ -18,8 +18,8 @@ public class SimpleInflatableItem extends Inflatable<SimpleModel, ItemSimpleBind
     }
 
     @Override
-    public void onBindHolder(Modelable modelable, int position) {
-        bindModel((SimpleModel) modelable, position);
+    public void onBindHolder(@NonNull Modelable modelable) {
+        model = (SimpleModel) modelable;
         TextView lblText = binding.lblText;
         lblText.setBackgroundColor(model.getBackColor());
         lblText.setTextColor(model.getColor());

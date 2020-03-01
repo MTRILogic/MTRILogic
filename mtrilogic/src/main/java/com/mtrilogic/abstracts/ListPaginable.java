@@ -17,23 +17,24 @@ public abstract class ListPaginable<M extends Modelable> extends Paginable {
         super();
     }
 
-    public ListPaginable(@NonNull Bundle data){
-        super(data);
-    }
-
     public ListPaginable(@NonNull String pageTitle, @NonNull String tagName, long itemId, int viewType){
         super(pageTitle, tagName, itemId, viewType);
         listable = new Listable<>();
     }
 
+    // ================< PROTECTED CONSTRUCTORS >===================================================
+
+    protected ListPaginable(@NonNull Bundle data){
+        super(data);
+    }
+
     // ================< PUBLIC METHODS >===========================================================
 
-    @NonNull
-    public Listable<M> getListable() {
+    public final Listable<M> getListable() {
         return listable;
     }
 
-    public void setListable(@NonNull Listable<M> listable) {
+    public final void setListable(@NonNull Listable<M> listable) {
         this.listable = listable;
     }
 
