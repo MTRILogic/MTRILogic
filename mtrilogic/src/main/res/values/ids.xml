@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="lvw_items" type="id"/>
+    <item name="lvwItems" type="id"/>
 </resources>

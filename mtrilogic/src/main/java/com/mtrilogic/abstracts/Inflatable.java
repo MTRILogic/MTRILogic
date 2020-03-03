@@ -1,23 +1,23 @@
 package com.mtrilogic.abstracts;
 
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
-import androidx.viewbinding.ViewBinding;
 
 import com.mtrilogic.adapters.InflatableAdapter;
 import com.mtrilogic.interfaces.InflatableAdapterListener;
 
 @SuppressWarnings({"unused"})
-public abstract class Inflatable<M extends Modelable, VB extends ViewBinding> extends LiveData<M>
+public abstract class Inflatable<M extends Modelable> extends LiveData<M>
         implements Observer<M> {
 
     protected final InflatableAdapterListener listener;
     protected final View itemView;
     protected int position;
-    protected VB binding;
     protected M model;
 
     // ================< PROTECTED ABSTRACT METHODS >===============================================
@@ -26,10 +26,15 @@ public abstract class Inflatable<M extends Modelable, VB extends ViewBinding> ex
 
     // ================< PUBLIC CONSTRUCTORS >======================================================
 
-    public Inflatable(@NonNull VB binding, @NonNull InflatableAdapterListener listener){
-        itemView = binding.getRoot();
+    public Inflatable(@NonNull View itemView, @NonNull InflatableAdapterListener listener){
+        this.itemView = itemView;
         this.listener = listener;
-        this.binding = binding;
+    }
+
+    public Inflatable(@NonNull LayoutInflater inflater, int resource, @NonNull ViewGroup parent,
+                      @NonNull InflatableAdapterListener listener){
+        itemView = inflater.inflate(resource, parent, false);
+        this.listener = listener;
     }
 
     // ================< PUBLIC METHODS >===========================================================

@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import com.mtrilogic.abstracts.Inflatable;
+import com.mtrilogic.abstracts.BindingInflatable;
 import com.mtrilogic.abstracts.Modelable;
 import com.mtrilogic.adapters.InflatableAdapter;
 import com.mtrilogic.interfaces.InflatableAdapterListener;
@@ -17,7 +17,7 @@ import com.mtrilogic.mtrilogicsample.databinding.ItemDataBinding;
 import com.mtrilogic.mtrilogicsample.models.DataModel;
 
 @SuppressWarnings({"unused"})
-public class InflatableDataItem extends Inflatable<DataModel, ItemDataBinding> {
+public class InflatableDataItem extends BindingInflatable<DataModel, ItemDataBinding> {
 
     private TextView lblTitle, lblContent;
     private CheckBox chkItem;

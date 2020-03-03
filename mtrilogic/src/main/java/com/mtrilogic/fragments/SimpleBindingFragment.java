@@ -10,25 +10,25 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.mtrilogic.abstracts.Fragmentable;
-import com.mtrilogic.mtrilogic.R;
+import com.mtrilogic.abstracts.BindingFragmentable;
+import com.mtrilogic.mtrilogic.databinding.FragmentSimpleBinding;
 import com.mtrilogic.pages.SimplePage;
 
 @SuppressWarnings("unused")
-public class SimpleFragment extends Fragmentable<SimplePage> {
+public class SimpleBindingFragment extends BindingFragmentable<SimplePage, FragmentSimpleBinding> {
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_simple, container, false);
-        FrameLayout maingContainer = view.findViewById(R.id.mainContainer);
-        TextView lblText = view.findViewById(R.id.lblText);
+        binding = FragmentSimpleBinding.inflate(inflater, container, false);
+        FrameLayout maingContainer = binding.mainContainer;
+        TextView lblText = binding.lblText;
         if (page != null) {
             maingContainer.setBackgroundColor(page.getBackColor());
             lblText.setTextColor(page.getColor());
             lblText.setText(page.getText());
         }
-        return view;
+        return binding.getRoot();
     }
 
     @Override

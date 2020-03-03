@@ -4,16 +4,16 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import com.mtrilogic.abstracts.Inflatable;
+import com.mtrilogic.abstracts.BindingExpandableGroup;
 import com.mtrilogic.abstracts.Modelable;
-import com.mtrilogic.interfaces.InflatableAdapterListener;
+import com.mtrilogic.interfaces.ExpandableAdapterListener;
 import com.mtrilogic.models.SimpleModel;
 import com.mtrilogic.mtrilogic.databinding.ItemSimpleBinding;
 
 @SuppressWarnings("unused")
-public class SimpleInflatableItem extends Inflatable<SimpleModel, ItemSimpleBinding> {
+public class SimpleBindingExpandableGroupItem extends BindingExpandableGroup<SimpleModel, ItemSimpleBinding> {
 
-    public SimpleInflatableItem(@NonNull ItemSimpleBinding binding, @NonNull InflatableAdapterListener listener) {
+    public SimpleBindingExpandableGroupItem(@NonNull ItemSimpleBinding binding, @NonNull ExpandableAdapterListener listener) {
         super(binding, listener);
     }
 

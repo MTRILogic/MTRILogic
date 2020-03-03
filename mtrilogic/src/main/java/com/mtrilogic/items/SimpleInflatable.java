@@ -7,23 +7,22 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import com.mtrilogic.abstracts.ExpandableChild;
+import com.mtrilogic.abstracts.Inflatable;
 import com.mtrilogic.abstracts.Modelable;
-import com.mtrilogic.interfaces.ExpandableAdapterListener;
+import com.mtrilogic.interfaces.InflatableAdapterListener;
 import com.mtrilogic.models.SimpleModel2;
 
 @SuppressWarnings("unused")
-public class SimpleExpandableChildItem extends ExpandableChild<SimpleModel2> {
+public class SimpleInflatable extends Inflatable<SimpleModel2> {
     private TextView lblText1, lblText2;
 
-    public SimpleExpandableChildItem(@NonNull View itemView, @NonNull ExpandableAdapterListener listener) {
+    public SimpleInflatable(@NonNull View itemView, @NonNull InflatableAdapterListener listener) {
         super(itemView, listener);
         lblText1 = itemView.findViewById(android.R.id.text1);
         lblText2 = itemView.findViewById(android.R.id.text2);
     }
 
-    public SimpleExpandableChildItem(@NonNull LayoutInflater inflater, int resource,
-                                     @NonNull ViewGroup parent, @NonNull ExpandableAdapterListener listener) {
+    public SimpleInflatable(@NonNull LayoutInflater inflater, int resource, @NonNull ViewGroup parent, @NonNull InflatableAdapterListener listener) {
         super(inflater, resource, parent, listener);
         lblText1 = itemView.findViewById(android.R.id.text1);
         lblText2 = itemView.findViewById(android.R.id.text2);

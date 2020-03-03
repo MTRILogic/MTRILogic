@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.mtrilogic.abstracts.Modelable;
 import com.mtrilogic.abstracts.Recyclable;
-import com.mtrilogic.abstracts.RecyclableFragment;
+import com.mtrilogic.abstracts.BindingRecyclableFragment;
 import com.mtrilogic.mtrilogicsample.R;
 import com.mtrilogic.mtrilogicsample.databinding.FragmentRecyclableBinding;
 import com.mtrilogic.mtrilogicsample.databinding.ItemDataBinding;
@@ -27,7 +27,7 @@ import com.mtrilogic.mtrilogicsample.pages.SampleListPaginable;
 import com.mtrilogic.mtrilogicsample.types.ItemChildType;
 
 @SuppressWarnings("unused")
-public class SampleRecyclableFragment extends RecyclableFragment<SampleListPaginable, FragmentRecyclableBinding>{
+public class SampleRecyclableFragment extends BindingRecyclableFragment<SampleListPaginable, FragmentRecyclableBinding>{
 
     private TextView lblContent;
 

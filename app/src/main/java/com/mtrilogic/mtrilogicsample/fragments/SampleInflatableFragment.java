@@ -12,7 +12,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.mtrilogic.abstracts.Inflatable;
-import com.mtrilogic.abstracts.InflatableFragment;
+import com.mtrilogic.abstracts.BindingInflatableFragment;
 import com.mtrilogic.abstracts.Modelable;
 import com.mtrilogic.mtrilogicsample.R;
 import com.mtrilogic.mtrilogicsample.databinding.FragmentInflatableBinding;
@@ -26,7 +26,7 @@ import com.mtrilogic.mtrilogicsample.types.ItemChildType;
 import com.mtrilogic.views.InflatableView;
 
 @SuppressWarnings("unused")
-public class SampleInflatableFragment extends InflatableFragment<SampleListPaginable, FragmentInflatableBinding> {
+public class SampleInflatableFragment extends BindingInflatableFragment<SampleListPaginable, FragmentInflatableBinding> {
 
     private TextView lblContent;
 

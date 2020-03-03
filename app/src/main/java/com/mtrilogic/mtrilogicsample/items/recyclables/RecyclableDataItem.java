@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.mtrilogic.abstracts.Modelable;
-import com.mtrilogic.abstracts.Recyclable;
+import com.mtrilogic.abstracts.BindingRecyclable;
 
 import com.mtrilogic.adapters.RecyclableAdapter;
 import com.mtrilogic.interfaces.RecyclableAdapterListener;
@@ -19,7 +19,7 @@ import com.mtrilogic.mtrilogicsample.databinding.ItemDataBinding;
 import com.mtrilogic.mtrilogicsample.models.DataModel;
 
 @SuppressWarnings({"unused","FieldCanBeLocal"})
-public class RecyclableDataItem extends Recyclable<DataModel, ItemDataBinding> {
+public class RecyclableDataItem extends BindingRecyclable<DataModel, ItemDataBinding> {
 
     private TextView lblTitle, lblContent;
     private CheckBox chkItem;

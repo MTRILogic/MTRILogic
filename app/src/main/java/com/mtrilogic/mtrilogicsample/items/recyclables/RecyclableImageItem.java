@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.mtrilogic.abstracts.Modelable;
-import com.mtrilogic.abstracts.Recyclable;
+import com.mtrilogic.abstracts.BindingRecyclable;
 import com.mtrilogic.adapters.RecyclableAdapter;
 import com.mtrilogic.interfaces.RecyclableAdapterListener;
 import com.mtrilogic.mtrilogicsample.R;
@@ -21,7 +21,7 @@ import com.mtrilogic.mtrilogicsample.models.ImageModel;
 import com.mtrilogic.views.SquareImageView;
 
 @SuppressWarnings({"unused"})
-public class RecyclableImageItem extends Recyclable<ImageModel, ItemImageBinding> implements
+public class RecyclableImageItem extends BindingRecyclable<ImageModel, ItemImageBinding> implements
         RatingBar.OnRatingBarChangeListener{
 
     private TextView lblTitle, lblContent;

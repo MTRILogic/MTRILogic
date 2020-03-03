@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.mtrilogic.abstracts.Inflatable;
+import com.mtrilogic.abstracts.BindingInflatable;
 import com.mtrilogic.abstracts.Modelable;
 import com.mtrilogic.adapters.InflatableAdapter;
 import com.mtrilogic.interfaces.InflatableAdapterListener;
@@ -21,7 +21,7 @@ import com.mtrilogic.mtrilogicsample.models.ImageModel;
 import com.mtrilogic.views.SquareImageView;
 
 @SuppressWarnings({"unused"})
-public class InflatableImageItem extends Inflatable<ImageModel, ItemImageBinding> implements
+public class InflatableImageItem extends BindingInflatable<ImageModel, ItemImageBinding> implements
         RatingBar.OnRatingBarChangeListener{
 
     private TextView lblTitle, lblContent;

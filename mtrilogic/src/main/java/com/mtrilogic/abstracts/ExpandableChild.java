@@ -1,38 +1,42 @@
 package com.mtrilogic.abstracts;
 
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
-import androidx.viewbinding.ViewBinding;
 
 import com.mtrilogic.adapters.ExpandableAdapter;
 import com.mtrilogic.interfaces.ExpandableAdapterListener;
 import com.mtrilogic.views.ExpandableView;
 
-@SuppressWarnings({"unused","WeakerAccess"})
-public abstract class ExpandableChild <M extends Modelable, VB extends ViewBinding>
-        extends LiveData<M> implements Observer<M> {
+@SuppressWarnings({"unused", "WeakerAccess"})
+public abstract class ExpandableChild <M extends Modelable> extends LiveData<M> implements Observer<M> {
 
     protected final ExpandableAdapterListener listener;
     protected final View itemView;
     protected int groupPosition;
     protected int childPosition;
     protected boolean lastChild;
-    protected VB binding;
     protected M model;
 
     // ================< PROTECTED ABSTRACT METHODS >===============================================
 
     protected abstract void onBindHolder(@NonNull Modelable modelable);
 
-    // ================< PROTECTED CONSTRUCTORS >===================================================
+    // ================< PUBLIC CONSTRUCTORS >======================================================
 
-    public ExpandableChild(@NonNull VB binding, @NonNull ExpandableAdapterListener listener){
-        itemView = binding.getRoot();
+    public ExpandableChild(@NonNull View itemView, @NonNull ExpandableAdapterListener listener){
+        this.itemView = itemView;
         this.listener = listener;
-        this.binding = binding;
+    }
+
+    public ExpandableChild(@NonNull LayoutInflater inflater, int resource, @NonNull ViewGroup parent,
+                           @NonNull ExpandableAdapterListener listener){
+        itemView = inflater.inflate(resource, parent, false);
+        this.listener = listener;
     }
 
     // ================< PUBLIC METHODS >===========================================================
@@ -41,7 +45,8 @@ public abstract class ExpandableChild <M extends Modelable, VB extends ViewBindi
         return itemView;
     }
 
-    public final void bindModel(@NonNull Modelable modelable, int groupPosition, int childPosition, boolean lastChild){
+    public final void bindModel(@NonNull Modelable modelable, int groupPosition, int childPosition,
+                                boolean lastChild){
         this.groupPosition = groupPosition;
         this.childPosition = childPosition;
         this.lastChild = lastChild;

@@ -7,23 +7,22 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import com.mtrilogic.abstracts.ExpandableChild;
 import com.mtrilogic.abstracts.Modelable;
-import com.mtrilogic.interfaces.ExpandableAdapterListener;
+import com.mtrilogic.abstracts.Recyclable;
+import com.mtrilogic.interfaces.RecyclableAdapterListener;
 import com.mtrilogic.models.SimpleModel2;
 
 @SuppressWarnings("unused")
-public class SimpleExpandableChildItem extends ExpandableChild<SimpleModel2> {
+public class SimpleRecyclable extends Recyclable<SimpleModel2> {
     private TextView lblText1, lblText2;
 
-    public SimpleExpandableChildItem(@NonNull View itemView, @NonNull ExpandableAdapterListener listener) {
+    public SimpleRecyclable(@NonNull View itemView, @NonNull RecyclableAdapterListener listener) {
         super(itemView, listener);
         lblText1 = itemView.findViewById(android.R.id.text1);
         lblText2 = itemView.findViewById(android.R.id.text2);
     }
 
-    public SimpleExpandableChildItem(@NonNull LayoutInflater inflater, int resource,
-                                     @NonNull ViewGroup parent, @NonNull ExpandableAdapterListener listener) {
+    public SimpleRecyclable(@NonNull LayoutInflater inflater, int resource, @NonNull ViewGroup parent, @NonNull RecyclableAdapterListener listener) {
         super(inflater, resource, parent, listener);
         lblText1 = itemView.findViewById(android.R.id.text1);
         lblText2 = itemView.findViewById(android.R.id.text2);

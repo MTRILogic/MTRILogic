@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.mtrilogic.abstracts.ExpandableChild;
+import com.mtrilogic.abstracts.BindingExpandableChild;
 import com.mtrilogic.abstracts.Modelable;
 import com.mtrilogic.adapters.ExpandableAdapter;
 import com.mtrilogic.interfaces.ExpandableAdapterListener;
@@ -21,7 +21,7 @@ import com.mtrilogic.mtrilogicsample.models.ImageModel;
 import com.mtrilogic.views.SquareImageView;
 
 @SuppressWarnings({"unused","FieldCanBeLocal"})
-public class ChildImageItem extends ExpandableChild<ImageModel, ItemChildImageBinding> implements
+public class ChildImageItemBinding extends BindingExpandableChild<ImageModel, ItemChildImageBinding> implements
         RatingBar.OnRatingBarChangeListener{
 
     private TextView lblTitle, lblContent;
@@ -31,7 +31,7 @@ public class ChildImageItem extends ExpandableChild<ImageModel, ItemChildImageBi
 
     // ================< PUBLIC CONSTRUCTORS >======================================================
 
-    public ChildImageItem(@NonNull ItemChildImageBinding binding, @NonNull ExpandableAdapterListener listener){
+    public ChildImageItemBinding(@NonNull ItemChildImageBinding binding, @NonNull ExpandableAdapterListener listener){
         super(binding, listener);
         chkItem = binding.chkItem;
         chkItem.setOnClickListener(new View.OnClickListener() {

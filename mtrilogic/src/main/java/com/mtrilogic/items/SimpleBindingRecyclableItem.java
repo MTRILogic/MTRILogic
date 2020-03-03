@@ -4,16 +4,16 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.mtrilogic.abstracts.BindingRecyclable;
 import com.mtrilogic.abstracts.Modelable;
-import com.mtrilogic.abstracts.Recyclable;
 import com.mtrilogic.interfaces.RecyclableAdapterListener;
 import com.mtrilogic.models.SimpleModel;
 import com.mtrilogic.mtrilogic.databinding.ItemSimpleBinding;
 
 @SuppressWarnings("unused")
-public class SimpleRecyclableItem extends Recyclable<SimpleModel, ItemSimpleBinding> {
+public class SimpleBindingRecyclableItem extends BindingRecyclable<SimpleModel, ItemSimpleBinding> {
 
-    public SimpleRecyclableItem(@NonNull ItemSimpleBinding binding, @NonNull RecyclableAdapterListener listener) {
+    public SimpleBindingRecyclableItem(@NonNull ItemSimpleBinding binding, @NonNull RecyclableAdapterListener listener) {
         super(binding, listener);
     }
 

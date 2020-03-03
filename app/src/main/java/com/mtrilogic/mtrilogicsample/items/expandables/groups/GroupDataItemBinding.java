@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import com.mtrilogic.abstracts.ExpandableGroup;
+import com.mtrilogic.abstracts.BindingExpandableGroup;
 import com.mtrilogic.abstracts.Modelable;
 import com.mtrilogic.interfaces.ExpandableAdapterListener;
 import com.mtrilogic.mtrilogicsample.R;
@@ -20,14 +20,14 @@ import com.mtrilogic.mtrilogicsample.types.ItemChildType;
 import java.util.ArrayList;
 
 @SuppressWarnings({"unused","FieldCanBeLocal"})
-public class GroupDataItem extends ExpandableGroup<DataModel, ItemGroupBinding> {
+public class GroupDataItemBinding extends BindingExpandableGroup<DataModel, ItemGroupBinding> {
 
     private TextView lblTitle, lblContent;
     private CheckBox chkItem;
 
     // ================< PUBLIC CONSTRUCTORS >======================================================
 
-    public GroupDataItem(@NonNull ItemGroupBinding binding, @NonNull ExpandableAdapterListener listener){
+    public GroupDataItemBinding(@NonNull ItemGroupBinding binding, @NonNull ExpandableAdapterListener listener){
         super(binding, listener);
         chkItem = binding.chkItem;
         chkItem.setOnClickListener(new View.OnClickListener() {

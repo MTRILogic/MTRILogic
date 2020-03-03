@@ -7,20 +7,17 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.viewbinding.ViewBinding;
 
 import com.mtrilogic.adapters.FragmentableAdapter;
 import com.mtrilogic.interfaces.FragmentableAdapterListener;
 import com.mtrilogic.interfaces.OnMakeToastListener;
 
 @SuppressWarnings({"unused","WeakerAccess"})
-public abstract class Fragmentable<P extends Paginable, VB extends ViewBinding> extends Fragment
-        implements OnMakeToastListener {
+public abstract class Fragmentable<P extends Paginable> extends Fragment implements OnMakeToastListener {
 
     protected static final String PAGINABLE = "paginable";
     protected FragmentableAdapterListener listener;
     protected Bundle args;
-    protected VB binding;
     protected P page;
 
     // ================< PUBLIC ABSTRACT METHODS >==================================================

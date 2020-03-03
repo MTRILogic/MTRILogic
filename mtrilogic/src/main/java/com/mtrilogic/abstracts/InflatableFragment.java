@@ -6,7 +6,6 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.viewbinding.ViewBinding;
 
 import com.mtrilogic.adapters.InflatableAdapter;
 import com.mtrilogic.interfaces.InflatableAdapterListener;
@@ -16,8 +15,8 @@ import com.mtrilogic.views.InflatableView;
 import java.util.ArrayList;
 
 @SuppressWarnings({"unused"})
-public abstract class InflatableFragment<P extends ListPaginable<Modelable>, VB extends ViewBinding>
-        extends Fragmentable<P, VB> implements InflatableListener, InflatableAdapterListener {
+public abstract class InflatableFragment<P extends ListPaginable<Modelable>>
+        extends Fragmentable<P> implements InflatableListener, InflatableAdapterListener {
 
     protected InflatableAdapter adapter;
     protected InflatableView lvwItems;

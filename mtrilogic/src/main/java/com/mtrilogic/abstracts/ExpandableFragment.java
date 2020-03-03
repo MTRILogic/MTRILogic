@@ -6,7 +6,6 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.viewbinding.ViewBinding;
 
 import com.mtrilogic.adapters.ExpandableAdapter;
 import com.mtrilogic.classes.Listable;
@@ -16,8 +15,8 @@ import com.mtrilogic.interfaces.ExpandableListener;
 import com.mtrilogic.views.ExpandableView;
 
 @SuppressWarnings({"unused"})
-public abstract class ExpandableFragment<P extends MapPaginable<Modelable>, VB extends ViewBinding>
-        extends Fragmentable<P, VB> implements ExpandableListener, ExpandableAdapterListener {
+public abstract class ExpandableFragment<P extends MapPaginable<Modelable>>
+        extends Fragmentable<P> implements ExpandableListener, ExpandableAdapterListener {
 
     protected ExpandableAdapter adapter;
     protected ExpandableView lvwItems;
