@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 import com.mtrilogic.abstracts.Inflatable;
 
 @SuppressWarnings("unused")
-public interface InflatableListener extends OnMakeToastListener{
+public interface InflatableListener extends OnMakeToastListener {
 
     // ================< PUBLIC ABSTRACT METHODS >==================================================
 

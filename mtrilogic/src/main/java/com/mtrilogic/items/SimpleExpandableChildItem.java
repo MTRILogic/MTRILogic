@@ -30,8 +30,12 @@ public class SimpleExpandableChildItem extends ExpandableChild<SimpleModel2> {
     }
 
     @Override
-    protected void onBindHolder(@NonNull Modelable modelable) {
-        model = (SimpleModel2) modelable;
+    protected SimpleModel2 getModelFromModelable(@NonNull Modelable modelable) {
+        return (SimpleModel2) modelable;
+    }
+
+    @Override
+    protected void onBindHolder() {
         lblText1.setText(model.getText1());
         if (lblText2 != null){
             lblText2.setText(model.getText2());

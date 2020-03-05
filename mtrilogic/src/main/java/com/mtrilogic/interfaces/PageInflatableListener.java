@@ -5,12 +5,11 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 
-import com.mtrilogic.abstracts.Recyclable;
+import com.mtrilogic.abstracts.PageInflatable;
 
-@SuppressWarnings("unused")
-public interface RecyclableListener extends OnMakeToastListener {
+public interface PageInflatableListener extends OnMakeToastListener {
 
     // ================< PUBLIC ABSTRACT METHODS >==================================================
 
-    Recyclable getRecyclable(int viewType, @NonNull LayoutInflater inflater, @NonNull ViewGroup parent);
+    PageInflatable getPageInflatable(int viewType, @NonNull LayoutInflater inflater, @NonNull ViewGroup parent);
 }

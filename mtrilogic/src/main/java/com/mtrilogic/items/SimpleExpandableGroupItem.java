@@ -27,8 +27,12 @@ public class SimpleExpandableGroupItem extends ExpandableGroup<SimpleModel1> {
     }
 
     @Override
-    protected void onBindHolder(@NonNull Modelable modelable) {
-        model = (SimpleModel1) modelable;
+    protected SimpleModel1 getModelFromModelable(@NonNull Modelable modelable) {
+        return (SimpleModel1) modelable;
+    }
+
+    @Override
+    protected void onBindHolder() {
         lblText1.setText(model.getText1());
     }
 

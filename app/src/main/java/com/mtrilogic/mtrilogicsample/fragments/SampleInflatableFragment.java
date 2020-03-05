@@ -38,7 +38,12 @@ public class SampleInflatableFragment extends BindingInflatableFragment<SampleLi
                              @Nullable Bundle savedInstanceState) {
         binding = FragmentInflatableBinding.inflate(inflater, container, false);
         InflatableView lvwItems = binding.lvwItems;
-        bindInflatable(lvwItems, ItemChildType.COUNT);
+
+        Context context = getContext();
+        if (context != null){
+            bindInflatable(context, lvwItems, ItemChildType.COUNT);
+        }
+
         TextView lblTitle = binding.lblTitle;
         lblTitle.setText(getString(R.string.title_item, page.getItemId()));
         lblContent = binding.lblContent;
@@ -81,16 +86,6 @@ public class SampleInflatableFragment extends BindingInflatableFragment<SampleLi
                 return new InflatableImageItem(ItemImageBinding.inflate(inflater, parent, false), this);
         }
         return null;
-    }
-
-    @Override
-    public boolean onItemLongClick(@NonNull View view, @NonNull Modelable modelable, int position) {
-        return false;
-    }
-
-    @Override
-    public void onItemClick(@NonNull View view, @NonNull Modelable modelable, int position) {
-
     }
 
     // ================< PRIVATE METHODS >==========================================================

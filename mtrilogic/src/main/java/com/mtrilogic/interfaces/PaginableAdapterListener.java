@@ -2,13 +2,12 @@ package com.mtrilogic.interfaces;
 
 import androidx.viewpager.widget.ViewPager;
 
-import com.mtrilogic.adapters.FragmentableAdapter;
+import com.mtrilogic.adapters.PaginableAdapter;
 
-@SuppressWarnings("unused")
-public interface FragmentableAdapterListener extends OnMakeToastListener {
+public interface PaginableAdapterListener extends OnMakeToastListener {
 
     // ================< PUBLIC ABSTRACT METHODS >==================================================
 
-    FragmentableAdapter getFragmentableAdapter();
+    PaginableAdapter getPaginableAdapter();
     ViewPager getViewPager();
 }

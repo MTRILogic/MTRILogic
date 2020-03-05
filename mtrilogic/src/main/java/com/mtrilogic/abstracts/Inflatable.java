@@ -12,9 +12,7 @@ import com.mtrilogic.adapters.InflatableAdapter;
 import com.mtrilogic.interfaces.InflatableAdapterListener;
 
 @SuppressWarnings({"unused"})
-public abstract class Inflatable<M extends Modelable> extends LiveData<M>
-        implements Observer<M> {
-
+public abstract class Inflatable<M extends Modelable> extends LiveData<M> implements Observer<M> {
     protected final InflatableAdapterListener listener;
     protected final View itemView;
     protected int position;
@@ -22,7 +20,8 @@ public abstract class Inflatable<M extends Modelable> extends LiveData<M>
 
     // ================< PROTECTED ABSTRACT METHODS >===============================================
 
-    protected abstract void onBindHolder(@NonNull Modelable modelable);
+    protected abstract M getModelFromModelable(@NonNull Modelable modelable);
+    protected abstract void onBindHolder();
 
     // ================< PUBLIC CONSTRUCTORS >======================================================
 
@@ -43,9 +42,10 @@ public abstract class Inflatable<M extends Modelable> extends LiveData<M>
         return itemView;
     }
 
-    public final void bindModel(@NonNull Modelable modelable, int position){
+    public final void bindHolder(@NonNull Modelable modelable, int position){
+        model = getModelFromModelable(modelable);
         this.position = position;
-        onBindHolder(modelable);
+        onBindHolder();
     }
 
     // ================< PROTECTED METHODS >========================================================

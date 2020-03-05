@@ -65,16 +65,22 @@ public class GroupDataItemBinding extends BindingExpandableGroup<DataModel, Item
         btnDelete.setFocusable(false);
     }
 
-    // ================< PUBLIC OVERRIDE METHODS >==================================================
+    // ================< PROTECTED OVERRIDE METHODS >===============================================
 
     @Override
-    public void onBindHolder(@NonNull Modelable modelable){
-        model = (DataModel) modelable;
+    protected DataModel getModelFromModelable(@NonNull Modelable modelable) {
+        return (DataModel) modelable;
+    }
+
+    @Override
+    public void onBindHolder(){
         chkItem.setChecked(model.isChecked());
         Context context = itemView.getContext();
         lblTitle.setText(context.getString(R.string.title_item, model.getItemId()));
         lblContent.setText(context.getString(R.string.content_item, groupPosition));
     }
+
+    // ================< PUBLIC OVERRIDE METHODS >==================================================
 
     @Override
     public void onChanged(DataModel dataModel) {

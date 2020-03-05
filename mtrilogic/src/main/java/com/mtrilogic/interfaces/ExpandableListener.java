@@ -9,7 +9,7 @@ import com.mtrilogic.abstracts.BindingExpandableChild;
 import com.mtrilogic.abstracts.BindingExpandableGroup;
 
 @SuppressWarnings("unused")
-public interface ExpandableListener extends OnMakeToastListener{
+public interface ExpandableListener extends OnMakeToastListener {
 
     // ================< PUBLIC ABSTRACT METHODS >==================================================
 

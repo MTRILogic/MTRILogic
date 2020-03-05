@@ -21,7 +21,8 @@ public abstract class Recyclable<M extends Modelable> extends RecyclerView.ViewH
 
     // ================< PROTECTED ABSTRACT METHODS >===============================================
 
-    protected abstract void onBindHolder(@NonNull Modelable modelable);
+    protected abstract M getModelFromModelable(@NonNull Modelable modelable);
+    protected abstract void onBindHolder();
 
     // ================< PUBLIC CONSTRUCTORS >======================================================
 
@@ -38,9 +39,10 @@ public abstract class Recyclable<M extends Modelable> extends RecyclerView.ViewH
 
     // ================< PUBLIC METHODS >===========================================================
 
-    public final void bindModel(@NonNull Modelable modelable, int position){
+    public final void bindHolder(@NonNull Modelable modelable, int position){
+        model = getModelFromModelable(modelable);
         this.position = position;
-        onBindHolder(modelable);
+        onBindHolder();
     }
 
     // ================< PROTECTED METHODS >========================================================

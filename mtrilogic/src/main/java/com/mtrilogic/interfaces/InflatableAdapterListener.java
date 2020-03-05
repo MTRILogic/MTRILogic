@@ -4,7 +4,7 @@ import com.mtrilogic.adapters.InflatableAdapter;
 import com.mtrilogic.views.InflatableView;
 
 @SuppressWarnings("unused")
-public interface InflatableAdapterListener extends OnItemLongClickListener{
+public interface InflatableAdapterListener extends OnMakeToastListener {
 
     // ================< PUBLIC ABSTRACT METHODS >==================================================
 

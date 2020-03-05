@@ -394,7 +394,7 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
             view = expandableGroup.getItemView();
             view.setTag(expandableGroup);
         }
-        expandableGroup.bindModel(groupModelable, groupPosition, expanded);
+        expandableGroup.bindHolder(groupModelable, groupPosition, expanded);
         return view;
     }
 
@@ -410,7 +410,7 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
             view = expandableChild.getItemView();
             view.setTag(expandableChild);
         }
-        expandableChild.bindModel(childModelable, groupPosition, childPosition, lastChild);
+        expandableChild.bindHolder(childModelable, groupPosition, childPosition, lastChild);
         return view;
     }
 

@@ -3,6 +3,7 @@ package com.mtrilogic.abstracts;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mtrilogic.adapters.RecyclableAdapter;
@@ -18,20 +19,15 @@ public abstract class RecyclableFragment<P extends ListPaginable<Modelable>>
     protected RecyclableAdapter adapter;
     protected RecyclerView lvwItems;
 
-    protected abstract RecyclerView.LayoutManager getLayoutManager(Context context);
-
     // ================< PROTECTED METHODS >========================================================
 
-    protected void bindRecyclable(@NonNull RecyclerView lvwItems){
+    protected void bindRecyclable(@NonNull Context context, @NonNull RecyclerView lvwItems,
+                                  @NonNull RecyclerView.LayoutManager manager){
         this.lvwItems = lvwItems;
-        Context context = getContext();
-        if (context != null) {
-            ArrayList<Modelable> modelables = page.getListable().getModelableList();
-            adapter = new RecyclableAdapter(context, this, modelables);
-            RecyclerView.LayoutManager manager = getLayoutManager(context);
-            lvwItems.setLayoutManager(manager);
-            lvwItems.setAdapter(adapter);
-        }
+        ArrayList<Modelable> modelableList = page.getListable().getModelableList();
+        adapter = new RecyclableAdapter(context, this, modelableList);
+        lvwItems.setLayoutManager(manager);
+        lvwItems.setAdapter(adapter);
     }
 
     // ================< PUBLIC OVERRIDE METHODS >==================================================

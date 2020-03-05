@@ -31,13 +31,6 @@ public class SampleRecyclableFragment extends BindingRecyclableFragment<SampleLi
 
     private TextView lblContent;
 
-    // ================< PROTECTED OVERRIDE METHODS >===============================================
-
-    @Override
-    protected RecyclerView.LayoutManager getLayoutManager(Context context) {
-        return new LinearLayoutManager(context);
-    }
-
     // ================< PUBLIC OVERRIDE METHODS >==================================================
 
     @Nullable
@@ -46,7 +39,13 @@ public class SampleRecyclableFragment extends BindingRecyclableFragment<SampleLi
                              @Nullable Bundle savedInstanceState) {
         binding = FragmentRecyclableBinding.inflate(inflater, container, false);
         RecyclerView lvwItems = binding.lvwItems;
-        bindRecyclable(lvwItems);
+
+        Context context = getContext();
+        if (context != null){
+            RecyclerView.LayoutManager manager = new LinearLayoutManager(context);
+            bindRecyclable(context, lvwItems, manager);
+        }
+
         TextView lblTitle = binding.lblTitle;
         lblTitle.setText(getString(R.string.title_item, page.getItemId()));
         lblContent = binding.lblContent;
@@ -89,16 +88,6 @@ public class SampleRecyclableFragment extends BindingRecyclableFragment<SampleLi
                 return new RecyclableImageItem(ItemImageBinding.inflate(inflater, parent, false), this);
         }
         return null;
-    }
-
-    @Override
-    public boolean onItemLongClick(@NonNull View view, @NonNull Modelable modelable, int position) {
-        return false;
-    }
-
-    @Override
-    public void onItemClick(@NonNull View view, @NonNull Modelable modelable, int position) {
-
     }
 
     // ================< PRIVATE METHODS >==========================================================

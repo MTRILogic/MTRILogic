@@ -14,7 +14,6 @@ import android.widget.TextView;
 import com.mtrilogic.abstracts.BindingExpandableChild;
 import com.mtrilogic.abstracts.BindingExpandableFragment;
 import com.mtrilogic.abstracts.BindingExpandableGroup;
-import com.mtrilogic.abstracts.Modelable;
 import com.mtrilogic.classes.Listable;
 import com.mtrilogic.mtrilogicsample.databinding.FragmentExpandableBinding;
 import com.mtrilogic.mtrilogicsample.databinding.ItemChildDataBinding;
@@ -48,7 +47,12 @@ public class SampleExpandableFragment extends BindingExpandableFragment<SampleMa
                              @Nullable Bundle savedInstanceState) {
         binding = FragmentExpandableBinding.inflate(inflater, container, false);
         ExpandableView lvwItems = binding.lvwItems;
-        bindExpandable(lvwItems, ItemGroupType.COUNT, ItemChildType.COUNT);
+
+        Context context = getContext();
+        if (context != null){
+            bindExpandable(context, lvwItems, ItemGroupType.COUNT, ItemChildType.COUNT);
+        }
+
         TextView lblTitle = binding.lblTitle;
         lblTitle.setText(getString(R.string.title_item, page.getItemId()));
         lblContent = binding.lblContent;
@@ -87,16 +91,6 @@ public class SampleExpandableFragment extends BindingExpandableFragment<SampleMa
                 return new ChildImageItemBinding(ItemChildImageBinding.inflate(inflater, parent, false), this);
         }
         return null;
-    }
-
-    @Override
-    public boolean onItemLongClick(@NonNull View view, @NonNull Modelable modelable, int position) {
-        return false;
-    }
-
-    @Override
-    public void onItemClick(@NonNull View view, @NonNull Modelable modelable, int position) {
-
     }
 
     // ================< PRIVATE METHODS >==========================================================

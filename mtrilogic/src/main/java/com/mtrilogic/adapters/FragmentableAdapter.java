@@ -14,7 +14,6 @@ import java.util.ArrayList;
 
 @SuppressWarnings({"unused"})
 public class FragmentableAdapter extends FragmentPagerAdapter{
-
     private FragmentableListener listener;
     private ArrayList<Paginable> paginableList;
 

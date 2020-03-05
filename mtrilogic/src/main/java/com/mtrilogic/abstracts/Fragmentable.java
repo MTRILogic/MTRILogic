@@ -89,13 +89,6 @@ public abstract class Fragmentable<P extends Paginable> extends Fragment impleme
         }
     }
 
-    @Override
-    public void uncaughtException(@NonNull Thread t, @NonNull Throwable e) {
-        if (listener != null){
-            listener.uncaughtException(t, e);
-        }
-    }
-
     // ================< PUBLIC METHODS >===========================================================
 
     public final Paginable getPaginable(){

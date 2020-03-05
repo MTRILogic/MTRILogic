@@ -6,7 +6,7 @@ import com.mtrilogic.abstracts.Fragmentable;
 import com.mtrilogic.abstracts.Paginable;
 
 @SuppressWarnings("unused")
-public interface FragmentableListener extends OnMakeToastListener{
+public interface FragmentableListener extends OnMakeToastListener {
 
     // ================< PUBLIC ABSTRACT METHODS >==================================================
 

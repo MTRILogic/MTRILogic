@@ -25,7 +25,8 @@ public abstract class ExpandableGroup<M extends Modelable> extends LiveData<M> i
 
     // ================< PROTECTED ABSTRACT METHODS >===============================================
 
-    protected abstract void onBindHolder(@NonNull Modelable modelable);
+    protected abstract M getModelFromModelable(@NonNull Modelable modelable);
+    protected abstract void onBindHolder();
 
     // ================< PUBLIC CONSTRUCTORS >======================================================
 
@@ -46,12 +47,13 @@ public abstract class ExpandableGroup<M extends Modelable> extends LiveData<M> i
         return itemView;
     }
 
-    public final void bindModel(@NonNull Modelable modelable, int groupPosition, boolean expanded){
+    public final void bindHolder(@NonNull Modelable modelable, int groupPosition, boolean expanded){
+        model = getModelFromModelable(modelable);
         ExpandableAdapter adapter = listener.getExpandableAdapter();
         childListable = adapter != null ? adapter.getChildListable(modelable) : null;
         this.groupPosition = groupPosition;
         this.expanded = expanded;
-        onBindHolder(modelable);
+        onBindHolder();
     }
 
     // ================< PROTECTED METHODS >========================================================

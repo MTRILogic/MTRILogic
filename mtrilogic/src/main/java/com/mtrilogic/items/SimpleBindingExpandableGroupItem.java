@@ -18,8 +18,12 @@ public class SimpleBindingExpandableGroupItem extends BindingExpandableGroup<Sim
     }
 
     @Override
-    public void onBindHolder(@NonNull Modelable modelable) {
-        model = (SimpleModel) modelable;
+    protected SimpleModel getModelFromModelable(@NonNull Modelable modelable) {
+        return (SimpleModel) modelable;
+    }
+
+    @Override
+    public void onBindHolder() {
         TextView lblText = binding.lblText;
         lblText.setBackgroundColor(model.getBackColor());
         lblText.setTextColor(model.getColor());

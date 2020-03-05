@@ -17,23 +17,19 @@ import com.mtrilogic.views.ExpandableView;
 @SuppressWarnings({"unused"})
 public abstract class ExpandableFragment<P extends MapPaginable<Modelable>>
         extends Fragmentable<P> implements ExpandableListener, ExpandableAdapterListener {
-
     protected ExpandableAdapter adapter;
     protected ExpandableView lvwItems;
 
     // ================< PROTECTED METHODS >========================================================
 
-    protected void bindExpandable(@NonNull ExpandableView lvwItems, int groupTypeCount,
+    protected void bindExpandable(@NonNull Context context, @NonNull ExpandableView lvwItems, int groupTypeCount,
                                   int childTypeCount){
         this.lvwItems = lvwItems;
-        Context context = getContext();
-        if (context != null) {
-            Listable<Modelable> groupListable = page.getGroupListable();
-            Mapable<Modelable> childMapable = page.getChildMapable();
-            adapter = new ExpandableAdapter(context, this, groupListable, childMapable,
-                    groupTypeCount, childTypeCount);
-            lvwItems.setAdapter(adapter);
-        }
+        Listable<Modelable> groupListable = page.getGroupListable();
+        Mapable<Modelable> childMapable = page.getChildMapable();
+        adapter = new ExpandableAdapter(context, this, groupListable, childMapable,
+                groupTypeCount, childTypeCount);
+        lvwItems.setAdapter(adapter);
     }
 
     // ================< PUBLIC OVERRIDE METHODS >==================================================

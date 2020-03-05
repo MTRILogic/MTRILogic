@@ -209,11 +209,6 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         makeLog(line);
     }
 
-    @Override
-    public void uncaughtException(@NonNull Thread t, @NonNull Throwable e) {
-        makeLog("Exception: Thread: " + t + ", Line number: " + e.getStackTrace()[0].getLineNumber());
-    }
-
     // ================< PRIVATE METHODS >==========================================================
 
     private void pageSelected(int position){

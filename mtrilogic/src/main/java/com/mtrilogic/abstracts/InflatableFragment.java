@@ -23,14 +23,11 @@ public abstract class InflatableFragment<P extends ListPaginable<Modelable>>
 
     // ================< PROTECTED METHODS >========================================================
 
-    protected void bindInflatable(@NonNull InflatableView lvwItems, int typeCount){
+    protected void bindInflatable(@NonNull Context context, @NonNull InflatableView lvwItems, int typeCount){
         this.lvwItems = lvwItems;
-        Context context = getContext();
-        if (context != null) {
-            ArrayList<Modelable> modelableList = page.getListable().getModelableList();
-            adapter = new InflatableAdapter(context, this, modelableList, typeCount);
-            lvwItems.setAdapter(adapter);
-        }
+        ArrayList<Modelable> modelableList = page.getListable().getModelableList();
+        adapter = new InflatableAdapter(context, this, modelableList, typeCount);
+        lvwItems.setAdapter(adapter);
     }
 
     // ================< PUBLIC OVERRIDE METHODS >==================================================

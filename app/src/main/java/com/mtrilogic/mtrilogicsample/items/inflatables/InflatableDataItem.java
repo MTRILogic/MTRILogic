@@ -44,16 +44,22 @@ public class InflatableDataItem extends BindingInflatable<DataModel, ItemDataBin
         });
     }
 
-    // ================< PUBLIC OVERRIDE METHODS >==================================================
+    // ================< PROTECTED OVERRIDE METHODS >===============================================
 
     @Override
-    public void onBindHolder(@NonNull Modelable modelable){
-        model = (DataModel) modelable;
+    protected DataModel getModelFromModelable(@NonNull Modelable modelable) {
+        return (DataModel) modelable;
+    }
+
+    @Override
+    protected void onBindHolder(){
         chkItem.setChecked(model.isChecked());
         Context context = itemView.getContext();
         lblTitle.setText(context.getString(R.string.title_item, model.getItemId()));
         lblContent.setText(context.getString(R.string.content_item, position));
     }
+
+    // ================< PUBLIC OVERRIDE METHODS >==================================================
 
     @Override
     public void onChanged(DataModel dataModel) {

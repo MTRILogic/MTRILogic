@@ -1,7 +1,7 @@
 package com.mtrilogic.interfaces;
 
 @SuppressWarnings("unused")
-public interface OnMakeToastListener extends Thread.UncaughtExceptionHandler{
+public interface OnMakeToastListener {
 
     // ================< PUBLIC ABSTRACT METHODS >==================================================
 
