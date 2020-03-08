@@ -96,6 +96,16 @@ public class SampleInflatableFragment extends BindingInflatableFragment<SampleLi
         return null;
     }
 
+    @Override
+    public boolean onItemLongClick(@NonNull View view, @NonNull Modelable modelable, int position) {
+        return false;
+    }
+
+    @Override
+    public void onItemClick(@NonNull View view, @NonNull Modelable modelable, int position) {
+
+    }
+
     // ================< PRIVATE METHODS >==========================================================
 
     private void addModelable(int viewType){

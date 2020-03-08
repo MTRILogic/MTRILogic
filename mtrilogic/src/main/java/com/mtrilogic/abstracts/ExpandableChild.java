@@ -53,7 +53,9 @@ public abstract class ExpandableChild <M extends Modelable, L extends Expandable
         this.groupPosition = groupPosition;
         this.childPosition = childPosition;
         this.lastChild = lastChild;
-        onBindHolder();
+        if (model != null) {
+            onBindHolder();
+        }
     }
 
     // ================< PROTECTED METHODS >========================================================

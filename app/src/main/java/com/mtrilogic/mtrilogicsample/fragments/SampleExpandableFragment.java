@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.mtrilogic.abstracts.BindingExpandableChild;
 import com.mtrilogic.abstracts.BindingExpandableFragment;
 import com.mtrilogic.abstracts.BindingExpandableGroup;
+import com.mtrilogic.abstracts.Modelable;
 import com.mtrilogic.classes.Listable;
 import com.mtrilogic.interfaces.FragmentableAdapterListener;
 import com.mtrilogic.mtrilogicsample.databinding.FragmentExpandableBinding;
@@ -101,6 +102,16 @@ public class SampleExpandableFragment extends BindingExpandableFragment<
                 return new ChildImageItemBinding(ItemChildImageBinding.inflate(inflater, parent, false), this);
         }
         return null;
+    }
+
+    @Override
+    public boolean onItemLongClick(@NonNull View view, @NonNull Modelable modelable, int position) {
+        return false;
+    }
+
+    @Override
+    public void onItemClick(@NonNull View view, @NonNull Modelable modelable, int position) {
+
     }
 
     // ================< PRIVATE METHODS >==========================================================

@@ -47,7 +47,9 @@ public abstract class Inflatable<M extends Modelable, L extends InflatableAdapte
     public final void bindHolder(@NonNull Modelable modelable, int position){
         model = getModelFromModelable(modelable);
         this.position = position;
-        onBindHolder();
+        if (model != null) {
+            onBindHolder();
+        }
     }
 
     // ================< PROTECTED METHODS >========================================================

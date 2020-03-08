@@ -54,7 +54,9 @@ public abstract class ExpandableGroup<M extends Modelable, L extends ExpandableA
         childListable = adapter != null ? adapter.getChildListable(modelable) : null;
         this.groupPosition = groupPosition;
         this.expanded = expanded;
-        onBindHolder();
+        if (model != null) {
+            onBindHolder();
+        }
     }
 
     // ================< PROTECTED METHODS >========================================================
