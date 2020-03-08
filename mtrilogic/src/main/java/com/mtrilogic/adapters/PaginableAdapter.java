@@ -21,7 +21,8 @@ public class PaginableAdapter extends PagerAdapter {
     private PageInflatableListener listener;
     private LayoutInflater inflater;
 
-    public PaginableAdapter(Context context, ArrayList<Paginable> paginableList, PageInflatableListener listener){
+    public PaginableAdapter(@NonNull Context context, @NonNull ArrayList<Paginable> paginableList,
+                            @NonNull PageInflatableListener listener){
         inflater = LayoutInflater.from(context);
         this.paginableList = paginableList;
         itemViewList = new ArrayList<>();

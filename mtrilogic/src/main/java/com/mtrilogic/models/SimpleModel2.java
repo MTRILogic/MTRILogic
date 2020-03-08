@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 
 @SuppressWarnings("unused")
 public class SimpleModel2 extends SimpleModel1 {
-
     private static final String TEXT2 = "text2";
 
     private String text2;

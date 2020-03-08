@@ -9,7 +9,6 @@ import com.mtrilogic.mtrilogicsample.types.ItemChildType;
 
 @SuppressWarnings({"unused"})
 public class ImageModel extends DataModel{
-
     public static final Creator<ImageModel> CREATOR = new ModelableCreator<ImageModel>() {
         @Override
         public ImageModel getParcelable(@NonNull Bundle data) {

@@ -10,6 +10,6 @@ public interface FragmentableListener extends OnMakeToastListener {
 
     // ================< PUBLIC ABSTRACT METHODS >==================================================
 
-    Fragmentable getFragmentable(@NonNull Paginable paginable, int position);
+    Fragmentable getFragmentable(@NonNull Paginable paginable);
     void onPositionChanged(int position);
 }

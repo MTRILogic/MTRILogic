@@ -21,9 +21,8 @@ import com.mtrilogic.mtrilogicsample.models.ImageModel;
 import com.mtrilogic.views.SquareImageView;
 
 @SuppressWarnings({"unused"})
-public class RecyclableImageItem extends BindingRecyclable<ImageModel, ItemImageBinding> implements
+public class RecyclableImageItem extends BindingRecyclable<ImageModel, RecyclableAdapterListener, ItemImageBinding> implements
         RatingBar.OnRatingBarChangeListener{
-
     private TextView lblTitle, lblContent;
     private SquareImageView ivwImage;
     private RatingBar ratingBar;

@@ -14,10 +14,11 @@ import com.mtrilogic.interfaces.ExpandableAdapterListener;
 import com.mtrilogic.views.ExpandableView;
 
 @SuppressWarnings({"unused", "WeakerAccess"})
-public abstract class ExpandableGroup<M extends Modelable> extends LiveData<M> implements Observer<M> {
-
-    protected final ExpandableAdapterListener listener;
+public abstract class ExpandableGroup<M extends Modelable, L extends ExpandableAdapterListener>
+        extends LiveData<M> implements Observer<M> {
     protected final View itemView;
+    protected final L listener;
+
     protected Listable<Modelable> childListable;
     protected int groupPosition;
     protected boolean expanded;
@@ -30,13 +31,13 @@ public abstract class ExpandableGroup<M extends Modelable> extends LiveData<M> i
 
     // ================< PUBLIC CONSTRUCTORS >======================================================
 
-    public ExpandableGroup(@NonNull View itemView, @NonNull ExpandableAdapterListener listener){
+    public ExpandableGroup(@NonNull View itemView, @NonNull L listener){
         this.itemView = itemView;
         this.listener = listener;
     }
 
     public ExpandableGroup(@NonNull LayoutInflater inflater, int resource, @NonNull ViewGroup parent,
-                           @NonNull ExpandableAdapterListener listener){
+                           @NonNull L listener){
         itemView = inflater.inflate(resource, parent, false);
         this.listener = listener;
     }

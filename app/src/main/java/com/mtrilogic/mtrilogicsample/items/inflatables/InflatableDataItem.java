@@ -17,8 +17,7 @@ import com.mtrilogic.mtrilogicsample.databinding.ItemDataBinding;
 import com.mtrilogic.mtrilogicsample.models.DataModel;
 
 @SuppressWarnings({"unused"})
-public class InflatableDataItem extends BindingInflatable<DataModel, ItemDataBinding> {
-
+public class InflatableDataItem extends BindingInflatable<DataModel, InflatableAdapterListener, ItemDataBinding> {
     private TextView lblTitle, lblContent;
     private CheckBox chkItem;
 

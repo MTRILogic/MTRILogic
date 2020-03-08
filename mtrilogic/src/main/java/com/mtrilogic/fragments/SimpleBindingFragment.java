@@ -1,5 +1,6 @@
 package com.mtrilogic.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,11 +12,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.mtrilogic.abstracts.BindingFragmentable;
+import com.mtrilogic.interfaces.FragmentableAdapterListener;
 import com.mtrilogic.mtrilogic.databinding.FragmentSimpleBinding;
 import com.mtrilogic.pages.SimplePage;
 
 @SuppressWarnings("unused")
-public class SimpleBindingFragment extends BindingFragmentable<SimplePage, FragmentSimpleBinding> {
+public class SimpleBindingFragment extends BindingFragmentable<SimplePage, FragmentableAdapterListener, FragmentSimpleBinding> {
+
+    @Override
+    protected FragmentableAdapterListener getListenerFromContext(@NonNull Context context) {
+        return (FragmentableAdapterListener) context;
+    }
 
     @Nullable
     @Override

@@ -13,7 +13,7 @@ import com.mtrilogic.interfaces.RecyclableAdapterListener;
 import com.mtrilogic.models.SimpleModel2;
 
 @SuppressWarnings("unused")
-public class SimpleRecyclable extends Recyclable<SimpleModel2> {
+public class SimpleRecyclable extends Recyclable<SimpleModel2, RecyclableAdapterListener> {
     private TextView lblText1, lblText2;
 
     public SimpleRecyclable(@NonNull View itemView, @NonNull RecyclableAdapterListener listener) {

@@ -13,7 +13,7 @@ import com.mtrilogic.interfaces.InflatableAdapterListener;
 import com.mtrilogic.models.SimpleModel2;
 
 @SuppressWarnings("unused")
-public class SimpleInflatable extends Inflatable<SimpleModel2> {
+public class SimpleInflatable extends Inflatable<SimpleModel2, InflatableAdapterListener> {
     private TextView lblText1, lblText2;
 
     public SimpleInflatable(@NonNull View itemView, @NonNull InflatableAdapterListener listener) {

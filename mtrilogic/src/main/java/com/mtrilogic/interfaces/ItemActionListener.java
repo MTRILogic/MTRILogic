@@ -11,6 +11,6 @@ public interface ItemActionListener extends OnMakeToastListener {
 
     // ================< PUBLIC ABSTRACT METHODS >==================================================
 
-    void onItemClick(@NonNull View view, @NonNull Modelable modelable, int position);
     boolean onItemLongClick(@NonNull View view, @NonNull Modelable modelable, int position);
+    void onItemClick(@NonNull View view, @NonNull Modelable modelable, int position);
 }

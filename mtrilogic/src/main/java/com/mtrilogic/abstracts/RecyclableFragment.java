@@ -3,19 +3,18 @@ package com.mtrilogic.abstracts;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mtrilogic.adapters.RecyclableAdapter;
+import com.mtrilogic.interfaces.FragmentableAdapterListener;
 import com.mtrilogic.interfaces.RecyclableAdapterListener;
 import com.mtrilogic.interfaces.RecyclableListener;
 
 import java.util.ArrayList;
 
 @SuppressWarnings({"unused"})
-public abstract class RecyclableFragment<P extends ListPaginable<Modelable>>
-        extends Fragmentable<P> implements RecyclableListener, RecyclableAdapterListener {
-
+public abstract class RecyclableFragment<P extends ListPaginable<Modelable>, L extends FragmentableAdapterListener>
+        extends Fragmentable<P, L> implements RecyclableListener, RecyclableAdapterListener {
     protected RecyclableAdapter adapter;
     protected RecyclerView lvwItems;
 

@@ -17,12 +17,11 @@ import java.util.ArrayList;
 
 @SuppressWarnings({"unused","WeakerAccess"})
 public class InflatableAdapter extends BaseAdapter{
-
-    private LayoutInflater inflater;
-    private InflatableListener listener;
     private ArrayList<Modelable> modelableList;
-    private int typeCount;
+    private InflatableListener listener;
+    private LayoutInflater inflater;
     private boolean stableIds;
+    private int typeCount;
 
     // ================< PUBLIC CONSTRUCTORS >======================================================
 

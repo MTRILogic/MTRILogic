@@ -6,13 +6,13 @@ import androidx.viewbinding.ViewBinding;
 import com.mtrilogic.interfaces.InflatableAdapterListener;
 
 @SuppressWarnings("unused")
-public abstract class BindingInflatable<M extends Modelable, VB extends ViewBinding> extends Inflatable<M> {
-
+public abstract class BindingInflatable<M extends Modelable, L extends InflatableAdapterListener,
+        VB extends ViewBinding> extends Inflatable<M, L> {
     protected VB binding;
 
     // ================< PUBLIC CONSTRUCTORS >======================================================
 
-    public BindingInflatable(@NonNull VB binding, @NonNull InflatableAdapterListener listener) {
+    public BindingInflatable(@NonNull VB binding, @NonNull L listener) {
         super(binding.getRoot(), listener);
         this.binding = binding;
     }

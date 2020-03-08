@@ -9,7 +9,6 @@ import com.mtrilogic.abstracts.ModelableCreator;
 
 @SuppressWarnings("unused")
 public class SimpleModel extends Modelable {
-
     public static final Creator<SimpleModel> CREATOR = new ModelableCreator<SimpleModel>() {
         @Override
         public SimpleModel getParcelable(@NonNull Bundle data) {

@@ -11,7 +11,8 @@ import com.mtrilogic.models.SimpleModel;
 import com.mtrilogic.mtrilogic.databinding.ItemSimpleBinding;
 
 @SuppressWarnings("unused")
-public class SimpleBindingExpandableGroupItem extends BindingExpandableGroup<SimpleModel, ItemSimpleBinding> {
+public class SimpleBindingExpandableGroupItem extends BindingExpandableGroup<SimpleModel,
+        ExpandableAdapterListener, ItemSimpleBinding> {
 
     public SimpleBindingExpandableGroupItem(@NonNull ItemSimpleBinding binding, @NonNull ExpandableAdapterListener listener) {
         super(binding, listener);

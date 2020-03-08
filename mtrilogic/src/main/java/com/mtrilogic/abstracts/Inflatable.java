@@ -12,9 +12,11 @@ import com.mtrilogic.adapters.InflatableAdapter;
 import com.mtrilogic.interfaces.InflatableAdapterListener;
 
 @SuppressWarnings({"unused"})
-public abstract class Inflatable<M extends Modelable> extends LiveData<M> implements Observer<M> {
-    protected final InflatableAdapterListener listener;
+public abstract class Inflatable<M extends Modelable, L extends InflatableAdapterListener>
+        extends LiveData<M> implements Observer<M> {
     protected final View itemView;
+    protected final L listener;
+
     protected int position;
     protected M model;
 
@@ -25,13 +27,13 @@ public abstract class Inflatable<M extends Modelable> extends LiveData<M> implem
 
     // ================< PUBLIC CONSTRUCTORS >======================================================
 
-    public Inflatable(@NonNull View itemView, @NonNull InflatableAdapterListener listener){
+    public Inflatable(@NonNull View itemView, @NonNull L listener){
         this.itemView = itemView;
         this.listener = listener;
     }
 
     public Inflatable(@NonNull LayoutInflater inflater, int resource, @NonNull ViewGroup parent,
-                      @NonNull InflatableAdapterListener listener){
+                      @NonNull L listener){
         itemView = inflater.inflate(resource, parent, false);
         this.listener = listener;
     }

@@ -8,7 +8,6 @@ import com.mtrilogic.classes.Listable;
 
 @SuppressWarnings({"unused","WeakerAccess"})
 public abstract class ListPaginable<M extends Modelable> extends Paginable {
-
     private Listable<M> listable;
 
     // ================< PUBLIC CONSTRUCTORS >======================================================

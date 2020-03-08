@@ -13,7 +13,7 @@ import com.mtrilogic.interfaces.ExpandableAdapterListener;
 import com.mtrilogic.models.SimpleModel2;
 
 @SuppressWarnings("unused")
-public class SimpleExpandableChildItem extends ExpandableChild<SimpleModel2> {
+public class SimpleExpandableChildItem extends ExpandableChild<SimpleModel2, ExpandableAdapterListener> {
     private TextView lblText1, lblText2;
 
     public SimpleExpandableChildItem(@NonNull View itemView, @NonNull ExpandableAdapterListener listener) {

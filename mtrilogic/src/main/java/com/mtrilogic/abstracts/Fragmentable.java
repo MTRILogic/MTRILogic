@@ -13,12 +13,17 @@ import com.mtrilogic.interfaces.FragmentableAdapterListener;
 import com.mtrilogic.interfaces.OnMakeToastListener;
 
 @SuppressWarnings({"unused","WeakerAccess"})
-public abstract class Fragmentable<P extends Paginable> extends Fragment implements OnMakeToastListener {
-
+public abstract class Fragmentable<P extends Paginable, L extends FragmentableAdapterListener>
+        extends Fragment implements OnMakeToastListener {
     protected static final String PAGINABLE = "paginable";
-    protected FragmentableAdapterListener listener;
+
     protected Bundle args;
+    protected L listener;
     protected P page;
+
+    // ================< PROTECTED ABSTRACT METHODS >===============================================
+
+    protected abstract L getListenerFromContext(@NonNull Context context);
 
     // ================< PUBLIC ABSTRACT METHODS >==================================================
 
@@ -41,7 +46,7 @@ public abstract class Fragmentable<P extends Paginable> extends Fragment impleme
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if (context instanceof FragmentableAdapterListener){
-            listener = (FragmentableAdapterListener) context;
+            listener = getListenerFromContext(context);
         }
     }
 

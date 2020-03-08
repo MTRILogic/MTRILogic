@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 
 @SuppressWarnings({"unused", "WeakerAccess"})
 public abstract class Paginable extends Modelable {
-
     private static final String PAGE_TITLE = "pageTitle", TAG_NAME = "tagName", PAGE_WIDTH = "pageWidth";
 
     private String pageTitle, tagName;

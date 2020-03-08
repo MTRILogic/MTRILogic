@@ -23,8 +23,8 @@ public class SimplePage extends Paginable {
 
     private static final String TEXT = "text", COLOR = "color", BACK_COLOR = "backColor";
 
-    private String text;
     private int color, backColor;
+    private String text;
 
     public SimplePage() {
         super();

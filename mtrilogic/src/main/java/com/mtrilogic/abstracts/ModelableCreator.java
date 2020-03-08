@@ -7,8 +7,7 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
 @SuppressWarnings("unused")
-public abstract class ModelableCreator<M extends Modelable>
-        implements Parcelable.ClassLoaderCreator<M>{
+public abstract class ModelableCreator<M extends Modelable> implements Parcelable.ClassLoaderCreator<M>{
 
     // ================< PUBLIC ABSTRACT METHODS >==================================================
 

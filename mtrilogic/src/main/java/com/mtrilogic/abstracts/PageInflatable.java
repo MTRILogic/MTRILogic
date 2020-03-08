@@ -15,6 +15,7 @@ import com.mtrilogic.interfaces.PaginableAdapterListener;
 public abstract class PageInflatable<P extends Paginable> extends LiveData<P> implements Observer<P> {
     protected final PaginableAdapterListener listener;
     protected final View itemview;
+
     protected int position;
     protected P page;
 

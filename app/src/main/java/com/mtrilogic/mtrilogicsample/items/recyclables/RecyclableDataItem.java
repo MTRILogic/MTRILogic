@@ -19,7 +19,7 @@ import com.mtrilogic.mtrilogicsample.databinding.ItemDataBinding;
 import com.mtrilogic.mtrilogicsample.models.DataModel;
 
 @SuppressWarnings({"unused","FieldCanBeLocal"})
-public class RecyclableDataItem extends BindingRecyclable<DataModel, ItemDataBinding> {
+public class RecyclableDataItem extends BindingRecyclable<DataModel, RecyclableAdapterListener, ItemDataBinding> {
     private TextView lblTitle, lblContent;
     private CheckBox chkItem;
 

@@ -16,10 +16,9 @@ import java.util.ArrayList;
 
 @SuppressWarnings({"unused"})
 public class RecyclableAdapter extends RecyclerView.Adapter<Recyclable>{
-
-    private LayoutInflater inflater;
-    private RecyclableListener listener;
     private ArrayList<Modelable> modelableList;
+    private RecyclableListener listener;
+    private LayoutInflater inflater;
 
     // ================< PUBLIC CONSTRUCTORS >======================================================
 

@@ -13,7 +13,7 @@ import com.mtrilogic.interfaces.ExpandableAdapterListener;
 import com.mtrilogic.models.SimpleModel1;
 
 @SuppressWarnings("unused")
-public class SimpleExpandableGroupItem extends ExpandableGroup<SimpleModel1> {
+public class SimpleExpandableGroupItem extends ExpandableGroup<SimpleModel1, ExpandableAdapterListener> {
     private TextView lblText1;
 
     public SimpleExpandableGroupItem(@NonNull View itemView, @NonNull ExpandableAdapterListener listener) {

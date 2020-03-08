@@ -14,16 +14,17 @@ import java.util.ArrayList;
 
 @SuppressWarnings({"unused"})
 public class FragmentableAdapter extends FragmentPagerAdapter{
-    private FragmentableListener listener;
     private ArrayList<Paginable> paginableList;
+    private FragmentableListener listener;
 
     // ================< PUBLIC CONSTRUCTORS >======================================================
 
-    public FragmentableAdapter(@NonNull FragmentManager manager, @NonNull FragmentableListener listener,
-                               @NonNull ArrayList<Paginable> paginableList){
+    public FragmentableAdapter(@NonNull FragmentManager manager,
+                               @NonNull ArrayList<Paginable> paginableList,
+                               @NonNull FragmentableListener listener){
         super(manager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        this.listener = listener;
         this.paginableList = paginableList;
+        this.listener = listener;
     }
 
     // ================< PUBLIC METHODS >===========================================================
@@ -91,8 +92,7 @@ public class FragmentableAdapter extends FragmentPagerAdapter{
     @NonNull
     @Override
     public Fragmentable getItem(int position){
-        Paginable paginable = getPaginableItem(position);
-        return listener.getFragmentable(paginable, position);
+        return listener.getFragmentable(getPaginableItem(position));
     }
 
     @Override

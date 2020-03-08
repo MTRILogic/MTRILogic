@@ -21,9 +21,8 @@ import com.mtrilogic.mtrilogicsample.models.ImageModel;
 import com.mtrilogic.views.SquareImageView;
 
 @SuppressWarnings({"unused","FieldCanBeLocal"})
-public class ChildImageItemBinding extends BindingExpandableChild<ImageModel, ItemChildImageBinding> implements
-        RatingBar.OnRatingBarChangeListener{
-
+public class ChildImageItemBinding extends BindingExpandableChild<ImageModel, ExpandableAdapterListener, ItemChildImageBinding>
+        implements RatingBar.OnRatingBarChangeListener{
     private TextView lblTitle, lblContent;
     private CheckBox chkItem;
     private SquareImageView ivwImage;

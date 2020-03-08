@@ -21,9 +21,8 @@ import com.mtrilogic.mtrilogicsample.models.ImageModel;
 import com.mtrilogic.views.SquareImageView;
 
 @SuppressWarnings({"unused"})
-public class InflatableImageItem extends BindingInflatable<ImageModel, ItemImageBinding> implements
+public class InflatableImageItem extends BindingInflatable<ImageModel, InflatableAdapterListener, ItemImageBinding> implements
         RatingBar.OnRatingBarChangeListener{
-
     private TextView lblTitle, lblContent;
     private CheckBox chkItem;
     private SquareImageView ivwImage;

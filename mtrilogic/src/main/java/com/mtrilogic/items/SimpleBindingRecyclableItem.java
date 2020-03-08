@@ -11,7 +11,8 @@ import com.mtrilogic.models.SimpleModel;
 import com.mtrilogic.mtrilogic.databinding.ItemSimpleBinding;
 
 @SuppressWarnings("unused")
-public class SimpleBindingRecyclableItem extends BindingRecyclable<SimpleModel, ItemSimpleBinding> {
+public class SimpleBindingRecyclableItem extends BindingRecyclable<SimpleModel,
+        RecyclableAdapterListener, ItemSimpleBinding> {
 
     public SimpleBindingRecyclableItem(@NonNull ItemSimpleBinding binding, @NonNull RecyclableAdapterListener listener) {
         super(binding, listener);

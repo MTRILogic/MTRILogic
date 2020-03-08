@@ -15,6 +15,7 @@ import com.mtrilogic.abstracts.BindingExpandableChild;
 import com.mtrilogic.abstracts.BindingExpandableFragment;
 import com.mtrilogic.abstracts.BindingExpandableGroup;
 import com.mtrilogic.classes.Listable;
+import com.mtrilogic.interfaces.FragmentableAdapterListener;
 import com.mtrilogic.mtrilogicsample.databinding.FragmentExpandableBinding;
 import com.mtrilogic.mtrilogicsample.databinding.ItemChildDataBinding;
 import com.mtrilogic.mtrilogicsample.databinding.ItemChildImageBinding;
@@ -30,9 +31,16 @@ import com.mtrilogic.mtrilogicsample.types.ItemChildType;
 import com.mtrilogic.views.ExpandableView;
 
 @SuppressWarnings("unused")
-public class SampleExpandableFragment extends BindingExpandableFragment<SampleMapPaginable, FragmentExpandableBinding> {
-
+public class SampleExpandableFragment extends BindingExpandableFragment<
+        SampleMapPaginable, FragmentableAdapterListener, FragmentExpandableBinding> {
     private TextView lblContent;
+
+    // ================< PROTECTED OVERRIDE METHODS >===============================================
+
+    @Override
+    protected FragmentableAdapterListener getListenerFromContext(@NonNull Context context) {
+        return (FragmentableAdapterListener) context;
+    }
 
     // ================< PUBLIC OVERRIDE METHODS >==================================================
 
@@ -74,7 +82,8 @@ public class SampleExpandableFragment extends BindingExpandableFragment<SampleMa
     }
 
     @Override
-    public BindingExpandableGroup getExpandableGroup(int viewType, @NonNull LayoutInflater inflater, @NonNull ViewGroup parent){
+    public BindingExpandableGroup getExpandableGroup(int viewType, @NonNull LayoutInflater inflater,
+                                                     @NonNull ViewGroup parent){
         if (viewType == ItemGroupType.GROUP) {
             return new GroupDataItemBinding(ItemGroupBinding.inflate(inflater, parent, false), this);
         }
@@ -82,7 +91,8 @@ public class SampleExpandableFragment extends BindingExpandableFragment<SampleMa
     }
 
     @Override
-    public BindingExpandableChild getExpandableChild(int viewType, @NonNull LayoutInflater inflater, @NonNull ViewGroup parent){
+    public BindingExpandableChild getExpandableChild(int viewType, @NonNull LayoutInflater inflater,
+                                                     @NonNull ViewGroup parent){
         Context context = getContext();
         switch(viewType){
             case ItemChildType.DATA:

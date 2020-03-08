@@ -9,7 +9,6 @@ import com.mtrilogic.classes.Mapable;
 
 @SuppressWarnings({"unused","WeakerAccess"})
 public abstract class MapPaginable<M extends Modelable> extends Paginable {
-
     private Listable<M> groupListable;
     private Mapable<M> childMapable;
 

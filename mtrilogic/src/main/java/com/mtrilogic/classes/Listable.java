@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 
 @SuppressWarnings("unused")
 public class Listable<M extends Modelable>{
-
     private static final String LIST = "list", IDX = "idx";
     private ArrayList<M> modelableList;
     private long idx;

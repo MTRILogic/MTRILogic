@@ -20,8 +20,7 @@ import com.mtrilogic.mtrilogicsample.types.ItemChildType;
 import java.util.ArrayList;
 
 @SuppressWarnings({"unused","FieldCanBeLocal"})
-public class GroupDataItemBinding extends BindingExpandableGroup<DataModel, ItemGroupBinding> {
-
+public class GroupDataItemBinding extends BindingExpandableGroup<DataModel, ExpandableAdapterListener, ItemGroupBinding> {
     private TextView lblTitle, lblContent;
     private CheckBox chkItem;
 

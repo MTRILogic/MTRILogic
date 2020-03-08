@@ -11,7 +11,8 @@ import com.mtrilogic.models.SimpleModel;
 import com.mtrilogic.mtrilogic.databinding.ItemSimpleBinding;
 
 @SuppressWarnings("unused")
-public class SimpleBindingInflatableItem extends BindingInflatable<SimpleModel, ItemSimpleBinding> {
+public class SimpleBindingInflatableItem extends BindingInflatable<SimpleModel,
+        InflatableAdapterListener, ItemSimpleBinding> {
 
     public SimpleBindingInflatableItem(@NonNull ItemSimpleBinding binding, @NonNull InflatableAdapterListener listener) {
         super(binding, listener);

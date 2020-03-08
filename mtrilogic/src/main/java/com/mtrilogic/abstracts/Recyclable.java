@@ -12,10 +12,10 @@ import com.mtrilogic.adapters.RecyclableAdapter;
 import com.mtrilogic.interfaces.RecyclableAdapterListener;
 
 @SuppressWarnings({"unused"})
-public abstract class Recyclable<M extends Modelable> extends RecyclerView.ViewHolder
-        implements Observer<M> {
+public abstract class Recyclable<M extends Modelable, L extends RecyclableAdapterListener>
+        extends RecyclerView.ViewHolder implements Observer<M> {
+    protected final L listener;
 
-    protected final RecyclableAdapterListener listener;
     protected int position;
     protected M model;
 
@@ -26,13 +26,13 @@ public abstract class Recyclable<M extends Modelable> extends RecyclerView.ViewH
 
     // ================< PUBLIC CONSTRUCTORS >======================================================
 
-    public Recyclable(@NonNull View itemView, @NonNull RecyclableAdapterListener listener){
+    public Recyclable(@NonNull View itemView, @NonNull L listener){
         super(itemView);
         this.listener = listener;
     }
 
     public Recyclable(@NonNull LayoutInflater inflater, int resource, @NonNull ViewGroup parent,
-                      @NonNull RecyclableAdapterListener listener){
+                      @NonNull L listener){
         super(inflater.inflate(resource, parent, false));
         this.listener = listener;
     }

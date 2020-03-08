@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 
 @SuppressWarnings({"unused", "WeakerAccess"})
 public class Mapable<M extends Modelable>{
-
     private Map<M, Listable<M>> listableMap;
 
     // ================< PUBLIC CONSTRUCTORS >======================================================

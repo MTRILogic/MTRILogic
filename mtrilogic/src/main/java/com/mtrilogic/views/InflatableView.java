@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import com.mtrilogic.classes.Base;
 
 public class InflatableView extends ListView {
-
     private static final String INDEX = "index", TOP = "top";
 
     // ================< PUBLIC CONSTRUCTORS >======================================================

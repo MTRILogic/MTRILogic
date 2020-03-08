@@ -9,7 +9,6 @@ import com.mtrilogic.mtrilogic.R;
 
 @SuppressWarnings("unused")
 public class ScaleTableRow extends TableRow {
-
     private int scale;
 
     // ================< PUBLIC CONSTRUCTORS >======================================================

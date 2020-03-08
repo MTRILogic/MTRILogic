@@ -9,7 +9,6 @@ import com.mtrilogic.mtrilogic.R;
 
 @SuppressWarnings("unused")
 public class SquareGridView extends GridView {
-
     private boolean portrait;
 
     // ================< PUBLIC CONSTRUCTORS >======================================================

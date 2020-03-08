@@ -9,7 +9,6 @@ import com.mtrilogic.mtrilogic.R;
 
 @SuppressWarnings("unused")
 public class SquareTableLayout extends TableLayout {
-
     private boolean portrait;
 
     // ================< PUBLIC CONSTRUCTORS >======================================================

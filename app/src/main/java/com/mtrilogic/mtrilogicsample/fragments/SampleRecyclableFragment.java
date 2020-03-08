@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.mtrilogic.abstracts.Modelable;
 import com.mtrilogic.abstracts.Recyclable;
 import com.mtrilogic.abstracts.BindingRecyclableFragment;
+import com.mtrilogic.interfaces.FragmentableAdapterListener;
 import com.mtrilogic.mtrilogicsample.R;
 import com.mtrilogic.mtrilogicsample.databinding.FragmentRecyclableBinding;
 import com.mtrilogic.mtrilogicsample.databinding.ItemDataBinding;
@@ -27,9 +28,16 @@ import com.mtrilogic.mtrilogicsample.pages.SampleListPaginable;
 import com.mtrilogic.mtrilogicsample.types.ItemChildType;
 
 @SuppressWarnings("unused")
-public class SampleRecyclableFragment extends BindingRecyclableFragment<SampleListPaginable, FragmentRecyclableBinding>{
-
+public class SampleRecyclableFragment extends BindingRecyclableFragment<SampleListPaginable,
+        FragmentableAdapterListener, FragmentRecyclableBinding>{
     private TextView lblContent;
+
+    // ================< PROTECTED OVERRIDE METHODS >===============================================
+
+    @Override
+    protected FragmentableAdapterListener getListenerFromContext(@NonNull Context context) {
+        return (FragmentableAdapterListener) context;
+    }
 
     // ================< PUBLIC OVERRIDE METHODS >==================================================
 

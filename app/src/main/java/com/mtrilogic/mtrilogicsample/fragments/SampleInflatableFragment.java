@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.mtrilogic.abstracts.Inflatable;
 import com.mtrilogic.abstracts.BindingInflatableFragment;
 import com.mtrilogic.abstracts.Modelable;
+import com.mtrilogic.interfaces.FragmentableAdapterListener;
 import com.mtrilogic.mtrilogicsample.R;
 import com.mtrilogic.mtrilogicsample.databinding.FragmentInflatableBinding;
 import com.mtrilogic.mtrilogicsample.databinding.ItemDataBinding;
@@ -26,9 +27,16 @@ import com.mtrilogic.mtrilogicsample.types.ItemChildType;
 import com.mtrilogic.views.InflatableView;
 
 @SuppressWarnings("unused")
-public class SampleInflatableFragment extends BindingInflatableFragment<SampleListPaginable, FragmentInflatableBinding> {
-
+public class SampleInflatableFragment extends BindingInflatableFragment<SampleListPaginable,
+        FragmentableAdapterListener, FragmentInflatableBinding> {
     private TextView lblContent;
+
+    // ================< PROTECTED OVERRIDE METHODS >===============================================
+
+    @Override
+    protected FragmentableAdapterListener getListenerFromContext(@NonNull Context context) {
+        return (FragmentableAdapterListener) context;
+    }
 
     // ================< PUBLIC OVERRIDE METHODS >==================================================
 

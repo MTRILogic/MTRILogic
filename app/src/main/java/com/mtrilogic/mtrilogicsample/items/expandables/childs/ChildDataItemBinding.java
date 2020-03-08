@@ -17,8 +17,7 @@ import com.mtrilogic.mtrilogicsample.databinding.ItemChildDataBinding;
 import com.mtrilogic.mtrilogicsample.models.DataModel;
 
 @SuppressWarnings({"unused","FieldCanBeLocal"})
-public class ChildDataItemBinding extends BindingExpandableChild<DataModel, ItemChildDataBinding> {
-
+public class ChildDataItemBinding extends BindingExpandableChild<DataModel, ExpandableAdapterListener, ItemChildDataBinding> {
     private TextView lblTitle, lblContent;
     private CheckBox chkItem;
 

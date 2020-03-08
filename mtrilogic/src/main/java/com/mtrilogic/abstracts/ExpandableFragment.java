@@ -12,11 +12,12 @@ import com.mtrilogic.classes.Listable;
 import com.mtrilogic.classes.Mapable;
 import com.mtrilogic.interfaces.ExpandableAdapterListener;
 import com.mtrilogic.interfaces.ExpandableListener;
+import com.mtrilogic.interfaces.FragmentableAdapterListener;
 import com.mtrilogic.views.ExpandableView;
 
 @SuppressWarnings({"unused"})
-public abstract class ExpandableFragment<P extends MapPaginable<Modelable>>
-        extends Fragmentable<P> implements ExpandableListener, ExpandableAdapterListener {
+public abstract class ExpandableFragment<P extends MapPaginable<Modelable>, L extends FragmentableAdapterListener>
+        extends Fragmentable<P, L> implements ExpandableListener, ExpandableAdapterListener {
     protected ExpandableAdapter adapter;
     protected ExpandableView lvwItems;
 

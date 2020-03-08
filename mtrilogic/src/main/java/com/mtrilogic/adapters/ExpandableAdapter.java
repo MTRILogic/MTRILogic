@@ -20,7 +20,6 @@ import androidx.annotation.NonNull;
 
 @SuppressWarnings({"unused","WeakerAccess","UnusedReturnValue"})
 public class ExpandableAdapter extends BaseExpandableListAdapter{
-
     private LayoutInflater inflater;
     private ExpandableListener listener;
     private ArrayList<Listable<Modelable>> lastListableList;
@@ -35,7 +34,6 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
                              @NonNull Listable<Modelable> groupListable,
                              @NonNull Mapable<Modelable> childMapable, int groupTypeCount,
                              int childTypeCount){
-
         inflater = LayoutInflater.from(context);
         this.listener = listener;
         this.groupListable = groupListable;

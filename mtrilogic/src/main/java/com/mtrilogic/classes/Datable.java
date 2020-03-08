@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 @Deprecated
 @SuppressWarnings({"unused", "deprecation"})
 public class Datable implements Parcelable {
-
     public static final Creator<Datable> CREATOR = new ClassLoaderCreator<Datable>() {
         @Override
         public Datable createFromParcel(Parcel source, ClassLoader loader) {

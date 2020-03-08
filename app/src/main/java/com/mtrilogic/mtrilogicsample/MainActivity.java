@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.mtrilogic.abstracts.Fragmentable;
 import com.mtrilogic.abstracts.Paginable;
 import com.mtrilogic.adapters.FragmentableAdapter;
+import com.mtrilogic.adapters.FragmentableStateAdapter;
 import com.mtrilogic.classes.Base;
 import com.mtrilogic.classes.Listable;
 import com.mtrilogic.classes.StateViewModel;
@@ -33,6 +34,8 @@ import com.mtrilogic.mtrilogicsample.fragments.SampleRecyclableFragment;
 import com.mtrilogic.mtrilogicsample.pages.SampleMapPaginable;
 import com.mtrilogic.mtrilogicsample.pages.SampleListPaginable;
 import com.mtrilogic.mtrilogicsample.types.FragmentableType;
+
+import java.util.ArrayList;
 
 @SuppressWarnings("unused")
 public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener,
@@ -103,8 +106,8 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             paginableState.setUpdate();
         }
 
-        adapter = new FragmentableAdapter(getSupportFragmentManager(),this,
-                paginableState.getListable().getModelableList());
+        ArrayList<Paginable> paginableList = paginableState.getListable().getModelableList();
+        adapter = new FragmentableAdapter(getSupportFragmentManager(), paginableList, this);
         pager = binding.pager;
         pager.setAdapter(adapter);
         pager.addOnPageChangeListener(this);
@@ -165,7 +168,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     public void onPageScrollStateChanged(int i){}
 
     @Override
-    public Fragmentable getFragmentable(@NonNull Paginable paginable, int position){
+    public Fragmentable getFragmentable(@NonNull Paginable paginable){
         switch(paginable.getViewType()){
             case FragmentableType.INFLATABLE:
                 return Fragmentable.getInstance(paginable, new SampleInflatableFragment());
@@ -192,6 +195,11 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     @Override
     public FragmentableAdapter getFragmentableAdapter(){
         return adapter;
+    }
+
+    @Override
+    public FragmentableStateAdapter getFragmentableStateAdapter() {
+        return null;
     }
 
     @Override
