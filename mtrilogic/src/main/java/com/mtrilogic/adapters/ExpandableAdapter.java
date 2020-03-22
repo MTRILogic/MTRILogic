@@ -8,13 +8,14 @@ import android.widget.BaseExpandableListAdapter;
 
 import com.mtrilogic.abstracts.ExpandableChild;
 import com.mtrilogic.abstracts.ExpandableGroup;
+import com.mtrilogic.abstracts.MapPaginable;
 import com.mtrilogic.abstracts.Modelable;
 import com.mtrilogic.classes.Listable;
 import com.mtrilogic.classes.Mapable;
 import com.mtrilogic.interfaces.ExpandableListener;
 
 import java.util.ArrayList;
-import java.util.Map;
+import java.util.Set;
 
 import androidx.annotation.NonNull;
 
@@ -22,22 +23,24 @@ import androidx.annotation.NonNull;
 public class ExpandableAdapter extends BaseExpandableListAdapter{
     private LayoutInflater inflater;
     private ExpandableListener listener;
+    private MapPaginable<Modelable> paginable;
+
     private ArrayList<Listable<Modelable>> lastListableList;
-    private Listable<Modelable> groupListable, lastListable;
-    private Mapable<Modelable> childMapable;
+    private Listable<Modelable> lastListable;
+    //private Listable<Modelable> groupListable, lastListable;
+    //private Mapable<Modelable> childMapable;
+
     private int groupTypeCount, childTypeCount;
     private boolean stableIds;
 
     // ================< PUBLIC CONSTRUCTORS >======================================================
 
     public ExpandableAdapter(@NonNull Context context, @NonNull ExpandableListener listener,
-                             @NonNull Listable<Modelable> groupListable,
-                             @NonNull Mapable<Modelable> childMapable, int groupTypeCount,
+                             @NonNull MapPaginable<Modelable> paginable, int groupTypeCount,
                              int childTypeCount){
         inflater = LayoutInflater.from(context);
         this.listener = listener;
-        this.groupListable = groupListable;
-        this.childMapable = childMapable;
+        this.paginable = paginable;
         setGroupTypeCount(groupTypeCount);
         setChildTypeCount(childTypeCount);
         lastListableList = new ArrayList<>();
@@ -67,7 +70,14 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
     // ARRAY ==================================================================
 
     public final Modelable[] getGroupModelableArray(){
-        return groupListable.getModelableList().toArray(new Modelable[groupListable.getModelableCount()]);
+        Listable<Modelable> groupListable = paginable.getGroupListable();
+        if (groupListable != null){
+            ArrayList<Modelable> modelableList = groupListable.getModelableList();
+            if (modelableList != null){
+                return modelableList.toArray(new Modelable[groupListable.getModelableCount()]);
+            }
+        }
+        return null;
     }
 
     /**
@@ -76,28 +86,46 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
      * @return The child modelable array
      */
     public final Modelable[] getChildModelableArray(@NonNull Modelable groupModelable){
-        Listable<Modelable> childListable = childMapable.getListable(groupModelable);
-        return childListable.getModelableList().toArray(new Modelable[childListable.getModelableCount()]);
+        Mapable<Modelable> childMapable = paginable.getChildMapable();
+        if (childMapable != null){
+            Listable<Modelable> childListable = childMapable.getListable(groupModelable);
+            if (childListable != null){
+                ArrayList<Modelable> modelableList = childListable.getModelableList();
+                if (modelableList != null){
+                    return modelableList.toArray(new Modelable[childListable.getModelableCount()]);
+                }
+            }
+        }
+        return null;
     }
 
     // APPEND =================================================================
 
     /**
      * Append a group modelable's list to the group's listable
-     * NOTE: each modelable should have obtained its itemId
-     * from the listable's idx where it will be attached
      * @param groupModelableList A list of group's modelables
      * @return True if the groupModelableList changed
      */
     public final boolean appendGroupModelableList(@NonNull ArrayList<Modelable> groupModelableList){
-        int count = 0;
-        for(Modelable groupModelable : groupModelableList){
-            if(!groupListable.containsModelable(groupModelable) && groupListable.appendModelable(groupModelable)){
-                childMapable.putListable(groupModelable, new Listable<>());
-                count++;
+        Listable<Modelable> groupListable = paginable.getGroupListable();
+        if (groupListable != null){
+            Mapable<Modelable> childMapable = paginable.getChildMapable();
+            if (childMapable != null){
+                int count = 0;
+                long idx = groupListable.getIdx();
+                for(Modelable groupModelable : groupModelableList){
+                    if(!groupListable.containsModelable(groupModelable) && groupListable.appendModelable(groupModelable)){
+                        lastListable = childMapable.putListable(groupModelable, new Listable<>());
+                        groupModelable.setItemId(idx);
+                        count++;
+                        idx++;
+                    }
+                }
+                groupListable.setIdx(idx);
+                return count > 0;
             }
         }
-        return count > 0;
+        return false;
     }
 
     /**
@@ -109,24 +137,41 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
      * @return True if group modelable was added
      */
     public final boolean appendGroupModelable(@NonNull Modelable groupModelable, @NonNull Listable<Modelable> childListable){
-        if(!groupListable.containsModelable(groupModelable) && groupListable.appendModelable(groupModelable)){
-            lastListable = childMapable.putListable(groupModelable, childListable);
-            return true;
+        Listable<Modelable> groupListable = paginable.getGroupListable();
+        if (groupListable != null){
+            Mapable<Modelable> childMapable = paginable.getChildMapable();
+            if (childMapable != null){
+                if(!groupListable.containsModelable(groupModelable) && groupListable.appendModelable(groupModelable)){
+                    lastListable = childMapable.putListable(groupModelable, childListable);
+                    long idx = groupListable.getIdx();
+                    groupModelable.setItemId(idx);
+                    groupListable.setIdx(++idx);
+                    return true;
+                }
+            }
         }
         return false;
     }
 
     public final boolean appendChildModelableList(@NonNull Modelable groupModelable, @NonNull ArrayList<Modelable> childModelableList){
-        int count = 0;
-        if(childMapable.containsModelableKey(groupModelable)){
+        Mapable<Modelable> childMapable = paginable.getChildMapable();
+        if (childMapable != null){
             Listable<Modelable> childListable = childMapable.getListable(groupModelable);
-            for(Modelable childModelable : childModelableList){
-                if(!childListable.containsModelable(childModelable) && childListable.appendModelable(childModelable)){
-                    count++;
+            if (childListable != null){
+                int count = 0;
+                long idx = childListable.getIdx();
+                for(Modelable childModelable : childModelableList){
+                    if(!childListable.containsModelable(childModelable) && childListable.appendModelable(childModelable)){
+                        childModelable.setItemId(idx);
+                        count++;
+                        idx++;
+                    }
                 }
+                childListable.setIdx(idx);
+                return count > 0;
             }
         }
-        return count > 0;
+        return false;
     }
 
     /**
@@ -137,9 +182,19 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
      * @return True if the childModelable was appended to the list
      */
     public final boolean appendChildModelable(@NonNull Modelable groupModelable, @NonNull Modelable childModelable){
-        if(childMapable.containsModelableKey(groupModelable)){
-            Listable<Modelable> childListable = childMapable.getListable(groupModelable);
-            return !childListable.containsModelable(childModelable) && childListable.appendModelable(childModelable);
+        Mapable<Modelable> childMapable = paginable.getChildMapable();
+        if (childMapable != null){
+            if(childMapable.containsModelableKey(groupModelable)){
+                Listable<Modelable> childListable = childMapable.getListable(groupModelable);
+                if (childListable != null){
+                    if (!childListable.containsModelable(childModelable) && childListable.appendModelable(childModelable)){
+                        long idx = childListable.getIdx();
+                        childModelable.setItemId(idx);
+                        childListable.setIdx(++idx);
+                        return true;
+                    }
+                }
+            }
         }
         return false;
     }
@@ -147,41 +202,78 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
     // INSERT =================================================================
 
     public final boolean insertGroupModelableList(int groupPosition, @NonNull ArrayList<Modelable> groupModelableList){
-        int count = 0;
-        for(Modelable groupModelable : groupModelableList){
-            if(!groupListable.containsModelable(groupModelable) && groupListable.insertModelable(groupPosition, groupModelable)){
-                lastListable = childMapable.putListable(groupModelable, new Listable<>());
-                count++;
+        Listable<Modelable> groupListable = paginable.getGroupListable();
+        if (groupListable != null){
+            Mapable<Modelable> childMapable = paginable.getChildMapable();
+            if (childMapable != null){
+                int count = 0;
+                long idx = groupListable.getIdx();
+                for(Modelable groupModelable : groupModelableList){
+                    if(!groupListable.containsModelable(groupModelable) && groupListable.insertModelable(groupPosition, groupModelable)){
+                        lastListable = childMapable.putListable(groupModelable, new Listable<>());
+                        groupModelable.setItemId(idx);
+                        count++;
+                        idx++;
+                    }
+                }
+                groupListable.setIdx(idx);
+                return count > 0;
             }
         }
-        return count > 0;
+        return false;
     }
 
     public final boolean insertGroupModelable(int groupPosition, @NonNull Modelable groupModelable, @NonNull Listable<Modelable> childListable){
-        if(!groupListable.containsModelable(groupModelable) && groupListable.insertModelable(groupPosition, groupModelable)){
-            lastListable = childMapable.putListable(groupModelable, childListable);
-            return true;
+        Listable<Modelable> groupListable = paginable.getGroupListable();
+        if (groupListable != null){
+            Mapable<Modelable> childMapable = paginable.getChildMapable();
+            if (childMapable != null){
+                if(!groupListable.containsModelable(groupModelable) && groupListable.insertModelable(groupPosition, groupModelable)){
+                    lastListable = childMapable.putListable(groupModelable, childListable);
+                    long idx = groupListable.getIdx();
+                    groupModelable.setItemId(idx);
+                    groupListable.setIdx(++idx);
+                    return true;
+                }
+            }
         }
         return false;
     }
 
     public final boolean insertChildModelableList(@NonNull Modelable groupModelable, int childPosition, @NonNull ArrayList<Modelable> childModelableList){
-        int count = 0;
-        if(childMapable.containsModelableKey(groupModelable)){
+        Mapable<Modelable> childMapable = paginable.getChildMapable();
+        if (childMapable != null){
             Listable<Modelable> childListable = childMapable.getListable(groupModelable);
-            for(Modelable childModelable : childModelableList){
-                if(!childListable.containsModelable(childModelable) && childListable.insertModelable(childPosition, childModelable)){
-                    count++;
+            if (childListable != null){
+                int count = 0;
+                long idx = childListable.getIdx();
+                for(Modelable childModelable : childModelableList){
+                    if(!childListable.containsModelable(childModelable) && childListable.insertModelable(childPosition, childModelable)){
+                        childModelable.setItemId(idx);
+                        count++;
+                        idx++;
+                    }
                 }
+                childListable.setIdx(idx);
+                return count > 0;
             }
         }
-        return count > 0;
+        return false;
+
     }
 
     public final boolean insertChildModelable(@NonNull Modelable groupModelable, int childPosition, @NonNull Modelable childModelable){
-        if(childMapable.containsModelableKey(groupModelable)){
+        Mapable<Modelable> childMapable = paginable.getChildMapable();
+        if (childMapable != null){
             Listable<Modelable> childListable = childMapable.getListable(groupModelable);
-            return !childListable.containsModelable(childModelable) && childListable.insertModelable(childPosition, childModelable);
+            if (childListable != null){
+                if (!childListable.containsModelable(childModelable) && childListable.insertModelable(childPosition, childModelable)){
+                    long idx = childListable.getIdx();
+                    childModelable.setItemId(idx);
+                    childListable.setIdx(idx);
+                    return true;
+                }
+            }
         }
         return false;
     }
@@ -193,11 +285,15 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
      * @return The current group modelable list
      */
     public final Listable<Modelable> getGroupListable(){
-        return groupListable;
+        return paginable.getGroupListable();
     }
 
     public final Listable<Modelable> getChildListable(@NonNull Modelable groupModelable){
-        return childMapable.containsModelableKey(groupModelable) ? childMapable.getListable(groupModelable) : null;
+        Mapable<Modelable> childMapable = paginable.getChildMapable();
+        if (childMapable != null){
+            return childMapable.getListable(groupModelable);
+        }
+        return null;
     }
 
     /**
@@ -205,15 +301,26 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
      * @return The current child modelable map
      */
     public final Mapable<Modelable> getChildMapable(){
-        return childMapable;
+        return paginable.getChildMapable();
     }
 
     public final Modelable getGroupModelable(int groupPosition){
-        return groupListable.getModelable(groupPosition);
+        Listable<Modelable> groupListable = paginable.getGroupListable();
+        if (groupListable != null){
+            return groupListable.getModelable(groupPosition);
+        }
+        return null;
     }
 
     public final Modelable getChildModelable(@NonNull Modelable groupModelable, int childPosition){
-        return childMapable.containsModelableKey(groupModelable) ? childMapable.getListable(groupModelable).getModelable(childPosition) : null;
+        Mapable<Modelable> childMapable = paginable.getChildMapable();
+        if (childMapable != null){
+            Listable<Modelable> childListable = childMapable.getListable(groupModelable);
+            if (childListable != null){
+                return childListable.getModelable(childPosition);
+            }
+        }
+        return null;
     }
 
     // SET ====================================================================
@@ -224,23 +331,38 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
      * @param groupListable The new group modelable list
      */
     public final void setGroupListable(@NonNull Listable<Modelable> groupListable){
-        this.groupListable = groupListable;
-        childMapable.reset();
-        for(Modelable groupModelable : groupListable.getModelableList()){
-            lastListable = childMapable.putListable(groupModelable, new Listable<>());
+        paginable.setGroupListable(groupListable);
+        Mapable<Modelable> childMapable = paginable.getChildMapable();
+        if (childMapable != null){
+            childMapable.reset();
+            long idx = 0;
+            for(Modelable groupModelable : groupListable.getModelableList()){
+                lastListable = childMapable.putListable(groupModelable, new Listable<>());
+                groupModelable.setItemId(idx);
+                idx++;
+            }
+            groupListable.setIdx(idx);
         }
     }
 
     public final void setChildMapable(@NonNull Mapable<Modelable> childMapable){
-        this.childMapable = childMapable;
+        paginable.setChildMapable(childMapable);
         lastListableList.clear();
-        groupListable.reset();
-        for(Map.Entry<Modelable, Listable<Modelable>> childEntry : childMapable.getListableMap().entrySet()){
-            Modelable groupModelable = childEntry.getKey();
-            if(!groupListable.appendModelable(groupModelable)){
-                lastListable = childMapable.deleteListable(groupModelable);
-                lastListableList.add(lastListable);
+        Listable<Modelable> groupListable = paginable.getGroupListable();
+        if (groupListable != null){
+            groupListable.reset();
+            long idx = 0;
+            Set<Modelable> modelableSet = childMapable.getListableMap().keySet();
+            for (Modelable groupModelable : modelableSet){
+                if (groupListable.appendModelable(groupModelable)){
+                    groupModelable.setItemId(idx);
+                    idx++;
+                }else {
+                    lastListable = childMapable.deleteListable(groupModelable);
+                    lastListableList.add(lastListable);
+                }
             }
+            groupListable.setIdx(idx);
         }
     }
 
@@ -251,7 +373,14 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
      * @return The replaced group modelable or null
      */
     public final Modelable setGroupModelable(int groupPosition, @NonNull Modelable groupModelable){
-        return groupListable.setModelable(groupPosition, groupModelable);
+        Listable<Modelable> groupListable = paginable.getGroupListable();
+        if (groupListable != null){
+            long idx = groupListable.getIdx();
+            groupModelable.setItemId(idx);
+            groupListable.setIdx(++idx);
+            return groupListable.setModelable(groupPosition, groupModelable);
+        }
+        return null;
     }
 
     /**
@@ -262,22 +391,39 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
      * @return The Replaced child modelable or null
      */
     public final Modelable setChildModelable(@NonNull Modelable groupModelable, int childPosition, @NonNull Modelable childModelable){
-        return childMapable.containsModelableKey(groupModelable) ? childMapable.getListable(childModelable).setModelable(childPosition, childModelable) : null;
+        Mapable<Modelable> childMapable = paginable.getChildMapable();
+        if (childMapable != null){
+            Listable<Modelable> childListable = childMapable.getListable(groupModelable);
+            if (childListable != null){
+                long idx = childListable.getIdx();
+                childModelable.setItemId(idx);
+                childListable.setIdx(++idx);
+                return childListable.setModelable(childPosition, childModelable);
+            }
+        }
+        return null;
     }
 
     // DELETE =================================================================
 
     public final boolean deleteGroupModelableList(@NonNull ArrayList<Modelable> groupModelableList){
-        int count = groupModelableList.size();
-        lastListableList.clear();
-        for(Modelable groupModelable : groupModelableList){
-            if(groupListable.deleteModelable(groupModelable)){
-                lastListable = childMapable.deleteListable(groupModelable);
-                lastListableList.add(lastListable);
-                count--;
+        Listable<Modelable> groupListable = paginable.getGroupListable();
+        if (groupListable != null){
+            Mapable<Modelable> childMapable = paginable.getChildMapable();
+            if (childMapable != null){
+                int count = groupModelableList.size();
+                lastListableList.clear();
+                for(Modelable groupModelable : groupModelableList){
+                    if(groupListable.deleteModelable(groupModelable)){
+                        lastListable = childMapable.deleteListable(groupModelable);
+                        lastListableList.add(lastListable);
+                        count--;
+                    }
+                }
+                return count == 0;
             }
         }
-        return count == 0;
+        return false;
     }
 
     /**
@@ -286,25 +432,35 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
      * @return True if group modelable was removed
      */
     public final boolean deleteGroupModelable(@NonNull Modelable groupModelable){
-        if(groupListable.deleteModelable(groupModelable)){
-            lastListable = childMapable.deleteListable(groupModelable);
-            lastListableList.add(lastListable);
-            return true;
+        Listable<Modelable> groupListable = paginable.getGroupListable();
+        if (groupListable != null){
+            Mapable<Modelable> childMapable = paginable.getChildMapable();
+            if (childMapable != null){
+                if(groupListable.deleteModelable(groupModelable)){
+                    lastListable = childMapable.deleteListable(groupModelable);
+                    lastListableList.add(lastListable);
+                    return true;
+                }
+            }
         }
         return false;
     }
 
     public final boolean deleteChildModelableList(@NonNull Modelable groupModelable, @NonNull ArrayList<Modelable> childModelableList){
-        int count = childModelableList.size();
-        if(childMapable.containsModelableKey(groupModelable)){
-            Listable<Modelable> childListable = childMapable.getListable(groupModelable);
-            for(Modelable childModelable : childModelableList){
-                if(childListable.deleteModelable(childModelable)){
-                    count--;
+        Mapable<Modelable> childMapable = paginable.getChildMapable();
+        if (childMapable != null){
+            int count = childModelableList.size();
+            if(childMapable.containsModelableKey(groupModelable)){
+                Listable<Modelable> childListable = childMapable.getListable(groupModelable);
+                for(Modelable childModelable : childModelableList){
+                    if(childListable.deleteModelable(childModelable)){
+                        count--;
+                    }
                 }
             }
+            return count == 0;
         }
-        return count == 0;
+        return false;
     }
 
     /**
@@ -314,8 +470,12 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
      * @return True if the child modelable was removed
      */
     public final boolean deleteChildModelable(@NonNull Modelable groupModelable, @NonNull Modelable childModelable){
-        if(childMapable.containsModelableKey(groupModelable)){
-            return childMapable.getListable(groupModelable).deleteModelable(childModelable);
+        Mapable<Modelable> childMapable = paginable.getChildMapable();
+        if (childMapable != null){
+            Listable<Modelable> childListable = childMapable.getListable(groupModelable);
+            if (childListable != null){
+                return childListable.deleteModelable(childModelable);
+            }
         }
         return false;
     }
@@ -327,8 +487,14 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
      * Therefore, clean all the child modelable map
      */
     public final void resetGroupListable(){
-        groupListable.reset();
-        childMapable.reset();
+        Listable<Modelable> groupListable = paginable.getGroupListable();
+        if (groupListable != null){
+            Mapable<Modelable> childMapable = paginable.getChildMapable();
+            if (childMapable != null) {
+                groupListable.reset();
+                childMapable.reset();
+            }
+        }
     }
 
     /**
@@ -336,8 +502,12 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
      * @param groupModelable The groupModelable's itemId
      */
     public final void resetChildListable(@NonNull Modelable groupModelable){
-        if(childMapable.containsModelableKey(groupModelable)){
-            childMapable.getListable(groupModelable).reset();
+        Mapable<Modelable> childMapable = paginable.getChildMapable();
+        if (childMapable != null) {
+            Listable<Modelable> childListable = childMapable.getListable(groupModelable);
+            if (childListable != null){
+                childListable.reset();
+            }
         }
     }
 
@@ -345,34 +515,58 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
 
     @Override
     public int getGroupCount(){
-        return groupListable.getModelableCount();
+        Listable<Modelable> groupListable = paginable.getGroupListable();
+        if (groupListable != null){
+            return groupListable.getModelableCount();
+        }
+        return 0;
     }
 
     @Override
     public int getChildrenCount(int groupPosition){
-        return getChildListable(groupPosition).getModelableCount();
+        Listable<Modelable> childListable = getChildListable(groupPosition);
+        if (childListable != null){
+            return childListable.getModelableCount();
+        }
+        return 0;
     }
 
     @Override
     public Modelable getGroup(int groupPosition){
         // get modelable through modelableList's get method
-        return groupListable.getModelableList().get(groupPosition);
+        Listable<Modelable> groupListable = paginable.getGroupListable();
+        if (groupListable != null){
+            return groupListable.getModelable(groupPosition);
+        }
+        return null;
     }
 
     @Override
     public Modelable getChild(int groupPosition, int childPosition){
         // get modelable through modelableList's get method
-        return getChildListable(groupPosition).getModelableList().get(childPosition);
+        Listable<Modelable> childListable = getChildListable(groupPosition);
+        if (childListable != null){
+            return childListable.getModelable(childPosition);
+        }
+        return null;
     }
 
     @Override
     public long getGroupId(int groupPosition){
-        return getGroup(groupPosition).getItemId();
+        Modelable groupModelable = getGroup(groupPosition);
+        if (groupModelable != null){
+            return groupModelable.getItemId();
+        }
+        return 0;
     }
 
     @Override
     public long getChildId(int groupPosition, int childPosition){
-        return getChild(groupPosition, childPosition).getItemId();
+        Modelable childModelable = getChild(groupPosition, childPosition);
+        if (childModelable != null){
+            return childModelable.getItemId();
+        }
+        return 0;
     }
 
     @Override
@@ -383,48 +577,64 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
     @Override
     public View getGroupView(int groupPosition, boolean expanded, View view, ViewGroup parent){
         Modelable groupModelable = getGroup(groupPosition);
-        ExpandableGroup expandableGroup;
-        if(view != null){
-            expandableGroup = (ExpandableGroup)view.getTag();
-        }else {
-            int viewType = groupModelable.getViewType();
-            expandableGroup = listener.getExpandableGroup(viewType, inflater, parent);
-            view = expandableGroup.getItemView();
-            view.setTag(expandableGroup);
+        if (groupModelable != null){
+            ExpandableGroup expandableGroup;
+            if(view != null){
+                expandableGroup = (ExpandableGroup)view.getTag();
+            }else {
+                int viewType = groupModelable.getViewType();
+                expandableGroup = listener.getExpandableGroup(viewType, inflater, parent);
+                view = expandableGroup.getItemView();
+                view.setTag(expandableGroup);
+            }
+            expandableGroup.bindHolder(groupModelable, groupPosition, expanded);
         }
-        expandableGroup.bindHolder(groupModelable, groupPosition, expanded);
         return view;
     }
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean lastChild, View view, ViewGroup parent){
         Modelable childModelable = getChild(groupPosition, childPosition);
-        ExpandableChild expandableChild;
-        if(view != null){
-            expandableChild = (ExpandableChild)view.getTag();
-        }else {
-            int viewType = childModelable.getViewType();
-            expandableChild = listener.getExpandableChild(viewType, inflater, parent);
-            view = expandableChild.getItemView();
-            view.setTag(expandableChild);
+        if (childModelable != null){
+            ExpandableChild expandableChild;
+            if(view != null){
+                expandableChild = (ExpandableChild)view.getTag();
+            }else {
+                int viewType = childModelable.getViewType();
+                expandableChild = listener.getExpandableChild(viewType, inflater, parent);
+                view = expandableChild.getItemView();
+                view.setTag(expandableChild);
+            }
+            expandableChild.bindHolder(childModelable, groupPosition, childPosition, lastChild);
         }
-        expandableChild.bindHolder(childModelable, groupPosition, childPosition, lastChild);
         return view;
     }
 
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition){
-        return getChild(groupPosition, childPosition).isEnabled();
+        Modelable childModelable = getChild(groupPosition, childPosition);
+        if (childModelable != null){
+            return childModelable.isEnabled();
+        }
+        return false;
     }
 
     @Override
     public int getGroupType(int groupPosition){
-        return getGroup(groupPosition).getViewType();
+        Modelable groupModelable = getGroup(groupPosition);
+        if (groupModelable != null){
+            return groupModelable.getViewType();
+        }
+        return 0;
     }
 
     @Override
     public int getChildType(int groupPosition, int childPosition){
-        return getChild(groupPosition, childPosition).getViewType();
+        Modelable childModelable = getChild(groupPosition, childPosition);
+        if (childModelable != null){
+            return childModelable.getViewType();
+        }
+        return 0;
     }
 
     @Override
@@ -449,8 +659,11 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
 
     // ================< PRIVATE METHODS >==========================================================
 
-    @NonNull
     private Listable<Modelable> getChildListable(int groupPosition){
-        return childMapable.getListable(getGroup(groupPosition));
+        Mapable<Modelable> childMapable = paginable.getChildMapable();
+        if (childMapable != null){
+            return childMapable.getListable(getGroup(groupPosition));
+        }
+        return null;
     }
 }

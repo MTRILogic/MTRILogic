@@ -6,15 +6,15 @@ import androidx.annotation.NonNull;
 
 import com.mtrilogic.abstracts.BindingInflatable;
 import com.mtrilogic.abstracts.Modelable;
-import com.mtrilogic.interfaces.InflatableAdapterListener;
+import com.mtrilogic.interfaces.InflatableItemListener;
 import com.mtrilogic.models.SimpleModel;
 import com.mtrilogic.mtrilogic.databinding.ItemSimpleBinding;
 
 @SuppressWarnings("unused")
 public class SimpleBindingInflatableItem extends BindingInflatable<SimpleModel,
-        InflatableAdapterListener, ItemSimpleBinding> {
+        InflatableItemListener, ItemSimpleBinding> {
 
-    public SimpleBindingInflatableItem(@NonNull ItemSimpleBinding binding, @NonNull InflatableAdapterListener listener) {
+    public SimpleBindingInflatableItem(@NonNull ItemSimpleBinding binding, @NonNull InflatableItemListener listener) {
         super(binding, listener);
     }
 
@@ -24,7 +24,7 @@ public class SimpleBindingInflatableItem extends BindingInflatable<SimpleModel,
     }
 
     @Override
-    public void onBindHolder() {
+    public void onBindModel() {
         TextView lblText = binding.lblText;
         lblText.setBackgroundColor(model.getBackColor());
         lblText.setTextColor(model.getColor());

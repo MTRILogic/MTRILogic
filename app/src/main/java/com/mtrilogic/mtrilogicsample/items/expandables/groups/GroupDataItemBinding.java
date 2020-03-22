@@ -10,7 +10,9 @@ import androidx.annotation.NonNull;
 
 import com.mtrilogic.abstracts.BindingExpandableGroup;
 import com.mtrilogic.abstracts.Modelable;
-import com.mtrilogic.interfaces.ExpandableAdapterListener;
+import com.mtrilogic.adapters.ExpandableAdapter;
+import com.mtrilogic.classes.Listable;
+import com.mtrilogic.interfaces.ExpandableItemListener;
 import com.mtrilogic.mtrilogicsample.R;
 import com.mtrilogic.mtrilogicsample.databinding.ItemGroupBinding;
 import com.mtrilogic.mtrilogicsample.extras.Utils;
@@ -20,13 +22,13 @@ import com.mtrilogic.mtrilogicsample.types.ItemChildType;
 import java.util.ArrayList;
 
 @SuppressWarnings({"unused","FieldCanBeLocal"})
-public class GroupDataItemBinding extends BindingExpandableGroup<DataModel, ExpandableAdapterListener, ItemGroupBinding> {
+public class GroupDataItemBinding extends BindingExpandableGroup<DataModel, ExpandableItemListener, ItemGroupBinding> {
     private TextView lblTitle, lblContent;
     private CheckBox chkItem;
 
     // ================< PUBLIC CONSTRUCTORS >======================================================
 
-    public GroupDataItemBinding(@NonNull ItemGroupBinding binding, @NonNull ExpandableAdapterListener listener){
+    public GroupDataItemBinding(@NonNull ItemGroupBinding binding, @NonNull ExpandableItemListener listener){
         super(binding, listener);
         chkItem = binding.chkItem;
         chkItem.setOnClickListener(new View.OnClickListener() {
@@ -72,7 +74,7 @@ public class GroupDataItemBinding extends BindingExpandableGroup<DataModel, Expa
     }
 
     @Override
-    public void onBindHolder(){
+    public void onBindModel(){
         chkItem.setChecked(model.isChecked());
         Context context = itemView.getContext();
         lblTitle.setText(context.getString(R.string.title_item, model.getItemId()));
@@ -89,25 +91,32 @@ public class GroupDataItemBinding extends BindingExpandableGroup<DataModel, Expa
     // ================< PRIVATE METHODS >==========================================================
 
     private void updateChecked(){
-        if (childListable != null) {
-            boolean checked = chkItem.isChecked();
-            model.setChecked(checked);
-            ArrayList<Modelable> childModelableList = childListable.getModelableList();
-            for (Modelable childModelable : childModelableList) {
-                DataModel model = (DataModel) childModelable;
+        ExpandableAdapter adapter = listener.getExpandableAdapter();
+        if (adapter != null){
+            Listable<Modelable> childListable = adapter.getChildListable(model);
+            if (childListable != null) {
+                boolean checked = chkItem.isChecked();
                 model.setChecked(checked);
+                ArrayList<Modelable> childModelableList = childListable.getModelableList();
+                for (Modelable childModelable : childModelableList) {
+                    DataModel model = (DataModel) childModelable;
+                    model.setChecked(checked);
+                }
+                adapter.notifyDataSetChanged();
             }
-            listener.getExpandableAdapter().notifyDataSetChanged();
         }
     }
 
     private void addNewModelable(int viewType){
-        if (childListable != null){
-            long idx = childListable.getIdx();
-            Context context = itemView.getContext();
-            Modelable modelable = Utils.getNewModelable(context, viewType, idx, chkItem.isChecked());
-            if (modelable != null) {
-                addNewChildModelable(modelable, idx);
+        ExpandableAdapter adapter = listener.getExpandableAdapter();
+        if (adapter != null){
+            Listable<Modelable> childListable = adapter.getChildListable(model);
+            if (childListable != null){
+                Context context = itemView.getContext();
+                Modelable modelable = Utils.getNewModelable(context, viewType, 0, chkItem.isChecked());
+                if (modelable != null) {
+                    addNewChildModelable(modelable);
+                }
             }
         }
     }

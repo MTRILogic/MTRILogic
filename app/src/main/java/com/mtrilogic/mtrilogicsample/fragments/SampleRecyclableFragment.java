@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -16,7 +17,7 @@ import android.widget.TextView;
 import com.mtrilogic.abstracts.Modelable;
 import com.mtrilogic.abstracts.Recyclable;
 import com.mtrilogic.abstracts.BindingRecyclableFragment;
-import com.mtrilogic.interfaces.FragmentableAdapterListener;
+import com.mtrilogic.interfaces.FragmentListener;
 import com.mtrilogic.mtrilogicsample.R;
 import com.mtrilogic.mtrilogicsample.databinding.FragmentRecyclableBinding;
 import com.mtrilogic.mtrilogicsample.databinding.ItemDataBinding;
@@ -29,14 +30,14 @@ import com.mtrilogic.mtrilogicsample.types.ItemChildType;
 
 @SuppressWarnings("unused")
 public class SampleRecyclableFragment extends BindingRecyclableFragment<SampleListPaginable,
-        FragmentableAdapterListener, FragmentRecyclableBinding>{
+        FragmentListener, FragmentRecyclableBinding>{
     private TextView lblContent;
 
     // ================< PROTECTED OVERRIDE METHODS >===============================================
 
     @Override
-    protected FragmentableAdapterListener getListenerFromContext(@NonNull Context context) {
-        return (FragmentableAdapterListener) context;
+    protected FragmentListener getListenerFromContext(@NonNull Context context) {
+        return (FragmentListener) context;
     }
 
     // ================< PUBLIC OVERRIDE METHODS >==================================================
@@ -96,6 +97,11 @@ public class SampleRecyclableFragment extends BindingRecyclableFragment<SampleLi
                 return new RecyclableImageItem(ItemImageBinding.inflate(inflater, parent, false), this);
         }
         return null;
+    }
+
+    @Override
+    public boolean onItemTouch(@NonNull View view, @NonNull MotionEvent event, @NonNull Modelable modelable, int position) {
+        return false;
     }
 
     @Override

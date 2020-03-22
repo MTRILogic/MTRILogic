@@ -12,16 +12,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.mtrilogic.abstracts.Fragmentable;
-import com.mtrilogic.interfaces.FragmentableAdapterListener;
+import com.mtrilogic.interfaces.FragmentListener;
 import com.mtrilogic.mtrilogic.R;
 import com.mtrilogic.pages.SimplePage;
 
 @SuppressWarnings("unused")
-public class SimpleFragment extends Fragmentable<SimplePage, FragmentableAdapterListener> {
+public class SimpleFragment extends Fragmentable<SimplePage, FragmentListener> {
 
     @Override
-    protected FragmentableAdapterListener getListenerFromContext(@NonNull Context context) {
-        return (FragmentableAdapterListener) context;
+    protected FragmentListener getListenerFromContext(@NonNull Context context) {
+        return (FragmentListener) context;
     }
 
     @Nullable

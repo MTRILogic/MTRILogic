@@ -3,10 +3,10 @@ package com.mtrilogic.abstracts;
 import androidx.annotation.NonNull;
 import androidx.viewbinding.ViewBinding;
 
-import com.mtrilogic.interfaces.ExpandableAdapterListener;
+import com.mtrilogic.interfaces.ExpandableItemListener;
 
 @SuppressWarnings({"unused"})
-public abstract class BindingExpandableGroup<M extends Modelable, L extends ExpandableAdapterListener,
+public abstract class BindingExpandableGroup<M extends Modelable, L extends ExpandableItemListener,
         VB extends ViewBinding> extends ExpandableGroup<M, L> {
     protected VB binding;
 

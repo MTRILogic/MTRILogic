@@ -14,14 +14,14 @@ import com.bumptech.glide.request.RequestOptions;
 import com.mtrilogic.abstracts.Modelable;
 import com.mtrilogic.abstracts.BindingRecyclable;
 import com.mtrilogic.adapters.RecyclableAdapter;
-import com.mtrilogic.interfaces.RecyclableAdapterListener;
+import com.mtrilogic.interfaces.RecyclableItemListener;
 import com.mtrilogic.mtrilogicsample.R;
 import com.mtrilogic.mtrilogicsample.databinding.ItemImageBinding;
 import com.mtrilogic.mtrilogicsample.models.ImageModel;
 import com.mtrilogic.views.SquareImageView;
 
 @SuppressWarnings({"unused"})
-public class RecyclableImageItem extends BindingRecyclable<ImageModel, RecyclableAdapterListener, ItemImageBinding> implements
+public class RecyclableImageItem extends BindingRecyclable<ImageModel, RecyclableItemListener, ItemImageBinding> implements
         RatingBar.OnRatingBarChangeListener{
     private TextView lblTitle, lblContent;
     private SquareImageView ivwImage;
@@ -30,7 +30,7 @@ public class RecyclableImageItem extends BindingRecyclable<ImageModel, Recyclabl
 
     // ================< PUBLIC CONSTRUCTORS >======================================================
 
-    public RecyclableImageItem(@NonNull ItemImageBinding binding, @NonNull RecyclableAdapterListener listener){
+    public RecyclableImageItem(@NonNull ItemImageBinding binding, @NonNull RecyclableItemListener listener){
         super(binding, listener);
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,7 +73,7 @@ public class RecyclableImageItem extends BindingRecyclable<ImageModel, Recyclabl
     }
 
     @Override
-    protected void onBindHolder(){
+    protected void onBindModel(){
         chkItem.setChecked(model.isChecked());
         Context context = itemView.getContext();
         lblTitle.setText(context.getString(R.string.title_item, model.getItemId()));

@@ -104,14 +104,13 @@ public class FragmentableAdapter extends FragmentPagerAdapter{
     public int getItemPosition(@NonNull Object object) {
         Fragmentable fragmentable = (Fragmentable) object;
         Paginable paginable = fragmentable.getPaginable();
-        if (paginableList.contains(paginable)){
-            int position = paginableList.indexOf(paginable);
+        int position = paginableList.indexOf(paginable);
+        if (position != Base.INVALID_POSITION){
             fragmentable.onNewPosition(position);
-            listener.onPositionChanged(position);
             return position;
         }
         if (getCount() == 0){
-            listener.onPositionChanged(Base.INVALID_POSITION);
+            listener.onChangePosition(Base.INVALID_POSITION);
         }
         return POSITION_NONE;
     }

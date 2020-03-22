@@ -20,11 +20,10 @@ import android.widget.Toast;
 import com.mtrilogic.abstracts.Fragmentable;
 import com.mtrilogic.abstracts.Paginable;
 import com.mtrilogic.adapters.FragmentableAdapter;
-import com.mtrilogic.adapters.FragmentableStateAdapter;
 import com.mtrilogic.classes.Base;
 import com.mtrilogic.classes.Listable;
 import com.mtrilogic.classes.StateViewModel;
-import com.mtrilogic.interfaces.FragmentableAdapterListener;
+import com.mtrilogic.interfaces.FragmentListener;
 import com.mtrilogic.interfaces.FragmentableListener;
 import com.mtrilogic.interfaces.OnMakeToastListener;
 import com.mtrilogic.mtrilogicsample.databinding.ActivityMainBinding;
@@ -39,7 +38,7 @@ import java.util.ArrayList;
 
 @SuppressWarnings("unused")
 public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener,
-        FragmentableListener, FragmentableAdapterListener, OnMakeToastListener{
+        FragmentableListener, OnMakeToastListener, FragmentListener {
 
     private static final int[] PAGE_TITLES = {
             R.string.inflatable,
@@ -181,11 +180,9 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     }
 
     @Override
-    public void onPositionChanged(int position){
+    public void onChangePosition(int position) {
         if (position == Base.INVALID_POSITION){
-            if (adapter.getCount() == 0) {
-                actionBar.setTitle(R.string.app_name);
-            }
+            actionBar.setTitle(R.string.app_name);
         }else {
             pageSelected(position);
         }
@@ -193,13 +190,13 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     }
 
     @Override
-    public FragmentableAdapter getFragmentableAdapter(){
-        return adapter;
+    public ArrayList<Paginable> getPaginableList() {
+        return paginableState.getListable().getModelableList();
     }
 
     @Override
-    public FragmentableStateAdapter getFragmentableStateAdapter() {
-        return null;
+    public FragmentableAdapter getFragmentableAdapter(){
+        return adapter;
     }
 
     @Override

@@ -6,15 +6,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mtrilogic.adapters.RecyclableAdapter;
-import com.mtrilogic.interfaces.FragmentableAdapterListener;
-import com.mtrilogic.interfaces.RecyclableAdapterListener;
+import com.mtrilogic.interfaces.FragmentListener;
+import com.mtrilogic.interfaces.RecyclableItemListener;
 import com.mtrilogic.interfaces.RecyclableListener;
 
 import java.util.ArrayList;
 
 @SuppressWarnings({"unused"})
-public abstract class RecyclableFragment<P extends ListPaginable<Modelable>, L extends FragmentableAdapterListener>
-        extends Fragmentable<P, L> implements RecyclableListener, RecyclableAdapterListener {
+public abstract class RecyclableFragment<P extends ListPaginable<Modelable>, L extends FragmentListener>
+        extends Fragmentable<P, L> implements RecyclableListener, RecyclableItemListener {
     protected RecyclableAdapter adapter;
     protected RecyclerView lvwItems;
 
@@ -30,11 +30,6 @@ public abstract class RecyclableFragment<P extends ListPaginable<Modelable>, L e
     }
 
     // ================< PUBLIC OVERRIDE METHODS >==================================================
-
-    @Override
-    public void onNewPosition(int position) {
-
-    }
 
     @Override
     public RecyclerView getRecyclerView() {

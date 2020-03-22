@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -14,7 +15,7 @@ import android.widget.TextView;
 import com.mtrilogic.abstracts.Inflatable;
 import com.mtrilogic.abstracts.BindingInflatableFragment;
 import com.mtrilogic.abstracts.Modelable;
-import com.mtrilogic.interfaces.FragmentableAdapterListener;
+import com.mtrilogic.interfaces.FragmentListener;
 import com.mtrilogic.mtrilogicsample.R;
 import com.mtrilogic.mtrilogicsample.databinding.FragmentInflatableBinding;
 import com.mtrilogic.mtrilogicsample.databinding.ItemDataBinding;
@@ -28,14 +29,14 @@ import com.mtrilogic.views.InflatableView;
 
 @SuppressWarnings("unused")
 public class SampleInflatableFragment extends BindingInflatableFragment<SampleListPaginable,
-        FragmentableAdapterListener, FragmentInflatableBinding> {
+        FragmentListener, FragmentInflatableBinding> {
     private TextView lblContent;
 
     // ================< PROTECTED OVERRIDE METHODS >===============================================
 
     @Override
-    protected FragmentableAdapterListener getListenerFromContext(@NonNull Context context) {
-        return (FragmentableAdapterListener) context;
+    protected FragmentListener getListenerFromContext(@NonNull Context context) {
+        return (FragmentListener) context;
     }
 
     // ================< PUBLIC OVERRIDE METHODS >==================================================
@@ -94,6 +95,11 @@ public class SampleInflatableFragment extends BindingInflatableFragment<SampleLi
                 return new InflatableImageItem(ItemImageBinding.inflate(inflater, parent, false), this);
         }
         return null;
+    }
+
+    @Override
+    public boolean onItemTouch(@NonNull View view, @NonNull MotionEvent event, @NonNull Modelable modelable, int position) {
+        return false;
     }
 
     @Override

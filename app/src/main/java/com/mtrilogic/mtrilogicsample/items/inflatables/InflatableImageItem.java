@@ -14,14 +14,14 @@ import com.bumptech.glide.request.RequestOptions;
 import com.mtrilogic.abstracts.BindingInflatable;
 import com.mtrilogic.abstracts.Modelable;
 import com.mtrilogic.adapters.InflatableAdapter;
-import com.mtrilogic.interfaces.InflatableAdapterListener;
+import com.mtrilogic.interfaces.InflatableItemListener;
 import com.mtrilogic.mtrilogicsample.R;
 import com.mtrilogic.mtrilogicsample.databinding.ItemImageBinding;
 import com.mtrilogic.mtrilogicsample.models.ImageModel;
 import com.mtrilogic.views.SquareImageView;
 
 @SuppressWarnings({"unused"})
-public class InflatableImageItem extends BindingInflatable<ImageModel, InflatableAdapterListener, ItemImageBinding> implements
+public class InflatableImageItem extends BindingInflatable<ImageModel, InflatableItemListener, ItemImageBinding> implements
         RatingBar.OnRatingBarChangeListener{
     private TextView lblTitle, lblContent;
     private CheckBox chkItem;
@@ -30,7 +30,7 @@ public class InflatableImageItem extends BindingInflatable<ImageModel, Inflatabl
 
     // ================< PUBLIC CONSTRUCTORS >======================================================
 
-    public InflatableImageItem(@NonNull ItemImageBinding binding, @NonNull InflatableAdapterListener listener){
+    public InflatableImageItem(@NonNull ItemImageBinding binding, @NonNull InflatableItemListener listener){
         super(binding, listener);
         chkItem = binding.chkItem;
         chkItem.setOnClickListener(new View.OnClickListener() {
@@ -67,7 +67,7 @@ public class InflatableImageItem extends BindingInflatable<ImageModel, Inflatabl
     }
 
     @Override
-    protected void onBindHolder(){
+    protected void onBindModel(){
         chkItem.setChecked(model.isChecked());
         Context context = itemView.getContext();
         lblTitle.setText(context.getString(R.string.title_item, model.getItemId()));

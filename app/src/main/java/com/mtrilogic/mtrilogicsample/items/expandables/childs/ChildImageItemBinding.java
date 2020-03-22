@@ -14,14 +14,14 @@ import com.bumptech.glide.request.RequestOptions;
 import com.mtrilogic.abstracts.BindingExpandableChild;
 import com.mtrilogic.abstracts.Modelable;
 import com.mtrilogic.adapters.ExpandableAdapter;
-import com.mtrilogic.interfaces.ExpandableAdapterListener;
+import com.mtrilogic.interfaces.ExpandableItemListener;
 import com.mtrilogic.mtrilogicsample.R;
 import com.mtrilogic.mtrilogicsample.databinding.ItemChildImageBinding;
 import com.mtrilogic.mtrilogicsample.models.ImageModel;
 import com.mtrilogic.views.SquareImageView;
 
 @SuppressWarnings({"unused","FieldCanBeLocal"})
-public class ChildImageItemBinding extends BindingExpandableChild<ImageModel, ExpandableAdapterListener, ItemChildImageBinding>
+public class ChildImageItemBinding extends BindingExpandableChild<ImageModel, ExpandableItemListener, ItemChildImageBinding>
         implements RatingBar.OnRatingBarChangeListener{
     private TextView lblTitle, lblContent;
     private CheckBox chkItem;
@@ -30,7 +30,7 @@ public class ChildImageItemBinding extends BindingExpandableChild<ImageModel, Ex
 
     // ================< PUBLIC CONSTRUCTORS >======================================================
 
-    public ChildImageItemBinding(@NonNull ItemChildImageBinding binding, @NonNull ExpandableAdapterListener listener){
+    public ChildImageItemBinding(@NonNull ItemChildImageBinding binding, @NonNull ExpandableItemListener listener){
         super(binding, listener);
         chkItem = binding.chkItem;
         chkItem.setOnClickListener(new View.OnClickListener() {
@@ -67,7 +67,7 @@ public class ChildImageItemBinding extends BindingExpandableChild<ImageModel, Ex
     }
 
     @Override
-    protected void onBindHolder(){
+    protected void onBindModel(){
         chkItem.setChecked(model.isChecked());
         Context context = itemView.getContext();
         lblTitle.setText(context.getString(R.string.title_item, model.getItemId()));

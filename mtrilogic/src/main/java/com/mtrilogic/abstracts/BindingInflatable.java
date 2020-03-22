@@ -3,10 +3,10 @@ package com.mtrilogic.abstracts;
 import androidx.annotation.NonNull;
 import androidx.viewbinding.ViewBinding;
 
-import com.mtrilogic.interfaces.InflatableAdapterListener;
+import com.mtrilogic.interfaces.InflatableItemListener;
 
 @SuppressWarnings("unused")
-public abstract class BindingInflatable<M extends Modelable, L extends InflatableAdapterListener,
+public abstract class BindingInflatable<M extends Modelable, L extends InflatableItemListener,
         VB extends ViewBinding> extends Inflatable<M, L> {
     protected VB binding;
 

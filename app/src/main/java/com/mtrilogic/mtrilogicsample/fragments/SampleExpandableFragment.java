@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -16,7 +17,7 @@ import com.mtrilogic.abstracts.BindingExpandableFragment;
 import com.mtrilogic.abstracts.BindingExpandableGroup;
 import com.mtrilogic.abstracts.Modelable;
 import com.mtrilogic.classes.Listable;
-import com.mtrilogic.interfaces.FragmentableAdapterListener;
+import com.mtrilogic.interfaces.FragmentListener;
 import com.mtrilogic.mtrilogicsample.databinding.FragmentExpandableBinding;
 import com.mtrilogic.mtrilogicsample.databinding.ItemChildDataBinding;
 import com.mtrilogic.mtrilogicsample.databinding.ItemChildImageBinding;
@@ -33,14 +34,14 @@ import com.mtrilogic.views.ExpandableView;
 
 @SuppressWarnings("unused")
 public class SampleExpandableFragment extends BindingExpandableFragment<
-        SampleMapPaginable, FragmentableAdapterListener, FragmentExpandableBinding> {
+        SampleMapPaginable, FragmentListener, FragmentExpandableBinding> {
     private TextView lblContent;
 
     // ================< PROTECTED OVERRIDE METHODS >===============================================
 
     @Override
-    protected FragmentableAdapterListener getListenerFromContext(@NonNull Context context) {
-        return (FragmentableAdapterListener) context;
+    protected FragmentListener getListenerFromContext(@NonNull Context context) {
+        return (FragmentListener) context;
     }
 
     // ================< PUBLIC OVERRIDE METHODS >==================================================
@@ -102,6 +103,11 @@ public class SampleExpandableFragment extends BindingExpandableFragment<
                 return new ChildImageItemBinding(ItemChildImageBinding.inflate(inflater, parent, false), this);
         }
         return null;
+    }
+
+    @Override
+    public boolean onItemTouch(@NonNull View view, @NonNull MotionEvent event, @NonNull Modelable modelable, int position) {
+        return false;
     }
 
     @Override

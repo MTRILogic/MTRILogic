@@ -4,7 +4,7 @@ import com.mtrilogic.adapters.InflatableAdapter;
 import com.mtrilogic.views.InflatableView;
 
 @SuppressWarnings("unused")
-public interface InflatableAdapterListener extends ItemActionListener {
+public interface InflatableItemListener extends ItemListener {
 
     // ================< PUBLIC ABSTRACT METHODS >==================================================
 

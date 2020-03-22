@@ -17,6 +17,7 @@ import androidx.viewpager.widget.PagerAdapter;
 
 import com.mtrilogic.abstracts.Fragmentable;
 import com.mtrilogic.abstracts.Paginable;
+import com.mtrilogic.classes.Base;
 import com.mtrilogic.interfaces.FragmentableListener;
 
 import java.util.ArrayList;
@@ -299,14 +300,12 @@ public abstract class FragmentableStateAdapter extends PagerAdapter {
     public int getItemPosition(@NonNull Object object) {
         Fragmentable fragmentable = (Fragmentable) object;
         Paginable paginable = fragmentable.getPaginable();
-        if (paginableList.contains(paginable)){
-            int position = paginableList.indexOf(paginable);
-            fragmentable.onNewPosition(position);
-            listener.onPositionChanged(position);
+        int position = paginableList.indexOf(paginable);
+        if (position != Base.INVALID_POSITION){
             return position;
         }
         if (getCount() == 0){
-            listener.onPositionChanged(View.NO_ID);
+            listener.onChangePosition(position);
         }
         return POSITION_NONE;
     }

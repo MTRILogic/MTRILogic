@@ -13,19 +13,19 @@ import com.mtrilogic.abstracts.Modelable;
 import com.mtrilogic.abstracts.BindingRecyclable;
 
 import com.mtrilogic.adapters.RecyclableAdapter;
-import com.mtrilogic.interfaces.RecyclableAdapterListener;
+import com.mtrilogic.interfaces.RecyclableItemListener;
 import com.mtrilogic.mtrilogicsample.R;
 import com.mtrilogic.mtrilogicsample.databinding.ItemDataBinding;
 import com.mtrilogic.mtrilogicsample.models.DataModel;
 
 @SuppressWarnings({"unused","FieldCanBeLocal"})
-public class RecyclableDataItem extends BindingRecyclable<DataModel, RecyclableAdapterListener, ItemDataBinding> {
+public class RecyclableDataItem extends BindingRecyclable<DataModel, RecyclableItemListener, ItemDataBinding> {
     private TextView lblTitle, lblContent;
     private CheckBox chkItem;
 
     // ================< PUBLIC CONSTRUCTORS >======================================================
 
-    public RecyclableDataItem(@NonNull ItemDataBinding binding, @NonNull RecyclableAdapterListener listener){
+    public RecyclableDataItem(@NonNull ItemDataBinding binding, @NonNull RecyclableItemListener listener){
         super(binding, listener);
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,7 +59,7 @@ public class RecyclableDataItem extends BindingRecyclable<DataModel, RecyclableA
     }
 
     @Override
-    protected void onBindHolder(){
+    protected void onBindModel(){
         chkItem.setChecked(model.isChecked());
         Context context = itemView.getContext();
         lblTitle.setText(context.getString(R.string.title_item, model.getItemId()));

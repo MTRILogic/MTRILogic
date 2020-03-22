@@ -9,20 +9,20 @@ import androidx.annotation.NonNull;
 
 import com.mtrilogic.abstracts.Modelable;
 import com.mtrilogic.abstracts.Recyclable;
-import com.mtrilogic.interfaces.RecyclableAdapterListener;
+import com.mtrilogic.interfaces.RecyclableItemListener;
 import com.mtrilogic.models.SimpleModel2;
 
 @SuppressWarnings("unused")
-public class SimpleRecyclable extends Recyclable<SimpleModel2, RecyclableAdapterListener> {
+public class SimpleRecyclable extends Recyclable<SimpleModel2, RecyclableItemListener> {
     private TextView lblText1, lblText2;
 
-    public SimpleRecyclable(@NonNull View itemView, @NonNull RecyclableAdapterListener listener) {
+    public SimpleRecyclable(@NonNull View itemView, @NonNull RecyclableItemListener listener) {
         super(itemView, listener);
         lblText1 = itemView.findViewById(android.R.id.text1);
         lblText2 = itemView.findViewById(android.R.id.text2);
     }
 
-    public SimpleRecyclable(@NonNull LayoutInflater inflater, int resource, @NonNull ViewGroup parent, @NonNull RecyclableAdapterListener listener) {
+    public SimpleRecyclable(@NonNull LayoutInflater inflater, int resource, @NonNull ViewGroup parent, @NonNull RecyclableItemListener listener) {
         super(inflater, resource, parent, listener);
         lblText1 = itemView.findViewById(android.R.id.text1);
         lblText2 = itemView.findViewById(android.R.id.text2);
@@ -34,7 +34,7 @@ public class SimpleRecyclable extends Recyclable<SimpleModel2, RecyclableAdapter
     }
 
     @Override
-    protected void onBindHolder() {
+    protected void onBindModel() {
         lblText1.setText(model.getText1());
         if (lblText2 != null){
             lblText2.setText(model.getText2());

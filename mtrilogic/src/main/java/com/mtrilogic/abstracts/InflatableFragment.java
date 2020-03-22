@@ -8,16 +8,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.mtrilogic.adapters.InflatableAdapter;
-import com.mtrilogic.interfaces.FragmentableAdapterListener;
-import com.mtrilogic.interfaces.InflatableAdapterListener;
+import com.mtrilogic.interfaces.FragmentListener;
+import com.mtrilogic.interfaces.InflatableItemListener;
 import com.mtrilogic.interfaces.InflatableListener;
 import com.mtrilogic.views.InflatableView;
 
 import java.util.ArrayList;
 
 @SuppressWarnings({"unused"})
-public abstract class InflatableFragment<P extends ListPaginable<Modelable>, L extends FragmentableAdapterListener>
-        extends Fragmentable<P, L> implements InflatableListener, InflatableAdapterListener {
+public abstract class InflatableFragment<P extends ListPaginable<Modelable>, L extends FragmentListener>
+        extends Fragmentable<P, L> implements InflatableListener, InflatableItemListener {
     protected InflatableAdapter adapter;
     protected InflatableView lvwItems;
 
@@ -35,6 +35,7 @@ public abstract class InflatableFragment<P extends ListPaginable<Modelable>, L e
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Bundle args = getArguments();
         if (args != null && lvwItems != null){
             lvwItems.restoreFromState(args);
         }
@@ -42,15 +43,11 @@ public abstract class InflatableFragment<P extends ListPaginable<Modelable>, L e
 
     @Override
     public void onPause() {
+        Bundle args = getArguments();
         if (args != null && lvwItems != null) {
             lvwItems.saveToState(args);
         }
         super.onPause();
-    }
-
-    @Override
-    public void onNewPosition(int position) {
-
     }
 
     @Override

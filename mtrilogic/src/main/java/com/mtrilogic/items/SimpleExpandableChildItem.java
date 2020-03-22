@@ -9,21 +9,21 @@ import androidx.annotation.NonNull;
 
 import com.mtrilogic.abstracts.ExpandableChild;
 import com.mtrilogic.abstracts.Modelable;
-import com.mtrilogic.interfaces.ExpandableAdapterListener;
+import com.mtrilogic.interfaces.ExpandableItemListener;
 import com.mtrilogic.models.SimpleModel2;
 
 @SuppressWarnings("unused")
-public class SimpleExpandableChildItem extends ExpandableChild<SimpleModel2, ExpandableAdapterListener> {
+public class SimpleExpandableChildItem extends ExpandableChild<SimpleModel2, ExpandableItemListener> {
     private TextView lblText1, lblText2;
 
-    public SimpleExpandableChildItem(@NonNull View itemView, @NonNull ExpandableAdapterListener listener) {
+    public SimpleExpandableChildItem(@NonNull View itemView, @NonNull ExpandableItemListener listener) {
         super(itemView, listener);
         lblText1 = itemView.findViewById(android.R.id.text1);
         lblText2 = itemView.findViewById(android.R.id.text2);
     }
 
     public SimpleExpandableChildItem(@NonNull LayoutInflater inflater, int resource,
-                                     @NonNull ViewGroup parent, @NonNull ExpandableAdapterListener listener) {
+                                     @NonNull ViewGroup parent, @NonNull ExpandableItemListener listener) {
         super(inflater, resource, parent, listener);
         lblText1 = itemView.findViewById(android.R.id.text1);
         lblText2 = itemView.findViewById(android.R.id.text2);
@@ -35,7 +35,7 @@ public class SimpleExpandableChildItem extends ExpandableChild<SimpleModel2, Exp
     }
 
     @Override
-    protected void onBindHolder() {
+    protected void onBindModel() {
         lblText1.setText(model.getText1());
         if (lblText2 != null){
             lblText2.setText(model.getText2());

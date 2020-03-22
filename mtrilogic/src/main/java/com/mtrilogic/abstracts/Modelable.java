@@ -34,15 +34,28 @@ public abstract class Modelable implements Parcelable {
 
     // ================< PUBLIC METHODS >===========================================================
 
-    public final long getItemId(){
+
+    public void setItemId(long itemId) {
+        this.itemId = itemId;
+    }
+
+    public long getItemId(){
         return itemId;
     }
 
-    public final int getViewType(){
+    public void setViewType(int viewType) {
+        this.viewType = viewType;
+    }
+
+    public int getViewType(){
         return viewType;
     }
 
-    public final boolean isEnabled(){
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public boolean isEnabled(){
         return enabled;
     }
 

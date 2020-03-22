@@ -9,10 +9,10 @@ import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mtrilogic.adapters.RecyclableAdapter;
-import com.mtrilogic.interfaces.RecyclableAdapterListener;
+import com.mtrilogic.interfaces.RecyclableItemListener;
 
-@SuppressWarnings({"unused"})
-public abstract class Recyclable<M extends Modelable, L extends RecyclableAdapterListener>
+@SuppressWarnings({"unused", "WeakerAccess"})
+public abstract class Recyclable<M extends Modelable, L extends RecyclableItemListener>
         extends RecyclerView.ViewHolder implements Observer<M> {
     protected final L listener;
 
@@ -22,7 +22,7 @@ public abstract class Recyclable<M extends Modelable, L extends RecyclableAdapte
     // ================< PROTECTED ABSTRACT METHODS >===============================================
 
     protected abstract M getModelFromModelable(@NonNull Modelable modelable);
-    protected abstract void onBindHolder();
+    protected abstract void onBindModel();
 
     // ================< PUBLIC CONSTRUCTORS >======================================================
 
@@ -35,6 +35,7 @@ public abstract class Recyclable<M extends Modelable, L extends RecyclableAdapte
                       @NonNull L listener){
         super(inflater.inflate(resource, parent, false));
         this.listener = listener;
+        onBindItemView();
     }
 
     // ================< PUBLIC METHODS >===========================================================
@@ -43,11 +44,15 @@ public abstract class Recyclable<M extends Modelable, L extends RecyclableAdapte
         model = getModelFromModelable(modelable);
         this.position = position;
         if (model != null) {
-            onBindHolder();
+            onBindModel();
         }
     }
 
     // ================< PROTECTED METHODS >========================================================
+
+    protected void onBindItemView(){
+
+    }
 
     protected final void autoDelete(){
         RecyclableAdapter adapter = listener.getRecyclableAdapter();

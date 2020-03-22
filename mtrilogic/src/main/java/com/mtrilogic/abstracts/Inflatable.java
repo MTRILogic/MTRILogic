@@ -9,10 +9,10 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 
 import com.mtrilogic.adapters.InflatableAdapter;
-import com.mtrilogic.interfaces.InflatableAdapterListener;
+import com.mtrilogic.interfaces.InflatableItemListener;
 
-@SuppressWarnings({"unused"})
-public abstract class Inflatable<M extends Modelable, L extends InflatableAdapterListener>
+@SuppressWarnings({"unused", "WeakerAccess"})
+public abstract class Inflatable<M extends Modelable, L extends InflatableItemListener>
         extends LiveData<M> implements Observer<M> {
     protected final View itemView;
     protected final L listener;
@@ -23,7 +23,7 @@ public abstract class Inflatable<M extends Modelable, L extends InflatableAdapte
     // ================< PROTECTED ABSTRACT METHODS >===============================================
 
     protected abstract M getModelFromModelable(@NonNull Modelable modelable);
-    protected abstract void onBindHolder();
+    protected abstract void onBindModel();
 
     // ================< PUBLIC CONSTRUCTORS >======================================================
 
@@ -36,6 +36,7 @@ public abstract class Inflatable<M extends Modelable, L extends InflatableAdapte
                       @NonNull L listener){
         itemView = inflater.inflate(resource, parent, false);
         this.listener = listener;
+        onBindItemView();
     }
 
     // ================< PUBLIC METHODS >===========================================================
@@ -48,11 +49,15 @@ public abstract class Inflatable<M extends Modelable, L extends InflatableAdapte
         model = getModelFromModelable(modelable);
         this.position = position;
         if (model != null) {
-            onBindHolder();
+            onBindModel();
         }
     }
 
     // ================< PROTECTED METHODS >========================================================
+
+    protected void onBindItemView(){
+
+    }
 
     protected final void autoDelete(){
         InflatableAdapter adapter = listener.getInflatableAdapter();

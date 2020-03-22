@@ -11,19 +11,19 @@ import androidx.annotation.NonNull;
 import com.mtrilogic.abstracts.BindingExpandableChild;
 import com.mtrilogic.abstracts.Modelable;
 import com.mtrilogic.adapters.ExpandableAdapter;
-import com.mtrilogic.interfaces.ExpandableAdapterListener;
+import com.mtrilogic.interfaces.ExpandableItemListener;
 import com.mtrilogic.mtrilogicsample.R;
 import com.mtrilogic.mtrilogicsample.databinding.ItemChildDataBinding;
 import com.mtrilogic.mtrilogicsample.models.DataModel;
 
 @SuppressWarnings({"unused","FieldCanBeLocal"})
-public class ChildDataItemBinding extends BindingExpandableChild<DataModel, ExpandableAdapterListener, ItemChildDataBinding> {
+public class ChildDataItemBinding extends BindingExpandableChild<DataModel, ExpandableItemListener, ItemChildDataBinding> {
     private TextView lblTitle, lblContent;
     private CheckBox chkItem;
 
     // ================< PUBLIC CONSTRUCTORS >======================================================
 
-    public ChildDataItemBinding(@NonNull ItemChildDataBinding binding, @NonNull ExpandableAdapterListener listener){
+    public ChildDataItemBinding(@NonNull ItemChildDataBinding binding, @NonNull ExpandableItemListener listener){
         super(binding, listener);
         chkItem = binding.chkItem;
         chkItem.setOnClickListener(new View.OnClickListener() {
@@ -51,7 +51,7 @@ public class ChildDataItemBinding extends BindingExpandableChild<DataModel, Expa
     }
 
     @Override
-    protected void onBindHolder(){
+    protected void onBindModel(){
         chkItem.setChecked(model.isChecked());
         Context context = itemView.getContext();
         lblTitle.setText(context.getString(R.string.title_item, model.getItemId()));
