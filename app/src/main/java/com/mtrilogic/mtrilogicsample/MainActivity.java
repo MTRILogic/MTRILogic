@@ -33,6 +33,8 @@ import com.mtrilogic.mtrilogicsample.pages.SampleListPage;
 import com.mtrilogic.mtrilogicsample.states.PageState;
 import com.mtrilogic.mtrilogicsample.types.FragmentableType;
 
+import java.util.ArrayList;
+
 @SuppressWarnings("unused")
 public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener,
         FragmentableListener, FragmentListener {
@@ -91,14 +93,15 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             idx = pageState.getListable().getIdx();
         }else {
             idx = 0;
+            ArrayList<Paginable> list = new ArrayList<>();
             for(int i = 0; i < 3; i++){
                 String pageTitle = getString(PAGE_TITLES[i]);
                 Paginable paginable = newPaginable(VIEW_TYPES[i], pageTitle, TAG_NAMES[i] + idx);
-                if(paginable != null && pageState.getListable().getList().add(paginable)){
-                    idx++;
+                if(paginable != null && list.add(paginable)){
+                    paginable.setItemId(idx++);
                 }
             }
-            pageState.getListable().setIdx(idx);
+            pageState.getListable().setList(list, idx);
             pageState.setUpdate();
         }
 

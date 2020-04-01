@@ -5,7 +5,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.mtrilogic.adapters.FragmentableAdapter;
 
 @SuppressWarnings("unused")
-public interface FragmentListener extends OnChangePositionListener {
+public interface FragmentListener extends OnMakeToastListener {
     FragmentableAdapter getFragmentableAdapter();
     ViewPager getViewPager();
 }

@@ -20,7 +20,6 @@ public abstract class Fragmentable<P extends Paginable, L extends FragmentListen
         extends Fragment implements OnMakeToastListener {
     protected static final String PAGINABLE = "paginable";
 
-    protected int position;
     protected L listener;
     protected P page;
 
@@ -53,9 +52,7 @@ public abstract class Fragmentable<P extends Paginable, L extends FragmentListen
         return page;
     }
 
-    public void onNewPosition(int position){
-        this.position = position;
-    }
+    public void onNewPosition(int position){}
 
     // ================< PROTECTED METHODS >========================================================
 
@@ -107,8 +104,15 @@ public abstract class Fragmentable<P extends Paginable, L extends FragmentListen
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (listener != null){
-            listener.onChangePosition(position);
+        if (listener != null && page != null){
+            FragmentableAdapter adapter = listener.getFragmentableAdapter();
+            if (adapter != null){
+                Listable<Paginable> listable = adapter.getListable();
+                if (listable != null){
+                    int position = listable.getList().indexOf(page);
+                    onNewPosition(position);
+                }
+            }
         }
     }
 
