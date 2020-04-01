@@ -37,9 +37,4 @@ public class SimpleFragment extends Fragmentable<SimplePage, FragmentListener> {
         }
         return view;
     }
-
-    @Override
-    public void onNewPosition(int position) {
-
-    }
 }

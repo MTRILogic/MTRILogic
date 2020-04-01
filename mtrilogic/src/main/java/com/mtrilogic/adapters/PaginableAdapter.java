@@ -11,31 +11,47 @@ import androidx.viewpager.widget.PagerAdapter;
 
 import com.mtrilogic.abstracts.PageInflatable;
 import com.mtrilogic.abstracts.Paginable;
+import com.mtrilogic.classes.Listable;
 import com.mtrilogic.interfaces.PageInflatableListener;
 
 import java.util.ArrayList;
 
+@SuppressWarnings("unused")
 public class PaginableAdapter extends PagerAdapter {
-    private ArrayList<Paginable> paginableList;
+    private Listable<Paginable> listable;
     private ArrayList<View> itemViewList;
     private PageInflatableListener listener;
     private LayoutInflater inflater;
 
-    public PaginableAdapter(@NonNull Context context, @NonNull ArrayList<Paginable> paginableList,
+    // ================< PUBLIC CONSTRUCTORS >======================================================
+
+    public PaginableAdapter(@NonNull Context context, @NonNull Listable<Paginable> listable,
                             @NonNull PageInflatableListener listener){
         inflater = LayoutInflater.from(context);
-        this.paginableList = paginableList;
         itemViewList = new ArrayList<>();
+        this.listable = listable;
         this.listener = listener;
     }
 
-    public ArrayList<Paginable> getPaginableList() {
-        return paginableList;
+    // ================< PUBLIC METHODS >===========================================================
+
+    public Listable<Paginable> getListable() {
+        return listable;
     }
+
+    public boolean setListable(Listable<Paginable> listable) {
+        if (this.listable != listable) {
+            this.listable = listable;
+            return true;
+        }
+        return false;
+    }
+
+    // ================< PUBLIC OVERRIDE METHODS >==================================================
 
     @Override
     public int getCount() {
-        return paginableList.size();
+        return getPaginableList().size();
     }
 
     @Override
@@ -53,7 +69,7 @@ public class PaginableAdapter extends PagerAdapter {
                 return itemView;
             }
         }
-        Paginable paginable = getItem(position);
+        Paginable paginable = getPaginable(position);
         int viewType = paginable.getViewType();
         PageInflatable inflatable = listener.getPageInflatable(viewType, inflater, container);
         itemView = inflatable.getItemView();
@@ -62,7 +78,7 @@ public class PaginableAdapter extends PagerAdapter {
         }
         itemViewList.set(position, itemView);
         container.addView(itemView);
-        inflatable.bindHolder(paginable, position);
+        inflatable.bindModel(paginable, position);
         return itemView;
     }
 
@@ -71,23 +87,24 @@ public class PaginableAdapter extends PagerAdapter {
         itemViewList.set(position, null);
     }
 
-    @Override
-    public float getPageWidth(int position) {
-        return getItem(position).getPageWidth();
-    }
-
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        return getItem(position).getPageTitle();
+        return getPaginable(position).getPageTitle();
     }
 
     @Override
     public int getItemPosition(@NonNull Object object) {
-        return super.getItemPosition(object);// pending
+        return super.getItemPosition(object); // only default implementation (No Add/Remove items)
     }
 
-    private Paginable getItem(int position){
-        return paginableList.get(position);
+    // ================< PRIVATE METHODS >==========================================================
+
+    private Paginable getPaginable(int position){
+        return getPaginableList().get(position);
+    }
+
+    private ArrayList<Paginable> getPaginableList(){
+        return listable.getList();
     }
 }

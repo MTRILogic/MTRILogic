@@ -2,18 +2,18 @@ package com.mtrilogic.abstracts;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.mtrilogic.adapters.InflatableAdapter;
+import com.mtrilogic.classes.Listable;
 import com.mtrilogic.interfaces.FragmentListener;
 import com.mtrilogic.interfaces.InflatableItemListener;
 import com.mtrilogic.interfaces.InflatableListener;
 import com.mtrilogic.views.InflatableView;
-
-import java.util.ArrayList;
 
 @SuppressWarnings({"unused"})
 public abstract class InflatableFragment<P extends ListPaginable<Modelable>, L extends FragmentListener>
@@ -21,13 +21,26 @@ public abstract class InflatableFragment<P extends ListPaginable<Modelable>, L e
     protected InflatableAdapter adapter;
     protected InflatableView lvwItems;
 
+    // ================< PUBLIC CONSTRUCTORS >======================================================
+
+    public InflatableFragment(@NonNull Paginable paginable) {
+        super(paginable);
+    }
+
+    public InflatableFragment() {
+        super();
+    }
+
     // ================< PROTECTED METHODS >========================================================
 
-    protected void bindInflatable(@NonNull Context context, @NonNull InflatableView lvwItems, int typeCount){
-        this.lvwItems = lvwItems;
-        ArrayList<Modelable> modelableList = page.getListable().getModelableList();
-        adapter = new InflatableAdapter(context, this, modelableList, typeCount);
-        lvwItems.setAdapter(adapter);
+    protected void bindInflatable(@NonNull Context context, @NonNull InflatableView lvwItems,
+                                  @NonNull P page, int typeCount){
+        Listable<Modelable> listable = page.getListable();
+        if (listable != null) {
+            adapter = new InflatableAdapter(context, this, listable, typeCount);
+            this.lvwItems = lvwItems;
+            lvwItems.setAdapter(adapter);
+        }
     }
 
     // ================< PUBLIC OVERRIDE METHODS >==================================================
@@ -58,5 +71,20 @@ public abstract class InflatableFragment<P extends ListPaginable<Modelable>, L e
     @Override
     public InflatableAdapter getInflatableAdapter(){
         return adapter;
+    }
+
+    @Override
+    public boolean onItemTouch(@NonNull View view, @NonNull MotionEvent event, @NonNull Modelable modelable, int position) {
+        return false;
+    }
+
+    @Override
+    public boolean onItemLongClick(@NonNull View view, @NonNull Modelable modelable, int position) {
+        return false;
+    }
+
+    @Override
+    public void onItemClick(@NonNull View view, @NonNull Modelable modelable, int position) {
+
     }
 }

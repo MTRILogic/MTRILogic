@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -15,6 +14,7 @@ import android.widget.TextView;
 import com.mtrilogic.abstracts.Inflatable;
 import com.mtrilogic.abstracts.BindingInflatableFragment;
 import com.mtrilogic.abstracts.Modelable;
+import com.mtrilogic.classes.Listable;
 import com.mtrilogic.interfaces.FragmentListener;
 import com.mtrilogic.mtrilogicsample.R;
 import com.mtrilogic.mtrilogicsample.databinding.FragmentInflatableBinding;
@@ -23,12 +23,12 @@ import com.mtrilogic.mtrilogicsample.databinding.ItemImageBinding;
 import com.mtrilogic.mtrilogicsample.extras.Utils;
 import com.mtrilogic.mtrilogicsample.items.inflatables.InflatableImageItem;
 import com.mtrilogic.mtrilogicsample.items.inflatables.InflatableDataItem;
-import com.mtrilogic.mtrilogicsample.pages.SampleListPaginable;
+import com.mtrilogic.mtrilogicsample.pages.SampleListPage;
 import com.mtrilogic.mtrilogicsample.types.ItemChildType;
 import com.mtrilogic.views.InflatableView;
 
 @SuppressWarnings("unused")
-public class SampleInflatableFragment extends BindingInflatableFragment<SampleListPaginable,
+public class SampleInflatableFragment extends BindingInflatableFragment<SampleListPage,
         FragmentListener, FragmentInflatableBinding> {
     private TextView lblContent;
 
@@ -47,14 +47,14 @@ public class SampleInflatableFragment extends BindingInflatableFragment<SampleLi
                              @Nullable Bundle savedInstanceState) {
         binding = FragmentInflatableBinding.inflate(inflater, container, false);
         InflatableView lvwItems = binding.lvwItems;
+        TextView lblTitle = binding.lblTitle;
 
         Context context = getContext();
-        if (context != null){
-            bindInflatable(context, lvwItems, ItemChildType.COUNT);
+        if (context != null && page != null){
+            bindInflatable(context, lvwItems, page, ItemChildType.COUNT);
+            lblTitle.setText(getString(R.string.title_item, page.getItemId()));
         }
 
-        TextView lblTitle = binding.lblTitle;
-        lblTitle.setText(getString(R.string.title_item, page.getItemId()));
         lblContent = binding.lblContent;
         ImageButton btnAddData = binding.btnAddData;
         btnAddData.setOnClickListener(new View.OnClickListener() {
@@ -97,30 +97,18 @@ public class SampleInflatableFragment extends BindingInflatableFragment<SampleLi
         return null;
     }
 
-    @Override
-    public boolean onItemTouch(@NonNull View view, @NonNull MotionEvent event, @NonNull Modelable modelable, int position) {
-        return false;
-    }
-
-    @Override
-    public boolean onItemLongClick(@NonNull View view, @NonNull Modelable modelable, int position) {
-        return false;
-    }
-
-    @Override
-    public void onItemClick(@NonNull View view, @NonNull Modelable modelable, int position) {
-
-    }
-
     // ================< PRIVATE METHODS >==========================================================
 
     private void addModelable(int viewType){
         Context context = getContext();
-        long idx = page.getListable().getIdx();
-        Modelable modelable = Utils.getNewModelable(context, viewType, idx, false);
-        if (modelable != null && adapter.addModelable(modelable)){
-            adapter.notifyDataSetChanged();
-            page.getListable().setIdx(++idx);
+        if (context != null && page != null){
+            Listable<Modelable> listable = page.getListable();
+            if (listable != null){
+                Modelable modelable = Utils.getNewModelable(viewType, context);
+                if (modelable != null && listable.append(modelable)){
+                    adapter.notifyDataSetChanged();
+                }
+            }
         }
     }
 }

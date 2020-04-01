@@ -31,7 +31,7 @@ public class SimplePage extends Paginable {
     }
 
     public SimplePage(@NonNull String pageTitle, @NonNull String tagName, long itemId, int viewType) {
-        super(pageTitle, tagName, itemId, viewType);
+        super(pageTitle, tagName, viewType);
     }
 
     private SimplePage(@NonNull Bundle data) {

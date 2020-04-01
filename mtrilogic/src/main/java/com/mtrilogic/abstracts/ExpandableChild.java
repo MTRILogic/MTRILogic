@@ -9,12 +9,13 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 
 import com.mtrilogic.adapters.ExpandableAdapter;
+import com.mtrilogic.interfaces.Bindable;
 import com.mtrilogic.interfaces.ExpandableItemListener;
 import com.mtrilogic.views.ExpandableView;
 
 @SuppressWarnings({"unused", "WeakerAccess"})
 public abstract class ExpandableChild <M extends Modelable, L extends ExpandableItemListener>
-        extends LiveData<M> implements Observer<M> {
+        extends LiveData<M> implements Bindable<M>, Observer<M> {
     protected final View itemView;
     protected final L listener;
 
@@ -22,11 +23,6 @@ public abstract class ExpandableChild <M extends Modelable, L extends Expandable
     protected int childPosition;
     protected boolean lastChild;
     protected M model;
-
-    // ================< PROTECTED ABSTRACT METHODS >===============================================
-
-    protected abstract M getModelFromModelable(@NonNull Modelable modelable);
-    protected abstract void onBindModel();
 
     // ================< PUBLIC CONSTRUCTORS >======================================================
 
@@ -39,9 +35,7 @@ public abstract class ExpandableChild <M extends Modelable, L extends Expandable
                            @NonNull L listener){
         itemView = inflater.inflate(resource, parent, false);
         this.listener = listener;
-        if (itemView != null) {
-            onBindItemView();
-        }
+        onBindItemView();
     }
 
     // ================< PUBLIC METHODS >===========================================================
@@ -50,7 +44,7 @@ public abstract class ExpandableChild <M extends Modelable, L extends Expandable
         return itemView;
     }
 
-    public final void bindHolder(@NonNull Modelable modelable, int groupPosition, int childPosition,
+    public final void bindModel(@NonNull Modelable modelable, int groupPosition, int childPosition,
                                 boolean lastChild){
         model = getModelFromModelable(modelable);
         this.groupPosition = groupPosition;
@@ -63,25 +57,43 @@ public abstract class ExpandableChild <M extends Modelable, L extends Expandable
 
     // ================< PROTECTED METHODS >========================================================
 
-    protected void onBindItemView(){
-
-    }
-
     protected final void autoDelete(){
-        ExpandableAdapter adapter = listener.getExpandableAdapter();
-        if (adapter != null){
-            Modelable groupModelable = adapter.getGroupModelable(groupPosition);
-            if (groupModelable != null){
-                if (adapter.deleteChildModelable(groupModelable, model)){
-                    adapter.notifyDataSetChanged();
-                    if (adapter.getChildrenCount(groupPosition) == 0){
-                        ExpandableView lvwItems = listener.getExpandableView();
-                        if (lvwItems != null && lvwItems.isGroupExpanded(groupPosition)) {
-                            lvwItems.collapseGroup(groupPosition);
+        if (model != null){
+            ExpandableAdapter adapter = listener.getExpandableAdapter();
+            if (adapter != null){
+                Modelable groupModelable = adapter.getGroupModelable(groupPosition);
+                if (groupModelable != null){
+                    if (adapter.deleteChildModelable(groupModelable, model)){
+                        adapter.notifyDataSetChanged();
+                        if (adapter.getChildrenCount(groupPosition) == 0){
+                            ExpandableView lvwItems = listener.getExpandableView();
+                            if (lvwItems != null && lvwItems.isGroupExpanded(groupPosition)){
+                                lvwItems.collapseGroup(groupPosition);
+                            }
                         }
                     }
                 }
             }
         }
+    }
+
+    @Override
+    public void onChanged(M model) {
+
+    }
+
+    @Override
+    public void onBindItemView() {
+
+    }
+
+    @Override
+    public void onMakeToast(String line) {
+        listener.onMakeToast(line);
+    }
+
+    @Override
+    public void onMakeLog(String line) {
+        listener.onMakeLog(line);
     }
 }

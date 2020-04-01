@@ -9,8 +9,5 @@ import com.mtrilogic.abstracts.Inflatable;
 
 @SuppressWarnings("unused")
 public interface InflatableListener extends OnMakeToastListener {
-
-    // ================< PUBLIC ABSTRACT METHODS >==================================================
-
     Inflatable getInflatable(int viewType, @NonNull LayoutInflater inflater, @NonNull ViewGroup parent);
 }

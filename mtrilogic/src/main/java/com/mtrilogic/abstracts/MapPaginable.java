@@ -18,8 +18,8 @@ public abstract class MapPaginable<M extends Modelable> extends Paginable {
         super();
     }
 
-    public MapPaginable(@NonNull String pageTitle, @NonNull String tagName, long itemId, int viewType){
-        super(pageTitle, tagName, itemId, viewType);
+    public MapPaginable(@NonNull String pageTitle, @NonNull String tagName, int viewType){
+        super(pageTitle, tagName, viewType);
         groupListable = new Listable<>();
         childMapable = new Mapable<>();
     }
@@ -54,8 +54,7 @@ public abstract class MapPaginable<M extends Modelable> extends Paginable {
     protected void onRestoreFromData(@NonNull Bundle data){
         super.onRestoreFromData(data);
         childMapable = new Mapable<>();
-        groupListable = new Listable<>();
-        groupListable.restoreFromData(data, childMapable);
+        groupListable = new Listable<>(data, childMapable);
     }
 
     @Override

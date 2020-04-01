@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -17,6 +16,7 @@ import android.widget.TextView;
 import com.mtrilogic.abstracts.Modelable;
 import com.mtrilogic.abstracts.Recyclable;
 import com.mtrilogic.abstracts.BindingRecyclableFragment;
+import com.mtrilogic.classes.Listable;
 import com.mtrilogic.interfaces.FragmentListener;
 import com.mtrilogic.mtrilogicsample.R;
 import com.mtrilogic.mtrilogicsample.databinding.FragmentRecyclableBinding;
@@ -25,11 +25,11 @@ import com.mtrilogic.mtrilogicsample.databinding.ItemImageBinding;
 import com.mtrilogic.mtrilogicsample.extras.Utils;
 import com.mtrilogic.mtrilogicsample.items.recyclables.RecyclableDataItem;
 import com.mtrilogic.mtrilogicsample.items.recyclables.RecyclableImageItem;
-import com.mtrilogic.mtrilogicsample.pages.SampleListPaginable;
+import com.mtrilogic.mtrilogicsample.pages.SampleListPage;
 import com.mtrilogic.mtrilogicsample.types.ItemChildType;
 
 @SuppressWarnings("unused")
-public class SampleRecyclableFragment extends BindingRecyclableFragment<SampleListPaginable,
+public class SampleRecyclableFragment extends BindingRecyclableFragment<SampleListPage,
         FragmentListener, FragmentRecyclableBinding>{
     private TextView lblContent;
 
@@ -48,15 +48,15 @@ public class SampleRecyclableFragment extends BindingRecyclableFragment<SampleLi
                              @Nullable Bundle savedInstanceState) {
         binding = FragmentRecyclableBinding.inflate(inflater, container, false);
         RecyclerView lvwItems = binding.lvwItems;
+        TextView lblTitle = binding.lblTitle;
 
         Context context = getContext();
-        if (context != null){
+        if (context != null && page != null){
             RecyclerView.LayoutManager manager = new LinearLayoutManager(context);
-            bindRecyclable(context, lvwItems, manager);
+            bindRecyclable(context, lvwItems, page, manager);
+            lblTitle.setText(getString(R.string.title_item, page.getItemId()));
         }
 
-        TextView lblTitle = binding.lblTitle;
-        lblTitle.setText(getString(R.string.title_item, page.getItemId()));
         lblContent = binding.lblContent;
         ImageButton btnAddData = binding.btnAddData;
         btnAddData.setOnClickListener(new View.OnClickListener() {
@@ -99,30 +99,18 @@ public class SampleRecyclableFragment extends BindingRecyclableFragment<SampleLi
         return null;
     }
 
-    @Override
-    public boolean onItemTouch(@NonNull View view, @NonNull MotionEvent event, @NonNull Modelable modelable, int position) {
-        return false;
-    }
-
-    @Override
-    public boolean onItemLongClick(@NonNull View view, @NonNull Modelable modelable, int position) {
-        return false;
-    }
-
-    @Override
-    public void onItemClick(@NonNull View view, @NonNull Modelable modelable, int position) {
-
-    }
-
     // ================< PRIVATE METHODS >==========================================================
 
     private void addModelable(int viewType){
         Context context = getContext();
-        long idx = page.getListable().getIdx();
-        Modelable modelable = Utils.getNewModelable(context, viewType, idx, false);
-        if (modelable != null && adapter.addModelable(modelable)){
-            adapter.notifyDataSetChanged();
-            page.getListable().setIdx(++idx);
+        if (context != null && page != null){
+            Listable<Modelable> listable = page.getListable();
+            if (listable != null){
+                Modelable modelable = Utils.getNewModelable(viewType, context);
+                if (modelable != null && listable.append(modelable)){
+                    adapter.notifyDataSetChanged();
+                }
+            }
         }
     }
 }

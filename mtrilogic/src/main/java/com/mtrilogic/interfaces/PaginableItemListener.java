@@ -4,10 +4,8 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.mtrilogic.adapters.PaginableAdapter;
 
-public interface PaginableAdapterListener extends OnMakeToastListener {
-
-    // ================< PUBLIC ABSTRACT METHODS >==================================================
-
+@SuppressWarnings("unused")
+public interface PaginableItemListener extends ItemListener {
     PaginableAdapter getPaginableAdapter();
     ViewPager getViewPager();
 }

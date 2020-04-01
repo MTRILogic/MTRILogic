@@ -65,15 +65,15 @@ public class RecyclableImageItem extends BindingRecyclable<ImageModel, Recyclabl
         ratingBar.setOnRatingBarChangeListener(this);
     }
 
-    // ================< PROTECTED OVERRIDE METHODS >===============================================
+    // ================< PUBLIC OVERRIDE METHODS >==================================================
 
     @Override
-    protected ImageModel getModelFromModelable(@NonNull Modelable modelable) {
+    public ImageModel getModelFromModelable(@NonNull Modelable modelable) {
         return (ImageModel) modelable;
     }
 
     @Override
-    protected void onBindModel(){
+    public void onBindModel(){
         chkItem.setChecked(model.isChecked());
         Context context = itemView.getContext();
         lblTitle.setText(context.getString(R.string.title_item, model.getItemId()));
@@ -85,13 +85,6 @@ public class RecyclableImageItem extends BindingRecyclable<ImageModel, Recyclabl
                         .placeholder(R.drawable.loading)
                         .error(R.drawable.not_found))
                 .into(ivwImage);
-    }
-
-    // ================< PUBLIC OVERRIDE METHODS >==================================================
-
-    @Override
-    public void onChanged(ImageModel imageModel) {
-
     }
 
     @Override

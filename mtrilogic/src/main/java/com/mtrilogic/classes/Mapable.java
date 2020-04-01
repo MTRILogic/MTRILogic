@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 @SuppressWarnings({"unused", "WeakerAccess"})
 public class Mapable<M extends Modelable>{
     private Map<M, Listable<M>> listableMap;
+    private Listable<M> lastListable;
 
     // ================< PUBLIC CONSTRUCTORS >======================================================
 
@@ -47,7 +48,7 @@ public class Mapable<M extends Modelable>{
      * @param modelable the modelable key to be tested.
      * @return true if this map contains a mapping for modelable key
      */
-    public final boolean containsModelableKey(@NonNull M modelable){
+    public final boolean containsKey(@NonNull M modelable){
         return listableMap.containsKey(modelable);
     }
 

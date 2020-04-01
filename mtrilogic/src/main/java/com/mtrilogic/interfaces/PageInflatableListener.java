@@ -7,9 +7,7 @@ import androidx.annotation.NonNull;
 
 import com.mtrilogic.abstracts.PageInflatable;
 
+@SuppressWarnings("unused")
 public interface PageInflatableListener extends OnMakeToastListener {
-
-    // ================< PUBLIC ABSTRACT METHODS >==================================================
-
     PageInflatable getPageInflatable(int viewType, @NonNull LayoutInflater inflater, @NonNull ViewGroup parent);
 }

@@ -10,9 +10,6 @@ import com.mtrilogic.abstracts.BindingExpandableGroup;
 
 @SuppressWarnings("unused")
 public interface ExpandableListener extends OnMakeToastListener {
-
-    // ================< PUBLIC ABSTRACT METHODS >==================================================
-
     BindingExpandableGroup getExpandableGroup(int viewType, @NonNull LayoutInflater inflater, @NonNull ViewGroup parent);
     BindingExpandableChild getExpandableChild(int viewType, @NonNull LayoutInflater inflater, @NonNull ViewGroup parent);
 }

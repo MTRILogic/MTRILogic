@@ -20,20 +20,20 @@ public abstract class Modelable implements Parcelable {
         super();
     }
 
-    public Modelable(long itemId, int viewType, boolean enabled){
-        this.itemId = itemId;
+    public Modelable(int viewType, boolean enabled){
         this.viewType = viewType;
         this.enabled = enabled;
     }
 
     // ================< PROTECTED CONSTRUCTORS >===================================================
 
-    protected Modelable(@NonNull Bundle data){
-        onRestoreFromData(data);
+    protected Modelable(Bundle data){
+        if (data != null) {
+            onRestoreFromData(data);
+        }
     }
 
     // ================< PUBLIC METHODS >===========================================================
-
 
     public void setItemId(long itemId) {
         this.itemId = itemId;
@@ -76,7 +76,7 @@ public abstract class Modelable implements Parcelable {
     // ================< PUBLIC OVERRIDE METHODS >==================================================
 
     @Override
-    public final void writeToParcel(@NonNull Parcel dest, int flags){
+    public final void writeToParcel(Parcel dest, int flags){
         Bundle data = new Bundle();
         onSaveToData(data);
         dest.writeBundle(data);

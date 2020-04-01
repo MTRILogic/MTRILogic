@@ -5,7 +5,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 
 import com.mtrilogic.abstracts.ModelableCreator;
-import com.mtrilogic.mtrilogicsample.types.ItemChildType;
 
 @SuppressWarnings({"unused"})
 public class ImageModel extends DataModel{
@@ -28,10 +27,6 @@ public class ImageModel extends DataModel{
     // ================< PUBLIC CONSTRUCTORS >======================================================
 
     public ImageModel(){}
-
-    public ImageModel(long itemId, boolean checked){
-        super(itemId, ItemChildType.IMAGE, checked);
-    }
 
     private ImageModel(@NonNull Bundle data){
         super(data);

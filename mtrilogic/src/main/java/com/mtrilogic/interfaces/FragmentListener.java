@@ -2,13 +2,10 @@ package com.mtrilogic.interfaces;
 
 import androidx.viewpager.widget.ViewPager;
 
-import com.mtrilogic.abstracts.Paginable;
 import com.mtrilogic.adapters.FragmentableAdapter;
 
-import java.util.ArrayList;
-
+@SuppressWarnings("unused")
 public interface FragmentListener extends OnChangePositionListener {
     FragmentableAdapter getFragmentableAdapter();
-    ArrayList<Paginable> getPaginableList();
     ViewPager getViewPager();
 }

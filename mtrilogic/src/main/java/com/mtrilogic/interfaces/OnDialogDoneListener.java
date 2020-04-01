@@ -6,8 +6,5 @@ import androidx.annotation.NonNull;
 
 @SuppressWarnings("unused")
 public interface OnDialogDoneListener extends OnMakeToastListener {
-
-    // ================< PUBLIC ABSTRACT METHODS >==================================================
-
     void onDialogDone(@NonNull Bundle bundle);
 }

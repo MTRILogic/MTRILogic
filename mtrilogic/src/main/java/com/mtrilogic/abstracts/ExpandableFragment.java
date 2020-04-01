@@ -2,6 +2,7 @@ package com.mtrilogic.abstracts;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -21,15 +22,28 @@ public abstract class ExpandableFragment<P extends MapPaginable<Modelable>, L ex
     protected ExpandableAdapter adapter;
     protected ExpandableView lvwItems;
 
+    // ================< PUBLIC CONSTRUCTORS >======================================================
+
+    public ExpandableFragment(@NonNull Paginable paginable) {
+        super(paginable);
+    }
+
+    public ExpandableFragment() {
+        super();
+    }
+
     // ================< PROTECTED METHODS >========================================================
 
     protected void bindExpandable(@NonNull Context context, @NonNull ExpandableView lvwItems,
-                                  int groupTypeCount, int childTypeCount){
-        this.lvwItems = lvwItems;
+                                  @NonNull P page, int groupTypeCount, int childTypeCount){
         Listable<Modelable> groupListable = page.getGroupListable();
         Mapable<Modelable> childMapable = page.getChildMapable();
-        adapter = new ExpandableAdapter(context, this, page, groupTypeCount, childTypeCount);
-        lvwItems.setAdapter(adapter);
+        if (groupListable != null && childMapable != null) {
+            adapter = new ExpandableAdapter(context, this, groupListable, childMapable,
+                    groupTypeCount, childTypeCount);
+            this.lvwItems = lvwItems;
+            lvwItems.setAdapter(adapter);
+        }
     }
 
     // ================< PUBLIC OVERRIDE METHODS >==================================================
@@ -60,5 +74,21 @@ public abstract class ExpandableFragment<P extends MapPaginable<Modelable>, L ex
     @Override
     public ExpandableAdapter getExpandableAdapter(){
         return adapter;
+    }
+
+    @Override
+    public boolean onItemTouch(@NonNull View view, @NonNull MotionEvent event, @NonNull Modelable modelable,
+                               int position) {
+        return false;
+    }
+
+    @Override
+    public boolean onItemLongClick(@NonNull View view, @NonNull Modelable modelable, int position) {
+        return false;
+    }
+
+    @Override
+    public void onItemClick(@NonNull View view, @NonNull Modelable modelable, int position) {
+
     }
 }

@@ -22,12 +22,14 @@ public class Utils {
 
     // ================< PUBLIC STATIC METHODS >====================================================
 
-    public static Modelable getNewModelable(Context context, int viewType, long idx, boolean checked){
+    public static Modelable getNewModelable(int viewType, @NonNull Context context){
         switch (viewType) {
             case ItemChildType.DATA:
-                return new DataModel(idx, checked);
+                DataModel model = new DataModel();
+                model.setViewType(viewType);
+                return model;
             case ItemChildType.IMAGE:
-                return getImageModel(context, idx, checked);
+                return getImageModel(viewType, context);
         }
         return null;
     }
@@ -35,8 +37,9 @@ public class Utils {
     // ================< PRIVATE STATIC METHODS >===================================================
 
     @NonNull
-    private static ImageModel getImageModel(@NonNull Context context, long idx, boolean checked){
-        ImageModel model = new ImageModel(idx, checked);
+    private static ImageModel getImageModel(int viewType, @NonNull Context context){
+        ImageModel model = new ImageModel();
+        model.setViewType(viewType);
         model.setImageLink(context.getString(LINKS[getRandomInt()]));
         model.setRating(getRandomInt());
         return model;

@@ -66,10 +66,10 @@ public class GroupDataItemBinding extends BindingExpandableGroup<DataModel, Expa
         btnDelete.setFocusable(false);
     }
 
-    // ================< PROTECTED OVERRIDE METHODS >===============================================
+    // ================< PUBLIC OVERRIDE METHODS >==================================================
 
     @Override
-    protected DataModel getModelFromModelable(@NonNull Modelable modelable) {
+    public DataModel getModelFromModelable(@NonNull Modelable modelable) {
         return (DataModel) modelable;
     }
 
@@ -81,13 +81,6 @@ public class GroupDataItemBinding extends BindingExpandableGroup<DataModel, Expa
         lblContent.setText(context.getString(R.string.content_item, groupPosition));
     }
 
-    // ================< PUBLIC OVERRIDE METHODS >==================================================
-
-    @Override
-    public void onChanged(DataModel dataModel) {
-
-    }
-
     // ================< PRIVATE METHODS >==========================================================
 
     private void updateChecked(){
@@ -97,7 +90,7 @@ public class GroupDataItemBinding extends BindingExpandableGroup<DataModel, Expa
             if (childListable != null) {
                 boolean checked = chkItem.isChecked();
                 model.setChecked(checked);
-                ArrayList<Modelable> childModelableList = childListable.getModelableList();
+                ArrayList<Modelable> childModelableList = childListable.getList();
                 for (Modelable childModelable : childModelableList) {
                     DataModel model = (DataModel) childModelable;
                     model.setChecked(checked);
@@ -108,16 +101,11 @@ public class GroupDataItemBinding extends BindingExpandableGroup<DataModel, Expa
     }
 
     private void addNewModelable(int viewType){
-        ExpandableAdapter adapter = listener.getExpandableAdapter();
-        if (adapter != null){
-            Listable<Modelable> childListable = adapter.getChildListable(model);
-            if (childListable != null){
-                Context context = itemView.getContext();
-                Modelable modelable = Utils.getNewModelable(context, viewType, 0, chkItem.isChecked());
-                if (modelable != null) {
-                    addNewChildModelable(modelable);
-                }
-            }
+        Context context = itemView.getContext();
+        DataModel model = (DataModel) Utils.getNewModelable(viewType, context);
+        if (model != null){
+            model.setChecked(chkItem.isChecked());
+            addChildModelable(model);
         }
     }
 }

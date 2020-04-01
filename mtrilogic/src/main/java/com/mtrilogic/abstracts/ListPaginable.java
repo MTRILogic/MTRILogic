@@ -16,8 +16,8 @@ public abstract class ListPaginable<M extends Modelable> extends Paginable {
         super();
     }
 
-    public ListPaginable(@NonNull String pageTitle, @NonNull String tagName, long itemId, int viewType){
-        super(pageTitle, tagName, itemId, viewType);
+    public ListPaginable(String pageTitle, String tagName, int viewType) {
+        super(pageTitle, tagName, viewType);
         listable = new Listable<>();
     }
 
@@ -42,8 +42,7 @@ public abstract class ListPaginable<M extends Modelable> extends Paginable {
     @Override
     protected void onRestoreFromData(@NonNull Bundle data) {
         super.onRestoreFromData(data);
-        listable = new Listable<>();
-        listable.restoreFromData(data);
+        listable = new Listable<>(data);
     }
 
     @Override

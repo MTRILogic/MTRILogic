@@ -37,9 +37,4 @@ public class SimpleBindingFragment extends BindingFragmentable<SimplePage, Fragm
         }
         return binding.getRoot();
     }
-
-    @Override
-    public void onNewPosition(int position) {
-
-    }
 }

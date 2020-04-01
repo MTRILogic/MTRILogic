@@ -1,16 +1,17 @@
 package com.mtrilogic.abstracts;
 
 import android.content.Context;
+import android.view.MotionEvent;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mtrilogic.adapters.RecyclableAdapter;
+import com.mtrilogic.classes.Listable;
 import com.mtrilogic.interfaces.FragmentListener;
 import com.mtrilogic.interfaces.RecyclableItemListener;
 import com.mtrilogic.interfaces.RecyclableListener;
-
-import java.util.ArrayList;
 
 @SuppressWarnings({"unused"})
 public abstract class RecyclableFragment<P extends ListPaginable<Modelable>, L extends FragmentListener>
@@ -21,12 +22,14 @@ public abstract class RecyclableFragment<P extends ListPaginable<Modelable>, L e
     // ================< PROTECTED METHODS >========================================================
 
     protected void bindRecyclable(@NonNull Context context, @NonNull RecyclerView lvwItems,
-                                  @NonNull RecyclerView.LayoutManager manager){
-        this.lvwItems = lvwItems;
-        ArrayList<Modelable> modelableList = page.getListable().getModelableList();
-        adapter = new RecyclableAdapter(context, this, modelableList);
-        lvwItems.setLayoutManager(manager);
-        lvwItems.setAdapter(adapter);
+                                  @NonNull P page, @NonNull RecyclerView.LayoutManager manager){
+        Listable<Modelable> listable = page.getListable();
+        if (listable != null) {
+            adapter = new RecyclableAdapter(context, this, listable);
+            this.lvwItems = lvwItems;
+            lvwItems.setLayoutManager(manager);
+            lvwItems.setAdapter(adapter);
+        }
     }
 
     // ================< PUBLIC OVERRIDE METHODS >==================================================
@@ -39,5 +42,20 @@ public abstract class RecyclableFragment<P extends ListPaginable<Modelable>, L e
     @Override
     public RecyclableAdapter getRecyclableAdapter(){
         return adapter;
+    }
+
+    @Override
+    public boolean onItemTouch(@NonNull View view, @NonNull MotionEvent event, @NonNull Modelable modelable, int position) {
+        return false;
+    }
+
+    @Override
+    public boolean onItemLongClick(@NonNull View view, @NonNull Modelable modelable, int position) {
+        return false;
+    }
+
+    @Override
+    public void onItemClick(@NonNull View view, @NonNull Modelable modelable, int position) {
+
     }
 }

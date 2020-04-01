@@ -9,21 +9,20 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 
 import com.mtrilogic.adapters.InflatableAdapter;
+import com.mtrilogic.classes.Listable;
+import com.mtrilogic.interfaces.Bindable;
 import com.mtrilogic.interfaces.InflatableItemListener;
 
-@SuppressWarnings({"unused", "WeakerAccess"})
+import java.util.ArrayList;
+
+@SuppressWarnings({"unused"})
 public abstract class Inflatable<M extends Modelable, L extends InflatableItemListener>
-        extends LiveData<M> implements Observer<M> {
+        extends LiveData<M> implements Bindable<M>, Observer<M> {
     protected final View itemView;
     protected final L listener;
 
     protected int position;
     protected M model;
-
-    // ================< PROTECTED ABSTRACT METHODS >===============================================
-
-    protected abstract M getModelFromModelable(@NonNull Modelable modelable);
-    protected abstract void onBindModel();
 
     // ================< PUBLIC CONSTRUCTORS >======================================================
 
@@ -45,7 +44,7 @@ public abstract class Inflatable<M extends Modelable, L extends InflatableItemLi
         return itemView;
     }
 
-    public final void bindHolder(@NonNull Modelable modelable, int position){
+    public final void bindModel(@NonNull Modelable modelable, int position){
         model = getModelFromModelable(modelable);
         this.position = position;
         if (model != null) {
@@ -55,16 +54,52 @@ public abstract class Inflatable<M extends Modelable, L extends InflatableItemLi
 
     // ================< PROTECTED METHODS >========================================================
 
-    protected void onBindItemView(){
+    protected final M getModel(){
+        return model;
+    }
 
+    protected final int getPosition(){
+        return position;
+    }
+
+    protected L getListener() {
+        return listener;
     }
 
     protected final void autoDelete(){
-        InflatableAdapter adapter = listener.getInflatableAdapter();
-        if (adapter != null){
-            if (adapter.removeModelable(model)){
-                adapter.notifyDataSetChanged();
+        if (model != null){
+            InflatableAdapter adapter = listener.getInflatableAdapter();
+            if (adapter != null){
+                Listable<Modelable> listable = adapter.getListable();
+                if (listable != null){
+                    ArrayList<Modelable> list = listable.getList();
+                    if (list != null){
+                        if (list.remove(model)){
+                            adapter.notifyDataSetChanged();
+                        }
+                    }
+                }
             }
         }
+    }
+
+    @Override
+    public void onChanged(M model) {
+
+    }
+
+    @Override
+    public void onBindItemView() {
+
+    }
+
+    @Override
+    public void onMakeToast(String line) {
+        listener.onMakeToast(line);
+    }
+
+    @Override
+    public void onMakeLog(String line) {
+        listener.onMakeLog(line);
     }
 }

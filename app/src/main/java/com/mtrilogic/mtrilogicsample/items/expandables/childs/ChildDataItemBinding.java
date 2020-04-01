@@ -43,26 +43,19 @@ public class ChildDataItemBinding extends BindingExpandableChild<DataModel, Expa
         });
     }
 
-    // ================< PROTECTED OVERRIDE METHODS >===============================================
+    // ================< PUBLIC OVERRIDE METHODS >==================================================
 
     @Override
-    protected DataModel getModelFromModelable(@NonNull Modelable modelable) {
+    public DataModel getModelFromModelable(@NonNull Modelable modelable) {
         return (DataModel) modelable;
     }
 
     @Override
-    protected void onBindModel(){
+    public void onBindModel(){
         chkItem.setChecked(model.isChecked());
         Context context = itemView.getContext();
         lblTitle.setText(context.getString(R.string.title_item, model.getItemId()));
         lblContent.setText(context.getString(R.string.content_item, childPosition));
-    }
-
-    // ================< PUBLIC OVERRIDE METHODS >==================================================
-
-    @Override
-    public void onChanged(DataModel dataModel) {
-
     }
 
     // ================< PRIVATE METHODS >==========================================================

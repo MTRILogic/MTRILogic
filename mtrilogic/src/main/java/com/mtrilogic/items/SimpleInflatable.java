@@ -29,20 +29,15 @@ public class SimpleInflatable extends Inflatable<SimpleModel2, InflatableItemLis
     }
 
     @Override
-    protected SimpleModel2 getModelFromModelable(@NonNull Modelable modelable) {
+    public SimpleModel2 getModelFromModelable(@NonNull Modelable modelable) {
         return (SimpleModel2) modelable;
     }
 
     @Override
-    protected void onBindModel() {
+    public void onBindModel() {
         lblText1.setText(model.getText1());
         if (lblText2 != null){
             lblText2.setText(model.getText2());
         }
-    }
-
-    @Override
-    public void onChanged(SimpleModel2 model) {
-
     }
 }

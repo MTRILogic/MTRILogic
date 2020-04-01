@@ -1,14 +1,14 @@
-package com.mtrilogic.classes;
+package com.mtrilogic.mtrilogicsample.states;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.mtrilogic.abstracts.Paginable;
+import com.mtrilogic.classes.Listable;
+import com.mtrilogic.abstracts.Statable;
 
-@SuppressWarnings("unused")
-public class StateViewModel extends ViewModel {
+public class PageState extends Statable {
     private MutableLiveData<Listable<Paginable>> listableLiveData;
     private Listable<Paginable> listable;
 

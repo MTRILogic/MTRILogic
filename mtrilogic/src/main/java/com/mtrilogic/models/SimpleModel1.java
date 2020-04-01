@@ -29,8 +29,8 @@ public class SimpleModel1 extends Modelable {
         super();
     }
 
-    public SimpleModel1(long itemId, int viewType, boolean enabled) {
-        super(itemId, viewType, enabled);
+    public SimpleModel1(int viewType, boolean enabled) {
+        super(viewType, enabled);
     }
 
     private SimpleModel1(@NonNull Bundle data) {

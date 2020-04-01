@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.mtrilogic.adapters.FragmentableAdapter;
+import com.mtrilogic.classes.Listable;
 import com.mtrilogic.interfaces.FragmentListener;
 import com.mtrilogic.interfaces.OnMakeToastListener;
 
@@ -19,12 +20,9 @@ public abstract class Fragmentable<P extends Paginable, L extends FragmentListen
         extends Fragment implements OnMakeToastListener {
     protected static final String PAGINABLE = "paginable";
 
+    protected int position;
     protected L listener;
     protected P page;
-
-    // ================< PROTECTED ABSTRACT METHODS >===============================================
-
-    protected abstract L getListenerFromContext(@NonNull Context context);
 
     // ================< PUBLIC STATIC METHODS >====================================================
 
@@ -56,18 +54,25 @@ public abstract class Fragmentable<P extends Paginable, L extends FragmentListen
     }
 
     public void onNewPosition(int position){
-
+        this.position = position;
     }
 
     // ================< PROTECTED METHODS >========================================================
 
+    protected L getListenerFromContext(@NonNull Context context){
+        return null;
+    }
+
     protected final void autoDelete(){
-        if (page != null && listener != null) {
-            ArrayList<Paginable> paginableList = listener.getPaginableList();
-            if (paginableList != null) {
-                if (paginableList.remove(page)) {
-                    FragmentableAdapter adapter = listener.getFragmentableAdapter();
-                    adapter.notifyDataSetChanged();
+        if (listener != null && page != null){
+            FragmentableAdapter adapter = listener.getFragmentableAdapter();
+            if (adapter != null){
+                Listable<Paginable> listable = adapter.getListable();
+                if (listable != null){
+                    ArrayList<Paginable> list = listable.getList();
+                    if (list.remove(page)){
+                        adapter.notifyDataSetChanged();
+                    }
                 }
             }
         }
@@ -90,8 +95,9 @@ public abstract class Fragmentable<P extends Paginable, L extends FragmentListen
         if (args != null){
             page = args.getParcelable(PAGINABLE);
             if (page != null){
+                String tagName = page.getTagName();
                 String tag = getTag();
-                if (tag != null & !page.getTagName().equals(tag)){
+                if (tag != null && !tag.equals(tagName)){
                     page.setTagName(tag);
                 }
             }
@@ -101,13 +107,8 @@ public abstract class Fragmentable<P extends Paginable, L extends FragmentListen
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (listener != null && page != null) {
-            ArrayList<Paginable> paginableList = listener.getPaginableList();
-            if (paginableList != null){
-                int position = paginableList.indexOf(page);
-                listener.onChangePosition(position);
-                onNewPosition(position);
-            }
+        if (listener != null){
+            listener.onChangePosition(position);
         }
     }
 

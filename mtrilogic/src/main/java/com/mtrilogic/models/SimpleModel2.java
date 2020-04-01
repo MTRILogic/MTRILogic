@@ -14,8 +14,8 @@ public class SimpleModel2 extends SimpleModel1 {
         super();
     }
 
-    public SimpleModel2(long itemId, int viewType, boolean enabled) {
-        super(itemId, viewType, enabled);
+    public SimpleModel2(int viewType, boolean enabled) {
+        super(viewType, enabled);
     }
 
     public String getText2() {

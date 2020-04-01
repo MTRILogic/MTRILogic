@@ -18,6 +18,7 @@ import androidx.viewpager.widget.PagerAdapter;
 import com.mtrilogic.abstracts.Fragmentable;
 import com.mtrilogic.abstracts.Paginable;
 import com.mtrilogic.classes.Base;
+import com.mtrilogic.classes.Listable;
 import com.mtrilogic.interfaces.FragmentableListener;
 
 import java.util.ArrayList;
@@ -45,7 +46,7 @@ import java.util.ArrayList;
  * lists:
  */
 @SuppressWarnings({"deprecation", "unused", "WeakerAccess"})
-public abstract class FragmentableStateAdapter extends PagerAdapter {
+public class FragmentableStateAdapter extends PagerAdapter {
     private static final String TAG = "FragmentStatePagerAdapt", LIST = "list";
     private static final boolean DEBUG = false;
 
@@ -53,7 +54,7 @@ public abstract class FragmentableStateAdapter extends PagerAdapter {
      * Indicates that only the current fragment will be in the {@link Lifecycle.State#RESUMED}
      * state. All other Fragments are capped at {@link Lifecycle.State#STARTED}.
      *
-     * @see #FragmentableStateAdapter(FragmentManager,ArrayList,FragmentableListener)
+     * @see #FragmentableStateAdapter(FragmentManager,Listable,FragmentableListener)
      */
     private static final int BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT = 1;
 
@@ -63,21 +64,47 @@ public abstract class FragmentableStateAdapter extends PagerAdapter {
     private ArrayList<Fragment.SavedState> savedStateList = new ArrayList<>();
     private ArrayList<Fragmentable> fragmentableList = new ArrayList<>();
     private ArrayList<String> tagNameList = new ArrayList<>();
-    private ArrayList<Paginable> paginableList;
+    private Listable<Paginable> listable;
     private FragmentableListener listener;
 
     private FragmentTransaction transaction = null;
     private Fragmentable fragmentable = null;
 
+    // ==< PUBLIC CONSTRUCTORS >====================================================================
+
     /**
      *
      * @param manager fragment manager that will interact with this adapter
      */
-    public FragmentableStateAdapter(@NonNull FragmentManager manager, @NonNull ArrayList<Paginable> paginableList, @NonNull FragmentableListener listener) {
+    public FragmentableStateAdapter(@NonNull FragmentManager manager, @NonNull Listable<Paginable> listable,
+                                    @NonNull FragmentableListener listener) {
         behavior = BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT;
-        this.paginableList = paginableList;
+        this.listable = listable;
         this.listener = listener;
         this.manager = manager;
+    }
+
+    // ==< PUBLIC METHODS >=========================================================================
+
+    public Listable<Paginable> getListable() {
+        return listable;
+    }
+
+    public boolean setListable(@NonNull Listable<Paginable> listable) {
+        if (this.listable != listable) {
+            this.listable = listable;
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Clear the saved state for the given fragment position.
+     */
+    public void removeSavedState(int position) {
+        if(position < savedStateList.size()) {
+            savedStateList.set(position, null);
+        }
     }
 
     /**
@@ -85,19 +112,22 @@ public abstract class FragmentableStateAdapter extends PagerAdapter {
      */
     @NonNull
     public Fragmentable getItem(int position){
-        return listener.getFragmentable(getPaginableItem(position));
+        return listener.getFragmentable(getPaginable(position));
     }
 
     public String getTagName(int position) {
-        return getPaginableItem(position).getTagName();
+        return getPaginable(position).getTagName();
     }
 
     public long getItemId(int position){
-        return getPaginableItem(position).getItemId();
+        return getPaginable(position).getItemId();
     }
 
-    public ArrayList<Paginable> getPaginableList() {
-        return paginableList;
+    // PUBLIC OVERRIDE METHODS =====================================================================
+
+    @Override
+    public int getCount() {
+        return getPaginableList().size();
     }
 
     @Override
@@ -288,19 +318,14 @@ public abstract class FragmentableStateAdapter extends PagerAdapter {
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        return getPaginableItem(position).getPageTitle();
-    }
-
-    @Override
-    public float getPageWidth(int position) {
-        return getPaginableItem(position).getPageWidth();
+        return getPaginable(position).getPageTitle();
     }
 
     @Override
     public int getItemPosition(@NonNull Object object) {
         Fragmentable fragmentable = (Fragmentable) object;
         Paginable paginable = fragmentable.getPaginable();
-        int position = paginableList.indexOf(paginable);
+        int position = getPaginableList().indexOf(paginable);
         if (position != Base.INVALID_POSITION){
             return position;
         }
@@ -310,7 +335,13 @@ public abstract class FragmentableStateAdapter extends PagerAdapter {
         return POSITION_NONE;
     }
 
-    private Paginable getPaginableItem(int position){
-        return paginableList.get(position);
+    // PRIVATE METHODS =============================================================================
+
+    private Paginable getPaginable(int position){
+        return getPaginableList().get(position);
+    }
+
+    private ArrayList<Paginable> getPaginableList(){
+        return listable.getList();
     }
 }

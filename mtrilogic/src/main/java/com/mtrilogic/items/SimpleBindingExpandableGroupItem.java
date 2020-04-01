@@ -19,7 +19,7 @@ public class SimpleBindingExpandableGroupItem extends BindingExpandableGroup<Sim
     }
 
     @Override
-    protected SimpleModel getModelFromModelable(@NonNull Modelable modelable) {
+    public SimpleModel getModelFromModelable(@NonNull Modelable modelable) {
         return (SimpleModel) modelable;
     }
 
@@ -29,10 +29,5 @@ public class SimpleBindingExpandableGroupItem extends BindingExpandableGroup<Sim
         lblText.setBackgroundColor(model.getBackColor());
         lblText.setTextColor(model.getColor());
         lblText.setText(model.getText());
-    }
-
-    @Override
-    public void onChanged(SimpleModel model) {
-
     }
 }
