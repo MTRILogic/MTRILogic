@@ -3,6 +3,7 @@ package com.mtrilogic.mtrilogicsample.items.expandables.groups;
 import android.content.Context;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -31,10 +32,10 @@ public class GroupDataItemBinding extends BindingExpandableGroup<DataModel, Expa
     public GroupDataItemBinding(@NonNull ItemGroupBinding binding, @NonNull ExpandableItemListener listener){
         super(binding, listener);
         chkItem = binding.chkItem;
-        chkItem.setOnClickListener(new View.OnClickListener() {
+        chkItem.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-                updateChecked();
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                updateChecked(isChecked);
             }
         });
         chkItem.setFocusable(false);
@@ -83,12 +84,11 @@ public class GroupDataItemBinding extends BindingExpandableGroup<DataModel, Expa
 
     // ================< PRIVATE METHODS >==========================================================
 
-    private void updateChecked(){
-        ExpandableAdapter adapter = listener.getExpandableAdapter();
+    private void updateChecked(boolean checked){
+        ExpandableAdapter adapter = this.listener.getExpandableAdapter();
         if (adapter != null){
             Listable<Modelable> childListable = adapter.getChildListable(model);
             if (childListable != null) {
-                boolean checked = chkItem.isChecked();
                 model.setChecked(checked);
                 ArrayList<Modelable> childModelableList = childListable.getList();
                 for (Modelable childModelable : childModelableList) {
@@ -104,7 +104,7 @@ public class GroupDataItemBinding extends BindingExpandableGroup<DataModel, Expa
         Context context = itemView.getContext();
         DataModel model = (DataModel) Utils.getNewModelable(viewType, context);
         if (model != null){
-            model.setChecked(chkItem.isChecked());
+            model.setChecked(this.model.isChecked());
             addChildModelable(model);
         }
     }

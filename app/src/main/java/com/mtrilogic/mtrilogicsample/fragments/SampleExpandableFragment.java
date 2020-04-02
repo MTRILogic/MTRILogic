@@ -8,12 +8,15 @@ import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.mtrilogic.abstracts.BindingExpandableChild;
 import com.mtrilogic.abstracts.BindingExpandableFragment;
 import com.mtrilogic.abstracts.BindingExpandableGroup;
+import com.mtrilogic.abstracts.Modelable;
 import com.mtrilogic.classes.Listable;
 import com.mtrilogic.interfaces.FragmentListener;
 import com.mtrilogic.mtrilogicsample.databinding.FragmentExpandableBinding;
@@ -30,12 +33,13 @@ import com.mtrilogic.mtrilogicsample.types.ItemGroupType;
 import com.mtrilogic.mtrilogicsample.types.ItemChildType;
 import com.mtrilogic.views.ExpandableView;
 
+import java.util.ArrayList;
+
 @SuppressWarnings("unused")
 public class SampleExpandableFragment extends BindingExpandableFragment<
         SampleMapPage, FragmentListener, FragmentExpandableBinding> {
     private TextView lblContent;
-
-
+    private CheckBox chkItem;
 
     // ================< PROTECTED OVERRIDE METHODS >===============================================
 
@@ -52,7 +56,7 @@ public class SampleExpandableFragment extends BindingExpandableFragment<
                              @Nullable Bundle savedInstanceState) {
         binding = FragmentExpandableBinding.inflate(inflater, container, false);
         ExpandableView lvwItems = binding.lvwItems;
-        TextView lblTitle = binding.lblTitle;
+        final TextView lblTitle = binding.lblTitle;
 
         Context context = getContext();
         if (context != null && page != null){
@@ -73,6 +77,25 @@ public class SampleExpandableFragment extends BindingExpandableFragment<
             @Override
             public void onClick(View v) {
                 autoDelete();
+            }
+        });
+        chkItem = binding.chkItem;
+        chkItem.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (adapter != null && page != null){
+                    Listable<Modelable> listable = adapter.getGroupListable();
+                    if (listable != null){
+                        ArrayList<Modelable> list = listable.getList();
+                        if (list != null){
+                            for (Modelable item : list){
+                                DataModel model = (DataModel) item;
+                                model.setChecked(isChecked);
+                            }
+                            adapter.notifyDataSetChanged();
+                        }
+                    }
+                }
             }
         });
         return binding.getRoot();
@@ -115,6 +138,7 @@ public class SampleExpandableFragment extends BindingExpandableFragment<
         DataModel model = new DataModel();
         model.setViewType(ItemChildType.DATA);
         if(adapter.appendGroupModelable(model, new Listable<>())){
+            model.setChecked(chkItem.isChecked());
             adapter.notifyDataSetChanged();
         }
     }

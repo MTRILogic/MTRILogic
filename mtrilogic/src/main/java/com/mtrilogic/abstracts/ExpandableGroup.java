@@ -46,7 +46,7 @@ public abstract class ExpandableGroup<M extends Modelable, L extends ExpandableI
         return itemView;
     }
 
-    public final void bindHolder(@NonNull Modelable modelable, int groupPosition, boolean expanded){
+    public final void bindModel(@NonNull Modelable modelable, int groupPosition, boolean expanded){
         model = getModelFromModelable(modelable);
         ExpandableAdapter adapter = listener.getExpandableAdapter();
         this.groupPosition = groupPosition;
