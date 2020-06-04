@@ -6,6 +6,7 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
+// deprecated for a while
 @Deprecated
 @SuppressWarnings({"unused", "deprecation"})
 public class Datable implements Parcelable {

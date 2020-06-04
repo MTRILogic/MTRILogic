@@ -43,8 +43,7 @@ public class Listable<M extends Modelable>{
             ArrayList<M> list = data.getParcelableArrayList(LIST + itemId);
             if (list != null) {
                 long idx = data.getLong(IDX + itemId);
-                Listable<M> listable = new Listable<>(list, idx);
-                mapable.putListable(item, listable);
+                mapable.putListable(item, new Listable<>(list, idx));
             }
         }
     }
@@ -61,7 +60,7 @@ public class Listable<M extends Modelable>{
     }
 
     /**
-     * Establece el actual index de ids de la lista de este listable.
+     * Establece un nuevo index de ids para la lista de este listable.
      * Posiblemente removido en un futuro.
      * @param idx El nuevo index de ids.
      */
@@ -74,7 +73,7 @@ public class Listable<M extends Modelable>{
     /**
      * Añade un elemento al final de la lista.
      * @param item El elemento a ser añadido.
-     * @return True si el elemento fue añadido exitosamente.
+     * @return True si el elemento fue añadido exitosamente, False otra cosa.
      */
     public final boolean append(@NonNull M item){
         if (list.add(item)){
@@ -85,7 +84,7 @@ public class Listable<M extends Modelable>{
     }
 
     /**
-     * Añade una lista de elementos al final de la lista.
+     * Añade una lista de elementos que serán añadidos al final de la lista.
      * El idx debe ser generado a partir de idx actual al crear la lista añadida.
      * @param list La lista de elementos a ser añadida.
      * @param idx El nuevo index de ids.
@@ -169,7 +168,7 @@ public class Listable<M extends Modelable>{
      * @return True si la nueva lista fue reemplazada.
      */
     public final boolean setList(@NonNull ArrayList<M> list, long idx){
-        if (this.list != list) {
+        if (!list.equals(this.list)) {
             this.list = list;
             this.idx = idx;
             return true;

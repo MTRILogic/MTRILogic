@@ -11,12 +11,12 @@ import com.mtrilogic.abstracts.ModelableCreator;
 public class SimpleModel extends Modelable {
     public static final Creator<SimpleModel> CREATOR = new ModelableCreator<SimpleModel>() {
         @Override
-        public SimpleModel getParcelable(@NonNull Bundle data) {
+        public SimpleModel createFromData(@NonNull Bundle data) {
             return new SimpleModel(data);
         }
 
         @Override
-        public SimpleModel[] getParcelableArray(int size) {
+        public SimpleModel[] newArray(int size) {
             return new SimpleModel[size];
         }
     };
@@ -30,8 +30,8 @@ public class SimpleModel extends Modelable {
         super();
     }
 
-    public SimpleModel(int viewType, boolean enabled) {
-        super(viewType, enabled);
+    public SimpleModel(long itemId, int viewType, boolean enabled) {
+        super(itemId, viewType, enabled);
     }
 
     private SimpleModel(@NonNull Bundle data) {

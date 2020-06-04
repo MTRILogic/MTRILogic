@@ -36,8 +36,7 @@ import com.mtrilogic.views.ExpandableView;
 import java.util.ArrayList;
 
 @SuppressWarnings("unused")
-public class SampleExpandableFragment extends BindingExpandableFragment<
-        SampleMapPage, FragmentListener, FragmentExpandableBinding> {
+public class SampleExpandableFragment extends BindingExpandableFragment<SampleMapPage, FragmentListener, FragmentExpandableBinding> {
     private TextView lblContent;
     private CheckBox chkItem;
 
@@ -107,7 +106,7 @@ public class SampleExpandableFragment extends BindingExpandableFragment<
     }
 
     @Override
-    public BindingExpandableGroup getExpandableGroup(int viewType, @NonNull LayoutInflater inflater,
+    public BindingExpandableGroup<?, ?, ?> getExpandableGroup(int viewType, @NonNull LayoutInflater inflater,
                                                      @NonNull ViewGroup parent){
         if (viewType == ItemGroupType.GROUP) {
             return new GroupDataItemBinding(ItemGroupBinding.inflate(inflater, parent, false),
@@ -117,7 +116,7 @@ public class SampleExpandableFragment extends BindingExpandableFragment<
     }
 
     @Override
-    public BindingExpandableChild getExpandableChild(int viewType, @NonNull LayoutInflater inflater,
+    public BindingExpandableChild<?, ?, ?> getExpandableChild(int viewType, @NonNull LayoutInflater inflater,
                                                      @NonNull ViewGroup parent){
         Context context = getContext();
         switch(viewType){
@@ -134,7 +133,7 @@ public class SampleExpandableFragment extends BindingExpandableFragment<
     // ================< PRIVATE METHODS >==========================================================
 
     private void addGroupModelable(){
-        Listable groupListable = page.getGroupListable();
+        Listable<Modelable> groupListable = page.getGroupListable();
         DataModel model = new DataModel();
         model.setViewType(ItemChildType.DATA);
         if(adapter.appendGroupModelable(model, new Listable<>())){

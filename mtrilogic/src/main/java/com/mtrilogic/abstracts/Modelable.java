@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 @SuppressWarnings({"unused"})
 public abstract class Modelable implements Parcelable {
     private static final String ITEM_ID = "itemId", VIEW_TYPE = "viewType", ENABLED = "enabled";
-
     private long itemId;
     private int viewType;
     private boolean enabled;
@@ -20,7 +19,8 @@ public abstract class Modelable implements Parcelable {
         super();
     }
 
-    public Modelable(int viewType, boolean enabled){
+    public Modelable(long itemId, int viewType, boolean enabled){
+        this.itemId = itemId;
         this.viewType = viewType;
         this.enabled = enabled;
     }
@@ -35,27 +35,27 @@ public abstract class Modelable implements Parcelable {
 
     // ================< PUBLIC METHODS >===========================================================
 
-    public void setItemId(long itemId) {
+    public final void setItemId(long itemId) {
         this.itemId = itemId;
     }
 
-    public long getItemId(){
+    public final long getItemId(){
         return itemId;
     }
 
-    public void setViewType(int viewType) {
+    public final void setViewType(int viewType) {
         this.viewType = viewType;
     }
 
-    public int getViewType(){
+    public final int getViewType(){
         return viewType;
     }
 
-    public void setEnabled(boolean enabled) {
+    public final void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
 
-    public boolean isEnabled(){
+    public final boolean isEnabled(){
         return enabled;
     }
 

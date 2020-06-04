@@ -81,9 +81,9 @@ public class InflatableAdapter extends BaseAdapter{
     @Override
     public View getView(int position, View convertView, ViewGroup parent){
         Modelable modelable = getModelable(position);
-        Inflatable inflatable;
+        Inflatable<?, ?> inflatable;
         if(convertView != null){
-            inflatable = (Inflatable)convertView.getTag();
+            inflatable = (Inflatable<?, ?>)convertView.getTag();
         }else{
             int viewType = modelable.getViewType();
             inflatable = listener.getInflatable(viewType, inflater, parent);

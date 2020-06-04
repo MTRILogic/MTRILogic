@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 @SuppressWarnings({"unused", "WeakerAccess"})
 public abstract class Paginable extends Modelable {
     private static final String PAGE_TITLE = "pageTitle", TAG_NAME = "tagName";
-
     private String pageTitle, tagName;
 
     // ================< PUBLIC CONSTRUCTORS >======================================================
@@ -16,10 +15,9 @@ public abstract class Paginable extends Modelable {
         super();
     }
 
-    public Paginable(String pageTitle, String tagName, int viewType){
-        super(viewType, true);
+    public Paginable(String pageTitle, long itemId, int viewType){
+        super(itemId, viewType, true);
         this.pageTitle = pageTitle;
-        this.tagName = tagName;
     }
 
     // ================< PROTECTED CONSTRUCTORS >===================================================

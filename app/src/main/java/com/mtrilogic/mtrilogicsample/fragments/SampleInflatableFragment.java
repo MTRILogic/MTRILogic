@@ -86,7 +86,7 @@ public class SampleInflatableFragment extends BindingInflatableFragment<SampleLi
     }
 
     @Override
-    public Inflatable getInflatable(int viewType, @NonNull LayoutInflater inflater, @NonNull ViewGroup parent) {
+    public Inflatable<?, ?> getInflatable(int viewType, @NonNull LayoutInflater inflater, @NonNull ViewGroup parent) {
         Context context = getContext();
         switch(viewType){
             case ItemChildType.DATA:

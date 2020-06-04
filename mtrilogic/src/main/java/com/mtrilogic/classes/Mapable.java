@@ -24,55 +24,56 @@ public class Mapable<M extends Modelable>{
 
     // ================< PUBLIC METHODS >===========================================================
 
-    // PUT
-    public final Listable<M> putListable(@NonNull M modelable, @NonNull Listable<M> listable){
-        return listableMap.put(modelable, listable);
+    public final boolean putListable(@NonNull M itemKey, @NonNull Listable<M> listable){
+        lastListable = listableMap.put(itemKey, listable);
+        return lastListable == null;
     }
 
-    // GET
+    /**
+     * Retorna el actual mapa de listables.
+     * @return El mapa de listables.
+     */
     public final Map<M, Listable<M>> getListableMap(){
         return listableMap;
     }
 
-    public final Listable<M> getListable(@NonNull M modelable){
-        return listableMap.get(modelable);
-    }
-
-    // SET
-    public final void setListableMap(@NonNull LinkedHashMap<M, Listable<M>> listableMap){
-        this.listableMap = listableMap;
+    /**
+     * Retorna el listable relacionado con la clave itemKey.
+     * @param itemKey La clave del listable a retornar.
+     * @return El listable relacionado.
+     */
+    public final Listable<M> getListable(@NonNull M itemKey){
+        return listableMap.get(itemKey);
     }
 
     /**
-     * Checks if this map contains a mapping for the especified modelable.
-     * @param modelable the modelable key to be tested.
-     * @return true if this map contains a mapping for modelable key
+     * Retorna el último listable retornado por una operación de delete o put.
+     * @return El último listable retornado.
      */
-    public final boolean containsKey(@NonNull M modelable){
-        return listableMap.containsKey(modelable);
+    public final Listable<M> getLastListable() {
+        return lastListable;
+    }
+
+    /**
+     * Establece un nuevo mapa de listables.
+     * @param listableMap El nuevo mapa de listables.
+     * @return true si fue reemplazado el antiguo mapa por el nuevo.
+     */
+    public final boolean setListableMap(@NonNull LinkedHashMap<M, Listable<M>> listableMap){
+        if (!listableMap.equals(this.listableMap)) {
+            this.listableMap = listableMap;
+            return true;
+        }
+        return false;
     }
 
     /**
      * Deletes the modelable's list from modelable's map
-     * @param modelable The modelable key
+     * @param itemKey The modelable key
      * @return The removed modelable's list
      */
-    public final Listable<M> deleteListable(@NonNull M modelable){
-        return listableMap.remove(modelable);
-    }
-
-    /**
-     * Get listable's map size.
-     * @return The size listable's map.
-     */
-    public final int getListableCount(){
-        return listableMap.size();
-    }
-
-    /**
-     * Clear the listable map.
-     */
-    public final void reset(){
-        listableMap.clear();
+    public final boolean deleteListable(@NonNull M itemKey){
+        lastListable = listableMap.remove(itemKey);
+        return lastListable != null;
     }
 }

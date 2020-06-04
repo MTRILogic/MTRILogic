@@ -5,21 +5,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mtrilogic.adapters.RecyclableAdapter;
-import com.mtrilogic.classes.Listable;
 import com.mtrilogic.interfaces.Bindable;
 import com.mtrilogic.interfaces.RecyclableItemListener;
 
-import java.util.ArrayList;
-
 @SuppressWarnings({"unused"})
 public abstract class Recyclable<M extends Modelable, L extends RecyclableItemListener>
-        extends RecyclerView.ViewHolder implements Bindable<M>, Observer<M> {
+        extends RecyclerView.ViewHolder implements Bindable<M> {
     protected final L listener;
-
     protected int position;
     protected M model;
 
@@ -40,9 +35,9 @@ public abstract class Recyclable<M extends Modelable, L extends RecyclableItemLi
     // ================< PUBLIC METHODS >===========================================================
 
     public final void bindModel(@NonNull Modelable modelable, int position){
-        model = getModelFromModelable(modelable);
+        this.model = getModelFromModelable(modelable);
         this.position = position;
-        if (model != null) {
+        if (this.model != null) {
             onBindModel();
         }
     }
@@ -56,29 +51,13 @@ public abstract class Recyclable<M extends Modelable, L extends RecyclableItemLi
     protected final void autoDelete(){
         if (model != null){
             RecyclableAdapter adapter = listener.getRecyclableAdapter();
-            if (adapter != null){
-                Listable<Modelable> listable = adapter.getListable();
-                if (listable != null){
-                    ArrayList<Modelable> list = listable.getList();
-                    if (list != null){
-                        if (list.remove(model)){
-                            adapter.notifyItemRemoved(position);
-                        }
-                    }
-                }
+            if (adapter != null && adapter.getListable().getList().remove(model)){
+                adapter.notifyItemRemoved(position);
             }
         }
     }
 
-    @Override
-    public void onChanged(M model) {
-
-    }
-
-    @Override
-    public void onBindItemView() {
-
-    }
+    // ================< PUBLIC OVERRIDE METHODS >==================================================
 
     @Override
     public void onMakeToast(String line) {
@@ -88,5 +67,20 @@ public abstract class Recyclable<M extends Modelable, L extends RecyclableItemLi
     @Override
     public void onMakeLog(String line) {
         listener.onMakeLog(line);
+    }
+
+    @Override
+    public M getModelFromModelable(@NonNull Modelable modelable) {
+        return null;
+    }
+
+    @Override
+    public void onBindItemView() {
+
+    }
+
+    @Override
+    public void onBindModel() {
+
     }
 }

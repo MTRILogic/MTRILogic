@@ -45,7 +45,7 @@ public class FragmentableAdapter extends FragmentPagerAdapter{
 
     @NonNull
     @Override
-    public Fragmentable getItem(int position){
+    public Fragmentable<?, ?> getItem(int position){
         return listener.getFragmentable(getPaginable(position));
     }
 
@@ -56,7 +56,7 @@ public class FragmentableAdapter extends FragmentPagerAdapter{
 
     @Override
     public int getItemPosition(@NonNull Object object) {
-        Fragmentable fragmentable = (Fragmentable) object;
+        Fragmentable<?, ?> fragmentable = (Fragmentable<?, ?>) object;
         Paginable paginable = fragmentable.getPaginable();
         int position = getPaginableList().indexOf(paginable);
         if (position != Base.INVALID_POSITION){

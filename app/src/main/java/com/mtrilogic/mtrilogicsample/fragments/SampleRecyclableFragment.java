@@ -88,7 +88,7 @@ public class SampleRecyclableFragment extends BindingRecyclableFragment<SampleLi
     }
 
     @Override
-    public Recyclable getRecyclable(int viewType, @NonNull LayoutInflater inflater, @NonNull ViewGroup parent){
+    public Recyclable<?, ?> getRecyclable(int viewType, @NonNull LayoutInflater inflater, @NonNull ViewGroup parent){
         Context context = getContext();
         switch(viewType){
             case ItemChildType.DATA:

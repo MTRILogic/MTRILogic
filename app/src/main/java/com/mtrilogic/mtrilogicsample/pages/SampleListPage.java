@@ -12,12 +12,12 @@ import com.mtrilogic.abstracts.ListPaginable;
 public class SampleListPage extends ListPaginable<Modelable> {
     public static final Creator<SampleListPage> CREATOR = new PaginableCreator<SampleListPage>() {
         @Override
-        public SampleListPage getParcelable(@NonNull Bundle data) {
+        public SampleListPage createFromData(@NonNull Bundle data) {
             return new SampleListPage(data);
         }
 
         @Override
-        public SampleListPage[] getParcelableArray(int size) {
+        public SampleListPage[] newArray(int size) {
             return new SampleListPage[size];
         }
     };
@@ -26,8 +26,8 @@ public class SampleListPage extends ListPaginable<Modelable> {
 
     public SampleListPage(){}
 
-    public SampleListPage(String pageTitle, String tagName, int viewType) {
-        super(pageTitle, tagName, viewType);
+    public SampleListPage(String pageTitle, long itemId, int viewType) {
+        super(pageTitle, itemId, viewType);
     }
 
     // ================< PRIVATE CONSTRUCTORS >=====================================================

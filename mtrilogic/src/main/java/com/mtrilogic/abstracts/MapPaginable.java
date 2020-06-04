@@ -18,8 +18,8 @@ public abstract class MapPaginable<M extends Modelable> extends Paginable {
         super();
     }
 
-    public MapPaginable(@NonNull String pageTitle, @NonNull String tagName, int viewType){
-        super(pageTitle, tagName, viewType);
+    public MapPaginable(@NonNull String pageTitle, long itemmId, int viewType){
+        super(pageTitle, itemmId, viewType);
         groupListable = new Listable<>();
         childMapable = new Mapable<>();
     }

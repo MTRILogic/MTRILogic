@@ -6,8 +6,7 @@ import androidx.viewbinding.ViewBinding;
 import com.mtrilogic.interfaces.RecyclableItemListener;
 
 @SuppressWarnings("unused")
-public abstract class BindingRecyclable<M extends Modelable, L extends RecyclableItemListener,
-        VB extends ViewBinding> extends Recyclable<M, L> {
+public abstract class BindingRecyclable<M extends Modelable, L extends RecyclableItemListener, VB extends ViewBinding> extends Recyclable<M, L> {
     protected VB binding;
 
     // ================< PUBLIC CONSTRUCTORS >======================================================

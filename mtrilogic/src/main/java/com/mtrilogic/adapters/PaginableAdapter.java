@@ -71,7 +71,7 @@ public class PaginableAdapter extends PagerAdapter {
         }
         Paginable paginable = getPaginable(position);
         int viewType = paginable.getViewType();
-        PageInflatable inflatable = listener.getPageInflatable(viewType, inflater, container);
+        PageInflatable<?> inflatable = listener.getPageInflatable(viewType, inflater, container);
         itemView = inflatable.getItemView();
         while (itemViewList.size() <= position){
             itemViewList.add(null);

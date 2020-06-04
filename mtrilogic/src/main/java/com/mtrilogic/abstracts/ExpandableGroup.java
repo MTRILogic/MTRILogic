@@ -5,23 +5,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 
 import com.mtrilogic.adapters.ExpandableAdapter;
-import com.mtrilogic.classes.Listable;
 import com.mtrilogic.interfaces.Bindable;
 import com.mtrilogic.interfaces.ExpandableItemListener;
 import com.mtrilogic.views.ExpandableView;
 
-import java.util.ArrayList;
-
 @SuppressWarnings({"unused", "WeakerAccess"})
-public abstract class ExpandableGroup<M extends Modelable, L extends ExpandableItemListener>
-        extends LiveData<M> implements Bindable<M>, Observer<M> {
+public abstract class ExpandableGroup<M extends Modelable, L extends ExpandableItemListener> implements Bindable<M> {
     protected final View itemView;
     protected final L listener;
-
     protected int groupPosition;
     protected boolean expanded;
     protected M model;
@@ -33,8 +26,7 @@ public abstract class ExpandableGroup<M extends Modelable, L extends ExpandableI
         this.listener = listener;
     }
 
-    public ExpandableGroup(@NonNull LayoutInflater inflater, int resource, @NonNull ViewGroup parent,
-                           @NonNull L listener){
+    public ExpandableGroup(@NonNull LayoutInflater inflater, int resource, @NonNull ViewGroup parent, @NonNull L listener){
         itemView = inflater.inflate(resource, parent, false);
         this.listener = listener;
         onBindItemView();
@@ -47,36 +39,31 @@ public abstract class ExpandableGroup<M extends Modelable, L extends ExpandableI
     }
 
     public final void bindModel(@NonNull Modelable modelable, int groupPosition, boolean expanded){
-        model = getModelFromModelable(modelable);
-        ExpandableAdapter adapter = listener.getExpandableAdapter();
+        this.model = getModelFromModelable(modelable);
         this.groupPosition = groupPosition;
         this.expanded = expanded;
-        if (model != null) {
+        if (this.model != null) {
             onBindModel();
         }
     }
 
     // ================< PROTECTED METHODS >========================================================
 
+    protected final M getModel() {
+        return model;
+    }
+
     protected final void autoDelete(){
         if (model != null){
             ExpandableAdapter adapter = listener.getExpandableAdapter();
-            if (adapter != null){
-                Listable<Modelable> listable = adapter.getGroupListable();
-                if (listable != null){
-                    ArrayList<Modelable> list = listable.getList();
-                    if (list != null){
-                        if (list.remove(model)){
-                            adapter.notifyDataSetChanged();
-                        }
-                    }
-                }
+            if (adapter != null && adapter.deleteGroupModelable(model)){
+                adapter.notifyDataSetChanged();
             }
         }
     }
 
     protected final void addChildModelable(@NonNull Modelable childModelable){
-        if (model != null){
+        if (model != null) {
             ExpandableAdapter adapter = listener.getExpandableAdapter();
             if (adapter != null && adapter.appendChildModelable(model, childModelable)){
                 adapter.notifyDataSetChanged();
@@ -91,8 +78,18 @@ public abstract class ExpandableGroup<M extends Modelable, L extends ExpandableI
     }
 
     @Override
-    public void onChanged(M model) {
+    public void onMakeToast(String line) {
+        listener.onMakeToast(line);
+    }
 
+    @Override
+    public void onMakeLog(String line) {
+        listener.onMakeLog(line);
+    }
+
+    @Override
+    public M getModelFromModelable(@NonNull Modelable modelable) {
+        return null;
     }
 
     @Override
@@ -101,12 +98,7 @@ public abstract class ExpandableGroup<M extends Modelable, L extends ExpandableI
     }
 
     @Override
-    public void onMakeToast(String line) {
-        listener.onMakeToast(line);
-    }
+    public void onBindModel() {
 
-    @Override
-    public void onMakeLog(String line) {
-        listener.onMakeLog(line);
     }
 }

@@ -62,13 +62,13 @@ public class FragmentableStateAdapter extends PagerAdapter {
     private final int behavior;
 
     private ArrayList<Fragment.SavedState> savedStateList = new ArrayList<>();
-    private ArrayList<Fragmentable> fragmentableList = new ArrayList<>();
+    private ArrayList<Fragmentable<?, ?>> fragmentableList = new ArrayList<>();
     private ArrayList<String> tagNameList = new ArrayList<>();
     private Listable<Paginable> listable;
     private FragmentableListener listener;
 
     private FragmentTransaction transaction = null;
-    private Fragmentable fragmentable = null;
+    private Fragmentable<?, ?> fragmentable = null;
 
     // ==< PUBLIC CONSTRUCTORS >====================================================================
 
@@ -111,7 +111,7 @@ public class FragmentableStateAdapter extends PagerAdapter {
      * Return the Fragment associated with a specified position.
      */
     @NonNull
-    public Fragmentable getItem(int position){
+    public Fragmentable<?, ?> getItem(int position){
         return listener.getFragmentable(getPaginable(position));
     }
 
@@ -144,7 +144,7 @@ public class FragmentableStateAdapter extends PagerAdapter {
         // to do.  This can happen when we are restoring the entire pager
         // from its saved state, where the fragment manager has already
         // taken care of restoring the fragments we previously had instantiated.
-        Fragmentable fragmentable;
+        Fragmentable<?, ?> fragmentable;
         if (fragmentableList.size() > position) {
             fragmentable = fragmentableList.get(position);
             if (fragmentable != null) {
@@ -186,13 +186,13 @@ public class FragmentableStateAdapter extends PagerAdapter {
 
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-        Fragmentable fragmentable = (Fragmentable) object;
+        Fragmentable<?, ?> fragmentable = (Fragmentable<?, ?>) object;
 
         if (transaction == null) {
             transaction = manager.beginTransaction();
         }
 
-        if (DEBUG) Log.v(TAG, "Removing item #" + position + ": f=" + object + " v=" + ((Fragmentable)object).getView());
+        if (DEBUG) Log.v(TAG, "Removing item #" + position + ": f=" + object + " v=" + ((Fragmentable<?, ?>)object).getView());
 
         while (savedStateList.size() <= position) {
             savedStateList.add(null);
@@ -211,7 +211,7 @@ public class FragmentableStateAdapter extends PagerAdapter {
 
     @Override
     public void setPrimaryItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-        Fragmentable fragmentable = (Fragmentable) object;
+        Fragmentable<?, ?> fragmentable = (Fragmentable<?, ?>) object;
         if (this.fragmentable != fragmentable) {
             if (this.fragmentable != null) {
                 this.fragmentable.setMenuVisibility(false);
@@ -300,7 +300,7 @@ public class FragmentableStateAdapter extends PagerAdapter {
             for (String key: keys) {
                 if (key.startsWith("f")) {
                     int index = Integer.parseInt(key.substring(1));
-                    Fragmentable f = (Fragmentable) manager.getFragment(bundle, key);
+                    Fragmentable<?, ?> f = (Fragmentable<?, ?>) manager.getFragment(bundle, key);
                     if (f != null) {
                         while (fragmentableList.size() <= index) {
                             fragmentableList.add(null);
@@ -323,7 +323,7 @@ public class FragmentableStateAdapter extends PagerAdapter {
 
     @Override
     public int getItemPosition(@NonNull Object object) {
-        Fragmentable fragmentable = (Fragmentable) object;
+        Fragmentable<?, ?> fragmentable = (Fragmentable<?, ?>) object;
         Paginable paginable = fragmentable.getPaginable();
         int position = getPaginableList().indexOf(paginable);
         if (position != Base.INVALID_POSITION){

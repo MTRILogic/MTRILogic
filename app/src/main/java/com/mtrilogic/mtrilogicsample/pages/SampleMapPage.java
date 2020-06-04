@@ -13,12 +13,12 @@ import com.mtrilogic.mtrilogicsample.types.FragmentableType;
 public class SampleMapPage extends MapPaginable<Modelable> {
     public static final Creator<SampleMapPage> CREATOR = new PaginableCreator<SampleMapPage>() {
         @Override
-        public SampleMapPage getParcelable(@NonNull Bundle data) {
+        public SampleMapPage createFromData(@NonNull Bundle data) {
             return new SampleMapPage(data);
         }
 
         @Override
-        public SampleMapPage[] getParcelableArray(int size) {
+        public SampleMapPage[] newArray(int size) {
             return new SampleMapPage[size];
         }
     };
@@ -27,8 +27,8 @@ public class SampleMapPage extends MapPaginable<Modelable> {
 
     public SampleMapPage(){}
 
-    public SampleMapPage(@NonNull String pageTitle, @NonNull String tagName){
-        super(pageTitle, tagName, FragmentableType.EXPANDABLE);
+    public SampleMapPage(@NonNull String pageTitle, long itemId){
+        super(pageTitle, itemId, FragmentableType.EXPANDABLE);
     }
 
     // ================< PRIVATE CONSTRUCTORS >=====================================================

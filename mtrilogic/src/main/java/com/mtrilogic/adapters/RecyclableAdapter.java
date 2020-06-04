@@ -15,7 +15,7 @@ import com.mtrilogic.interfaces.RecyclableListener;
 import java.util.ArrayList;
 
 @SuppressWarnings({"unused"})
-public class RecyclableAdapter extends RecyclerView.Adapter<Recyclable>{
+public class RecyclableAdapter extends RecyclerView.Adapter<Recyclable<?, ?>>{
     private Listable<Modelable> listable;
     private RecyclableListener listener;
     private LayoutInflater inflater;
@@ -48,7 +48,7 @@ public class RecyclableAdapter extends RecyclerView.Adapter<Recyclable>{
 
     @NonNull
     @Override
-    public Recyclable onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
+    public Recyclable<?, ?> onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
         return listener.getRecyclable(viewType, inflater, parent);
     }
 

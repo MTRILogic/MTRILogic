@@ -10,12 +10,12 @@ import com.mtrilogic.abstracts.ModelableCreator;
 public class ImageModel extends DataModel{
     public static final Creator<ImageModel> CREATOR = new ModelableCreator<ImageModel>() {
         @Override
-        public ImageModel getParcelable(@NonNull Bundle data) {
+        public ImageModel createFromData(@NonNull Bundle data) {
             return new ImageModel(data);
         }
 
         @Override
-        public ImageModel[] getParcelableArray(int size) {
+        public ImageModel[] newArray(int size) {
             return new ImageModel[size];
         }
     };
@@ -27,6 +27,10 @@ public class ImageModel extends DataModel{
     // ================< PUBLIC CONSTRUCTORS >======================================================
 
     public ImageModel(){}
+
+    public ImageModel(long itemId, int viewType) {
+        super(itemId, viewType);
+    }
 
     private ImageModel(@NonNull Bundle data){
         super(data);

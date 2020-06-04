@@ -21,8 +21,7 @@ import com.mtrilogic.mtrilogicsample.models.ImageModel;
 import com.mtrilogic.views.SquareImageView;
 
 @SuppressWarnings({"unused","FieldCanBeLocal"})
-public class ChildImageItemBinding extends BindingExpandableChild<ImageModel, ExpandableItemListener, ItemChildImageBinding>
-        implements RatingBar.OnRatingBarChangeListener{
+public class ChildImageItemBinding extends BindingExpandableChild<ImageModel, ExpandableItemListener, ItemChildImageBinding> implements RatingBar.OnRatingBarChangeListener{
     private TextView lblTitle, lblContent;
     private CheckBox chkItem;
     private SquareImageView ivwImage;
@@ -87,8 +86,7 @@ public class ChildImageItemBinding extends BindingExpandableChild<ImageModel, Ex
         if(adapter != null && fromUser){
             model.setRating(rating);
             adapter.notifyDataSetChanged();
-            listener.onMakeToast("Rating Bar[" + groupPosition + "][" + childPosition +
-                    "] set to " + rating );
+            listener.onMakeToast("Rating Bar[" + groupPosition + "][" + childPosition + "] set to " + rating );
         }
     }
 
@@ -100,8 +98,7 @@ public class ChildImageItemBinding extends BindingExpandableChild<ImageModel, Ex
             boolean checked = chkItem.isChecked();
             model.setChecked(checked);
             adapter.notifyDataSetChanged();
-            listener.onMakeToast("Item [" + groupPosition + "," + childPosition +
-                    "] set to " + checked);
+            listener.onMakeToast("Item [" + groupPosition + "," + childPosition + "] set to " + checked);
         }
     }
 

@@ -66,8 +66,7 @@ public class ChildDataItemBinding extends BindingExpandableChild<DataModel, Expa
             boolean checked = chkItem.isChecked();
             model.setChecked(checked);
             adapter.notifyDataSetChanged();
-            listener.onMakeToast("Item [" + groupPosition + "," + childPosition +
-                    "] set to " + checked);
+            listener.onMakeToast("Item [" + groupPosition + "," + childPosition + "] set to " + checked);
         }
     }
 }

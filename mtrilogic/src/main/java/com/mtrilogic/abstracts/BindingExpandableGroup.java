@@ -6,8 +6,7 @@ import androidx.viewbinding.ViewBinding;
 import com.mtrilogic.interfaces.ExpandableItemListener;
 
 @SuppressWarnings({"unused"})
-public abstract class BindingExpandableGroup<M extends Modelable, L extends ExpandableItemListener,
-        VB extends ViewBinding> extends ExpandableGroup<M, L> {
+public abstract class BindingExpandableGroup<M extends Modelable, L extends ExpandableItemListener, VB extends ViewBinding> extends ExpandableGroup<M, L> {
     protected VB binding;
 
     // ================< PUBLIC CONSTRUCTORS >======================================================

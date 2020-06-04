@@ -16,8 +16,8 @@ public abstract class ListPaginable<M extends Modelable> extends Paginable {
         super();
     }
 
-    public ListPaginable(String pageTitle, String tagName, int viewType) {
-        super(pageTitle, tagName, viewType);
+    public ListPaginable(String pageTitle, long itemId, int viewType) {
+        super(pageTitle, itemId, viewType);
         listable = new Listable<>();
     }
 

@@ -9,8 +9,7 @@ public abstract class ModelableCreator<M extends Modelable> implements Parcelabl
 
     // ================< PUBLIC ABSTRACT METHODS >==================================================
 
-    public abstract M getParcelable(Bundle data);
-    public abstract M[] getParcelableArray(int size);
+    public abstract M createFromData(Bundle data);
 
     // ================< PUBLIC FINAL OVERRIDE METHODS >============================================
 
@@ -24,11 +23,6 @@ public abstract class ModelableCreator<M extends Modelable> implements Parcelabl
         return getParcelable(src,null);
     }
 
-    @Override
-    public final M[] newArray(int size){
-        return getParcelableArray(size);
-    }
-
     // ================< PRIVATE METHODS >==========================================================
 
     private M getParcelable(Parcel source, ClassLoader loader){
@@ -36,6 +30,6 @@ public abstract class ModelableCreator<M extends Modelable> implements Parcelabl
         if (source != null && loader != null){
             data = source.readBundle(loader);
         }
-        return getParcelable(data);
+        return createFromData(data);
     }
 }

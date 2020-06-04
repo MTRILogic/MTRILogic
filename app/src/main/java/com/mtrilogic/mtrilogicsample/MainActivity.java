@@ -44,11 +44,6 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             R.string.recyclable,
             R.string.expandable
     };
-    private static final String[] TAG_NAMES = {
-            "inflatable",
-            "recyclable",
-            "expandable"
-    };
     private static final int[] VIEW_TYPES = {
             FragmentableType.INFLATABLE,
             FragmentableType.RECYCLABLE,
@@ -79,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
+
         Observer<Listable<Paginable>> paginableObserver = new Observer<Listable<Paginable>>() {
             @Override
             public void onChanged(Listable<Paginable> listable) {
@@ -96,9 +92,9 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             ArrayList<Paginable> list = new ArrayList<>();
             for(int i = 0; i < 3; i++){
                 String pageTitle = getString(PAGE_TITLES[i]);
-                Paginable paginable = newPaginable(VIEW_TYPES[i], pageTitle, TAG_NAMES[i] + idx);
+                Paginable paginable = newPaginable(VIEW_TYPES[i], pageTitle, idx);
                 if(paginable != null && list.add(paginable)){
-                    paginable.setItemId(idx++);
+                    idx++;
                 }
             }
             pageState.getListable().setList(list, idx);
@@ -127,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         fabInflatable.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addPaginable(newPaginable(FragmentableType.INFLATABLE, "Inflatable", "inflatable" + idx));
+                addPaginable(newPaginable(FragmentableType.INFLATABLE, "Inflatable", idx));
             }
         });
 
@@ -135,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         fabRecyclable.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addPaginable(newPaginable(FragmentableType.RECYCLABLE, "Recyclable", "recyclable" + idx));
+                addPaginable(newPaginable(FragmentableType.RECYCLABLE, "Recyclable", idx));
             }
         });
 
@@ -143,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         fabExpandable.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addPaginable(newPaginable(FragmentableType.EXPANDABLE, "Expandable", "expandable" + idx));
+                addPaginable(newPaginable(FragmentableType.EXPANDABLE, "Expandable", idx));
             }
         });
     }
@@ -167,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     public void onPageScrollStateChanged(int i){}
 
     @Override
-    public Fragmentable getFragmentable(@NonNull Paginable paginable){
+    public Fragmentable<?, ?> getFragmentable(@NonNull Paginable paginable){
         switch(paginable.getViewType()){
             case FragmentableType.INFLATABLE:
                 return Fragmentable.getInstance(paginable, new SampleInflatableFragment());
@@ -232,14 +228,14 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         }
     }
 
-    private Paginable newPaginable(int viewType, String pageTitle, String tagName){
+    private Paginable newPaginable(int viewType, String pageTitle, long itemId){
         switch (viewType){
             case FragmentableType.INFLATABLE:
-                return new SampleListPage(pageTitle, tagName, FragmentableType.INFLATABLE);
+                return new SampleListPage(pageTitle, itemId, FragmentableType.INFLATABLE);
             case FragmentableType.RECYCLABLE:
-                return new SampleListPage(pageTitle, tagName, FragmentableType.RECYCLABLE);
+                return new SampleListPage(pageTitle, itemId, FragmentableType.RECYCLABLE);
             case FragmentableType.EXPANDABLE:
-                return new SampleMapPage(pageTitle, tagName);
+                return new SampleMapPage(pageTitle, itemId);
         }
         return null;
     }

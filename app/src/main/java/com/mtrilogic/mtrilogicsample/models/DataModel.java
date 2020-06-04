@@ -11,12 +11,12 @@ import com.mtrilogic.abstracts.ModelableCreator;
 public class DataModel extends Modelable{
     public static final Creator<DataModel> CREATOR = new ModelableCreator<DataModel>() {
         @Override
-        public DataModel getParcelable(@NonNull Bundle data) {
+        public DataModel createFromData(@NonNull Bundle data) {
             return new DataModel(data);
         }
 
         @Override
-        public DataModel[] getParcelableArray(int size) {
+        public DataModel[] newArray(int size) {
             return new DataModel[size];
         }
     };
@@ -29,6 +29,10 @@ public class DataModel extends Modelable{
 
     public DataModel(){
         super();
+    }
+
+    public DataModel(long itemId, int viewType){
+        super(itemId, viewType, true);
     }
 
     public DataModel(@NonNull Bundle data){

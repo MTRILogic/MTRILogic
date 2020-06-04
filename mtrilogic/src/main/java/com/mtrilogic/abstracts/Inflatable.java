@@ -5,22 +5,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 
 import com.mtrilogic.adapters.InflatableAdapter;
-import com.mtrilogic.classes.Listable;
 import com.mtrilogic.interfaces.Bindable;
 import com.mtrilogic.interfaces.InflatableItemListener;
 
-import java.util.ArrayList;
-
 @SuppressWarnings({"unused"})
-public abstract class Inflatable<M extends Modelable, L extends InflatableItemListener>
-        extends LiveData<M> implements Bindable<M>, Observer<M> {
+public abstract class Inflatable<M extends Modelable, L extends InflatableItemListener> implements Bindable<M> {
     protected final View itemView;
     protected final L listener;
-
     protected int position;
     protected M model;
 
@@ -31,8 +24,7 @@ public abstract class Inflatable<M extends Modelable, L extends InflatableItemLi
         this.listener = listener;
     }
 
-    public Inflatable(@NonNull LayoutInflater inflater, int resource, @NonNull ViewGroup parent,
-                      @NonNull L listener){
+    public Inflatable(@NonNull LayoutInflater inflater, int resource, @NonNull ViewGroup parent, @NonNull L listener){
         itemView = inflater.inflate(resource, parent, false);
         this.listener = listener;
         onBindItemView();
@@ -45,9 +37,9 @@ public abstract class Inflatable<M extends Modelable, L extends InflatableItemLi
     }
 
     public final void bindModel(@NonNull Modelable modelable, int position){
-        model = getModelFromModelable(modelable);
+        this.model = getModelFromModelable(modelable);
         this.position = position;
-        if (model != null) {
+        if (this.model != null) {
             onBindModel();
         }
     }
@@ -58,40 +50,16 @@ public abstract class Inflatable<M extends Modelable, L extends InflatableItemLi
         return model;
     }
 
-    protected final int getPosition(){
-        return position;
-    }
-
-    protected L getListener() {
-        return listener;
-    }
-
     protected final void autoDelete(){
         if (model != null){
             InflatableAdapter adapter = listener.getInflatableAdapter();
-            if (adapter != null){
-                Listable<Modelable> listable = adapter.getListable();
-                if (listable != null){
-                    ArrayList<Modelable> list = listable.getList();
-                    if (list != null){
-                        if (list.remove(model)){
-                            adapter.notifyDataSetChanged();
-                        }
-                    }
-                }
+            if (adapter != null && adapter.getListable().getList().remove(model)){
+                adapter.notifyDataSetChanged();
             }
         }
     }
 
-    @Override
-    public void onChanged(M model) {
-
-    }
-
-    @Override
-    public void onBindItemView() {
-
-    }
+    // ================< PUBLIC OVERRIDE METHODS >==================================================
 
     @Override
     public void onMakeToast(String line) {
@@ -101,5 +69,20 @@ public abstract class Inflatable<M extends Modelable, L extends InflatableItemLi
     @Override
     public void onMakeLog(String line) {
         listener.onMakeLog(line);
+    }
+
+    @Override
+    public M getModelFromModelable(@NonNull Modelable modelable) {
+        return null;
+    }
+
+    @Override
+    public void onBindItemView() {
+
+    }
+
+    @Override
+    public void onBindModel() {
+
     }
 }

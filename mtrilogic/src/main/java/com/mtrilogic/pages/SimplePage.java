@@ -11,12 +11,12 @@ import com.mtrilogic.abstracts.PaginableCreator;
 public class SimplePage extends Paginable {
     public static final Creator<SimplePage> CREATOR = new PaginableCreator<SimplePage>() {
         @Override
-        public SimplePage getParcelable(@NonNull Bundle data) {
+        public SimplePage createFromData(@NonNull Bundle data) {
             return new SimplePage(data);
         }
 
         @Override
-        public SimplePage[] getParcelableArray(int size) {
+        public SimplePage[] newArray(int size) {
             return new SimplePage[size];
         }
     };
@@ -30,8 +30,8 @@ public class SimplePage extends Paginable {
         super();
     }
 
-    public SimplePage(@NonNull String pageTitle, @NonNull String tagName, long itemId, int viewType) {
-        super(pageTitle, tagName, viewType);
+    public SimplePage(@NonNull String pageTitle, long itemId, int viewType) {
+        super(pageTitle, itemId, viewType);
     }
 
     private SimplePage(@NonNull Bundle data) {

@@ -2,7 +2,6 @@ package com.mtrilogic.abstracts;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -16,8 +15,7 @@ import com.mtrilogic.interfaces.InflatableListener;
 import com.mtrilogic.views.InflatableView;
 
 @SuppressWarnings({"unused"})
-public abstract class InflatableFragment<P extends ListPaginable<Modelable>, L extends FragmentListener>
-        extends Fragmentable<P, L> implements InflatableListener, InflatableItemListener {
+public abstract class InflatableFragment<P extends ListPaginable<Modelable>, L extends FragmentListener> extends Fragmentable<P, L> implements InflatableListener, InflatableItemListener {
     protected InflatableAdapter adapter;
     protected InflatableView lvwItems;
 
@@ -33,8 +31,7 @@ public abstract class InflatableFragment<P extends ListPaginable<Modelable>, L e
 
     // ================< PROTECTED METHODS >========================================================
 
-    protected void bindInflatable(@NonNull Context context, @NonNull InflatableView lvwItems,
-                                  @NonNull P page, int typeCount){
+    protected void bindInflatable(@NonNull Context context, @NonNull InflatableView lvwItems, @NonNull P page, int typeCount){
         Listable<Modelable> listable = page.getListable();
         if (listable != null) {
             adapter = new InflatableAdapter(context, this, listable, typeCount);
@@ -71,20 +68,5 @@ public abstract class InflatableFragment<P extends ListPaginable<Modelable>, L e
     @Override
     public InflatableAdapter getInflatableAdapter(){
         return adapter;
-    }
-
-    @Override
-    public boolean onItemTouch(@NonNull View view, @NonNull MotionEvent event, @NonNull Modelable modelable, int position) {
-        return false;
-    }
-
-    @Override
-    public boolean onItemLongClick(@NonNull View view, @NonNull Modelable modelable, int position) {
-        return false;
-    }
-
-    @Override
-    public void onItemClick(@NonNull View view, @NonNull Modelable modelable, int position) {
-
     }
 }

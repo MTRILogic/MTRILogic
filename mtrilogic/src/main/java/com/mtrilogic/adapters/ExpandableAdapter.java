@@ -24,10 +24,8 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
     private LayoutInflater inflater;
     private ExpandableListener listener;
 
-    private ArrayList<Listable<Modelable>> lastListableList;
-    private Listable<Modelable> groupListable, lastListable;
+    private Listable<Modelable> groupListable;
     private Mapable<Modelable> childMapable;
-    private Modelable lastModelable;
 
     private int groupTypeCount, childTypeCount;
     private boolean stableIds;
@@ -43,7 +41,6 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
         this.childMapable = childMapable;
         setGroupTypeCount(groupTypeCount);
         setChildTypeCount(childTypeCount);
-        lastListableList = new ArrayList<>();
         stableIds = false;
     }
 
@@ -101,12 +98,12 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
      * @return True if the groupModelableList changed
      */
     public final boolean appendGroupModelableList(@NonNull ArrayList<Modelable> groupModelableList){
-        lastListable = null;
         int count = 0;
         for (Modelable groupModelable: groupModelableList){
             if (!groupListable.contains(groupModelable) && groupListable.append(groupModelable)){
-                lastListable = childMapable.putListable(groupModelable, new Listable<>());
-                count++;
+                if (childMapable.putListable(groupModelable, new Listable<>())){
+                    count++;
+                }
             }
         }
         return count > 0;
@@ -121,10 +118,8 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
      * @return True if group modelable was added
      */
     public final boolean appendGroupModelable(@NonNull Modelable groupModelable, @NonNull Listable<Modelable> childListable){
-        lastListable = null;
         if (!groupListable.contains(groupModelable) && groupListable.append(groupModelable)){
-            lastListable = childMapable.putListable(groupModelable, childListable);
-            return true;
+            return childMapable.putListable(groupModelable, childListable);
         }
         return false;
     }
@@ -161,22 +156,20 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
     // INSERT ======================================================================================
 
     public final boolean insertGroupModelableList(int groupPosition, @NonNull ArrayList<Modelable> groupModelableList){
-        lastListable = null;
         int count = 0;
         for (Modelable groupModelable : groupModelableList){
             if (!groupListable.contains(groupModelable) && groupListable.insert(groupPosition, groupModelable)){
-                lastListable = childMapable.putListable(groupModelable, new Listable<>());
-                count++;
+                if (childMapable.putListable(groupModelable, new Listable<>())){
+                    count++;
+                }
             }
         }
         return count > 0;
     }
 
     public final boolean insertGroupModelable(int groupPosition, @NonNull Modelable groupModelable, @NonNull Listable<Modelable> childListable){
-        lastListable = null;
         if (!groupListable.contains(groupModelable) && groupListable.insert(groupPosition, groupModelable)){
-            lastListable = childMapable.putListable(groupModelable, childListable);
-            return true;
+            return childMapable.putListable(groupModelable, childListable);
         }
         return false;
     }
@@ -238,16 +231,12 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
         return null;
     }
 
-    public final ArrayList<Listable<Modelable>> getLastListableList() {
-        return lastListableList;
-    }
-
     public final Listable<Modelable> getLastListable() {
-        return lastListable;
+        return childMapable.getLastListable();
     }
 
     public final Modelable getLastModelable() {
-        return lastModelable;
+        return groupListable.getLastItem();
     }
 
     // SET =========================================================================================
@@ -259,15 +248,17 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
      */
     public final boolean setGroupListable(@NonNull Listable<Modelable> groupListable){
         if (this.groupListable != groupListable){
-            lastListable = null;
             ArrayList<Modelable> groupModelableList = groupListable.getList();
             if (groupModelableList != null){
                 this.groupListable = groupListable;
-                childMapable.reset();
+                childMapable.getListableMap().clear();
+                int count = 0;
                 for (Modelable groupModelable : groupModelableList){
-                    lastListable = childMapable.putListable(groupModelable, new Listable<>());
+                    if (childMapable.putListable(groupModelable, new Listable<>())){
+                        count++;
+                    }
                 }
-                return true;
+                return count > 0;
             }
         }
         return false;
@@ -296,12 +287,7 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
      * @return The replaced group modelable or null
      */
     public final boolean setGroupModelable(int groupPosition, @NonNull Modelable groupModelable){
-        lastModelable = null;
-        if (groupListable.set(groupPosition, groupModelable)){
-            lastModelable = groupListable.getLastItem();
-            return true;
-        }
-        return false;
+        return groupListable.set(groupPosition, groupModelable);
     }
 
     /**
@@ -313,13 +299,9 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
      */
     public final boolean setChildModelable(@NonNull Modelable groupModelable, int childPosition,
                                              @NonNull Modelable childModelable){
-        lastModelable = null;
         Listable<Modelable> childListable = getChildListable(groupModelable);
         if (childListable != null){
-            if (childListable.set(childPosition, childModelable)){
-                lastModelable = childListable.getLastItem();
-                return true;
-            }
+            return childListable.set(childPosition, childModelable);
         }
         return false;
     }
@@ -327,15 +309,11 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
     // DELETE ======================================================================================
 
     public final boolean deleteGroupModelableList(@NonNull ArrayList<Modelable> groupModelableList){
-        lastListableList = new ArrayList<>();
-        lastListable = null;
         int size = groupModelableList.size();
         if (size > 0) {
             int count = size;
             for (Modelable groupModelable : groupModelableList) {
-                if (groupListable.delete(groupModelable)) {
-                    lastListable = childMapable.deleteListable(groupModelable);
-                    lastListableList.add(lastListable);
+                if (groupListable.delete(groupModelable) && childMapable.deleteListable(groupModelable)) {
                     count--;
                 }
             }
@@ -350,12 +328,7 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
      * @return True if group modelable was removed
      */
     public final boolean deleteGroupModelable(@NonNull Modelable groupModelable){
-        lastListable = null;
-        if (groupListable.delete(groupModelable)){
-            lastListable = childMapable.deleteListable(groupModelable);
-            return true;
-        }
-        return false;
+        return groupListable.delete(groupModelable) && childMapable.deleteListable(groupModelable);
     }
 
     public final boolean deleteChildModelableList(@NonNull Modelable groupModelable,
@@ -399,7 +372,7 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
      */
     public final void resetGroupListable(){
         groupListable.reset();
-        childMapable.reset();
+        childMapable.getListableMap().clear();
     }
 
     /**
@@ -472,9 +445,9 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
     public View getGroupView(int groupPosition, boolean expanded, View view, ViewGroup parent){
         Modelable groupModelable = getGroup(groupPosition);
         if (groupModelable != null){
-            ExpandableGroup expandableGroup;
+            ExpandableGroup<?, ?> expandableGroup;
             if(view != null){
-                expandableGroup = (ExpandableGroup)view.getTag();
+                expandableGroup = (ExpandableGroup<?, ?>)view.getTag();
             }else {
                 int viewType = groupModelable.getViewType();
                 expandableGroup = listener.getExpandableGroup(viewType, inflater, parent);
@@ -490,9 +463,9 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
     public View getChildView(int groupPosition, int childPosition, boolean lastChild, View view, ViewGroup parent){
         Modelable childModelable = getChild(groupPosition, childPosition);
         if (childModelable != null){
-            ExpandableChild expandableChild;
+            ExpandableChild<?, ?> expandableChild;
             if(view != null){
-                expandableChild = (ExpandableChild)view.getTag();
+                expandableChild = (ExpandableChild<?, ?>)view.getTag();
             }else {
                 int viewType = childModelable.getViewType();
                 expandableChild = listener.getExpandableChild(viewType, inflater, parent);
