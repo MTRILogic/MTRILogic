@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_fragment">Fragment: Id=%1$d Pos=%2$d</string>
+    <string name="default_item">Item: Id=%1$d Pos=%2$d</string>
+    <string name="default_child">Child: Id=%1$d Pos=[%2$d][%3$d]</string>
+    <string name="default_group">Group: Id=%1$d Pos=[%2$d]</string>
+</resources>
