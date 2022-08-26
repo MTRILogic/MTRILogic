@@ -14,8 +14,10 @@ import com.mtrilogic.classes.Mapable;
 public interface ExpandableAdapterListener extends OnMakeToastListener {
     @NonNull
     ExpandableGroup<? extends Modelable> getExpandableGroup(int viewType, @NonNull LayoutInflater inflater, @NonNull ViewGroup parent);
+
     @NonNull
     ExpandableChild<? extends Modelable> getExpandableChild(int viewType, @NonNull LayoutInflater inflater, @NonNull ViewGroup parent);
+
     @NonNull
     Mapable<Modelable> getModelableMapable();
 }

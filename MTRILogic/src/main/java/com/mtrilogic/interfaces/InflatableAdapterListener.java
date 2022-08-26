@@ -13,6 +13,7 @@ import com.mtrilogic.classes.Listable;
 public interface InflatableAdapterListener extends OnMakeToastListener {
     @NonNull
     Inflatable<? extends Modelable> getInflatable(int viewType, @NonNull LayoutInflater inflater, @NonNull ViewGroup parent);
+
     @NonNull
     Listable<Modelable> getModelableListable();
 }

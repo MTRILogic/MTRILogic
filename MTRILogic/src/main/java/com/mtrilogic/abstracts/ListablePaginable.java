@@ -44,14 +44,14 @@ public abstract class ListablePaginable extends Paginable {
     ==============================================================================================*/
 
     @Override
-    protected void onRestoreFromData(@NonNull Bundle data) {
-        super.onRestoreFromData(data);
+    protected void restoreFromData(@NonNull Bundle data) {
+        super.restoreFromData(data);
         modelableListable = new Listable<>(data);
     }
 
     @Override
-    protected void onSaveToData(@NonNull Bundle data) {
-        super.onSaveToData(data);
+    protected void saveToData(@NonNull Bundle data) {
+        super.saveToData(data);
         modelableListable.saveToData(data);
     }
 }

@@ -32,7 +32,7 @@ public abstract class Modelable implements Parcelable {
 
     protected Modelable(Bundle data){
         if (data != null) {
-            onRestoreFromData(data);
+            restoreFromData(data);
         }
     }
 
@@ -43,7 +43,7 @@ public abstract class Modelable implements Parcelable {
     @Override
     public final void writeToParcel(Parcel dest, int flags){
         Bundle data = new Bundle();
-        onSaveToData(data);
+        saveToData(data);
         dest.writeBundle(data);
     }
 
@@ -84,13 +84,13 @@ public abstract class Modelable implements Parcelable {
     PROTECTED METHODS
     ==============================================================================================*/
 
-    protected void onRestoreFromData(@NonNull Bundle data){
+    protected void restoreFromData(@NonNull Bundle data){
         itemId = data.getLong(ITEM_ID);
         viewType = data.getInt(VIEW_TYPE);
         enabled = data.getBoolean(ENABLED);
     }
 
-    protected void onSaveToData(@NonNull Bundle data){
+    protected void saveToData(@NonNull Bundle data){
         data.putLong(ITEM_ID, itemId);
         data.putInt(VIEW_TYPE, viewType);
         data.putBoolean(ENABLED, enabled);

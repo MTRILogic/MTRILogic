@@ -9,12 +9,12 @@ import com.mtrilogic.abstracts.PaginableCreator;
 public class DefaultMapablePage extends MapablePaginable {
     public static final Creator<DefaultMapablePage> CREATOR = new PaginableCreator<DefaultMapablePage>() {
         @Override
-        protected DefaultMapablePage createFromData(Bundle data) {
+        public DefaultMapablePage createFromData(Bundle data) {
             return new DefaultMapablePage(data);
         }
 
         @Override
-        protected DefaultMapablePage[] getNewArray(int size) {
+        public DefaultMapablePage[] newArray(int size) {
             return new DefaultMapablePage[size];
         }
     };

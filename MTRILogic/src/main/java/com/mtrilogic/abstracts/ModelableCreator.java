@@ -11,11 +11,10 @@ public abstract class ModelableCreator<M extends Modelable> implements Parcelabl
     PROTECTED ABSTRACT METHODS
     ==============================================================================================*/
 
-    protected abstract M createFromData(Bundle data);
-    protected abstract M[] getNewArray(int size);
+    public abstract M createFromData(Bundle data);
 
     /*==============================================================================================
-    PUBLIC OVERRIDE CONSTRUCTORS
+    PUBLIC OVERRIDE METHODS
     ==============================================================================================*/
 
     @Override
@@ -29,10 +28,5 @@ public abstract class ModelableCreator<M extends Modelable> implements Parcelabl
     @Override
     public final M createFromParcel(Parcel src){
         return null;
-    }
-
-    @Override
-    public M[] newArray(int size) {
-        return getNewArray(size);
     }
 }

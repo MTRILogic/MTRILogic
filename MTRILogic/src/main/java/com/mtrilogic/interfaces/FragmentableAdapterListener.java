@@ -10,7 +10,9 @@ import com.mtrilogic.classes.Listable;
 public interface FragmentableAdapterListener extends OnMakeToastListener{
     @NonNull
     Fragmentable<? extends Paginable> getFragmentable(@NonNull Paginable paginable, int position);
+
     @NonNull
     Listable<Paginable> getPaginableListable();
+
     void onPositionChanged(int position);
 }

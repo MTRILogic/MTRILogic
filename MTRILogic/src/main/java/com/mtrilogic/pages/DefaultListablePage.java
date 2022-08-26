@@ -9,12 +9,12 @@ import com.mtrilogic.abstracts.PaginableCreator;
 public class DefaultListablePage extends ListablePaginable {
     public static final Creator<DefaultListablePage> CREATOR = new PaginableCreator<DefaultListablePage>() {
         @Override
-        protected DefaultListablePage createFromData(Bundle data) {
+        public DefaultListablePage createFromData(Bundle data) {
             return null;
         }
 
         @Override
-        protected DefaultListablePage[] getNewArray(int size) {
+        public DefaultListablePage[] newArray(int size) {
             return new DefaultListablePage[0];
         }
     };

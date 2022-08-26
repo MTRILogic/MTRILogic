@@ -11,12 +11,12 @@ import com.mtrilogic.abstracts.ModelableCreator;
 public class DefaultModel extends Modelable {
     public static final Creator<DefaultModel> CREATOR = new ModelableCreator<DefaultModel>() {
         @Override
-        protected DefaultModel createFromData(Bundle data) {
+        public DefaultModel createFromData(Bundle data) {
             return new DefaultModel(data);
         }
 
         @Override
-        public DefaultModel[] getNewArray(int size) {
+        public DefaultModel[] newArray(int size) {
             return new DefaultModel[size];
         }
     };
@@ -46,14 +46,14 @@ public class DefaultModel extends Modelable {
     }
 
     @Override
-    protected void onRestoreFromData(@NonNull Bundle data) {
-        super.onRestoreFromData(data);
+    protected void restoreFromData(@NonNull Bundle data) {
+        super.restoreFromData(data);
         title = data.getString(TITLE);
     }
 
     @Override
-    protected void onSaveToData(@NonNull Bundle data) {
-        super.onSaveToData(data);
+    protected void saveToData(@NonNull Bundle data) {
+        super.saveToData(data);
         data.putString(TITLE, title);
     }
 }

@@ -9,11 +9,13 @@ import com.mtrilogic.adapters.ExpandableAdapter;
 import com.mtrilogic.classes.Mapable;
 
 @SuppressWarnings("unused")
-public interface ExpandableItemListener extends OnMakeToastListener {
+public interface ExpandableItemListener extends ExpandableListener, ItemListener {
     @NonNull
     Mapable<Modelable> getModelableMapable();
+
     @NonNull
     ExpandableAdapter getExpandableAdapter();
+
     @NonNull
     ExpandableListView getExpandableListView();
 }

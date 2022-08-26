@@ -5,37 +5,24 @@ import android.widget.ExpandableListView;
 
 import androidx.annotation.NonNull;
 
-import com.mtrilogic.interfaces.Bindable;
 import com.mtrilogic.interfaces.ExpandableItemListener;
 import com.mtrilogic.interfaces.Observable;
 
 @SuppressWarnings("unused")
-public abstract class ExpandableGroup<M extends Modelable> implements Bindable<M> {
-    protected final ExpandableItemListener listener;
-    protected final View itemView;
-
-    protected int groupPosition;
+public abstract class ExpandableGroup<M extends Modelable> extends Expandable<M> {
     protected boolean expanded;
-    protected M model;
 
     /*==============================================================================================
     PUBLIC CONSTRUCTOR
     ==============================================================================================*/
 
     public ExpandableGroup(@NonNull View itemView, @NonNull ExpandableItemListener listener){
-        this.itemView = itemView;
-        this.listener = listener;
+        super(itemView, listener);
     }
 
     /*==============================================================================================
     PUBLIC METHODS
     ==============================================================================================*/
-
-    @NonNull
-    public View getItemView(){
-        onBindItemView();
-        return itemView;
-    }
 
     public void bindModelable(@NonNull Modelable modelable, int groupPosition, boolean expanded){
         model = getModelFromModelable(modelable);
@@ -58,10 +45,6 @@ public abstract class ExpandableGroup<M extends Modelable> implements Bindable<M
         return listener.getModelableMapable().appendChild(model, child);
     }
 
-    protected void notifyChanged(){
-        listener.getExpandableAdapter().notifyDataSetChanged();
-    }
-
     protected long getChildIdx(){
         return listener.getModelableMapable().getChildIdx(model);
     }
@@ -79,13 +62,5 @@ public abstract class ExpandableGroup<M extends Modelable> implements Bindable<M
         if (!lvwItems.isGroupExpanded(groupPosition)){
             lvwItems.expandGroup(groupPosition, true);
         }
-    }
-
-    protected void makeToast(String line){
-        listener.onMakeToast(line);
-    }
-
-    protected void makeLog(String line){
-        listener.onMakeLog(line);
     }
 }

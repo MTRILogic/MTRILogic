@@ -8,11 +8,13 @@ import com.mtrilogic.adapters.FragmentableAdapter;
 import com.mtrilogic.classes.Listable;
 
 @SuppressWarnings("unused")
-public interface FragmentableItemListener extends FragmentableListener {
+public interface FragmentableItemListener extends FragmentableListener, ItemListener {
     @NonNull
     Listable<Paginable> getPaginableListable();
+
     @NonNull
     FragmentableAdapter getFragmentableAdapter();
+
     @NonNull
     ViewPager getViewPager();
 }
