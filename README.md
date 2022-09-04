@@ -1,5 +1,4 @@
 ### Hi there 👋
-This is simply a working model to facilitate, standardize and modularize the maintenance and creation of Android applications. At the moment it is functional for my needs, however, some things are still missing for a first stable version. Soon, this project will undergo radical structural and conceptual changes for its operation.
 
 <!--
 **MTRILogic/MTRILogic** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
