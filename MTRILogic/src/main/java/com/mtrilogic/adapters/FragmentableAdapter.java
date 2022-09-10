@@ -2,13 +2,14 @@ package com.mtrilogic.adapters;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.mtrilogic.abstracts.Fragmentable;
-import com.mtrilogic.abstracts.Paginable;
+import com.mtrilogic.abstracts.Page;
 import com.mtrilogic.classes.Base;
 import com.mtrilogic.classes.Listable;
+import com.mtrilogic.interfaces.Fragmentable;
 import com.mtrilogic.interfaces.FragmentableAdapterListener;
 
 @SuppressWarnings({"unused","deprecation"})
@@ -30,21 +31,22 @@ public final class FragmentableAdapter extends FragmentPagerAdapter {
 
     @NonNull
     @Override
-    public Fragmentable<? extends Paginable> getItem(int position){
-        return listener.getFragmentable(getPaginable(position), position);
+    public Fragment getItem(int position){
+        return listener.getFragment(getPage(position), position);
     }
 
     @Override
     public int getCount(){
-        return getPaginableListable().getCount();
+        return getPageListable().getCount();
     }
 
     @Override
     public int getItemPosition(@NonNull Object object){
-        Fragmentable<? extends Paginable> fragmentable = (Fragmentable<? extends Paginable>)object;
-        Paginable paginable = fragmentable.getPaginable();
-        if (listener.getPaginableListable().contains(paginable)){
-            int position = getPaginableListable().getPosition(paginable);
+        Fragmentable fragmentable = (Fragmentable) object;
+        Page page = fragmentable.getPage();
+        Listable<Page> paginableListable = getPageListable();
+        if (paginableListable.contains(page)){
+            int position = paginableListable.getPosition(page);
             if (fragmentable.getPosition() != position){
                 fragmentable.setPosition(position);
                 listener.onPositionChanged(position);
@@ -61,23 +63,23 @@ public final class FragmentableAdapter extends FragmentPagerAdapter {
     @Nullable
     @Override
     public CharSequence getPageTitle(int position){
-        return getPaginable(position).getPageTitle();
+        return getPage(position).getPageTitle();
     }
 
     @Override
     public long getItemId(int position){
-        return getPaginable(position).getItemId();
+        return getPage(position).getItemId();
     }
 
     /*==============================================================================================
     PRIVATE METHODS
     ==============================================================================================*/
 
-    private Listable<Paginable> getPaginableListable(){
-        return listener.getPaginableListable();
+    private Listable<Page> getPageListable(){
+        return listener.getPageListable();
     }
 
-    private Paginable getPaginable(int position){
-        return getPaginableListable().get(position);
+    private Page getPage(int position){
+        return getPageListable().get(position);
     }
 }

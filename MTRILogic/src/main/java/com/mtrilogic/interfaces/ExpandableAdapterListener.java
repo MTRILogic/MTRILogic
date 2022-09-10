@@ -7,17 +7,17 @@ import androidx.annotation.NonNull;
 
 import com.mtrilogic.abstracts.ExpandableChild;
 import com.mtrilogic.abstracts.ExpandableGroup;
-import com.mtrilogic.abstracts.Modelable;
-import com.mtrilogic.classes.Mapable;
+import com.mtrilogic.abstracts.Model;
+import com.mtrilogic.classes.Mappable;
 
 @SuppressWarnings("unused")
 public interface ExpandableAdapterListener extends OnMakeToastListener {
     @NonNull
-    ExpandableGroup<? extends Modelable> getExpandableGroup(int viewType, @NonNull LayoutInflater inflater, @NonNull ViewGroup parent);
+    ExpandableGroup<? extends Model> getExpandableGroup(int viewType, @NonNull LayoutInflater inflater, @NonNull ViewGroup parent);
 
     @NonNull
-    ExpandableChild<? extends Modelable> getExpandableChild(int viewType, @NonNull LayoutInflater inflater, @NonNull ViewGroup parent);
+    ExpandableChild<? extends Model> getExpandableChild(int viewType, @NonNull LayoutInflater inflater, @NonNull ViewGroup parent);
 
     @NonNull
-    Mapable<Modelable> getModelableMapable();
+    Mappable<Model> getModelMappable();
 }

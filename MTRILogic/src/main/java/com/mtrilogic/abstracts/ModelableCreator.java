@@ -5,10 +5,10 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 @SuppressWarnings("unused")
-public abstract class ModelableCreator<M extends Modelable> implements Parcelable.ClassLoaderCreator<M>{
+public abstract class ModelableCreator<M extends Model> implements Parcelable.ClassLoaderCreator<M>{
 
     /*==============================================================================================
-    PROTECTED ABSTRACT METHODS
+    PROTECTED ABSTRACT METHOD
     ==============================================================================================*/
 
     public abstract M createFromData(Bundle data);

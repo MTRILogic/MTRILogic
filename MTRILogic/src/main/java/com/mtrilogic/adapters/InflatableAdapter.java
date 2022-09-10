@@ -8,10 +8,9 @@ import android.widget.BaseAdapter;
 import androidx.annotation.NonNull;
 
 import com.mtrilogic.abstracts.Inflatable;
-import com.mtrilogic.abstracts.Modelable;
+import com.mtrilogic.abstracts.Model;
+import com.mtrilogic.classes.Listable;
 import com.mtrilogic.interfaces.InflatableAdapterListener;
-
-import java.util.ArrayList;
 
 @SuppressWarnings("unused")
 public class InflatableAdapter extends BaseAdapter {
@@ -34,12 +33,12 @@ public class InflatableAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return getModelableList().size();
+        return getModelListable().getCount();
     }
 
     @Override
-    public Modelable getItem(int position) {
-        return getModelable(position);
+    public Model getItem(int position) {
+        return getModel(position);
     }
 
     @Override
@@ -49,16 +48,16 @@ public class InflatableAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Modelable modelable = getItem(position);
-        Inflatable<? extends Modelable> inflatable;
+        Model model = getItem(position);
+        Inflatable<? extends Model> inflatable;
         if (convertView != null){
-            inflatable = (Inflatable<? extends Modelable>) convertView.getTag();
+            inflatable = (Inflatable<? extends Model>) convertView.getTag();
         }else {
-            inflatable = listener.getInflatable(modelable.getViewType(), inflater, parent);
+            inflatable = listener.getInflatable(model.getViewType(), inflater, parent);
             convertView = inflatable.getItemView();
             convertView.setTag(inflatable);
         }
-        inflatable.bindModelable(modelable, position);
+        inflatable.bindModelable(model, position);
         return convertView;
     }
 
@@ -86,11 +85,11 @@ public class InflatableAdapter extends BaseAdapter {
     PRIVATE METHODS
     ==============================================================================================*/
 
-    private ArrayList<Modelable> getModelableList(){
-        return listener.getModelableListable().getList();
+    private Listable<Model> getModelListable(){
+        return listener.getModelListable();
     }
 
-    private Modelable getModelable(int position){
-        return getModelableList().get(position);
+    private Model getModel(int position){
+        return getModelListable().get(position);
     }
 }

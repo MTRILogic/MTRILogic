@@ -1,10 +1,10 @@
 package com.mtrilogic.interfaces;
 
-import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 
+import com.mtrilogic.abstracts.Page;
+
 @SuppressWarnings("unused")
-public interface OnDialogDoneListener extends OnMakeToastListener{
-    void onDialogDone(@NonNull Bundle data);
+public interface OnDialogDoneListener<P extends Page> extends OnMakeToastListener{
+    void onDialogDone(@NonNull P page);
 }

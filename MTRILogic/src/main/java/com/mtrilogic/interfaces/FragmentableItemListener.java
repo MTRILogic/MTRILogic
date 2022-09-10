@@ -3,14 +3,14 @@ package com.mtrilogic.interfaces;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.ViewPager;
 
-import com.mtrilogic.abstracts.Paginable;
+import com.mtrilogic.abstracts.Page;
 import com.mtrilogic.adapters.FragmentableAdapter;
 import com.mtrilogic.classes.Listable;
 
 @SuppressWarnings("unused")
-public interface FragmentableItemListener extends FragmentableListener, ItemListener {
+public interface FragmentableItemListener extends FragmentableListener{
     @NonNull
-    Listable<Paginable> getPaginableListable();
+    Listable<Page> getPageListable();
 
     @NonNull
     FragmentableAdapter getFragmentableAdapter();

@@ -4,13 +4,15 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 
-import com.mtrilogic.interfaces.Bindable;
 import com.mtrilogic.interfaces.ExpandableItemListener;
+import com.mtrilogic.interfaces.ModelBindable;
 
 @SuppressWarnings("unused")
-public abstract class Expandable<M extends Modelable> implements Bindable<M> {
+public abstract class Expandable<M extends Model> implements ModelBindable {
     protected final ExpandableItemListener listener;
     protected final View itemView;
+
+    private final Class<M> clazz;
 
     protected int groupPosition;
     protected M model;
@@ -19,9 +21,10 @@ public abstract class Expandable<M extends Modelable> implements Bindable<M> {
     PROTECTED CONSTRUCTOR
     ==============================================================================================*/
 
-    protected Expandable(@NonNull View itemView, @NonNull ExpandableItemListener listener){
+    protected Expandable(@NonNull Class<M> clazz, @NonNull View itemView, @NonNull ExpandableItemListener listener){
         this.itemView = itemView;
         this.listener = listener;
+        this.clazz = clazz;
     }
 
     /*==============================================================================================
@@ -34,6 +37,12 @@ public abstract class Expandable<M extends Modelable> implements Bindable<M> {
         return itemView;
     }
 
+    public void bindModel(@NonNull Model model, int groupPosition){
+        this.model = clazz.cast(model);
+        this.groupPosition = groupPosition;
+        onBindModel();
+    }
+
     /*==============================================================================================
     PROTECTED METHODS
     ==============================================================================================*/
@@ -44,9 +53,5 @@ public abstract class Expandable<M extends Modelable> implements Bindable<M> {
 
     protected void makeToast(String line){
         listener.onMakeToast(line);
-    }
-
-    protected void makeLog(String line){
-        listener.onMakeLog(line);
     }
 }

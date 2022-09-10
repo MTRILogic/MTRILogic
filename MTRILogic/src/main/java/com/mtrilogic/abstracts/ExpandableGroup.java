@@ -9,28 +9,32 @@ import com.mtrilogic.interfaces.ExpandableItemListener;
 import com.mtrilogic.interfaces.Observable;
 
 @SuppressWarnings("unused")
-public abstract class ExpandableGroup<M extends Modelable> extends Expandable<M> {
+public abstract class ExpandableGroup<M extends Model> extends Expandable<M> {
     protected boolean expanded;
 
     /*==============================================================================================
     PUBLIC CONSTRUCTOR
     ==============================================================================================*/
 
-    public ExpandableGroup(@NonNull View itemView, @NonNull ExpandableItemListener listener){
-        super(itemView, listener);
+    public ExpandableGroup(@NonNull Class<M> clazz, @NonNull View itemView, @NonNull ExpandableItemListener listener){
+        super(clazz, itemView, listener);
     }
 
     /*==============================================================================================
-    PUBLIC METHODS
+    PUBLIC METHOD
     ==============================================================================================*/
 
-    public void bindModelable(@NonNull Modelable modelable, int groupPosition, boolean expanded){
-        model = getModelFromModelable(modelable);
-        this.groupPosition = groupPosition;
+    @NonNull
+    @Override
+    public View getItemView() {
+        itemView.setOnClickListener(v -> listener.onExpandableGroupClick(itemView, model, groupPosition, expanded));
+        itemView.setOnLongClickListener(v -> listener.onExpandableGroupLongClick(itemView, model, groupPosition, expanded));
+        return super.getItemView();
+    }
+
+    public void bindModelable(@NonNull Model model, int groupPosition, boolean expanded){
         this.expanded = expanded;
-        if (model != null){
-            onBindModel();
-        }
+        super.bindModel(model, groupPosition);
     }
 
     /*==============================================================================================
@@ -38,23 +42,23 @@ public abstract class ExpandableGroup<M extends Modelable> extends Expandable<M>
     ==============================================================================================*/
 
     protected boolean autoDelete(){
-        return listener.getModelableMapable().deleteGroup(model);
+        return listener.getModelMappable().deleteGroup(model);
     }
 
-    protected boolean addChild(@NonNull Modelable child){
-        return listener.getModelableMapable().appendChild(model, child);
+    protected boolean addChild(@NonNull Model child){
+        return listener.getModelMappable().appendChild(model, child);
     }
 
     protected long getChildIdx(){
-        return listener.getModelableMapable().getChildIdx(model);
+        return listener.getModelMappable().getChildIdx(model);
     }
 
     protected void setChildIdx(long idx){
-        listener.getModelableMapable().setChildIdx(model, idx);
+        listener.getModelMappable().setChildIdx(model, idx);
     }
 
     protected void detachChildList(@NonNull Observable observable){
-        listener.getModelableMapable().detachChildList(model, observable);
+        listener.getModelMappable().detachChildList(model, observable);
     }
 
     protected void autoExpanded(){

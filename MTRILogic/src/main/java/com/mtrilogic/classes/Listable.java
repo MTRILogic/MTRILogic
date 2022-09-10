@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 
-import com.mtrilogic.abstracts.Modelable;
+import com.mtrilogic.abstracts.Model;
 import com.mtrilogic.interfaces.Observable;
 import com.mtrilogic.interfaces.Observer;
 import com.mtrilogic.interfaces.OnIterationListener;
@@ -12,7 +12,7 @@ import com.mtrilogic.interfaces.OnIterationListener;
 import java.util.ArrayList;
 
 @SuppressWarnings("unused")
-public class Listable<M extends Modelable> {
+public class Listable<M extends Model> {
     private static final String LIST = "list", IDX = "idx";
 
     private final ArrayList<M> list;
@@ -59,19 +59,12 @@ public class Listable<M extends Modelable> {
     PUBLIC METHODS
     ==============================================================================================*/
 
-    // RESTORABLE METHODS ==========================================================================
-
     public void saveToData(@NonNull Bundle data, long itemId){
         saveToData(data, LIST + itemId, IDX + itemId);
     }
 
     public void saveToData(@NonNull Bundle data){
         saveToData(data, LIST, IDX);
-    }
-
-    private void saveToData(@NonNull Bundle data, @NonNull String keyList, @NonNull String keyIdx){
-        data.putParcelableArrayList(keyList, list);
-        data.putLong(keyIdx, idx);
     }
 
     // ITERATE METHOD ==============================================================================
@@ -108,12 +101,12 @@ public class Listable<M extends Modelable> {
 
     // APPEND ======================================================================================
 
-    public boolean append(@NonNull M item){
-        return !list.contains(item) && list.add(item);
-    }
-
     public boolean appendList(@NonNull ArrayList<M> list){
         return this.list.addAll(list);
+    }
+
+    public boolean append(@NonNull M item){
+        return !list.contains(item) && list.add(item);
     }
 
     // INSERT ======================================================================================
@@ -216,6 +209,11 @@ public class Listable<M extends Modelable> {
     /*==============================================================================================
     PRIVATE METHODS
     ==============================================================================================*/
+
+    private void saveToData(@NonNull Bundle data, @NonNull String keyList, @NonNull String keyIdx){
+        data.putParcelableArrayList(keyList, list);
+        data.putLong(keyIdx, idx);
+    }
 
     private boolean isValidPosition(int position){
         return position > -1 && position < getCount();

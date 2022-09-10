@@ -4,14 +4,14 @@ import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 
-import com.mtrilogic.abstracts.Modelable;
+import com.mtrilogic.abstracts.Model;
 import com.mtrilogic.adapters.InflatableAdapter;
 import com.mtrilogic.classes.Listable;
 
 @SuppressWarnings("unused")
-public interface InflatableItemListener extends InflatableListener, ItemListener {
+public interface InflatableItemListener extends InflatableListener{
     @NonNull
-    Listable<Modelable> getModelableListable();
+    Listable<Model> getModelListable();
 
     @NonNull
     InflatableAdapter getInflatableAdapter();
