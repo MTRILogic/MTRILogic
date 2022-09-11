@@ -54,7 +54,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Activita
     PROTECTED METHODS
     ==============================================================================================*/
 
-    protected void makeToast(String line){
+    protected final void makeToast(String line){
         Toast.makeText(this, line, Toast.LENGTH_LONG).show();
     }
 }

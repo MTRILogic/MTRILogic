@@ -12,7 +12,7 @@ import com.mtrilogic.classes.Listable;
 import com.mtrilogic.interfaces.FragmentableAdapterListener;
 
 @SuppressWarnings("unused")
-public class FragmentableAdapter2 extends FragmentStateAdapter {
+public final class FragmentableAdapter2 extends FragmentStateAdapter {
     private final FragmentableAdapterListener listener;
 
     /*==============================================================================================

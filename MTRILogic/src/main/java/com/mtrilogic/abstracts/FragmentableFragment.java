@@ -26,6 +26,11 @@ public class FragmentableFragment<P extends ListablePage<Page>> extends BaseFrag
         return BaseFragment.getInstance(new DefaultBaseFragment(), page, position);
     }
 
+    @Override
+    public void onPositionChanged(int position) {
+        Base.makeLog("FragmentableFragment: Position = " + position);
+    }
+
     @NonNull
     @Override
     public final Listable<Page> getPageListable() {
@@ -33,11 +38,6 @@ public class FragmentableFragment<P extends ListablePage<Page>> extends BaseFrag
             Base.makeLog("FragmentableFragment: Page is null");
         }
         return page.getListable();
-    }
-
-    @Override
-    public void onPositionChanged(int position) {
-        Base.makeLog("FragmentableFragment: Position = " + position);
     }
 
     @NonNull

@@ -56,19 +56,19 @@ public abstract class FragmentableActivity extends BaseActivity implements Fragm
 
     @NonNull
     @Override
-    public Listable<Page> getPageListable() {
+    public final Listable<Page> getPageListable() {
         return pageListable;
     }
 
     @NonNull
     @Override
-    public FragmentableAdapter getFragmentableAdapter() {
+    public final FragmentableAdapter getFragmentableAdapter() {
         return adapter;
     }
 
     @NonNull
     @Override
-    public ViewPager getViewPager() {
+    public final ViewPager getViewPager() {
         return pager;
     }
 
@@ -81,7 +81,7 @@ public abstract class FragmentableActivity extends BaseActivity implements Fragm
      * ATENCIÓN!!!: Este método debe llamarse dentro de onCreateView
      * @param pager el ViewPager.
      */
-    public void initViewPagerAdapter(@NonNull ViewPager pager){
+    public final void initViewPagerAdapter(@NonNull ViewPager pager){
         adapter = new FragmentableAdapter(getSupportFragmentManager(), this);
         pager.setAdapter(adapter);
         this.pager = pager;

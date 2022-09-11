@@ -18,7 +18,7 @@ import com.mtrilogic.interfaces.PaginableItemListener;
 import com.mtrilogic.mtrilogic.items.DefaultPaginable;
 
 @SuppressWarnings("unused")
-public class PaginableDialog<P extends ListablePage<Page>> extends BaseDialog<P> implements PaginableAdapterListener, PaginableItemListener {
+public class PaginableDialog<P extends Page> extends BaseDialog<P> implements PaginableAdapterListener, PaginableItemListener {
     protected PaginableAdapter adapter;
     protected ViewPager pager;
 
@@ -26,12 +26,14 @@ public class PaginableDialog<P extends ListablePage<Page>> extends BaseDialog<P>
     PUBLIC CONSTRUCTORS
     ==============================================================================================*/
 
-    public PaginableDialog(@NonNull Context context, @NonNull P page, @NonNull OnDialogDoneListener<P> listener) {
-        super(context, page, listener);
+    public PaginableDialog(@NonNull Context context, @NonNull Listable<Page> pageListable, @NonNull OnDialogDoneListener<P> listener) {
+        super(context, listener);
+        this.pageListable = pageListable;
     }
 
-    protected PaginableDialog(@NonNull Context context, boolean cancelable, @Nullable OnCancelListener cancelListener, @NonNull P page, @NonNull OnDialogDoneListener<P> listener) {
-        super(context, cancelable, cancelListener, page, listener);
+    protected PaginableDialog(@NonNull Context context, boolean cancelable, @Nullable OnCancelListener cancelListener, @NonNull Listable<Page> pageListable, @NonNull OnDialogDoneListener<P> listener) {
+        super(context, cancelable, cancelListener, listener);
+        this.pageListable = pageListable;
     }
 
     /*==============================================================================================
@@ -47,7 +49,7 @@ public class PaginableDialog<P extends ListablePage<Page>> extends BaseDialog<P>
     @NonNull
     @Override
     public final Listable<Page> getPageListable() {
-        return page.getListable();
+        return pageListable;
     }
 
     @NonNull
@@ -87,7 +89,7 @@ public class PaginableDialog<P extends ListablePage<Page>> extends BaseDialog<P>
      * ATENCIÓN!!!: Este método debe llamarse dentro de onCreateView
      * @param pager el ViewPager.
      */
-    protected void initViewPagerAdapter(@NonNull ViewPager pager){
+    protected final void initViewPagerAdapter(@NonNull ViewPager pager){
         adapter = new PaginableAdapter(getLayoutInflater(), this);
         pager.setAdapter(adapter);
         this.pager = pager;

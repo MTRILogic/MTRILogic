@@ -75,7 +75,7 @@ public abstract class PaginableFragment<P extends ListablePage<Page>> extends Ba
      * ATENCIÓN!!!: Este método debe llamarse dentro de onCreateView
      * @param pager el ViewPager.
      */
-    protected void initViewPagerAdapter(@NonNull ViewPager pager){
+    protected final void initViewPagerAdapter(@NonNull ViewPager pager){
         adapter = new PaginableAdapter(getLayoutInflater(), this);
         pager.setAdapter(adapter);
         this.pager = pager;

@@ -13,7 +13,7 @@ import com.mtrilogic.classes.Listable;
 import com.mtrilogic.interfaces.InflatableAdapterListener;
 
 @SuppressWarnings("unused")
-public class InflatableAdapter extends BaseAdapter {
+public final class InflatableAdapter extends BaseAdapter {
     private final InflatableAdapterListener listener;
     private final LayoutInflater inflater;
     private final int typeCount;

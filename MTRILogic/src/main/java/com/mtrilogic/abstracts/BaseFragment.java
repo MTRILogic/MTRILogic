@@ -112,7 +112,7 @@ public abstract class BaseFragment<P extends Page> extends Fragment implements F
     }
 
     @Override
-    public void onMakeToast(String line) {
+    public final void onMakeToast(String line) {
         makeToast(line);
     }
 

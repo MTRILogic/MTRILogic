@@ -47,11 +47,11 @@ public abstract class Expandable<M extends Model> implements ModelBindable {
     PROTECTED METHODS
     ==============================================================================================*/
 
-    protected void notifyChanged(){
+    protected final void notifyChanged(){
         listener.getExpandableAdapter().notifyDataSetChanged();
     }
 
-    protected void makeToast(String line){
+    protected final void makeToast(String line){
         listener.onMakeToast(line);
     }
 }

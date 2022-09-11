@@ -26,6 +26,10 @@ public abstract class Model implements Parcelable {
         this.enabled = enabled;
     }
 
+    public Model(long itemId, int viewType){
+        this(itemId, viewType, true);
+    }
+
     /*==============================================================================================
     PROTECTED CONSTRUCTOR
     ==============================================================================================*/

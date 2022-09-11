@@ -7,8 +7,8 @@ import androidx.annotation.NonNull;
 import com.mtrilogic.classes.Mappable;
 
 @SuppressWarnings("unused")
-public abstract class MappablePage extends Page {
-    private Mappable<Model> modelMappable;
+public abstract class MappablePage<M extends Model> extends Page {
+    private Mappable<M> mappable;
 
     /*==============================================================================================
     PUBLIC CONSTRUCTORS
@@ -18,9 +18,9 @@ public abstract class MappablePage extends Page {
         super();
     }
 
-    public MappablePage(String pageTitle, String tagName, long itemId, int viewType) {
+    public MappablePage(@NonNull String pageTitle, @NonNull String tagName, long itemId, int viewType) {
         super(pageTitle, tagName, itemId, viewType);
-        modelMappable = new Mappable<>();
+        mappable = new Mappable<>();
     }
 
     /*==============================================================================================
@@ -35,12 +35,12 @@ public abstract class MappablePage extends Page {
     PUBLIC METHODS
     ==============================================================================================*/
 
-    public Mappable<Model> getModelableMapable() {
-        return modelMappable;
+    public final Mappable<M> getMappable() {
+        return mappable;
     }
 
-    public void setModelableMapable(Mappable<Model> modelableMappable) {
-        this.modelMappable = modelableMappable;
+    public final void setMappable(Mappable<M> mappable) {
+        this.mappable = mappable;
     }
 
     /*==============================================================================================
@@ -50,12 +50,12 @@ public abstract class MappablePage extends Page {
     @Override
     protected void restoreFromData(@NonNull Bundle data) {
         super.restoreFromData(data);
-        modelMappable = new Mappable<>(data);
+        mappable = new Mappable<>(data);
     }
 
     @Override
     protected void saveToData(@NonNull Bundle data) {
         super.saveToData(data);
-        modelMappable.saveToData(data);
+        mappable.saveToData(data);
     }
 }

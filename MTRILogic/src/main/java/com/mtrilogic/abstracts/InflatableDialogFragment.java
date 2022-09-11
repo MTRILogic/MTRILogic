@@ -76,7 +76,7 @@ public class InflatableDialogFragment<P extends ListablePage<Model>> extends Bas
      * @param lvwItems el ListView.
      * @param typeCount el número de items diferentes.
      */
-    protected void initListViewAdapter(@NonNull ListView lvwItems, int typeCount){
+    protected final void initListViewAdapter(@NonNull ListView lvwItems, int typeCount){
         adapter = new InflatableAdapter(getLayoutInflater(), typeCount, this);
         lvwItems.setAdapter(adapter);
         this.lvwItems = lvwItems;

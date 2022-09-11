@@ -7,16 +7,16 @@ import com.mtrilogic.abstracts.Model;
 import com.mtrilogic.abstracts.PageCreator;
 
 @SuppressWarnings("unused")
-public class DefaultListablePage extends ListablePage<Model> {
-    public static final Creator<DefaultListablePage> CREATOR = new PageCreator<DefaultListablePage>() {
+public class DefaultListablePage<M extends Model> extends ListablePage<M> {
+    public static final Creator<DefaultListablePage<? extends Model>> CREATOR = new PageCreator<DefaultListablePage<? extends Model>>() {
         @Override
-        public DefaultListablePage createFromData(Bundle data) {
-            return null;
+        public DefaultListablePage<? extends Model> createFromData(Bundle data) {
+            return new DefaultListablePage<>(data);
         }
 
         @Override
-        public DefaultListablePage[] newArray(int size) {
-            return new DefaultListablePage[0];
+        public DefaultListablePage<? extends Model>[] newArray(int size) {
+            return new DefaultListablePage<?>[size];
         }
     };
 
@@ -33,7 +33,7 @@ public class DefaultListablePage extends ListablePage<Model> {
     }
 
     /*==============================================================================================
-    PROTECTED CONSTRUCTORS
+    PROTECTED CONSTRUCTOR
     ==============================================================================================*/
 
     protected DefaultListablePage(Bundle data) {

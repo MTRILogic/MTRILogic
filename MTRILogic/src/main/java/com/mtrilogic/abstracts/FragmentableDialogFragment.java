@@ -74,7 +74,7 @@ public class FragmentableDialogFragment<P extends ListablePage<Page>> extends Ba
      * ATENCIÓN!!!: Este método debe llamarse dentro de onCreateView
      * @param pager el ViewPager.
      */
-    protected void initViewPagerAdapter(@NonNull ViewPager pager){
+    protected final void initViewPagerAdapter(@NonNull ViewPager pager){
         adapter = new FragmentableAdapter(getChildFragmentManager(), this);
         pager.setAdapter(adapter);
         this.pager = pager;

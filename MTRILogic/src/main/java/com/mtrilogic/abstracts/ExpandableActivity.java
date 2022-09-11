@@ -60,8 +60,20 @@ public abstract class ExpandableActivity extends BaseActivity implements Expanda
 
     @NonNull
     @Override
-    public Mappable<Model> getModelMappable() {
+    public final Mappable<Model> getModelMappable() {
         return modelMappable;
+    }
+
+    @NonNull
+    @Override
+    public final ExpandableAdapter getExpandableAdapter() {
+        return adapter;
+    }
+
+    @NonNull
+    @Override
+    public final ExpandableListView getExpandableListView() {
+        return lvwItems;
     }
 
     @Override
@@ -84,18 +96,6 @@ public abstract class ExpandableActivity extends BaseActivity implements Expanda
 
     }
 
-    @NonNull
-    @Override
-    public ExpandableAdapter getExpandableAdapter() {
-        return adapter;
-    }
-
-    @NonNull
-    @Override
-    public ExpandableListView getExpandableListView() {
-        return lvwItems;
-    }
-
     /*==============================================================================================
     PROTECTED METHOD
     ==============================================================================================*/
@@ -107,7 +107,7 @@ public abstract class ExpandableActivity extends BaseActivity implements Expanda
      * @param groupTypeCount número de tipos para grupos diferentes (por default = 1)
      * @param childTypeCount número de tipos para hijos diferentes (por default = 1)
      */
-    protected void initExpandableListViewAdapter(@NonNull ExpandableListView lvwItems, int groupTypeCount, int childTypeCount){
+    protected final void initExpandableListViewAdapter(@NonNull ExpandableListView lvwItems, int groupTypeCount, int childTypeCount){
         adapter = new ExpandableAdapter(getLayoutInflater(), groupTypeCount, childTypeCount, this);
         lvwItems.setAdapter(adapter);
         this.lvwItems = lvwItems;

@@ -53,19 +53,19 @@ public class InflatableActivity extends BaseActivity implements InflatableAdapte
 
     @NonNull
     @Override
-    public Listable<Model> getModelListable() {
+    public final Listable<Model> getModelListable() {
         return modelListable;
     }
 
     @NonNull
     @Override
-    public InflatableAdapter getInflatableAdapter() {
+    public final InflatableAdapter getInflatableAdapter() {
         return adapter;
     }
 
     @NonNull
     @Override
-    public ListView getListView() {
+    public final ListView getListView() {
         return lvwItems;
     }
 
@@ -89,7 +89,7 @@ public class InflatableActivity extends BaseActivity implements InflatableAdapte
      * @param lvwItems el ListView.
      * @param typeCount el número de items diferentes.
      */
-    protected void initListViewAdapter(@NonNull ListView lvwItems, int typeCount){
+    protected final void initListViewAdapter(@NonNull ListView lvwItems, int typeCount){
         adapter = new InflatableAdapter(getLayoutInflater(), typeCount, this);
         lvwItems.setAdapter(adapter);
         this.lvwItems = lvwItems;

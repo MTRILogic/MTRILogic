@@ -18,7 +18,7 @@ import com.mtrilogic.mtrilogic.items.DefaultExpandableChild;
 import com.mtrilogic.mtrilogic.items.DefaultExpandableGroup;
 
 @SuppressWarnings("unused")
-public abstract class ExpandableFragment<P extends MappablePage> extends BaseFragment<P> implements ExpandableAdapterListener, ExpandableItemListener {
+public abstract class ExpandableFragment<P extends MappablePage<Model>> extends BaseFragment<P> implements ExpandableAdapterListener, ExpandableItemListener {
     protected ExpandableAdapter adapter;
     protected ExpandableListView lvwItems;
 
@@ -53,7 +53,7 @@ public abstract class ExpandableFragment<P extends MappablePage> extends BaseFra
     @NonNull
     @Override
     public final Mappable<Model> getModelMappable() {
-        return page.getModelableMapable();
+        return page.getMappable();
     }
 
     @NonNull
@@ -99,7 +99,7 @@ public abstract class ExpandableFragment<P extends MappablePage> extends BaseFra
      * @param groupTypeCount número de tipos para grupos diferentes (por default = 1)
      * @param childTypeCount número de tipos para hijos diferentes (por default = 1)
      */
-    protected void initExpandableListViewAdapter(@NonNull ExpandableListView lvwItems, int groupTypeCount, int childTypeCount){
+    protected final void initExpandableListViewAdapter(@NonNull ExpandableListView lvwItems, int groupTypeCount, int childTypeCount){
         adapter = new ExpandableAdapter(getLayoutInflater(), groupTypeCount, childTypeCount, this);
         lvwItems.setAdapter(adapter);
         this.lvwItems = lvwItems;

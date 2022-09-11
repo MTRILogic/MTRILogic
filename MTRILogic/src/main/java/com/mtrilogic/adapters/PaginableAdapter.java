@@ -17,7 +17,7 @@ import com.mtrilogic.interfaces.PaginableAdapterListener;
 import java.util.ArrayList;
 
 @SuppressWarnings("unused")
-public class PaginableAdapter extends PagerAdapter {
+public final class PaginableAdapter extends PagerAdapter {
     private final PaginableAdapterListener listener;
     private final LayoutInflater inflater;
 

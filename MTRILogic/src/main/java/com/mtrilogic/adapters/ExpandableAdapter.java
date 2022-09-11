@@ -14,7 +14,7 @@ import com.mtrilogic.classes.Mappable;
 import com.mtrilogic.interfaces.ExpandableAdapterListener;
 
 @SuppressWarnings("unused")
-public class ExpandableAdapter extends BaseExpandableListAdapter {
+public final class ExpandableAdapter extends BaseExpandableListAdapter {
     private final ExpandableAdapterListener listener;
     private final LayoutInflater inflater;
     private final int groupTypeCount, childTypeCount;

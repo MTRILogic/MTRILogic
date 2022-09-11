@@ -30,19 +30,19 @@ public abstract class InflatableFragment<P extends ListablePage<Model>> extends 
 
     @NonNull
     @Override
-    public Listable<Model> getModelListable() {
+    public final Listable<Model> getModelListable() {
         return page.getListable();
     }
 
     @NonNull
     @Override
-    public InflatableAdapter getInflatableAdapter() {
+    public final InflatableAdapter getInflatableAdapter() {
         return adapter;
     }
 
     @NonNull
     @Override
-    public ListView getListView() {
+    public final ListView getListView() {
         return lvwItems;
     }
 
@@ -66,7 +66,7 @@ public abstract class InflatableFragment<P extends ListablePage<Model>> extends 
      * @param lvwItems el ListView.
      * @param typeCount el número de items diferentes.
      */
-    protected void initListViewAdapter(@NonNull ListView lvwItems, int typeCount){
+    protected final void initListViewAdapter(@NonNull ListView lvwItems, int typeCount){
         adapter = new InflatableAdapter(getLayoutInflater(), typeCount, this);
         lvwItems.setAdapter(adapter);
         this.lvwItems = lvwItems;

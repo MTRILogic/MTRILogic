@@ -14,7 +14,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 @SuppressWarnings("unused")
-public class Mappable<M extends Model> {
+public final class Mappable<M extends Model> {
     private final Map<M, Listable<M>> childListableMap = new HashMap<>();
     private final Listable<M> groupListable;
 

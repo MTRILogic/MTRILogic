@@ -48,15 +48,15 @@ public abstract class Inflatable<M extends Model> implements ModelBindable {
     PROTECTED METHODS
     ==============================================================================================*/
 
-    protected boolean autoDelete(){
+    protected final boolean autoDelete(){
         return listener.getModelListable().delete(model);
     }
 
-    protected void notifyChanged(){
+    protected final void notifyChanged(){
         listener.getInflatableAdapter().notifyDataSetChanged();
     }
 
-    protected void makeToast(String line){
+    protected final void makeToast(String line){
         listener.onMakeToast(line);
     }
 }

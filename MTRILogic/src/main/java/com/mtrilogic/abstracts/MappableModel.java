@@ -4,30 +4,30 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 
-import com.mtrilogic.classes.Listable;
+import com.mtrilogic.classes.Mappable;
 
 @SuppressWarnings("unused")
-public abstract class ListablePage<M extends Model> extends Page {
-    private Listable<M> listable;
+public abstract class MappableModel<M extends Model> extends Model{
+    private Mappable<M> mappable;
 
     /*==============================================================================================
     PUBLIC CONSTRUCTORS
     ==============================================================================================*/
 
-    public ListablePage() {
+    public MappableModel() {
         super();
     }
 
-    public ListablePage(@NonNull String pageTitle, @NonNull String tagName, long itemId, int viewType) {
-        super(pageTitle, tagName, itemId, viewType);
-        listable = new Listable<>();
+    public MappableModel(long itemId, int viewType, boolean enabled) {
+        super(itemId, viewType, enabled);
+        mappable = new Mappable<>();
     }
 
     /*==============================================================================================
     PROTECTED CONSTRUCTOR
     ==============================================================================================*/
 
-    protected ListablePage(Bundle data) {
+    protected MappableModel(Bundle data) {
         super(data);
     }
 
@@ -35,12 +35,12 @@ public abstract class ListablePage<M extends Model> extends Page {
     PUBLIC METHODS
     ==============================================================================================*/
 
-    public final Listable<M> getListable() {
-        return listable;
+    public final Mappable<M> getMappable() {
+        return mappable;
     }
 
-    public final void setListable(Listable<M> listable) {
-        this.listable = listable;
+    public final void setMappable(Mappable<M> mappable) {
+        this.mappable = mappable;
     }
 
     /*==============================================================================================
@@ -50,12 +50,12 @@ public abstract class ListablePage<M extends Model> extends Page {
     @Override
     protected void restoreFromData(@NonNull Bundle data) {
         super.restoreFromData(data);
-        listable = new Listable<>(data);
+        mappable = new Mappable<>(data);
     }
 
     @Override
     protected void saveToData(@NonNull Bundle data) {
         super.saveToData(data);
-        listable.saveToData(data);
+        mappable.saveToData(data);
     }
 }

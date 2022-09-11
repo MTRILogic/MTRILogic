@@ -41,27 +41,27 @@ public abstract class ExpandableGroup<M extends Model> extends Expandable<M> {
     PROTECTED METHODS
     ==============================================================================================*/
 
-    protected boolean autoDelete(){
+    protected final boolean autoDelete(){
         return listener.getModelMappable().deleteGroup(model);
     }
 
-    protected boolean addChild(@NonNull Model child){
+    protected final boolean addChild(@NonNull Model child){
         return listener.getModelMappable().appendChild(model, child);
     }
 
-    protected long getChildIdx(){
+    protected final long getChildIdx(){
         return listener.getModelMappable().getChildIdx(model);
     }
 
-    protected void setChildIdx(long idx){
+    protected final void setChildIdx(long idx){
         listener.getModelMappable().setChildIdx(model, idx);
     }
 
-    protected void detachChildList(@NonNull Observable observable){
+    protected final void detachChildList(@NonNull Observable observable){
         listener.getModelMappable().detachChildList(model, observable);
     }
 
-    protected void autoExpanded(){
+    protected final void autoExpanded(){
         ExpandableListView lvwItems = listener.getExpandableListView();
         if (!lvwItems.isGroupExpanded(groupPosition)){
             lvwItems.expandGroup(groupPosition, true);

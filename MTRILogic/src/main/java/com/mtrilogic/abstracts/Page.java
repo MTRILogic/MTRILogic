@@ -17,7 +17,7 @@ public abstract class Page extends Model {
     public Page(){}
 
     public Page(@NonNull String pageTitle, @NonNull String tagName, long itemId, int viewType){
-        super(itemId, viewType,true);
+        super(itemId, viewType);
         this.pageTitle = pageTitle;
         this.tagName = tagName;
     }

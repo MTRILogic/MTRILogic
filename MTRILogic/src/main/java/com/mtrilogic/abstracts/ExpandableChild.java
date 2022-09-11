@@ -42,15 +42,15 @@ public abstract class ExpandableChild<M extends Model> extends Expandable<M> {
     PROTECTED METHODS
     ==============================================================================================*/
 
-    protected Model getGroup(){
+    protected final Model getGroup(){
         return listener.getModelMappable().getGroup(groupPosition);
     }
 
-    protected boolean autoDelete(@NonNull Model group){
+    protected final boolean autoDelete(@NonNull Model group){
         return listener.getModelMappable().deleteChild(group, model);
     }
 
-    protected void autoCollapse(@NonNull Model group){
+    protected final void autoCollapse(@NonNull Model group){
         if (listener.getModelMappable().getChildCount(group) == 0){
             ExpandableListView lvwItems = listener.getExpandableListView();
             if (lvwItems.isGroupExpanded(groupPosition)){

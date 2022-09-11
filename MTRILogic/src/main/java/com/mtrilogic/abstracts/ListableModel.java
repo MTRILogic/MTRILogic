@@ -7,19 +7,19 @@ import androidx.annotation.NonNull;
 import com.mtrilogic.classes.Listable;
 
 @SuppressWarnings("unused")
-public abstract class ListablePage<M extends Model> extends Page {
+public abstract class ListableModel<M extends Model> extends Model{
     private Listable<M> listable;
 
     /*==============================================================================================
     PUBLIC CONSTRUCTORS
     ==============================================================================================*/
 
-    public ListablePage() {
+    public ListableModel() {
         super();
     }
 
-    public ListablePage(@NonNull String pageTitle, @NonNull String tagName, long itemId, int viewType) {
-        super(pageTitle, tagName, itemId, viewType);
+    public ListableModel(long itemId, int viewType, boolean enabled) {
+        super(itemId, viewType, enabled);
         listable = new Listable<>();
     }
 
@@ -27,7 +27,7 @@ public abstract class ListablePage<M extends Model> extends Page {
     PROTECTED CONSTRUCTOR
     ==============================================================================================*/
 
-    protected ListablePage(Bundle data) {
+    protected ListableModel(Bundle data) {
         super(data);
     }
 

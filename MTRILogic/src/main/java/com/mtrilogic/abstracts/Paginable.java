@@ -69,7 +69,7 @@ public abstract class Paginable<P extends Page> implements PageBindable, Fragmen
     }
 
     @Override
-    public void onMakeToast(String line) {
+    public final void onMakeToast(String line) {
         makeToast(line);
     }
 
@@ -77,15 +77,15 @@ public abstract class Paginable<P extends Page> implements PageBindable, Fragmen
     PROTECTED METHODS
     ==============================================================================================*/
 
-    protected boolean autoDelete(){
+    protected final boolean autoDelete(){
         return listener.getPageListable().delete(page);
     }
 
-    protected void notifyChanged(){
+    protected final void notifyChanged(){
         listener.getPaginableAdapter().notifyDataSetChanged();
     }
 
-    protected void makeToast(String line){
+    protected final void makeToast(String line){
         listener.onMakeToast(line);
     }
 }

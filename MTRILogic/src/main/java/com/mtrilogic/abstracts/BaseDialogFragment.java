@@ -103,7 +103,7 @@ public abstract class BaseDialogFragment<P extends Page> extends DialogFragment 
     }
 
     @Override
-    public void onMakeToast(String line) {
+    public final void onMakeToast(String line) {
         makeToast(line);
     }
 
