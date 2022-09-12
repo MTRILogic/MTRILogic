@@ -6,4 +6,8 @@
     <string name="default_group">Group: Id=%1$d Pos=%2$d</string>
     <string name="default_page">Page: Id=%1$d Pos=%2$d</string>
 
+    <string name="sample_activity">Sample Activity</string>
+    <string name="sample_fragment">Sample Fragment</string>
+    <string name="sample_item">Sample Item</string>
+
 </resources>

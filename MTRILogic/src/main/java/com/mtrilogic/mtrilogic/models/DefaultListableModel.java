@@ -4,11 +4,11 @@ import android.os.Bundle;
 
 import com.mtrilogic.abstracts.ListableModel;
 import com.mtrilogic.abstracts.Model;
-import com.mtrilogic.abstracts.ModelableCreator;
+import com.mtrilogic.abstracts.ModelCreator;
 
 @SuppressWarnings("unused")
 public class DefaultListableModel<M extends Model> extends ListableModel<M> {
-    public static final Creator<DefaultListableModel<? extends Model>> CREATOR = new ModelableCreator<DefaultListableModel<? extends Model>>() {
+    public static final Creator<DefaultListableModel<? extends Model>> CREATOR = new ModelCreator<DefaultListableModel<? extends Model>>() {
         @Override
         public DefaultListableModel<? extends Model> createFromData(Bundle data) {
             return new DefaultListableModel<>(data);

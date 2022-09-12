@@ -1,6 +1,6 @@
 package com.mtrilogic.abstracts;
 
-import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,29 +12,34 @@ import androidx.viewpager.widget.ViewPager;
 import com.mtrilogic.adapters.PaginableAdapter;
 import com.mtrilogic.classes.Base;
 import com.mtrilogic.classes.Listable;
-import com.mtrilogic.interfaces.OnTaskCompleteListener;
 import com.mtrilogic.interfaces.PaginableAdapterListener;
 import com.mtrilogic.interfaces.PaginableItemListener;
 import com.mtrilogic.mtrilogic.items.DefaultPaginable;
 
 @SuppressWarnings("unused")
-public abstract class PaginableDialog<M extends Model> extends BaseDialog<M> implements PaginableAdapterListener, PaginableItemListener {
-    protected final Listable<Page> pageListable;
+public abstract class PaginableActivity extends BaseActivity implements PaginableAdapterListener, PaginableItemListener {
+    protected Listable<Page> pageListable;
     protected PaginableAdapter adapter;
     protected ViewPager pager;
 
     /*==============================================================================================
-    PUBLIC CONSTRUCTORS
+    PROTECTED OVERRIDE METHODS
     ==============================================================================================*/
 
-    public PaginableDialog(@NonNull Context context, @NonNull Listable<Page> pageListable, @NonNull OnTaskCompleteListener<M> listener) {
-        super(context, listener);
-        this.pageListable = pageListable;
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState != null){
+            pageListable = new Listable<>(savedInstanceState);
+        }else {
+            pageListable = new Listable<>();
+        }
     }
 
-    protected PaginableDialog(@NonNull Context context, boolean cancelable, @Nullable OnCancelListener cancelListener, @NonNull Listable<Page> pageListable, @NonNull OnTaskCompleteListener<M> listener) {
-        super(context, cancelable, cancelListener, listener);
-        this.pageListable = pageListable;
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        pageListable.saveToData(outState);
+        super.onSaveInstanceState(outState);
     }
 
     /*==============================================================================================
@@ -57,7 +62,7 @@ public abstract class PaginableDialog<M extends Model> extends BaseDialog<M> imp
     @Override
     public final PaginableAdapter getPaginableAdapter() {
         if (adapter == null){
-            Base.makeLog("PaginableDialog: PaginableAdapter is null");
+            Base.makeLog("PaginableActivity: PaginableAdapter is null");
         }
         return adapter;
     }
@@ -66,7 +71,7 @@ public abstract class PaginableDialog<M extends Model> extends BaseDialog<M> imp
     @Override
     public final ViewPager getViewPager() {
         if (pager == null){
-            Base.makeLog("PaginableDialog: ViewPager is null");
+            Base.makeLog("PaginableActivity: ViewPager is null");
         }
         return pager;
     }
@@ -81,7 +86,7 @@ public abstract class PaginableDialog<M extends Model> extends BaseDialog<M> imp
 
     }
 
-     /*==============================================================================================
+    /*==============================================================================================
     PROTECTED METHOD
     ==============================================================================================*/
 
@@ -90,7 +95,7 @@ public abstract class PaginableDialog<M extends Model> extends BaseDialog<M> imp
      * ATENCIÓN!!!: Este método debe llamarse dentro de onCreateView
      * @param pager el ViewPager.
      */
-    protected final void initViewPagerAdapter(@NonNull ViewPager pager){
+    protected void initViewPagerAdapter(@NonNull ViewPager pager){
         adapter = new PaginableAdapter(getLayoutInflater(), this);
         pager.setAdapter(adapter);
         this.pager = pager;

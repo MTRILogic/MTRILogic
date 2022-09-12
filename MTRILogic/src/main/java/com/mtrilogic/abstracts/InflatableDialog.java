@@ -1,6 +1,6 @@
 package com.mtrilogic.abstracts;
 
-import android.os.Bundle;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,35 +10,31 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.mtrilogic.adapters.InflatableAdapter;
+import com.mtrilogic.classes.Base;
 import com.mtrilogic.classes.Listable;
 import com.mtrilogic.interfaces.InflatableAdapterListener;
 import com.mtrilogic.interfaces.InflatableItemListener;
+import com.mtrilogic.interfaces.OnTaskCompleteListener;
 import com.mtrilogic.mtrilogic.items.DefaultInflatable;
 
 @SuppressWarnings("unused")
-public abstract class InflatableActivity extends BaseActivity implements InflatableAdapterListener, InflatableItemListener {
-    protected Listable<Model> modelListable;
+public abstract class InflatableDialog<M extends Model> extends BaseDialog<M> implements InflatableAdapterListener, InflatableItemListener {
+    protected final Listable<Model> modelListable;
     protected InflatableAdapter adapter;
     protected ListView lvwItems;
 
     /*==============================================================================================
-    PROTECTED OVERRIDE METHODS
+    PUBLIC CONSTRUCTORS
     ==============================================================================================*/
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (savedInstanceState != null){
-            modelListable = new Listable<>(savedInstanceState);
-        }else {
-            modelListable = new Listable<>();
-        }
+    public InflatableDialog(@NonNull Context context, @NonNull Listable<Model> modelListable, @NonNull OnTaskCompleteListener<M> listener) {
+        super(context, listener);
+        this.modelListable = modelListable;
     }
 
-    @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        modelListable.saveToData(outState);
-        super.onSaveInstanceState(outState);
+    protected InflatableDialog(@NonNull Context context, boolean cancelable, @Nullable OnCancelListener cancelListener, @NonNull Listable<Model> modelListable, @NonNull OnTaskCompleteListener<M> listener) {
+        super(context, cancelable, cancelListener, listener);
+        this.modelListable = modelListable;
     }
 
     /*==============================================================================================
@@ -60,12 +56,18 @@ public abstract class InflatableActivity extends BaseActivity implements Inflata
     @NonNull
     @Override
     public final InflatableAdapter getInflatableAdapter() {
+        if (adapter == null){
+            Base.makeLog("InflatableDialog: InflatableAdapter is null");
+        }
         return adapter;
     }
 
     @NonNull
     @Override
     public final ListView getListView() {
+        if (lvwItems == null){
+            Base.makeLog("InflatableDialog: ListView is null");
+        }
         return lvwItems;
     }
 

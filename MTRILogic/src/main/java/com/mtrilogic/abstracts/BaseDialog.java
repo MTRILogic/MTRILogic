@@ -6,28 +6,23 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.mtrilogic.classes.Listable;
 import com.mtrilogic.interfaces.Dialogable;
-import com.mtrilogic.interfaces.OnDialogDoneListener;
+import com.mtrilogic.interfaces.OnTaskCompleteListener;
 
 @SuppressWarnings("unused")
-public abstract class BaseDialog<P extends Page> extends Dialog implements Dialogable {
-    private static final String PAGE = "page";
-
-    protected final OnDialogDoneListener<P> listener;
-
-    protected Listable<Page> pageListable;
+public abstract class BaseDialog<M extends Model> extends Dialog implements Dialogable {
+    protected final OnTaskCompleteListener<M> listener;
 
     /*==============================================================================================
     PUBLIC CONSTRUCTORS
     ==============================================================================================*/
 
-    public BaseDialog(@NonNull Context context, @NonNull OnDialogDoneListener<P> listener) {
+    public BaseDialog(@NonNull Context context, @NonNull OnTaskCompleteListener<M> listener) {
         super(context);
         this.listener = listener;
     }
 
-    protected BaseDialog(@NonNull Context context, boolean cancelable, @Nullable OnCancelListener cancelListener, @NonNull OnDialogDoneListener<P> listener) {
+    protected BaseDialog(@NonNull Context context, boolean cancelable, @Nullable OnCancelListener cancelListener, @NonNull OnTaskCompleteListener<M> listener) {
         super(context, cancelable, cancelListener);
         this.listener = listener;
     }
@@ -37,7 +32,7 @@ public abstract class BaseDialog<P extends Page> extends Dialog implements Dialo
     ==============================================================================================*/
 
     @Override
-    public void onMakeToast(String line) {
+    public final void onMakeToast(String line) {
         makeToast(line);
     }
 

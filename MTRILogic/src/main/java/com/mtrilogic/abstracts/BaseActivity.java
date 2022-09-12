@@ -39,14 +39,14 @@ public abstract class BaseActivity extends AppCompatActivity implements Activita
     ==============================================================================================*/
 
     @Override
-    public void onNewTagName(@NonNull String oldTag, @NonNull String newTag) {
+    public final void onNewTagName(@NonNull String oldTag, @NonNull String newTag) {
         if (oldTag.equals(tagName)){
             tagName = newTag;
         }
     }
 
     @Override
-    public void onMakeToast(String line) {
+    public final void onMakeToast(String line) {
         makeToast(line);
     }
 

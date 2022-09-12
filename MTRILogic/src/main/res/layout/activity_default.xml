@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/lblTitle"
-    android:text="@string/sample_fragment"
+    android:text="@string/sample_activity"
     android:gravity="center"
     android:textColor="#FFFFFF"
     android:textAppearance="@style/TextAppearance.AppCompat.Medium"

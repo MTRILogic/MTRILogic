@@ -5,7 +5,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 @SuppressWarnings("unused")
-public abstract class ModelableCreator<M extends Model> implements Parcelable.ClassLoaderCreator<M>{
+public abstract class ModelCreator<M extends Model> implements Parcelable.ClassLoaderCreator<M>{
 
     /*==============================================================================================
     PROTECTED ABSTRACT METHOD

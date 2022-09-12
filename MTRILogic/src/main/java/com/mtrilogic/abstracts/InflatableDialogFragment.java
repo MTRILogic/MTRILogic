@@ -15,7 +15,7 @@ import com.mtrilogic.interfaces.InflatableItemListener;
 import com.mtrilogic.mtrilogic.items.DefaultInflatable;
 
 @SuppressWarnings({"unused"})
-public class InflatableDialogFragment<P extends ListablePage<Model>> extends BaseDialogFragment<P> implements InflatableAdapterListener, InflatableItemListener {
+public abstract class InflatableDialogFragment<P extends ListablePage<Model>> extends BaseDialogFragment<P> implements InflatableAdapterListener, InflatableItemListener {
     protected InflatableAdapter adapter;
     protected ListView lvwItems;
 

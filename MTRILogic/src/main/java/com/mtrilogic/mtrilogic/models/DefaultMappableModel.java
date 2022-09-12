@@ -4,11 +4,11 @@ import android.os.Bundle;
 
 import com.mtrilogic.abstracts.MappableModel;
 import com.mtrilogic.abstracts.Model;
-import com.mtrilogic.abstracts.ModelableCreator;
+import com.mtrilogic.abstracts.ModelCreator;
 
 @SuppressWarnings("unused")
 public class DefaultMappableModel<M extends Model> extends MappableModel<M> {
-    public static final Creator<DefaultMappableModel<? extends Model>> CREATOR = new ModelableCreator<DefaultMappableModel<? extends Model>>() {
+    public static final Creator<DefaultMappableModel<? extends Model>> CREATOR = new ModelCreator<DefaultMappableModel<? extends Model>>() {
         @Override
         public DefaultMappableModel<? extends Model> createFromData(Bundle data) {
             return new DefaultMappableModel<>(data);

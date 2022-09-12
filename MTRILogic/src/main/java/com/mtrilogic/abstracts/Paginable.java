@@ -45,7 +45,7 @@ public abstract class Paginable<P extends Page> implements PageBindable, Fragmen
         onBindPage();
     }
 
-    public boolean isFromView(View view){
+    public final boolean isFromView(View view){
         return itemView == view;
     }
 

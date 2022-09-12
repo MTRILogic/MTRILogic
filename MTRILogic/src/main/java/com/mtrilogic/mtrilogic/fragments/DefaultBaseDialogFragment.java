@@ -9,12 +9,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.mtrilogic.abstracts.BaseFragment;
+import com.mtrilogic.abstracts.BaseDialogFragment;
 import com.mtrilogic.mtrilogic.R;
 import com.mtrilogic.mtrilogic.pages.DefaultPage;
 
-@SuppressWarnings("unused")
-public class DefaultBaseFragment extends BaseFragment<DefaultPage> {
+public class DefaultBaseDialogFragment extends BaseDialogFragment<DefaultPage> {
     private TextView lblTitle;
 
     /*==============================================================================================

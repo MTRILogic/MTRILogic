@@ -12,7 +12,7 @@ import com.mtrilogic.interfaces.FragmentableItemListener;
 import com.mtrilogic.mtrilogic.fragments.DefaultBaseFragment;
 
 @SuppressWarnings("unused")
-public class FragmentableDialogFragment<P extends ListablePage<Page>> extends BaseDialogFragment<P> implements FragmentableAdapterListener, FragmentableItemListener {
+public abstract class FragmentableDialogFragment<P extends ListablePage<Page>> extends BaseDialogFragment<P> implements FragmentableAdapterListener, FragmentableItemListener {
     protected FragmentableAdapter adapter;
     protected ViewPager pager;
 
