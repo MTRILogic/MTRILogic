@@ -44,18 +44,6 @@ public abstract class ExpandableDialog<M extends Model> extends BaseDialog<M> im
 
     @NonNull
     @Override
-    public ExpandableGroup<? extends Model> getExpandableGroup(int viewType, @NonNull LayoutInflater inflater, @NonNull ViewGroup parent) {
-        return new DefaultExpandableGroup(inflater, parent, this);
-    }
-
-    @NonNull
-    @Override
-    public ExpandableChild<? extends Model> getExpandableChild(int viewType, @NonNull LayoutInflater inflater, @NonNull ViewGroup parent) {
-        return new DefaultExpandableChild(inflater, parent, this);
-    }
-
-    @NonNull
-    @Override
     public final Mappable<Model> getModelMappable() {
         return modelMappable;
     }
@@ -76,6 +64,18 @@ public abstract class ExpandableDialog<M extends Model> extends BaseDialog<M> im
             Base.makeLog("ExpandableDialog: ExpandableListView is null");
         }
         return lvwItems;
+    }
+
+    @NonNull
+    @Override
+    public ExpandableGroup<? extends Model> getExpandableGroup(int viewType, @NonNull LayoutInflater inflater, @NonNull ViewGroup parent) {
+        return new DefaultExpandableGroup(inflater, parent, this);
+    }
+
+    @NonNull
+    @Override
+    public ExpandableChild<? extends Model> getExpandableChild(int viewType, @NonNull LayoutInflater inflater, @NonNull ViewGroup parent) {
+        return new DefaultExpandableChild(inflater, parent, this);
     }
 
     @Override

@@ -40,18 +40,6 @@ public abstract class ExpandableFragment<P extends MappablePage<Model>> extends 
 
     @NonNull
     @Override
-    public ExpandableGroup<? extends Model> getExpandableGroup(int viewType, @NonNull LayoutInflater inflater, @NonNull ViewGroup parent) {
-        return new DefaultExpandableGroup(inflater, parent, this);
-    }
-
-    @NonNull
-    @Override
-    public ExpandableChild<? extends Model> getExpandableChild(int viewType, @NonNull LayoutInflater inflater, @NonNull ViewGroup parent) {
-        return new DefaultExpandableChild(inflater, parent, this);
-    }
-
-    @NonNull
-    @Override
     public final Mappable<Model> getModelMappable() {
         return page.getMappable();
     }
@@ -66,6 +54,18 @@ public abstract class ExpandableFragment<P extends MappablePage<Model>> extends 
     @Override
     public final ExpandableListView getExpandableListView() {
         return lvwItems;
+    }
+
+    @NonNull
+    @Override
+    public ExpandableGroup<? extends Model> getExpandableGroup(int viewType, @NonNull LayoutInflater inflater, @NonNull ViewGroup parent) {
+        return new DefaultExpandableGroup(inflater, parent, this);
+    }
+
+    @NonNull
+    @Override
+    public ExpandableChild<? extends Model> getExpandableChild(int viewType, @NonNull LayoutInflater inflater, @NonNull ViewGroup parent) {
+        return new DefaultExpandableChild(inflater, parent, this);
     }
 
     @Override

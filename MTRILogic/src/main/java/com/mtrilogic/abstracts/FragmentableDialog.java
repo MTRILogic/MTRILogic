@@ -43,17 +43,6 @@ public abstract class FragmentableDialog<M extends Model> extends BaseDialog<M> 
 
     @NonNull
     @Override
-    public Fragment getFragment(@NonNull Page page, int position) {
-        return BaseFragment.getInstance(new DefaultBaseFragment(), page, position);
-    }
-
-    @Override
-    public void onPositionChanged(int position) {
-        Base.makeLog("FragmentableDialog: Position = " + position);
-    }
-
-    @NonNull
-    @Override
     public final Listable<Page> getPageListable() {
         return pageListable;
     }
@@ -74,6 +63,17 @@ public abstract class FragmentableDialog<M extends Model> extends BaseDialog<M> 
             Base.makeLog("FragmentableDialog: ViewPager is null");
         }
         return pager;
+    }
+
+    @NonNull
+    @Override
+    public Fragment getFragment(@NonNull Page page, int position) {
+        return BaseFragment.getInstance(new DefaultBaseFragment(), page, position);
+    }
+
+    @Override
+    public void onPositionChanged(int position) {
+        Base.makeLog("FragmentableDialog: Position = " + position);
     }
 
     @Override

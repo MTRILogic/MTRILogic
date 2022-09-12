@@ -26,18 +26,6 @@ public abstract class ExpandableDialogFragment<P extends MappablePage<Model>> ex
 
     @NonNull
     @Override
-    public ExpandableGroup<? extends Model> getExpandableGroup(int viewType, @NonNull LayoutInflater inflater, @NonNull ViewGroup parent) {
-        return new DefaultExpandableGroup(inflater, parent, this);
-    }
-
-    @NonNull
-    @Override
-    public ExpandableChild<? extends Model> getExpandableChild(int viewType, @NonNull LayoutInflater inflater, @NonNull ViewGroup parent) {
-        return new DefaultExpandableChild(inflater, parent, this);
-    }
-
-    @NonNull
-    @Override
     public final Mappable<Model> getModelMappable() {
         if (page == null){
             Base.makeLog("ExpandableDialogFragment: MappablePage is null");
@@ -61,6 +49,18 @@ public abstract class ExpandableDialogFragment<P extends MappablePage<Model>> ex
             Base.makeLog("ExpandableDialogFragment: ExpandableListView is null");
         }
         return lvwItems;
+    }
+
+    @NonNull
+    @Override
+    public ExpandableGroup<? extends Model> getExpandableGroup(int viewType, @NonNull LayoutInflater inflater, @NonNull ViewGroup parent) {
+        return new DefaultExpandableGroup(inflater, parent, this);
+    }
+
+    @NonNull
+    @Override
+    public ExpandableChild<? extends Model> getExpandableChild(int viewType, @NonNull LayoutInflater inflater, @NonNull ViewGroup parent) {
+        return new DefaultExpandableChild(inflater, parent, this);
     }
 
     @Override

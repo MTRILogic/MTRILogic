@@ -25,12 +25,6 @@ public abstract class PaginableFragment<P extends ListablePage<Page>> extends Ba
 
     @NonNull
     @Override
-    public Paginable<? extends Page> getPaginable(int viewType, @NonNull LayoutInflater inflater, @NonNull ViewGroup parent) {
-        return new DefaultPaginable(inflater, parent, this);
-    }
-
-    @NonNull
-    @Override
     public final Listable<Page> getPageListable() {
         if (page == null){
             Base.makeLog("PaginableFragment: ListablePage is null");
@@ -54,6 +48,12 @@ public abstract class PaginableFragment<P extends ListablePage<Page>> extends Ba
             Base.makeLog("PaginableFragment: ViewPager is null");
         }
         return pager;
+    }
+
+    @NonNull
+    @Override
+    public Paginable<? extends Page> getPaginable(int viewType, @NonNull LayoutInflater inflater, @NonNull ViewGroup parent) {
+        return new DefaultPaginable(inflater, parent, this);
     }
 
     @Override

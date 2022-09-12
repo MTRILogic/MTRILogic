@@ -4,22 +4,23 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.mtrilogic.adapters.InflatableAdapter;
+import com.mtrilogic.adapters.RecyclableAdapter;
+import com.mtrilogic.classes.Base;
 import com.mtrilogic.classes.Listable;
-import com.mtrilogic.interfaces.InflatableAdapterListener;
-import com.mtrilogic.interfaces.InflatableItemListener;
-import com.mtrilogic.mtrilogic.items.DefaultInflatable;
+import com.mtrilogic.interfaces.RecyclableAdapterListener;
+import com.mtrilogic.interfaces.RecyclableItemListener;
+import com.mtrilogic.mtrilogic.items.DefaultRecyclable;
 
-@SuppressWarnings("unused")
-public abstract class InflatableActivity extends BaseActivity implements InflatableAdapterListener, InflatableItemListener {
+@SuppressWarnings({"unused"})
+public abstract class RecyclableActivity extends BaseActivity implements RecyclableAdapterListener, RecyclableItemListener {
     protected Listable<Model> modelListable;
-    protected InflatableAdapter adapter;
-    protected ListView lvwItems;
+    protected RecyclableAdapter adapter;
+    protected RecyclerView lvwItems;
 
     /*==============================================================================================
     PROTECTED OVERRIDE METHODS
@@ -53,29 +54,35 @@ public abstract class InflatableActivity extends BaseActivity implements Inflata
 
     @NonNull
     @Override
-    public final InflatableAdapter getInflatableAdapter() {
+    public final RecyclableAdapter getRecyclableAdapter() {
+        if (adapter == null){
+            Base.makeLog("RecyclableActivity: RecyclableAdapter is null");
+        }
         return adapter;
     }
 
     @NonNull
     @Override
-    public final ListView getListView() {
+    public final RecyclerView getRecyclerView() {
+        if (lvwItems == null){
+            Base.makeLog("RecyclableActivity: RecyclerView is null");
+        }
         return lvwItems;
     }
 
     @NonNull
     @Override
-    public Inflatable<? extends Model> getInflatable(int viewType, @NonNull LayoutInflater inflater, @NonNull ViewGroup parent) {
-        return new DefaultInflatable(inflater, parent, this);
+    public Recyclable<? extends Model> getRecyclable(int viewType, @NonNull LayoutInflater inflater, @NonNull ViewGroup parent) {
+        return new DefaultRecyclable(inflater, parent, this);
     }
 
     @Override
-    public boolean onItemLongClick(@NonNull View itemView, @NonNull Model model, int position) {
+    public boolean onRecyclableLongClick(@NonNull View itemView, @NonNull Model model, int position) {
         return false;
     }
 
     @Override
-    public void onItemClick(@NonNull View itemView, @NonNull Model model, int position) {
+    public void onRecyclableClick(@NonNull View itemView, @NonNull Model model, int position) {
 
     }
 
@@ -84,14 +91,15 @@ public abstract class InflatableActivity extends BaseActivity implements Inflata
     ==============================================================================================*/
 
     /**
-     * Inicializa el Listview y el InflatableAdapter
+     * Inicializa el RecyclerView y el RecyclableAdapter
      * ATENCIÓN!!!: Este método debe llamarse dentro de onCreateView
-     * @param lvwItems el ListView.
-     * @param typeCount el número de items diferentes.
+     * @param lvwItems the recyclerView view.
+     * @param manager the layout manager (LinearLayoutManager or GridLayoutManager)
      */
-    protected final void initListViewAdapter(@NonNull ListView lvwItems, int typeCount){
-        adapter = new InflatableAdapter(getLayoutInflater(), typeCount, this);
+    protected final void initRecyclerViewAdapter(@NonNull RecyclerView lvwItems, @NonNull RecyclerView.LayoutManager manager){
+        adapter = new RecyclableAdapter(getLayoutInflater(), this);
         lvwItems.setAdapter(adapter);
+        lvwItems.setLayoutManager(manager);
         this.lvwItems = lvwItems;
     }
 }

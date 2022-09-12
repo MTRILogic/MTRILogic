@@ -29,7 +29,7 @@ android {
 
 dependencies {
     //implementation project(':MTRILogic')
-    implementation 'com.github.MTRILogic:MTRILogic:0.15.5'
+    //implementation 'com.github.MTRILogic:MTRILogic:0.30.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'

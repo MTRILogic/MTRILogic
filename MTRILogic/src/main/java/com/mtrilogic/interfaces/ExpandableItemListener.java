@@ -9,7 +9,7 @@ import com.mtrilogic.adapters.ExpandableAdapter;
 import com.mtrilogic.classes.Mappable;
 
 @SuppressWarnings("unused")
-public interface ExpandableItemListener extends ExpandableListener{
+public interface ExpandableItemListener extends ItemListener, ExpandableListener{
     @NonNull
     Mappable<Model> getModelMappable();
 

@@ -22,22 +22,11 @@ public abstract class FragmentableDialogFragment<P extends ListablePage<Page>> e
 
     @NonNull
     @Override
-    public Fragment getFragment(@NonNull Page page, int position) {
-        return BaseFragment.getInstance(new DefaultBaseFragment(), page, position);
-    }
-
-    @NonNull
-    @Override
     public final Listable<Page> getPageListable() {
         if (page == null){
             Base.makeLog("FragmentableDialogFragment: Page is null");
         }
         return page.getListable();
-    }
-
-    @Override
-    public void onPositionChanged(int position) {
-        Base.makeLog("FragmentableDialog: Position = " + position);
     }
 
     @NonNull
@@ -56,6 +45,17 @@ public abstract class FragmentableDialogFragment<P extends ListablePage<Page>> e
             Base.makeLog("FragmentableDialogFragment: ViewPager is null");
         }
         return pager;
+    }
+
+    @NonNull
+    @Override
+    public Fragment getFragment(@NonNull Page page, int position) {
+        return BaseFragment.getInstance(new DefaultBaseFragment(), page, position);
+    }
+
+    @Override
+    public void onPositionChanged(int position) {
+        Base.makeLog("FragmentableDialog: Position = " + position);
     }
 
     @Override

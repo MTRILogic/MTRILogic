@@ -25,12 +25,6 @@ public abstract class InflatableDialogFragment<P extends ListablePage<Model>> ex
 
     @NonNull
     @Override
-    public Inflatable<? extends Model> getInflatable(int viewType, @NonNull LayoutInflater inflater, @NonNull ViewGroup parent) {
-        return new DefaultInflatable(inflater, parent, this);
-    }
-
-    @NonNull
-    @Override
     public final Listable<Model> getModelListable() {
         if (page == null){
             Base.makeLog("InflatableDialogFragment: ListablePage is null");
@@ -54,6 +48,12 @@ public abstract class InflatableDialogFragment<P extends ListablePage<Model>> ex
             Base.makeLog("InflatableDialogFragment: ListView is null");
         }
         return lvwItems;
+    }
+
+    @NonNull
+    @Override
+    public Inflatable<? extends Model> getInflatable(int viewType, @NonNull LayoutInflater inflater, @NonNull ViewGroup parent) {
+        return new DefaultInflatable(inflater, parent, this);
     }
 
     @Override

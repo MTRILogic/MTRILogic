@@ -7,7 +7,7 @@ import com.mtrilogic.abstracts.Page;
 import com.mtrilogic.classes.Listable;
 
 @SuppressWarnings({"unused", "EmptyMethod"})
-public interface FragmentableAdapterListener extends OnMakeToastListener{
+public interface FragmentableAdapterListener extends AdapterListener, OnMakeToastListener{
     @NonNull
     Fragment getFragment(@NonNull Page page, int position);
 

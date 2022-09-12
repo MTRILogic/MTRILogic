@@ -43,12 +43,6 @@ public abstract class PaginableDialog<M extends Model> extends BaseDialog<M> imp
 
     @NonNull
     @Override
-    public Paginable<? extends Page> getPaginable(int viewType, @NonNull LayoutInflater inflater, @NonNull ViewGroup parent) {
-        return new DefaultPaginable(inflater, parent, this);
-    }
-
-    @NonNull
-    @Override
     public final Listable<Page> getPageListable() {
         return pageListable;
     }
@@ -69,6 +63,12 @@ public abstract class PaginableDialog<M extends Model> extends BaseDialog<M> imp
             Base.makeLog("PaginableDialog: ViewPager is null");
         }
         return pager;
+    }
+
+    @NonNull
+    @Override
+    public Paginable<? extends Page> getPaginable(int viewType, @NonNull LayoutInflater inflater, @NonNull ViewGroup parent) {
+        return new DefaultPaginable(inflater, parent, this);
     }
 
     @Override

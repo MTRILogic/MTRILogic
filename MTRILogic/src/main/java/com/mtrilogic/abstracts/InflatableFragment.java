@@ -24,12 +24,6 @@ public abstract class InflatableFragment<P extends ListablePage<Model>> extends 
 
     @NonNull
     @Override
-    public Inflatable<? extends Model> getInflatable(int viewType, @NonNull LayoutInflater inflater, @NonNull ViewGroup parent) {
-        return new DefaultInflatable(inflater, parent, this);
-    }
-
-    @NonNull
-    @Override
     public final Listable<Model> getModelListable() {
         return page.getListable();
     }
@@ -44,6 +38,12 @@ public abstract class InflatableFragment<P extends ListablePage<Model>> extends 
     @Override
     public final ListView getListView() {
         return lvwItems;
+    }
+
+    @NonNull
+    @Override
+    public Inflatable<? extends Model> getInflatable(int viewType, @NonNull LayoutInflater inflater, @NonNull ViewGroup parent) {
+        return new DefaultInflatable(inflater, parent, this);
     }
 
     @Override

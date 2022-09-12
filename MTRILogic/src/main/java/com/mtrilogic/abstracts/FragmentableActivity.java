@@ -45,17 +45,6 @@ public abstract class FragmentableActivity extends BaseActivity implements Fragm
 
     @NonNull
     @Override
-    public Fragment getFragment(@NonNull Page page, int position) {
-        return BaseFragment.getInstance(new DefaultBaseFragment(), page, position);
-    }
-
-    @Override
-    public void onPositionChanged(int position) {
-
-    }
-
-    @NonNull
-    @Override
     public final Listable<Page> getPageListable() {
         return pageListable;
     }
@@ -70,6 +59,17 @@ public abstract class FragmentableActivity extends BaseActivity implements Fragm
     @Override
     public final ViewPager getViewPager() {
         return pager;
+    }
+
+    @NonNull
+    @Override
+    public Fragment getFragment(@NonNull Page page, int position) {
+        return BaseFragment.getInstance(new DefaultBaseFragment(), page, position);
+    }
+
+    @Override
+    public void onPositionChanged(int position) {
+
     }
 
     /*==============================================================================================
