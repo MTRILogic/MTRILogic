@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import com.mtrilogic.abstracts.BaseActivity;
 import com.mtrilogic.mtrilogic.R;
 
+@SuppressWarnings("unused")
 public class DefaultBaseActivity extends BaseActivity {
 
     /*==============================================================================================

@@ -10,7 +10,6 @@ import androidx.annotation.Nullable;
 import androidx.viewpager.widget.ViewPager;
 
 import com.mtrilogic.adapters.PaginableAdapter;
-import com.mtrilogic.classes.Base;
 import com.mtrilogic.classes.Listable;
 import com.mtrilogic.interfaces.OnTaskCompleteListener;
 import com.mtrilogic.interfaces.PaginableAdapterListener;
@@ -50,18 +49,12 @@ public abstract class PaginableDialog<M extends Model> extends BaseDialog<M> imp
     @NonNull
     @Override
     public final PaginableAdapter getPaginableAdapter() {
-        if (adapter == null){
-            Base.makeLog("PaginableDialog: PaginableAdapter is null");
-        }
         return adapter;
     }
 
     @NonNull
     @Override
     public final ViewPager getViewPager() {
-        if (pager == null){
-            Base.makeLog("PaginableDialog: ViewPager is null");
-        }
         return pager;
     }
 

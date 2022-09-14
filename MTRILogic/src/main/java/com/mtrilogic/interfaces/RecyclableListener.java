@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 
 import com.mtrilogic.abstracts.Model;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "EmptyMethod", "SameReturnValue"})
 public interface RecyclableListener extends OnMakeToastListener {
     boolean onRecyclableLongClick(@NonNull View itemView, @NonNull Model model, int position);
 

@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.mtrilogic.adapters.ExpandableAdapter;
-import com.mtrilogic.classes.Base;
 import com.mtrilogic.classes.Mappable;
 import com.mtrilogic.interfaces.ExpandableAdapterListener;
 import com.mtrilogic.interfaces.ExpandableItemListener;
@@ -51,18 +50,12 @@ public abstract class ExpandableDialog<M extends Model> extends BaseDialog<M> im
     @NonNull
     @Override
     public final ExpandableAdapter getExpandableAdapter() {
-        if (adapter == null){
-            Base.makeLog("ExpandableDialog: ExpandableAdapter is null");
-        }
         return adapter;
     }
 
     @NonNull
     @Override
     public final ExpandableListView getExpandableListView() {
-        if (lvwItems == null){
-            Base.makeLog("ExpandableDialog: ExpandableListView is null");
-        }
         return lvwItems;
     }
 

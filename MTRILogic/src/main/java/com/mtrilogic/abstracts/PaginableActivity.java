@@ -10,7 +10,6 @@ import androidx.annotation.Nullable;
 import androidx.viewpager.widget.ViewPager;
 
 import com.mtrilogic.adapters.PaginableAdapter;
-import com.mtrilogic.classes.Base;
 import com.mtrilogic.classes.Listable;
 import com.mtrilogic.interfaces.PaginableAdapterListener;
 import com.mtrilogic.interfaces.PaginableItemListener;
@@ -55,18 +54,12 @@ public abstract class PaginableActivity extends BaseActivity implements Paginabl
     @NonNull
     @Override
     public final PaginableAdapter getPaginableAdapter() {
-        if (adapter == null){
-            Base.makeLog("PaginableActivity: PaginableAdapter is null");
-        }
         return adapter;
     }
 
     @NonNull
     @Override
     public final ViewPager getViewPager() {
-        if (pager == null){
-            Base.makeLog("PaginableActivity: ViewPager is null");
-        }
         return pager;
     }
 
@@ -95,7 +88,7 @@ public abstract class PaginableActivity extends BaseActivity implements Paginabl
      * ATENCIÓN!!!: Este método debe llamarse dentro de onCreateView
      * @param pager el ViewPager.
      */
-    protected void initViewPagerAdapter(@NonNull ViewPager pager){
+    protected final void initViewPagerAdapter(@NonNull ViewPager pager){
         adapter = new PaginableAdapter(getLayoutInflater(), this);
         pager.setAdapter(adapter);
         this.pager = pager;

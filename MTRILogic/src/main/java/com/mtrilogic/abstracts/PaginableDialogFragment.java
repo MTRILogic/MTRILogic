@@ -8,7 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.viewpager.widget.ViewPager;
 
 import com.mtrilogic.adapters.PaginableAdapter;
-import com.mtrilogic.classes.Base;
 import com.mtrilogic.classes.Listable;
 import com.mtrilogic.interfaces.PaginableAdapterListener;
 import com.mtrilogic.interfaces.PaginableItemListener;
@@ -26,27 +25,18 @@ public abstract class PaginableDialogFragment<P extends ListablePage<Page>> exte
     @NonNull
     @Override
     public final Listable<Page> getPageListable() {
-        if (page == null){
-            Base.makeLog("PaginableDialogFragment: Page is null");
-        }
         return page.getListable();
     }
 
     @NonNull
     @Override
     public final PaginableAdapter getPaginableAdapter() {
-        if (adapter == null){
-            Base.makeLog("PaginableDialogFragment: Adapter is null");
-        }
         return adapter;
     }
 
     @NonNull
     @Override
     public final ViewPager getViewPager() {
-        if (pager == null){
-            Base.makeLog("PaginableDialogFragment: ViewPager is null");
-        }
         return pager;
     }
 
@@ -75,7 +65,7 @@ public abstract class PaginableDialogFragment<P extends ListablePage<Page>> exte
      * ATENCIÓN!!!: Este método debe llamarse dentro de onCreateView
      * @param pager el ViewPager.
      */
-    protected void initViewPagerAdapter(@NonNull ViewPager pager){
+    protected final void initViewPagerAdapter(@NonNull ViewPager pager){
         adapter = new PaginableAdapter(getLayoutInflater(), this);
         pager.setAdapter(adapter);
         this.pager = pager;

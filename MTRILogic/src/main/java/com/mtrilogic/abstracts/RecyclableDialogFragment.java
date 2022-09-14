@@ -8,7 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mtrilogic.adapters.RecyclableAdapter;
-import com.mtrilogic.classes.Base;
 import com.mtrilogic.classes.Listable;
 import com.mtrilogic.interfaces.RecyclableAdapterListener;
 import com.mtrilogic.interfaces.RecyclableItemListener;
@@ -26,27 +25,18 @@ public abstract class RecyclableDialogFragment<P extends ListablePage<Model>> ex
     @NonNull
     @Override
     public final Listable<Model> getModelListable() {
-        if (page == null){
-            Base.makeLog("RecyclableDialogFragment: PageListable is null");
-        }
         return page.getListable();
     }
 
     @NonNull
     @Override
     public final RecyclableAdapter getRecyclableAdapter() {
-        if (adapter == null){
-            Base.makeLog("RecyclableDialogFragment: RecyclableAdapter is null");
-        }
         return adapter;
     }
 
     @NonNull
     @Override
     public final RecyclerView getRecyclerView() {
-        if (lvwItems == null){
-            Base.makeLog("RecyclableDialogFragment: RecyclerView is null");
-        }
         return lvwItems;
     }
 

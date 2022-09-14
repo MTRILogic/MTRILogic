@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.mtrilogic.adapters.InflatableAdapter;
-import com.mtrilogic.classes.Base;
 import com.mtrilogic.classes.Listable;
 import com.mtrilogic.interfaces.InflatableAdapterListener;
 import com.mtrilogic.interfaces.InflatableItemListener;
@@ -50,18 +49,12 @@ public abstract class InflatableDialog<M extends Model> extends BaseDialog<M> im
     @NonNull
     @Override
     public final InflatableAdapter getInflatableAdapter() {
-        if (adapter == null){
-            Base.makeLog("InflatableDialog: InflatableAdapter is null");
-        }
         return adapter;
     }
 
     @NonNull
     @Override
     public final ListView getListView() {
-        if (lvwItems == null){
-            Base.makeLog("InflatableDialog: ListView is null");
-        }
         return lvwItems;
     }
 

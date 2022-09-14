@@ -9,7 +9,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 
 import com.mtrilogic.adapters.FragmentableAdapter;
-import com.mtrilogic.classes.Base;
 import com.mtrilogic.classes.Listable;
 import com.mtrilogic.interfaces.FragmentableAdapterListener;
 import com.mtrilogic.interfaces.FragmentableItemListener;
@@ -50,18 +49,12 @@ public abstract class FragmentableDialog<M extends Model> extends BaseDialog<M> 
     @NonNull
     @Override
     public final FragmentableAdapter getFragmentableAdapter() {
-        if (adapter == null){
-            Base.makeLog("FragmentableDialog: FragmentableAdapter is null");
-        }
         return adapter;
     }
 
     @NonNull
     @Override
     public final ViewPager getViewPager() {
-        if (pager == null){
-            Base.makeLog("FragmentableDialog: ViewPager is null");
-        }
         return pager;
     }
 
@@ -73,7 +66,7 @@ public abstract class FragmentableDialog<M extends Model> extends BaseDialog<M> 
 
     @Override
     public void onPositionChanged(int position) {
-        Base.makeLog("FragmentableDialog: Position = " + position);
+
     }
 
     @Override

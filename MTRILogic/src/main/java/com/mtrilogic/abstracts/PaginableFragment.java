@@ -8,7 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.viewpager.widget.ViewPager;
 
 import com.mtrilogic.adapters.PaginableAdapter;
-import com.mtrilogic.classes.Base;
 import com.mtrilogic.classes.Listable;
 import com.mtrilogic.interfaces.PaginableAdapterListener;
 import com.mtrilogic.interfaces.PaginableItemListener;
@@ -26,27 +25,18 @@ public abstract class PaginableFragment<P extends ListablePage<Page>> extends Ba
     @NonNull
     @Override
     public final Listable<Page> getPageListable() {
-        if (page == null){
-            Base.makeLog("PaginableFragment: ListablePage is null");
-        }
         return page.getListable();
     }
 
     @NonNull
     @Override
     public final PaginableAdapter getPaginableAdapter() {
-        if (adapter == null){
-            Base.makeLog("PaginableFragment: PaginableAdapter is null");
-        }
         return adapter;
     }
 
     @NonNull
     @Override
     public final ViewPager getViewPager() {
-        if (pager == null){
-            Base.makeLog("PaginableFragment: ViewPager is null");
-        }
         return pager;
     }
 
