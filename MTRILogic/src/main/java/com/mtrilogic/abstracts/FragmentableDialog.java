@@ -16,7 +16,7 @@ import com.mtrilogic.interfaces.OnTaskCompleteListener;
 import com.mtrilogic.mtrilogic.fragments.DefaultBaseFragment;
 
 @SuppressWarnings("unused")
-public abstract class FragmentableDialog<M extends Model> extends BaseDialog<M> implements FragmentableAdapterListener, FragmentableItemListener {
+public abstract class FragmentableDialog<P extends Page> extends BaseDialog<P> implements FragmentableAdapterListener, FragmentableItemListener {
     protected final Listable<Page> pageListable;
     protected FragmentableAdapter adapter;
     protected ViewPager pager;
@@ -26,12 +26,12 @@ public abstract class FragmentableDialog<M extends Model> extends BaseDialog<M> 
     PUBLIC CONSTRUCTORS
     ==============================================================================================*/
 
-    public FragmentableDialog(@NonNull Context context, @NonNull Listable<Page> pageListable, @NonNull OnTaskCompleteListener<M> listener) {
+    public FragmentableDialog(@NonNull Context context, @NonNull Listable<Page> pageListable, @NonNull OnTaskCompleteListener<P> listener) {
         super(context, listener);
         this.pageListable = pageListable;
     }
 
-    protected FragmentableDialog(@NonNull Context context, boolean cancelable, @Nullable OnCancelListener cancelListener, @NonNull Listable<Page> pageListable, @NonNull OnTaskCompleteListener<M> listener) {
+    protected FragmentableDialog(@NonNull Context context, boolean cancelable, @Nullable OnCancelListener cancelListener, @NonNull Listable<Page> pageListable, @NonNull OnTaskCompleteListener<P> listener) {
         super(context, cancelable, cancelListener, listener);
         this.pageListable = pageListable;
     }

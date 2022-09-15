@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
+import android.widget.AbsListView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,7 +19,7 @@ import com.mtrilogic.mtrilogic.items.DefaultInflatable;
 public abstract class InflatableActivity extends BaseActivity implements InflatableAdapterListener, InflatableItemListener {
     protected Listable<Model> modelListable;
     protected InflatableAdapter adapter;
-    protected ListView lvwItems;
+    protected AbsListView lvwItems;
 
     /*==============================================================================================
     PROTECTED OVERRIDE METHODS
@@ -59,7 +59,7 @@ public abstract class InflatableActivity extends BaseActivity implements Inflata
 
     @NonNull
     @Override
-    public final ListView getListView() {
+    public final AbsListView getListView() {
         return lvwItems;
     }
 
@@ -89,7 +89,7 @@ public abstract class InflatableActivity extends BaseActivity implements Inflata
      * @param lvwItems el ListView.
      * @param typeCount el número de items diferentes.
      */
-    protected final void initListViewAdapter(@NonNull ListView lvwItems, int typeCount){
+    protected final void initListViewAdapter(@NonNull AbsListView lvwItems, int typeCount){
         adapter = new InflatableAdapter(getLayoutInflater(), typeCount, this);
         lvwItems.setAdapter(adapter);
         this.lvwItems = lvwItems;

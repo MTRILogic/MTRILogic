@@ -3,7 +3,7 @@ package com.mtrilogic.abstracts;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
+import android.widget.AbsListView;
 
 import androidx.annotation.NonNull;
 
@@ -16,7 +16,7 @@ import com.mtrilogic.mtrilogic.items.DefaultInflatable;
 @SuppressWarnings({"unused"})
 public abstract class InflatableDialogFragment<P extends ListablePage<Model>> extends BaseDialogFragment<P> implements InflatableAdapterListener, InflatableItemListener {
     protected InflatableAdapter adapter;
-    protected ListView lvwItems;
+    protected AbsListView lvwItems;
 
     /*==============================================================================================
     PUBLIC OVERRIDE METHODS
@@ -36,7 +36,7 @@ public abstract class InflatableDialogFragment<P extends ListablePage<Model>> ex
 
     @NonNull
     @Override
-    public final ListView getListView() {
+    public final AbsListView getListView() {
         return lvwItems;
     }
 
@@ -66,7 +66,7 @@ public abstract class InflatableDialogFragment<P extends ListablePage<Model>> ex
      * @param lvwItems el ListView.
      * @param typeCount el número de items diferentes.
      */
-    protected final void initListViewAdapter(@NonNull ListView lvwItems, int typeCount){
+    protected final void initListViewAdapter(@NonNull AbsListView lvwItems, int typeCount){
         adapter = new InflatableAdapter(getLayoutInflater(), typeCount, this);
         lvwItems.setAdapter(adapter);
         this.lvwItems = lvwItems;
