@@ -12,7 +12,7 @@ import com.mtrilogic.interfaces.FragmentableListener;
 
 @SuppressWarnings("unused")
 public abstract class BaseActivity extends AppCompatActivity implements Activitable, FragmentableListener {
-    private static final String TAG = "MTRIMain", TAG_NAME = "tagName";
+    private static final String TAG_NAME = "tagName";
 
     protected String tagName;
 

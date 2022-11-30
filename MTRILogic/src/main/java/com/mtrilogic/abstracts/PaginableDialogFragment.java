@@ -16,7 +16,6 @@ import com.mtrilogic.mtrilogic.items.DefaultPaginable;
 @SuppressWarnings({"unused"})
 public abstract class PaginableDialogFragment<P extends ListablePage<Page>> extends BaseDialogFragment<P> implements PaginableAdapterListener, PaginableItemListener {
     protected PaginableAdapter adapter;
-    protected ViewPager pager;
 
     /*==============================================================================================
     PUBLIC OVERRIDE METHODS
@@ -32,12 +31,6 @@ public abstract class PaginableDialogFragment<P extends ListablePage<Page>> exte
     @Override
     public final PaginableAdapter getPaginableAdapter() {
         return adapter;
-    }
-
-    @NonNull
-    @Override
-    public final ViewPager getViewPager() {
-        return pager;
     }
 
     @NonNull
@@ -61,13 +54,12 @@ public abstract class PaginableDialogFragment<P extends ListablePage<Page>> exte
     ==============================================================================================*/
 
     /**
-     * Inicializa el ViewPager y el PaginableAdapter
+     * Inicializa el PaginableAdapter
      * ATENCIÓN!!!: Este método debe llamarse dentro de onCreateView
      * @param pager el ViewPager.
      */
-    protected final void initViewPagerAdapter(@NonNull ViewPager pager){
+    protected final void initPaginableAdapter(@NonNull ViewPager pager){
         adapter = new PaginableAdapter(getLayoutInflater(), this);
         pager.setAdapter(adapter);
-        this.pager = pager;
     }
 }

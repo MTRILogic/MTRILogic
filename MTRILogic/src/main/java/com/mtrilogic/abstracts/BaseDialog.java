@@ -6,23 +6,23 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.mtrilogic.interfaces.BaseDialogListener;
 import com.mtrilogic.interfaces.Dialogable;
-import com.mtrilogic.interfaces.OnTaskCompleteListener;
 
 @SuppressWarnings("unused")
 public abstract class BaseDialog<M extends Model> extends Dialog implements Dialogable {
-    protected final OnTaskCompleteListener<M> listener;
+    protected final BaseDialogListener<M> listener;
 
     /*==============================================================================================
     PUBLIC CONSTRUCTORS
     ==============================================================================================*/
 
-    public BaseDialog(@NonNull Context context, @NonNull OnTaskCompleteListener<M> listener) {
+    public BaseDialog(@NonNull Context context, @NonNull BaseDialogListener<M> listener) {
         super(context);
         this.listener = listener;
     }
 
-    protected BaseDialog(@NonNull Context context, boolean cancelable, @Nullable OnCancelListener cancelListener, @NonNull OnTaskCompleteListener<M> listener) {
+    protected BaseDialog(@NonNull Context context, boolean cancelable, @Nullable OnCancelListener cancelListener, @NonNull BaseDialogListener<M> listener) {
         super(context, cancelable, cancelListener);
         this.listener = listener;
     }

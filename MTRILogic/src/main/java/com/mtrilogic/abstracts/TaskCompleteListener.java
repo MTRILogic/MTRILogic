@@ -15,9 +15,4 @@ public abstract class TaskCompleteListener<M extends Model> implements OnTaskCom
     public void onTaskError(@NonNull String msg) {
 
     }
-
-    @Override
-    public void onMakeToast(String line) {
-
-    }
 }

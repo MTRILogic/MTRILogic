@@ -10,28 +10,27 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.mtrilogic.adapters.FragmentableAdapter;
 import com.mtrilogic.classes.Listable;
+import com.mtrilogic.interfaces.BaseDialogListener;
 import com.mtrilogic.interfaces.FragmentableAdapterListener;
 import com.mtrilogic.interfaces.FragmentableItemListener;
-import com.mtrilogic.interfaces.OnTaskCompleteListener;
 import com.mtrilogic.mtrilogic.fragments.DefaultBaseFragment;
 
 @SuppressWarnings("unused")
 public abstract class FragmentableDialog<P extends Page> extends BaseDialog<P> implements FragmentableAdapterListener, FragmentableItemListener {
     protected final Listable<Page> pageListable;
     protected FragmentableAdapter adapter;
-    protected ViewPager pager;
     protected String tagName;
 
     /*==============================================================================================
     PUBLIC CONSTRUCTORS
     ==============================================================================================*/
 
-    public FragmentableDialog(@NonNull Context context, @NonNull Listable<Page> pageListable, @NonNull OnTaskCompleteListener<P> listener) {
+    public FragmentableDialog(@NonNull Context context, @NonNull Listable<Page> pageListable, @NonNull BaseDialogListener<P> listener) {
         super(context, listener);
         this.pageListable = pageListable;
     }
 
-    protected FragmentableDialog(@NonNull Context context, boolean cancelable, @Nullable OnCancelListener cancelListener, @NonNull Listable<Page> pageListable, @NonNull OnTaskCompleteListener<P> listener) {
+    protected FragmentableDialog(@NonNull Context context, boolean cancelable, @Nullable OnCancelListener cancelListener, @NonNull Listable<Page> pageListable, @NonNull BaseDialogListener<P> listener) {
         super(context, cancelable, cancelListener, listener);
         this.pageListable = pageListable;
     }
@@ -50,12 +49,6 @@ public abstract class FragmentableDialog<P extends Page> extends BaseDialog<P> i
     @Override
     public final FragmentableAdapter getFragmentableAdapter() {
         return adapter;
-    }
-
-    @NonNull
-    @Override
-    public final ViewPager getViewPager() {
-        return pager;
     }
 
     @NonNull
@@ -81,14 +74,13 @@ public abstract class FragmentableDialog<P extends Page> extends BaseDialog<P> i
     ==============================================================================================*/
 
     /**
-     * Inicializa el ViewPager y el PaginableAdapter
+     * Inicializa el PaginableAdapter
      * ATENCIÓN!!!: Este método debe llamarse dentro de onCreateView
      * @param manager el fragment manager.
      * @param pager el ViewPager.
      */
-    protected final void initViewPagerAdapter(@NonNull FragmentManager manager, @NonNull ViewPager pager){
+    protected final void initPaginableAdapter(@NonNull FragmentManager manager, @NonNull ViewPager pager){
         adapter = new FragmentableAdapter(manager, this);
         pager.setAdapter(adapter);
-        this.pager = pager;
     }
 }

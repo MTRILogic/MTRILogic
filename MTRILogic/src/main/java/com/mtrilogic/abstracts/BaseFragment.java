@@ -39,9 +39,6 @@ public abstract class BaseFragment<P extends Page> extends Fragment implements F
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if (context instanceof FragmentableItemListener){
-            listener = (FragmentableItemListener) context;
-        }
         if (context instanceof FragmentableListener){
             listener = (FragmentableListener) context;
         }else {
@@ -144,17 +141,13 @@ public abstract class BaseFragment<P extends Page> extends Fragment implements F
         getItemListener().getFragmentableAdapter().notifyDataSetChanged();
     }
 
+    protected FragmentableItemListener getItemListener(){
+        return (FragmentableItemListener) listener;
+    }
+
     protected final void makeToast(String line){
         if (listener != null){
             listener.onMakeToast(line);
         }
-    }
-
-    /*==============================================================================================
-    PRIVATE METHODS
-    ==============================================================================================*/
-
-    private FragmentableItemListener getItemListener(){
-        return (FragmentableItemListener) listener;
     }
 }

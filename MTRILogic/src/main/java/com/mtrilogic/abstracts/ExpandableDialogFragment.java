@@ -17,7 +17,6 @@ import com.mtrilogic.mtrilogic.items.DefaultExpandableGroup;
 @SuppressWarnings({"unused"})
 public abstract class ExpandableDialogFragment<P extends MappablePage<Model>> extends BaseDialogFragment<P> implements ExpandableAdapterListener, ExpandableItemListener {
     protected ExpandableAdapter adapter;
-    protected ExpandableListView lvwItems;
 
     /*==============================================================================================
     PUBLIC OVERRIDE METHODS
@@ -33,12 +32,6 @@ public abstract class ExpandableDialogFragment<P extends MappablePage<Model>> ex
     @Override
     public final ExpandableAdapter getExpandableAdapter() {
         return adapter;
-    }
-
-    @NonNull
-    @Override
-    public final ExpandableListView getExpandableListView() {
-        return lvwItems;
     }
 
     @NonNull
@@ -78,15 +71,14 @@ public abstract class ExpandableDialogFragment<P extends MappablePage<Model>> ex
     ==============================================================================================*/
 
     /**
-     * Inicializa el ExpandableView y el ExpandableAdapter
+     * Inicializa el ExpandableAdapter
      * ATENCIÓN!!!: Este método debe llamarse dentro de <b>onCreateViewFragment()</b>.
      * @param lvwItems el ExpandableView
      * @param groupTypeCount número de tipos para grupos diferentes (por default = 1)
      * @param childTypeCount número de tipos para hijos diferentes (por default = 1)
      */
-    protected final void initExpandableListViewAdapter(@NonNull ExpandableListView lvwItems, int groupTypeCount, int childTypeCount){
+    protected final void initExpandableAdapter(@NonNull ExpandableListView lvwItems, int groupTypeCount, int childTypeCount){
         adapter = new ExpandableAdapter(getLayoutInflater(), groupTypeCount, childTypeCount, this);
         lvwItems.setAdapter(adapter);
-        this.lvwItems = lvwItems;
     }
 }

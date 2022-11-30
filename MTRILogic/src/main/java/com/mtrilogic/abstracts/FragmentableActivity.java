@@ -17,7 +17,6 @@ import com.mtrilogic.interfaces.FragmentableItemListener;
 public abstract class FragmentableActivity extends BaseActivity implements FragmentableAdapterListener, FragmentableItemListener {
     protected Listable<Page> pageListable;
     protected FragmentableAdapter adapter;
-    protected ViewPager pager;
 
     /*==============================================================================================
     PROTECTED OVERRIDE METHODS
@@ -57,12 +56,6 @@ public abstract class FragmentableActivity extends BaseActivity implements Fragm
 
     @NonNull
     @Override
-    public final ViewPager getViewPager() {
-        return pager;
-    }
-
-    @NonNull
-    @Override
     public Fragment getFragment(@NonNull Page page, int position) {
         return BaseFragment.getInstance(new DefaultBaseFragment(), page, position);
     }
@@ -77,13 +70,12 @@ public abstract class FragmentableActivity extends BaseActivity implements Fragm
     ==============================================================================================*/
 
     /**
-     * Inicializa el ViewPager y el PaginableAdapter
+     * Inicializa el PaginableAdapter
      * ATENCIÓN!!!: Este método debe llamarse dentro de onCreateView
      * @param pager el ViewPager.
      */
-    public final void initViewPagerAdapter(@NonNull ViewPager pager){
+    public final void initPaginableAdapter(@NonNull ViewPager pager){
         adapter = new FragmentableAdapter(getSupportFragmentManager(), this);
         pager.setAdapter(adapter);
-        this.pager = pager;
     }
 }

@@ -16,7 +16,6 @@ import com.mtrilogic.mtrilogic.items.DefaultRecyclable;
 @SuppressWarnings({"unused"})
 public abstract class RecyclableDialogFragment<P extends ListablePage<Model>> extends BaseDialogFragment<P> implements RecyclableAdapterListener, RecyclableItemListener {
     protected RecyclableAdapter adapter;
-    protected RecyclerView lvwItems;
 
     /*==============================================================================================
     PUBLIC OVERRIDE METHODS
@@ -32,12 +31,6 @@ public abstract class RecyclableDialogFragment<P extends ListablePage<Model>> ex
     @Override
     public final RecyclableAdapter getRecyclableAdapter() {
         return adapter;
-    }
-
-    @NonNull
-    @Override
-    public final RecyclerView getRecyclerView() {
-        return lvwItems;
     }
 
     @NonNull
@@ -61,15 +54,14 @@ public abstract class RecyclableDialogFragment<P extends ListablePage<Model>> ex
     ==============================================================================================*/
 
     /**
-     * Inicializa el RecyclerView y el RecyclableAdapter
+     * Inicializa el RecyclableAdapter
      * ATENCIÓN!!!: Este método debe llamarse dentro de onCreateView
      * @param lvwItems the recyclerView view.
      * @param manager the layout manager (LinearLayoutManager or GridLayoutManager)
      */
-    protected final void initRecyclerViewAdapter(@NonNull RecyclerView lvwItems, @NonNull RecyclerView.LayoutManager manager){
+    protected final void initRecyclableAdapter(@NonNull RecyclerView lvwItems, @NonNull RecyclerView.LayoutManager manager){
         adapter = new RecyclableAdapter(getLayoutInflater(), this);
         lvwItems.setAdapter(adapter);
         lvwItems.setLayoutManager(manager);
-        this.lvwItems = lvwItems;
     }
 }

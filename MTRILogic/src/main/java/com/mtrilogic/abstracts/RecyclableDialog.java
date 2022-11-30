@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.mtrilogic.adapters.RecyclableAdapter;
 import com.mtrilogic.classes.Listable;
-import com.mtrilogic.interfaces.OnTaskCompleteListener;
+import com.mtrilogic.interfaces.BaseDialogListener;
 import com.mtrilogic.interfaces.RecyclableAdapterListener;
 import com.mtrilogic.interfaces.RecyclableItemListener;
 import com.mtrilogic.mtrilogic.items.DefaultRecyclable;
@@ -20,18 +20,17 @@ import com.mtrilogic.mtrilogic.items.DefaultRecyclable;
 public abstract class RecyclableDialog<M extends Model> extends BaseDialog<M> implements RecyclableAdapterListener, RecyclableItemListener {
     protected final Listable<Model> modelListable;
     protected RecyclableAdapter adapter;
-    protected RecyclerView lvwItems;
 
     /*==============================================================================================
     PUBLIC CONSTRUCTORS
     ==============================================================================================*/
 
-    public RecyclableDialog(@NonNull Context context, @NonNull Listable<Model> modelListable, @NonNull OnTaskCompleteListener<M> listener) {
+    public RecyclableDialog(@NonNull Context context, @NonNull Listable<Model> modelListable, @NonNull BaseDialogListener<M> listener) {
         super(context, listener);
         this.modelListable = modelListable;
     }
 
-    protected RecyclableDialog(@NonNull Context context, boolean cancelable, @Nullable OnCancelListener cancelListener, @NonNull Listable<Model> modelListable, @NonNull OnTaskCompleteListener<M> listener) {
+    protected RecyclableDialog(@NonNull Context context, boolean cancelable, @Nullable OnCancelListener cancelListener, @NonNull Listable<Model> modelListable, @NonNull BaseDialogListener<M> listener) {
         super(context, cancelable, cancelListener, listener);
         this.modelListable = modelListable;
     }
@@ -50,12 +49,6 @@ public abstract class RecyclableDialog<M extends Model> extends BaseDialog<M> im
     @Override
     public final RecyclableAdapter getRecyclableAdapter() {
         return adapter;
-    }
-
-    @NonNull
-    @Override
-    public final RecyclerView getRecyclerView() {
-        return lvwItems;
     }
 
     @NonNull
@@ -79,15 +72,14 @@ public abstract class RecyclableDialog<M extends Model> extends BaseDialog<M> im
     ==============================================================================================*/
 
     /**
-     * Inicializa el RecyclerView y el RecyclableAdapter
+     * Inicializa el RecyclableAdapter
      * ATENCIÓN!!!: Este método debe llamarse dentro de onCreateView
      * @param lvwItems the recyclerView view.
      * @param manager the layout manager (LinearLayoutManager or GridLayoutManager)
      */
-    protected final void initRecyclerViewAdapter(@NonNull RecyclerView lvwItems, @NonNull RecyclerView.LayoutManager manager){
+    protected final void initRecyclableAdapter(@NonNull RecyclerView lvwItems, @NonNull RecyclerView.LayoutManager manager){
         adapter = new RecyclableAdapter(getLayoutInflater(), this);
         lvwItems.setAdapter(adapter);
         lvwItems.setLayoutManager(manager);
-        this.lvwItems = lvwItems;
     }
 }

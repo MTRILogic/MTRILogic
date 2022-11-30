@@ -3,8 +3,7 @@
     android:id="@+id/lblTitle"
     android:text="@string/sample_fragment"
     android:gravity="center"
-    android:textColor="#FFFFFF"
+    android:textColor="#000000"
     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-    android:background="#555555"
     android:layout_width="match_parent"
     android:layout_height="match_parent"/>

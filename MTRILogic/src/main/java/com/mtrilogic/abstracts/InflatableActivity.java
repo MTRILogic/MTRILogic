@@ -19,7 +19,6 @@ import com.mtrilogic.mtrilogic.items.DefaultInflatable;
 public abstract class InflatableActivity extends BaseActivity implements InflatableAdapterListener, InflatableItemListener {
     protected Listable<Model> modelListable;
     protected InflatableAdapter adapter;
-    protected AbsListView lvwItems;
 
     /*==============================================================================================
     PROTECTED OVERRIDE METHODS
@@ -59,12 +58,6 @@ public abstract class InflatableActivity extends BaseActivity implements Inflata
 
     @NonNull
     @Override
-    public final AbsListView getListView() {
-        return lvwItems;
-    }
-
-    @NonNull
-    @Override
     public Inflatable<? extends Model> getInflatable(int viewType, @NonNull LayoutInflater inflater, @NonNull ViewGroup parent) {
         return new DefaultInflatable(inflater, parent, this);
     }
@@ -84,14 +77,13 @@ public abstract class InflatableActivity extends BaseActivity implements Inflata
     ==============================================================================================*/
 
     /**
-     * Inicializa el Listview y el InflatableAdapter
+     * Inicializa el InflatableAdapter
      * ATENCIÓN!!!: Este método debe llamarse dentro de onCreateView
      * @param lvwItems el ListView.
      * @param typeCount el número de items diferentes.
      */
-    protected final void initListViewAdapter(@NonNull AbsListView lvwItems, int typeCount){
+    protected final void initInflatableAdapter(@NonNull AbsListView lvwItems, int typeCount){
         adapter = new InflatableAdapter(getLayoutInflater(), typeCount, this);
         lvwItems.setAdapter(adapter);
-        this.lvwItems = lvwItems;
     }
 }

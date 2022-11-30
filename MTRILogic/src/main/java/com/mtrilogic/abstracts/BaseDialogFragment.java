@@ -40,9 +40,6 @@ public abstract class BaseDialogFragment<P extends Page> extends DialogFragment 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if (context instanceof FragmentableItemListener){
-            listener = (FragmentableItemListener) context;
-        }
         if (context instanceof FragmentableListener){
             listener = (FragmentableListener) context;
         }else {
@@ -120,13 +117,6 @@ public abstract class BaseDialogFragment<P extends Page> extends DialogFragment 
     ==============================================================================================*/
 
     /**
-     * Utility method to listen for position update.
-     */
-    protected void onNewPosition(){
-
-    }
-
-    /**
      * Schedule this fragment to be deleted on adapter update.
      * <b>WARNING!!!</b>: use this method only if this fragment is in page mode, i.e. with
      * FragmentableItemListener implemented.
@@ -145,17 +135,25 @@ public abstract class BaseDialogFragment<P extends Page> extends DialogFragment 
         getItemListener().getFragmentableAdapter().notifyDataSetChanged();
     }
 
+    /**
+     * Convenient method to get the FragmentableItemListener from the FrangmentableListener
+     * <b>WARNING!!!</b>: use this method only if this fragment is in page mode, i.e. with
+     * FragmentableItemListener implemented.
+     */
+    protected FragmentableItemListener getItemListener(){
+        return (FragmentableItemListener) listener;
+    }
+
+    /**
+     * Utility method to update fragment position
+     */
+    protected void onNewPosition(){
+
+    }
+
     protected final void makeToast(String line){
         if (listener != null){
             listener.onMakeToast(line);
         }
-    }
-
-    /*==============================================================================================
-    PRIVATE METHODS
-    ==============================================================================================*/
-
-    private FragmentableItemListener getItemListener(){
-        return (FragmentableItemListener) listener;
     }
 }

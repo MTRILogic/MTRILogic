@@ -13,7 +13,6 @@ import com.mtrilogic.mtrilogic.fragments.DefaultBaseFragment;
 @SuppressWarnings("unused")
 public abstract class FragmentableDialogFragment<P extends ListablePage<Page>> extends BaseDialogFragment<P> implements FragmentableAdapterListener, FragmentableItemListener {
     protected FragmentableAdapter adapter;
-    protected ViewPager pager;
 
     /*==============================================================================================
     PUBLIC OVERRIDE METHODS
@@ -29,12 +28,6 @@ public abstract class FragmentableDialogFragment<P extends ListablePage<Page>> e
     @Override
     public final FragmentableAdapter getFragmentableAdapter() {
         return adapter;
-    }
-
-    @NonNull
-    @Override
-    public final ViewPager getViewPager() {
-        return pager;
     }
 
     @NonNull
@@ -60,13 +53,12 @@ public abstract class FragmentableDialogFragment<P extends ListablePage<Page>> e
     ==============================================================================================*/
 
     /**
-     * Inicializa el ViewPager y el PaginableAdapter
+     * Inicializa el PaginableAdapter
      * ATENCIÓN!!!: Este método debe llamarse dentro de onCreateView
      * @param pager el ViewPager.
      */
-    protected final void initViewPagerAdapter(@NonNull ViewPager pager){
+    protected final void initPaginableAdapter(@NonNull ViewPager pager){
         adapter = new FragmentableAdapter(getChildFragmentManager(), this);
         pager.setAdapter(adapter);
-        this.pager = pager;
     }
 }

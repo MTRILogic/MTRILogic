@@ -11,27 +11,26 @@ import androidx.annotation.Nullable;
 
 import com.mtrilogic.adapters.InflatableAdapter;
 import com.mtrilogic.classes.Listable;
+import com.mtrilogic.interfaces.BaseDialogListener;
 import com.mtrilogic.interfaces.InflatableAdapterListener;
 import com.mtrilogic.interfaces.InflatableItemListener;
-import com.mtrilogic.interfaces.OnTaskCompleteListener;
 import com.mtrilogic.mtrilogic.items.DefaultInflatable;
 
 @SuppressWarnings("unused")
 public abstract class InflatableDialog<M extends Model> extends BaseDialog<M> implements InflatableAdapterListener, InflatableItemListener {
     protected final Listable<Model> modelListable;
     protected InflatableAdapter adapter;
-    protected AbsListView lvwItems;
 
     /*==============================================================================================
     PUBLIC CONSTRUCTORS
     ==============================================================================================*/
 
-    public InflatableDialog(@NonNull Context context, @NonNull Listable<Model> modelListable, @NonNull OnTaskCompleteListener<M> listener) {
+    public InflatableDialog(@NonNull Context context, @NonNull Listable<Model> modelListable, @NonNull BaseDialogListener<M> listener) {
         super(context, listener);
         this.modelListable = modelListable;
     }
 
-    protected InflatableDialog(@NonNull Context context, boolean cancelable, @Nullable OnCancelListener cancelListener, @NonNull Listable<Model> modelListable, @NonNull OnTaskCompleteListener<M> listener) {
+    protected InflatableDialog(@NonNull Context context, boolean cancelable, @Nullable OnCancelListener cancelListener, @NonNull Listable<Model> modelListable, @NonNull BaseDialogListener<M> listener) {
         super(context, cancelable, cancelListener, listener);
         this.modelListable = modelListable;
     }
@@ -50,12 +49,6 @@ public abstract class InflatableDialog<M extends Model> extends BaseDialog<M> im
     @Override
     public final InflatableAdapter getInflatableAdapter() {
         return adapter;
-    }
-
-    @NonNull
-    @Override
-    public final AbsListView getListView() {
-        return lvwItems;
     }
 
     @NonNull
@@ -79,14 +72,13 @@ public abstract class InflatableDialog<M extends Model> extends BaseDialog<M> im
     ==============================================================================================*/
 
     /**
-     * Inicializa el Listview y el InflatableAdapter
+     * Inicializa el InflatableAdapter
      * ATENCIÓN!!!: Este método debe llamarse dentro de onCreateView
      * @param lvwItems el ListView.
      * @param typeCount el número de items diferentes.
      */
-    protected final void initListViewAdapter(@NonNull AbsListView lvwItems, int typeCount){
+    protected final void initInflatableAdapter(@NonNull AbsListView lvwItems, int typeCount){
         adapter = new InflatableAdapter(getLayoutInflater(), typeCount, this);
         lvwItems.setAdapter(adapter);
-        this.lvwItems = lvwItems;
     }
 }

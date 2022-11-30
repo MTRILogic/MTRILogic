@@ -19,7 +19,6 @@ import com.mtrilogic.mtrilogic.items.DefaultPaginable;
 public abstract class PaginableActivity extends BaseActivity implements PaginableAdapterListener, PaginableItemListener {
     protected Listable<Page> pageListable;
     protected PaginableAdapter adapter;
-    protected ViewPager pager;
 
     /*==============================================================================================
     PROTECTED OVERRIDE METHODS
@@ -59,12 +58,6 @@ public abstract class PaginableActivity extends BaseActivity implements Paginabl
 
     @NonNull
     @Override
-    public final ViewPager getViewPager() {
-        return pager;
-    }
-
-    @NonNull
-    @Override
     public Paginable<? extends Page> getPaginable(int viewType, @NonNull LayoutInflater inflater, @NonNull ViewGroup parent) {
         return new DefaultPaginable(inflater, parent, this);
     }
@@ -84,13 +77,12 @@ public abstract class PaginableActivity extends BaseActivity implements Paginabl
     ==============================================================================================*/
 
     /**
-     * Inicializa el ViewPager y el PaginableAdapter
+     * Inicializa el PaginableAdapter
      * ATENCIÓN!!!: Este método debe llamarse dentro de onCreateView
      * @param pager el ViewPager.
      */
-    protected final void initViewPagerAdapter(@NonNull ViewPager pager){
+    protected final void initPaginableAdapter(@NonNull ViewPager pager){
         adapter = new PaginableAdapter(getLayoutInflater(), this);
         pager.setAdapter(adapter);
-        this.pager = pager;
     }
 }

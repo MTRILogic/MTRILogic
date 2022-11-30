@@ -20,7 +20,6 @@ import com.mtrilogic.mtrilogic.items.DefaultExpandableGroup;
 @SuppressWarnings("unused")
 public abstract class ExpandableFragment<P extends MappablePage<Model>> extends BaseFragment<P> implements ExpandableAdapterListener, ExpandableItemListener {
     protected ExpandableAdapter adapter;
-    protected ExpandableListView lvwItems;
 
     /*==============================================================================================
     PUBLIC OVERRIDE METHODS
@@ -29,12 +28,12 @@ public abstract class ExpandableFragment<P extends MappablePage<Model>> extends 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Base.restoreTopIndex(lvwItems, getArguments());
+        Base.restoreTopIndex(getExpandableListView(), getArguments());
     }
 
     @Override
     public void onDestroyView() {
-        Base.saveTopIndex(lvwItems, getArguments());
+        Base.saveTopIndex(getExpandableListView(), getArguments());
         super.onDestroyView();
     }
 
@@ -48,12 +47,6 @@ public abstract class ExpandableFragment<P extends MappablePage<Model>> extends 
     @Override
     public final ExpandableAdapter getExpandableAdapter() {
         return adapter;
-    }
-
-    @NonNull
-    @Override
-    public final ExpandableListView getExpandableListView() {
-        return lvwItems;
     }
 
     @NonNull
@@ -93,15 +86,14 @@ public abstract class ExpandableFragment<P extends MappablePage<Model>> extends 
     ==============================================================================================*/
 
     /**
-     * Inicializa el ExpandableView y el ExpandableAdapter
+     * Inicializa el ExpandableAdapter
      * ATENCIÓN!!!: Este método debe llamarse dentro de <b>onCreateViewFragment()</b>.
      * @param lvwItems el ExpandableView
      * @param groupTypeCount número de tipos para grupos diferentes (por default = 1)
      * @param childTypeCount número de tipos para hijos diferentes (por default = 1)
      */
-    protected final void initExpandableListViewAdapter(@NonNull ExpandableListView lvwItems, int groupTypeCount, int childTypeCount){
+    protected final void initExpandableAdapter(@NonNull ExpandableListView lvwItems, int groupTypeCount, int childTypeCount){
         adapter = new ExpandableAdapter(getLayoutInflater(), groupTypeCount, childTypeCount, this);
         lvwItems.setAdapter(adapter);
-        this.lvwItems = lvwItems;
     }
 }
