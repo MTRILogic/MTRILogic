@@ -43,7 +43,7 @@ public final class Mappable<M extends Model> {
     public void saveToData(@NonNull Bundle data){
         groupListable.saveToData(data);
         iterateGroupList(group -> {
-            Listable<M> listable = childListableMap.get(group);
+            Listable<M> listable = getChildListable(group);
             if (listable != null) {
                 listable.saveToData(data, group.getItemId());
             }

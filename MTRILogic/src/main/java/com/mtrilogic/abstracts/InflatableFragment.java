@@ -1,13 +1,16 @@
 package com.mtrilogic.abstracts;
 
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.mtrilogic.adapters.InflatableAdapter;
+import com.mtrilogic.classes.Base;
 import com.mtrilogic.classes.Listable;
 import com.mtrilogic.interfaces.InflatableAdapterListener;
 import com.mtrilogic.interfaces.InflatableItemListener;
@@ -20,6 +23,18 @@ public abstract class InflatableFragment<P extends ListablePage<Model>> extends 
     /*==============================================================================================
     PUBLIC OVERRIDE METHODS
     ==============================================================================================*/
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        Base.restoreTopIndex(getListView(), getArguments());
+    }
+
+    @Override
+    public void onDestroyView() {
+        Base.saveTopIndex(getListView(), getArguments());
+        super.onDestroyView();
+    }
 
     @NonNull
     @Override

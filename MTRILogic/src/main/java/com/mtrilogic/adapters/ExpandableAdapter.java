@@ -70,33 +70,33 @@ public final class ExpandableAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+    public View getGroupView(int groupPosition, boolean isExpanded, View itemView, ViewGroup parent) {
         Model group = getGroup(groupPosition);
-        ExpandableGroup<? extends Model> item;
-        if (convertView != null){
-            item = (ExpandableGroup<?>) convertView.getTag();
+        ExpandableGroup<? extends Model> groupItem;
+        if (itemView != null){
+            groupItem = (ExpandableGroup<?>) itemView.getTag();
         }else {
-            item = listener.getExpandableGroup(group.getViewType(), inflater, parent);
-            convertView = item.getItemView();
-            convertView.setTag(item);
+            groupItem = listener.getExpandableGroup(group.getViewType(), inflater, parent);
+            itemView = groupItem.getItemView();
+            itemView.setTag(groupItem);
         }
-        item.bindModelable(group, groupPosition, isExpanded);
-        return convertView;
+        groupItem.bindModel(group, groupPosition, isExpanded);
+        return itemView;
     }
 
     @Override
-    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View itemView, ViewGroup parent) {
         Model child = getChild(groupPosition, childPosition);
-        ExpandableChild<? extends Model> item;
-        if (convertView != null){
-            item = (ExpandableChild<?>) convertView.getTag();
+        ExpandableChild<? extends Model> childItem;
+        if (itemView != null){
+            childItem = (ExpandableChild<?>) itemView.getTag();
         }else {
-            item = listener.getExpandableChild(child.getViewType(), inflater, parent);
-            convertView = item.getItemView();
-            convertView.setTag(item);
+            childItem = listener.getExpandableChild(child.getViewType(), inflater, parent);
+            itemView = childItem.getItemView();
+            itemView.setTag(childItem);
         }
-        item.bindModel(child, groupPosition, childPosition, isLastChild);
-        return convertView;
+        childItem.bindModel(child, groupPosition, childPosition, isLastChild);
+        return itemView;
     }
 
     @Override

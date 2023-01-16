@@ -112,7 +112,7 @@ public final class Listable<M extends Model> {
     // INSERT ======================================================================================
 
     public boolean insertList(int position, @NonNull ArrayList<M> list){
-        return isValidPosition(position) && this.list.addAll(list);
+        return isValidPosition(position) && this.list.addAll(position, list);
     }
 
     public boolean insert(int position, @NonNull M item){

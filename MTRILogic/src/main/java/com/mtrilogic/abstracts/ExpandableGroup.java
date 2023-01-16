@@ -32,7 +32,7 @@ public abstract class ExpandableGroup<M extends Model> extends Expandable<M> {
         return super.getItemView();
     }
 
-    public void bindModelable(@NonNull Model model, int groupPosition, boolean expanded){
+    public void bindModel(@NonNull Model model, int groupPosition, boolean expanded){
         this.expanded = expanded;
         super.bindModel(model, groupPosition);
     }

@@ -1,13 +1,16 @@
 package com.mtrilogic.abstracts;
 
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.mtrilogic.adapters.ExpandableAdapter;
+import com.mtrilogic.classes.Base;
 import com.mtrilogic.classes.Mappable;
 import com.mtrilogic.interfaces.ExpandableAdapterListener;
 import com.mtrilogic.interfaces.ExpandableItemListener;
@@ -21,6 +24,18 @@ public abstract class ExpandableDialogFragment<P extends MappablePage<Model>> ex
     /*==============================================================================================
     PUBLIC OVERRIDE METHODS
     ==============================================================================================*/
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        Base.restoreTopIndex(getExpandableListView(), getArguments());
+    }
+
+    @Override
+    public void onDestroyView() {
+        Base.saveTopIndex(getExpandableListView(), getArguments());
+        super.onDestroyView();
+    }
 
     @NonNull
     @Override

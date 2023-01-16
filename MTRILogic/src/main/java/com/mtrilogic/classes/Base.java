@@ -3,7 +3,7 @@ package com.mtrilogic.classes;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ListView;
+import android.widget.AbsListView;
 
 import androidx.annotation.NonNull;
 
@@ -14,7 +14,7 @@ public final class Base{
 
     private static final String TAG = "MainMTRI", INDEX = "index", TOP = "top";
 
-    public static void restoreTopIndex(@NonNull ListView lvwItems, Bundle state){
+    public static void restoreTopIndex(@NonNull AbsListView lvwItems, Bundle state){
         if (state != null) {
             int index = state.getInt(INDEX, Base.INVALID_POSITION);
             if (index != Base.INVALID_POSITION) {
@@ -24,7 +24,7 @@ public final class Base{
         }
     }
 
-    public static void saveTopIndex(@NonNull ListView lvwItems, Bundle state){
+    public static void saveTopIndex(@NonNull AbsListView lvwItems, Bundle state){
         if (state != null) {
             int index = lvwItems.getFirstVisiblePosition();
             View view = lvwItems.getChildAt(0);

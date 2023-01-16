@@ -67,6 +67,16 @@ public final class InflatableAdapter extends BaseAdapter {
     }
 
     @Override
+    public boolean areAllItemsEnabled() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled(int position) {
+        return getItem(position).isEnabled();
+    }
+
+    @Override
     public int getItemViewType(int position) {
         return getItem(position).getViewType();
     }
