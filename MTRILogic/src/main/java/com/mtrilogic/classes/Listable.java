@@ -8,6 +8,7 @@ import com.mtrilogic.abstracts.Model;
 import com.mtrilogic.interfaces.Observable;
 import com.mtrilogic.interfaces.Observer;
 import com.mtrilogic.interfaces.OnIterationListener;
+import com.mtrilogic.interfaces.OnNewModelListener;
 
 import java.util.ArrayList;
 
@@ -109,6 +110,13 @@ public final class Listable<M extends Model> {
         return !list.contains(item) && list.add(item);
     }
 
+    public void appendItem(@NonNull OnNewModelListener<M> listener){
+        M item = listener.onNewModel(idx);
+        if (!list.contains(item) && list.add(item)){
+            idx++;
+        }
+    }
+
     // INSERT ======================================================================================
 
     public boolean insertList(int position, @NonNull ArrayList<M> list){
@@ -121,6 +129,14 @@ public final class Listable<M extends Model> {
             return true;
         }
         return false;
+    }
+
+    public void insertItem(int position, @NonNull OnNewModelListener<M> listener){
+        M item = listener.onNewModel(idx);
+        if (isValidPosition(position) && !list.contains(item)){
+            list.add(position, item);
+            idx++;
+        }
     }
 
     // GET =========================================================================================

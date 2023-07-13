@@ -74,7 +74,7 @@ public final class ExpandableAdapter extends BaseExpandableListAdapter {
         Model group = getGroup(groupPosition);
         ExpandableGroup<? extends Model> groupItem;
         if (itemView != null){
-            groupItem = (ExpandableGroup<?>) itemView.getTag();
+            groupItem = (ExpandableGroup<? extends Model>) itemView.getTag();
         }else {
             groupItem = listener.getExpandableGroup(group.getViewType(), inflater, parent);
             itemView = groupItem.getItemView();
@@ -89,7 +89,7 @@ public final class ExpandableAdapter extends BaseExpandableListAdapter {
         Model child = getChild(groupPosition, childPosition);
         ExpandableChild<? extends Model> childItem;
         if (itemView != null){
-            childItem = (ExpandableChild<?>) itemView.getTag();
+            childItem = (ExpandableChild<? extends Model>) itemView.getTag();
         }else {
             childItem = listener.getExpandableChild(child.getViewType(), inflater, parent);
             itemView = childItem.getItemView();
