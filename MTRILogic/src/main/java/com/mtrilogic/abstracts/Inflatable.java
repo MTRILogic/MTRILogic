@@ -9,6 +9,7 @@ import com.mtrilogic.interfaces.ModelBindable;
 
 @SuppressWarnings("unused")
 public abstract class Inflatable<M extends Model> implements ModelBindable {
+
     protected final InflatableItemListener listener;
     protected final View itemView;
 

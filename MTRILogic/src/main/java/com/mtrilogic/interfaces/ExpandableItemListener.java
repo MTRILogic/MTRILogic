@@ -10,6 +10,7 @@ import com.mtrilogic.classes.Mappable;
 
 @SuppressWarnings("unused")
 public interface ExpandableItemListener extends ItemListener, ExpandableListener{
+
     @NonNull
     Mappable<Model> getModelMappable();
 

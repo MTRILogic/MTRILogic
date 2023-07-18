@@ -13,6 +13,7 @@ import com.mtrilogic.mtrilogic.R;
 
 @SuppressWarnings("unused")
 public class DefaultExpandableGroup extends ExpandableGroup<DefaultModel> {
+
     private TextView lblTitle;
 
     /*==============================================================================================

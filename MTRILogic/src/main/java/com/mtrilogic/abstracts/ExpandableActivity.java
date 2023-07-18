@@ -18,6 +18,7 @@ import com.mtrilogic.mtrilogic.items.DefaultExpandableGroup;
 
 @SuppressWarnings("unused")
 public abstract class ExpandableActivity extends BaseActivity implements ExpandableAdapterListener, ExpandableItemListener {
+
     protected Mappable<Model> modelMappable;
     protected ExpandableAdapter adapter;
 

@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 @SuppressWarnings("unused")
 public final class Listable<M extends Model> {
+
     private static final String LIST = "list", IDX = "idx";
 
     private final ArrayList<M> list;

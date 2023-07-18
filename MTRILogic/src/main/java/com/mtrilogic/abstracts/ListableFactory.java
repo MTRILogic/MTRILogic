@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 @SuppressWarnings("unused")
 public abstract class ListableFactory<MIn extends Model , MOut extends Model> implements OnIterationListener<MIn> {
+
     private final ArrayList<MOut> list;
 
     private long idx;

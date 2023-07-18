@@ -8,6 +8,7 @@ import com.mtrilogic.abstracts.PageCreator;
 
 @SuppressWarnings("unused")
 public class DefaultMappablePage<M extends Model> extends MappablePage<M> {
+
     public static final Creator<DefaultMappablePage<? extends Model>> CREATOR = new PageCreator<DefaultMappablePage<? extends Model>>() {
         @Override
         public DefaultMappablePage<? extends Model> createFromData(Bundle data) {

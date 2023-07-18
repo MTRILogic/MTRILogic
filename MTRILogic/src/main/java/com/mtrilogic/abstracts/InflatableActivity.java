@@ -17,6 +17,7 @@ import com.mtrilogic.mtrilogic.items.DefaultInflatable;
 
 @SuppressWarnings("unused")
 public abstract class InflatableActivity extends BaseActivity implements InflatableAdapterListener, InflatableItemListener {
+
     protected Listable<Model> modelListable;
     protected InflatableAdapter adapter;
 

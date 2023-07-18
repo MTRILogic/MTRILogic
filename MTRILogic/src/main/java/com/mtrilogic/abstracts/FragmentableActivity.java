@@ -15,6 +15,7 @@ import com.mtrilogic.interfaces.FragmentableItemListener;
 
 @SuppressWarnings("unused")
 public abstract class FragmentableActivity extends BaseActivity implements FragmentableAdapterListener, FragmentableItemListener {
+
     protected Listable<Page> pageListable;
     protected FragmentableAdapter adapter;
 
@@ -61,7 +62,7 @@ public abstract class FragmentableActivity extends BaseActivity implements Fragm
     }
 
     @Override
-    public void onPositionChanged(int position) {
+    public void onPositionChanged(int oldPosition, int position) {
 
     }
 

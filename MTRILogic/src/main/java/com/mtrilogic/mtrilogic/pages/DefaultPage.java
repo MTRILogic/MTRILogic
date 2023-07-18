@@ -7,6 +7,7 @@ import com.mtrilogic.abstracts.PageCreator;
 
 @SuppressWarnings("unused")
 public class DefaultPage extends Page {
+
     public static final Creator<DefaultPage> CREATOR = new PageCreator<DefaultPage>() {
         @Override
         public DefaultPage createFromData(Bundle data) {

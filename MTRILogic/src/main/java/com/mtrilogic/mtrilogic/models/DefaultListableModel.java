@@ -8,6 +8,7 @@ import com.mtrilogic.abstracts.ModelCreator;
 
 @SuppressWarnings("unused")
 public class DefaultListableModel<M extends Model> extends ListableModel<M> {
+
     public static final Creator<DefaultListableModel<? extends Model>> CREATOR = new ModelCreator<DefaultListableModel<? extends Model>>() {
         @Override
         public DefaultListableModel<? extends Model> createFromData(Bundle data) {

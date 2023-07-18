@@ -13,6 +13,7 @@ import com.mtrilogic.mtrilogic.pages.DefaultPage;
 
 @SuppressWarnings("unused")
 public class DefaultPaginable extends Paginable<DefaultPage> {
+
     private TextView lblTitle;
 
     /*==============================================================================================

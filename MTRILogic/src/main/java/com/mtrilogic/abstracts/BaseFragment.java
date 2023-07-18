@@ -13,6 +13,7 @@ import com.mtrilogic.interfaces.FragmentableListener;
 
 @SuppressWarnings({"unused","EmptyMethod"})
 public abstract class BaseFragment<P extends Page> extends Fragment implements Fragmentable {
+
     private static final String PAGE = "page", POSITION = "position";
 
     protected FragmentableListener listener;

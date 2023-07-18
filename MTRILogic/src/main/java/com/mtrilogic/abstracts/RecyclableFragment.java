@@ -15,6 +15,7 @@ import com.mtrilogic.mtrilogic.items.DefaultRecyclable;
 
 @SuppressWarnings("unused")
 public abstract class RecyclableFragment<P extends ListablePage<Model>> extends BaseFragment<P> implements RecyclableAdapterListener, RecyclableItemListener {
+
     protected RecyclableAdapter adapter;
 
     /*==============================================================================================

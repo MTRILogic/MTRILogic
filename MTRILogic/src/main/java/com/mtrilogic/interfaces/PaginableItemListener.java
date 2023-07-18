@@ -9,6 +9,7 @@ import com.mtrilogic.classes.Listable;
 
 @SuppressWarnings("unused")
 public interface PaginableItemListener extends ItemListener, PaginableListener{
+
     @NonNull
     Listable<Page> getPageListable();
 

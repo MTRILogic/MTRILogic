@@ -8,6 +8,7 @@ import com.mtrilogic.abstracts.PageCreator;
 
 @SuppressWarnings("unused")
 public class DefaultListablePage<M extends Model> extends ListablePage<M> {
+
     public static final Creator<DefaultListablePage<? extends Model>> CREATOR = new PageCreator<DefaultListablePage<? extends Model>>() {
         @Override
         public DefaultListablePage<? extends Model> createFromData(Bundle data) {

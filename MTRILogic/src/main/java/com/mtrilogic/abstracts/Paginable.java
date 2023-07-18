@@ -10,6 +10,7 @@ import com.mtrilogic.interfaces.PageBindable;
 
 @SuppressWarnings("unused")
 public abstract class Paginable<P extends Page> implements PageBindable, Fragmentable {
+
     protected final PaginableItemListener listener;
     protected final View itemView;
 

@@ -6,6 +6,7 @@ import com.mtrilogic.interfaces.OnTaskCompleteListener;
 
 @SuppressWarnings("unused")
 public abstract class TaskCompleteListener<M extends Model> implements OnTaskCompleteListener<M> {
+
     @Override
     public void onTaskComplete(@NonNull M model, int result) {
 

@@ -13,6 +13,7 @@ import com.mtrilogic.mtrilogic.R;
 
 @SuppressWarnings("unused")
 public class DefaultExpandableChild extends ExpandableChild<DefaultModel> {
+
     private TextView lblTitle;
 
     /*==============================================================================================

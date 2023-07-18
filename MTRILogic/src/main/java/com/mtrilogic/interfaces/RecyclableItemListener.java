@@ -9,6 +9,7 @@ import com.mtrilogic.classes.Listable;
 
 @SuppressWarnings("unused")
 public interface RecyclableItemListener extends ItemListener, RecyclableListener{
+
     @NonNull
     Listable<Model> getModelListable();
 

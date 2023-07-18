@@ -11,6 +11,7 @@ import com.mtrilogic.interfaces.RecyclableItemListener;
 
 @SuppressWarnings("unused")
 public abstract class Recyclable<M extends Model> extends RecyclerView.ViewHolder implements ModelBindable {
+
     protected final RecyclableItemListener listener;
 
     private final Class<M> clazz;

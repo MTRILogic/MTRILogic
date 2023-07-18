@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 
 @SuppressWarnings({"unused"})
 public abstract class Page extends Model {
+
     private static final String PAGE_TITLE = "pageTitle", TAG_NAME = "tagName";
 
     private String pageTitle, tagName;

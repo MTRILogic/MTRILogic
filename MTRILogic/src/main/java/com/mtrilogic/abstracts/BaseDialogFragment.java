@@ -14,6 +14,7 @@ import com.mtrilogic.interfaces.FragmentableListener;
 
 @SuppressWarnings({"unused", "EmptyMethod"})
 public abstract class BaseDialogFragment<P extends Page> extends DialogFragment implements Fragmentable {
+
     private static final String PAGINABLE = "paginable", POSITION = "position";
 
     protected FragmentableListener listener;

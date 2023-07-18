@@ -17,6 +17,7 @@ import com.mtrilogic.mtrilogic.items.DefaultPaginable;
 
 @SuppressWarnings("unused")
 public abstract class PaginableActivity extends BaseActivity implements PaginableAdapterListener, PaginableItemListener {
+
     protected Listable<Page> pageListable;
     protected PaginableAdapter adapter;
 

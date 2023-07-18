@@ -10,6 +10,7 @@ import com.mtrilogic.classes.Listable;
 
 @SuppressWarnings("unused")
 public interface InflatableItemListener extends ItemListener, InflatableListener{
+
     @NonNull
     Listable<Model> getModelListable();
 

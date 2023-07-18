@@ -18,6 +18,7 @@ import com.mtrilogic.mtrilogic.items.DefaultPaginable;
 
 @SuppressWarnings("unused")
 public abstract class PaginableDialog<P extends Page> extends BaseDialog<P> implements PaginableAdapterListener, PaginableItemListener {
+
     protected final Listable<Page> pageListable;
     protected PaginableAdapter adapter;
 

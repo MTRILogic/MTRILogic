@@ -7,6 +7,7 @@ import com.mtrilogic.abstracts.ModelCreator;
 
 @SuppressWarnings("unused")
 public class DefaultModel extends Model {
+
     public static final Creator<DefaultModel> CREATOR = new ModelCreator<DefaultModel>() {
         @Override
         public DefaultModel createFromData(Bundle data) {

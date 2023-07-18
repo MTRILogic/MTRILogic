@@ -13,6 +13,7 @@ import com.mtrilogic.mtrilogic.R;
 
 @SuppressWarnings("unused")
 public class DefaultInflatable extends Inflatable<DefaultModel> {
+
     private TextView lblTitle;
 
     /*==============================================================================================

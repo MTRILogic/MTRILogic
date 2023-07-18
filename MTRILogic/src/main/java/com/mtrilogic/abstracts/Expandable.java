@@ -9,6 +9,7 @@ import com.mtrilogic.interfaces.ModelBindable;
 
 @SuppressWarnings("unused")
 public abstract class Expandable<M extends Model> implements ModelBindable {
+
     protected final ExpandableItemListener listener;
     protected final View itemView;
 

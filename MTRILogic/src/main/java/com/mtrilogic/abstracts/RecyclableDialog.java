@@ -18,6 +18,7 @@ import com.mtrilogic.mtrilogic.items.DefaultRecyclable;
 
 @SuppressWarnings("unused")
 public abstract class RecyclableDialog<M extends Model> extends BaseDialog<M> implements RecyclableAdapterListener, RecyclableItemListener {
+
     protected final Listable<Model> modelListable;
     protected RecyclableAdapter adapter;
 

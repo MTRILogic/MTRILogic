@@ -13,6 +13,7 @@ import com.mtrilogic.mtrilogic.models.DefaultModel;
 
 @SuppressWarnings("unused")
 public class DefaultRecyclable extends Recyclable<DefaultModel> {
+
     private TextView lblTitle;
 
     /*==============================================================================================

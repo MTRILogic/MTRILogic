@@ -11,6 +11,7 @@ import com.mtrilogic.interfaces.Dialogable;
 
 @SuppressWarnings("unused")
 public abstract class BaseDialog<M extends Model> extends Dialog implements Dialogable {
+
     protected final BaseDialogListener<M> listener;
 
     /*==============================================================================================

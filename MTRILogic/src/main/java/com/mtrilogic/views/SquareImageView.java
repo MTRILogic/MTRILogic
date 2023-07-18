@@ -10,6 +10,7 @@ import com.mtrilogic.mtrilogic.R;
 
 @SuppressWarnings("unused")
 public final class SquareImageView extends AppCompatImageView {
+
     private final boolean portrait;
 
     /*==============================================================================================

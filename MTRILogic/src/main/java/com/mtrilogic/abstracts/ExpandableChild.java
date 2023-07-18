@@ -9,6 +9,7 @@ import com.mtrilogic.interfaces.ExpandableItemListener;
 
 @SuppressWarnings("unused")
 public abstract class ExpandableChild<M extends Model> extends Expandable<M> {
+
     protected int childPosition;
     protected boolean lastChild;
 

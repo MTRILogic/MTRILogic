@@ -8,6 +8,7 @@ import com.mtrilogic.classes.Listable;
 
 @SuppressWarnings("unused")
 public abstract class ListableModel<M extends Model> extends Model{
+
     private Listable<M> listable;
 
     /*==============================================================================================

@@ -9,6 +9,7 @@ import com.mtrilogic.classes.Listable;
 
 @SuppressWarnings("unused")
 public interface FragmentableItemListener extends ItemListener, FragmentableListener{
+
     @NonNull
     Listable<Page> getPageListable();
 

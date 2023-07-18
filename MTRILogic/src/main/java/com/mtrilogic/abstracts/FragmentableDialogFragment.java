@@ -12,6 +12,7 @@ import com.mtrilogic.mtrilogic.fragments.DefaultBaseFragment;
 
 @SuppressWarnings("unused")
 public abstract class FragmentableDialogFragment<P extends ListablePage<Page>> extends BaseDialogFragment<P> implements FragmentableAdapterListener, FragmentableItemListener {
+
     protected FragmentableAdapter adapter;
 
     /*==============================================================================================
@@ -37,7 +38,7 @@ public abstract class FragmentableDialogFragment<P extends ListablePage<Page>> e
     }
 
     @Override
-    public void onPositionChanged(int position) {
+    public void onPositionChanged(int oldPosition, int position) {
 
     }
 

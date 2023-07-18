@@ -8,6 +8,7 @@ import com.mtrilogic.abstracts.Model;
 
 @SuppressWarnings({"unused", "EmptyMethod", "SameReturnValue"})
 public interface ExpandableListener extends OnMakeToastListener{
+
     boolean onExpandableChildLongClick(@NonNull View itemView, @NonNull Model model, int groupPosition, int childPosition, boolean lastChild);
 
     boolean onExpandableGroupLongClick(@NonNull View itemView, @NonNull Model model, int groupPosition, boolean expanded);

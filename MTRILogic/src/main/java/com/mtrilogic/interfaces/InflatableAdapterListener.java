@@ -11,6 +11,7 @@ import com.mtrilogic.classes.Listable;
 
 @SuppressWarnings("unused")
 public interface InflatableAdapterListener extends AdapterListener, OnMakeToastListener {
+
     @NonNull
     Inflatable<? extends Model> getInflatable(int viewType, @NonNull LayoutInflater inflater, @NonNull ViewGroup parent);
 

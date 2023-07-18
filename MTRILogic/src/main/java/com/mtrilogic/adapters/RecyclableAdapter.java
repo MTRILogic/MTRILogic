@@ -13,6 +13,7 @@ import com.mtrilogic.interfaces.RecyclableAdapterListener;
 
 @SuppressWarnings({"unused"})
 public final class RecyclableAdapter extends RecyclerView.Adapter<Recyclable<? extends Model>>{
+
     private final RecyclableAdapterListener listener;
     private final LayoutInflater inflater;
 

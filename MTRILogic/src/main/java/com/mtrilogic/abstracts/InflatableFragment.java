@@ -18,6 +18,7 @@ import com.mtrilogic.mtrilogic.items.DefaultInflatable;
 
 @SuppressWarnings("unused")
 public abstract class InflatableFragment<P extends ListablePage<Model>> extends BaseFragment<P> implements InflatableAdapterListener, InflatableItemListener {
+
     protected InflatableAdapter adapter;
 
     /*==============================================================================================

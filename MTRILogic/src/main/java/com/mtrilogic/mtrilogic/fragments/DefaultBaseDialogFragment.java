@@ -14,6 +14,7 @@ import com.mtrilogic.mtrilogic.R;
 import com.mtrilogic.mtrilogic.pages.DefaultPage;
 
 public class DefaultBaseDialogFragment extends BaseDialogFragment<DefaultPage> {
+
     private TextView lblTitle;
 
     /*==============================================================================================

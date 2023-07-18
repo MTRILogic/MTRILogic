@@ -10,6 +10,7 @@ import com.mtrilogic.interfaces.Observable;
 
 @SuppressWarnings("unused")
 public abstract class ExpandableGroup<M extends Model> extends Expandable<M> {
+
     protected boolean expanded;
 
     /*==============================================================================================

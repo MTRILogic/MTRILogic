@@ -22,11 +22,11 @@ public abstract class ModelCreator<M extends Model> implements Parcelable.ClassL
         if (src != null && loader != null){
             return createFromData(src.readBundle(loader));
         }
-        return null;
+        return createFromData(new Bundle());
     }
 
     @Override
     public final M createFromParcel(Parcel src){
-        return null;
+        return createFromData(new Bundle());
     }
 }

@@ -15,6 +15,7 @@ import com.mtrilogic.mtrilogic.pages.DefaultPage;
 
 @SuppressWarnings("unused")
 public class DefaultBaseFragment extends BaseFragment<DefaultPage> {
+
     private TextView lblTitle;
 
     /*==============================================================================================

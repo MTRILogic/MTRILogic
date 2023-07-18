@@ -8,11 +8,12 @@ import com.mtrilogic.classes.Listable;
 
 @SuppressWarnings({"unused", "EmptyMethod"})
 public interface FragmentableAdapterListener extends AdapterListener, OnMakeToastListener{
+
     @NonNull
     Fragment getFragment(@NonNull Page page, int position);
 
     @NonNull
     Listable<Page> getPageListable();
 
-    void onPositionChanged(int position);
+    void onPositionChanged(int oldPosition, int position);
 }

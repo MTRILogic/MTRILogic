@@ -10,6 +10,7 @@ import androidx.viewpager.widget.PagerAdapter;
 
 import com.mtrilogic.abstracts.Paginable;
 import com.mtrilogic.abstracts.Page;
+import com.mtrilogic.classes.Base;
 import com.mtrilogic.classes.Listable;
 import com.mtrilogic.interfaces.Fragmentable;
 import com.mtrilogic.interfaces.PaginableAdapterListener;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 
 @SuppressWarnings("unused")
 public final class PaginableAdapter extends PagerAdapter {
+
     private final PaginableAdapterListener listener;
     private final LayoutInflater inflater;
 
@@ -89,17 +91,18 @@ public final class PaginableAdapter extends PagerAdapter {
     @Override
     public int getItemPosition(@NonNull Object object) {
         Fragmentable fragmentable = (Fragmentable) object;
+        int oldPosition = fragmentable.getPosition();
         Page page = fragmentable.getPage();
-        Listable<Page> pageListable = getPageListable();
-        if (pageListable.contains(page)){
-            int position = pageListable.getPosition(page);
-            if (fragmentable.getPosition() != position){
+        int position = getPageListable().getPosition(page);
+        if (oldPosition != position){
+            listener.onPositionChanged(oldPosition, position);
+            if (position > Base.INVALID_POSITION){
                 fragmentable.setPosition(position);
                 return position;
             }
-            return POSITION_UNCHANGED;
+            return POSITION_NONE;
         }
-        return POSITION_NONE;
+        return POSITION_UNCHANGED;
     }
 
     /*==============================================================================================

@@ -14,6 +14,7 @@ import com.mtrilogic.interfaces.FragmentableAdapterListener;
 
 @SuppressWarnings({"unused","deprecation"})
 public final class FragmentableAdapter extends FragmentPagerAdapter {
+
     private final FragmentableAdapterListener listener;
 
     /*==============================================================================================
@@ -43,21 +44,18 @@ public final class FragmentableAdapter extends FragmentPagerAdapter {
     @Override
     public int getItemPosition(@NonNull Object object){
         Fragmentable fragmentable = (Fragmentable) object;
+        int oldPosition = fragmentable.getPosition();
         Page page = fragmentable.getPage();
-        Listable<Page> paginableListable = getPageListable();
-        if (paginableListable.contains(page)){
-            int position = paginableListable.getPosition(page);
-            if (fragmentable.getPosition() != position){
+        int position = getPageListable().getPosition(page);
+        if (oldPosition != position){
+            listener.onPositionChanged(oldPosition, position);
+            if (position > Base.INVALID_POSITION){
                 fragmentable.setPosition(position);
-                listener.onPositionChanged(position);
                 return position;
             }
-            return POSITION_UNCHANGED;
+            return POSITION_NONE;
         }
-        if (getCount() == 0){
-            listener.onPositionChanged(Base.INVALID_POSITION);
-        }
-        return POSITION_NONE;
+        return POSITION_UNCHANGED;
     }
 
     @Nullable

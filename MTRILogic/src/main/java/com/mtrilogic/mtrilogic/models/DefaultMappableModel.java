@@ -8,6 +8,7 @@ import com.mtrilogic.abstracts.ModelCreator;
 
 @SuppressWarnings("unused")
 public class DefaultMappableModel<M extends Model> extends MappableModel<M> {
+
     public static final Creator<DefaultMappableModel<? extends Model>> CREATOR = new ModelCreator<DefaultMappableModel<? extends Model>>() {
         @Override
         public DefaultMappableModel<? extends Model> createFromData(Bundle data) {

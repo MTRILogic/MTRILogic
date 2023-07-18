@@ -17,6 +17,7 @@ import com.mtrilogic.mtrilogic.items.DefaultRecyclable;
 
 @SuppressWarnings({"unused"})
 public abstract class RecyclableActivity extends BaseActivity implements RecyclableAdapterListener, RecyclableItemListener {
+
     protected Listable<Model> modelListable;
     protected RecyclableAdapter adapter;
 

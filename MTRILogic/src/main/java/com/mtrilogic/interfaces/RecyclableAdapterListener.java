@@ -11,6 +11,7 @@ import com.mtrilogic.classes.Listable;
 
 @SuppressWarnings("unused")
 public interface RecyclableAdapterListener extends AdapterListener, OnMakeToastListener {
+
     @NonNull
     Recyclable<? extends Model> getRecyclable(int viewType, @NonNull LayoutInflater inflater, @NonNull ViewGroup parent);
 

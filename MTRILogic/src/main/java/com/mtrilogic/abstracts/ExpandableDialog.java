@@ -19,6 +19,7 @@ import com.mtrilogic.mtrilogic.items.DefaultExpandableGroup;
 
 @SuppressWarnings({"unused"})
 public abstract class ExpandableDialog<M extends Model> extends BaseDialog<M> implements ExpandableAdapterListener, ExpandableItemListener {
+
     protected final Mappable<Model> modelMappable;
     protected ExpandableAdapter adapter;
 

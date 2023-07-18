@@ -8,6 +8,7 @@ import com.mtrilogic.classes.Mappable;
 
 @SuppressWarnings("unused")
 public abstract class MappablePage<M extends Model> extends Page {
+
     private Mappable<M> mappable;
 
     /*==============================================================================================
