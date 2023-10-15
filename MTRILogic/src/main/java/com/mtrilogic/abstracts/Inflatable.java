@@ -39,7 +39,7 @@ public abstract class Inflatable<M extends Model> implements ModelBindable {
         return itemView;
     }
 
-    public void bindModelable(@NonNull Model model, int position){
+    public void bindModel(@NonNull Model model, int position){
         this.model = clazz.cast(model);
         this.position = position;
         onBindModel();

@@ -6,7 +6,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 
 import com.mtrilogic.interfaces.Fragmentable;
 import com.mtrilogic.interfaces.FragmentableItemListener;
@@ -22,16 +21,11 @@ public abstract class BaseDialogFragment<P extends Page> extends DialogFragment 
     protected P page;
 
     /*==============================================================================================
-    PUBLIC STATIC METHOD
+    PUBLIC CONSTRUCTOR
     ==============================================================================================*/
 
-    @NonNull
-    public static Fragment getInstance(@NonNull Fragment fragment, @NonNull Page page, int position){
-        Bundle args = new Bundle();
-        args.putParcelable(PAGINABLE, page);
-        args.putInt(POSITION, position);
-        fragment.setArguments(args);
-        return fragment;
+    public BaseDialogFragment(){
+        super();
     }
 
     /*==============================================================================================
@@ -85,9 +79,22 @@ public abstract class BaseDialogFragment<P extends Page> extends DialogFragment 
     }
 
     @Override
-    public final void setPosition(int position) {
-        this.position = position;
-        onNewPosition();
+    public void bindPage(@NonNull Page page, int position) {
+        Bundle args = new Bundle();
+        args.putParcelable(PAGINABLE, page);
+        args.putInt(POSITION, position);
+        setArguments(args);
+    }
+
+    @Override
+    public final void updatePosition(int position) {
+        Bundle args = getArguments();
+        if (args != null){
+            args.putInt(POSITION, position);
+        }else {
+            this.position = position;
+            onNewPosition();
+        }
     }
 
     @Override

@@ -16,6 +16,9 @@ import java.util.Map;
 @SuppressWarnings("unused")
 public final class Mappable<M extends Model> {
 
+    private static final String GROUP_LISTABLE = "groupListable";
+    private static final String CHILD_LISTABLE = "childListable";
+
     private final Map<M, Listable<M>> childListableMap = new HashMap<>();
     private final Listable<M> groupListable;
 
@@ -29,10 +32,18 @@ public final class Mappable<M extends Model> {
         groupListable = new Listable<>();
     }
 
+    public Mappable(@NonNull Bundle data, @NonNull String key){
+        groupListable = new Listable<>(data, key + GROUP_LISTABLE);
+        iterateGroupList(group -> {
+            Listable<M> listable = new Listable<>(data, key + CHILD_LISTABLE + group.getItemId());
+            lastChildListable = childListableMap.put(group, listable);
+        });
+    }
+
     public Mappable(@NonNull Bundle data){
         groupListable = new Listable<>(data);
         iterateGroupList(group -> {
-            Listable<M> listable = new Listable<>(data, group.getItemId());
+            Listable<M> listable = new Listable<>(data, CHILD_LISTABLE + group.getItemId());
             lastChildListable = childListableMap.put(group, listable);
         });
     }
@@ -41,12 +52,24 @@ public final class Mappable<M extends Model> {
     PUBLIC METHODS
     ==============================================================================================*/
 
+    // para usar con un bundle existente.
+    public void saveToData(@NonNull Bundle data, @NonNull String key){
+        groupListable.saveToData(data, key + GROUP_LISTABLE);
+        iterateGroupList(group -> {
+            Listable<M> listable = getChildListable(group);
+            if (listable != null) {
+                listable.saveToData(data, key + CHILD_LISTABLE + group.getItemId());
+            }
+        });
+    }
+
+    // para usar con un bundle nuevo.
     public void saveToData(@NonNull Bundle data){
         groupListable.saveToData(data);
         iterateGroupList(group -> {
             Listable<M> listable = getChildListable(group);
             if (listable != null) {
-                listable.saveToData(data, group.getItemId());
+                listable.saveToData(data, CHILD_LISTABLE + group.getItemId());
             }
         });
     }

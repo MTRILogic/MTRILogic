@@ -97,7 +97,7 @@ public final class PaginableAdapter extends PagerAdapter {
         if (oldPosition != position){
             listener.onPositionChanged(oldPosition, position);
             if (position > Base.INVALID_POSITION){
-                fragmentable.setPosition(position);
+                fragmentable.updatePosition(position);
                 return position;
             }
             return POSITION_NONE;

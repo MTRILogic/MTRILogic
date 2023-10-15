@@ -33,7 +33,10 @@ public final class FragmentableAdapter extends FragmentPagerAdapter {
     @NonNull
     @Override
     public Fragment getItem(int position){
-        return listener.getFragment(getPage(position), position);
+        Page page = getPage(position);
+        Fragmentable fragmentable = listener.getFragmentable(page.getViewType());
+        fragmentable.bindPage(page, position);
+        return (Fragment) fragmentable;
     }
 
     @Override
@@ -42,20 +45,18 @@ public final class FragmentableAdapter extends FragmentPagerAdapter {
     }
 
     @Override
-    public int getItemPosition(@NonNull Object object){
+    public int getItemPosition(@NonNull Object object) {
         Fragmentable fragmentable = (Fragmentable) object;
-        int oldPosition = fragmentable.getPosition();
-        Page page = fragmentable.getPage();
-        int position = getPageListable().getPosition(page);
-        if (oldPosition != position){
-            listener.onPositionChanged(oldPosition, position);
+        int position = getPageListable().getPosition(fragmentable.getPage());
+        if (fragmentable.getPosition() != position){
+            listener.onPositionChanged(fragmentable, position);
             if (position > Base.INVALID_POSITION){
-                fragmentable.setPosition(position);
+                fragmentable.updatePosition(position);
                 return position;
             }
-            return POSITION_NONE;
+            return POSITION_NONE; // when delete the last item.
         }
-        return POSITION_UNCHANGED;
+        return POSITION_UNCHANGED; // when append an item.
     }
 
     @Nullable

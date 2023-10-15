@@ -35,8 +35,8 @@ public final class Listable<M extends Model> {
         this.idx = idx;
     }
 
-    public Listable(@NonNull Bundle data, long itemId){
-        this(data, LIST + itemId, IDX + itemId);
+    public Listable(@NonNull Bundle data, @NonNull String key){
+        this(data, key + LIST, key + IDX);
     }
 
     public Listable(@NonNull Bundle data){
@@ -61,8 +61,8 @@ public final class Listable<M extends Model> {
     PUBLIC METHODS
     ==============================================================================================*/
 
-    public void saveToData(@NonNull Bundle data, long itemId){
-        saveToData(data, LIST + itemId, IDX + itemId);
+    public void saveToData(@NonNull Bundle data, @NonNull String key){
+        saveToData(data, key + LIST, key + IDX);
     }
 
     public void saveToData(@NonNull Bundle data){

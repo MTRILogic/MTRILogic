@@ -55,7 +55,7 @@ public abstract class Paginable<P extends Page> implements PageBindable, Fragmen
     ==============================================================================================*/
 
     @Override
-    public final void setPosition(int position) {
+    public final void updatePosition(int position) {
         this.position = position;
     }
 

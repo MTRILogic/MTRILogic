@@ -9,6 +9,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.mtrilogic.abstracts.Page;
 import com.mtrilogic.classes.Listable;
+import com.mtrilogic.interfaces.Fragmentable;
 import com.mtrilogic.interfaces.FragmentableAdapterListener;
 
 @SuppressWarnings("unused")
@@ -42,7 +43,10 @@ public final class FragmentableAdapter2 extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        return listener.getFragment(getPage(position), position);
+        Page page = getPage(position);
+        Fragmentable fragmentable = listener.getFragmentable(page.getViewType());
+        fragmentable.bindPage(page, position);
+        return (Fragment) fragmentable;
     }
 
     @Override

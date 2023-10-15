@@ -9,6 +9,8 @@ import com.mtrilogic.classes.Listable;
 @SuppressWarnings("unused")
 public abstract class ListablePage<M extends Model> extends Page {
 
+    private static final String LISTABLE = "listable";
+
     private Listable<M> listable;
 
     /*==============================================================================================
@@ -51,12 +53,12 @@ public abstract class ListablePage<M extends Model> extends Page {
     @Override
     protected void restoreFromData(@NonNull Bundle data) {
         super.restoreFromData(data);
-        listable = new Listable<>(data);
+        listable = new Listable<>(data, LISTABLE);
     }
 
     @Override
     protected void saveToData(@NonNull Bundle data) {
         super.saveToData(data);
-        listable.saveToData(data);
+        listable.saveToData(data, LISTABLE);
     }
 }

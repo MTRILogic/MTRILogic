@@ -4,11 +4,11 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.mtrilogic.adapters.FragmentableAdapter;
 import com.mtrilogic.classes.Listable;
+import com.mtrilogic.interfaces.Fragmentable;
 import com.mtrilogic.mtrilogic.fragments.DefaultBaseFragment;
 import com.mtrilogic.interfaces.FragmentableAdapterListener;
 import com.mtrilogic.interfaces.FragmentableItemListener;
@@ -57,12 +57,12 @@ public abstract class FragmentableActivity extends BaseActivity implements Fragm
 
     @NonNull
     @Override
-    public Fragment getFragment(@NonNull Page page, int position) {
-        return BaseFragment.getInstance(new DefaultBaseFragment(), page, position);
+    public Fragmentable getFragmentable(int viewType) {
+        return new DefaultBaseFragment();
     }
 
     @Override
-    public void onPositionChanged(int oldPosition, int position) {
+    public void onPositionChanged(@NonNull Fragmentable fragmentable, int position) {
 
     }
 

@@ -21,16 +21,11 @@ public abstract class BaseFragment<P extends Page> extends Fragment implements F
     protected P page;
 
     /*==============================================================================================
-    PUBLIC STATIC METHOD
+    PUBLIC CONSTRUCTOR
     ==============================================================================================*/
 
-    @NonNull
-    public static Fragment getInstance(@NonNull Fragment fragment, @NonNull Page page, int position){
-        Bundle args = new Bundle();
-        args.putParcelable(PAGE, page);
-        args.putInt(POSITION, position);
-        fragment.setArguments(args);
-        return fragment;
+    public BaseFragment(){
+        super();
     }
 
     /*==============================================================================================
@@ -58,14 +53,14 @@ public abstract class BaseFragment<P extends Page> extends Fragment implements F
             if (args != null){
                 page = args.getParcelable(PAGE);
                 position = args.getInt(POSITION);
-            }
-        }
-        if (page != null && listener != null){
-            String tagName = page.getTagName();
-            String tag = getTag();
-            if (tag != null && !tag.equals(tagName)){
-                page.setTagName(tag);
-                listener.onNewTagName(tagName, tag);
+                if (page != null && listener != null){
+                    String tagName = page.getTagName();
+                    String tag = getTag();
+                    if (tag != null && !tag.equals(tagName)){
+                        page.setTagName(tag);
+                        listener.onNewTagName(tagName, tag);
+                    }
+                }
             }
         }
     }
@@ -84,19 +79,32 @@ public abstract class BaseFragment<P extends Page> extends Fragment implements F
     }
 
     @Override
-    public final Page getPage() {
-        return page;
+    public final void bindPage(@NonNull Page page, int position){
+        Bundle args = new Bundle();
+        args.putParcelable(PAGE, page);
+        args.putInt(POSITION, position);
+        setArguments(args);
     }
 
     @Override
-    public final void setPosition(int position) {
-        this.position = position;
-        onNewPosition();
+    public final void updatePosition(int position) {
+        Bundle args = getArguments();
+        if (args != null){
+            args.putInt(POSITION, position);
+        }else {
+            this.position = position;
+            onNewPosition();
+        }
     }
 
     @Override
     public final int getPosition() {
         return position;
+    }
+
+    @Override
+    public final Page getPage() {
+        return page;
     }
 
     @Override
@@ -108,7 +116,7 @@ public abstract class BaseFragment<P extends Page> extends Fragment implements F
     PUBLIC METHODS
     ==============================================================================================*/
 
-    public final void setPage(P page) {
+    public final void setPage(@NonNull P page) {
         this.page = page;
     }
 

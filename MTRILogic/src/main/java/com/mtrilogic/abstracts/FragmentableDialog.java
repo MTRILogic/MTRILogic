@@ -4,13 +4,13 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 
 import com.mtrilogic.adapters.FragmentableAdapter;
 import com.mtrilogic.classes.Listable;
 import com.mtrilogic.interfaces.BaseDialogListener;
+import com.mtrilogic.interfaces.Fragmentable;
 import com.mtrilogic.interfaces.FragmentableAdapterListener;
 import com.mtrilogic.interfaces.FragmentableItemListener;
 import com.mtrilogic.mtrilogic.fragments.DefaultBaseFragment;
@@ -54,12 +54,12 @@ public abstract class FragmentableDialog<P extends Page> extends BaseDialog<P> i
 
     @NonNull
     @Override
-    public Fragment getFragment(@NonNull Page page, int position) {
-        return BaseFragment.getInstance(new DefaultBaseFragment(), page, position);
+    public Fragmentable getFragmentable(int viewType) {
+        return new DefaultBaseFragment();
     }
 
     @Override
-    public void onPositionChanged(int oldPosition, int position) {
+    public void onPositionChanged(@NonNull Fragmentable fragmentable, int position) {
 
     }
 

@@ -1,7 +1,6 @@
 package com.mtrilogic.interfaces;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 
 import com.mtrilogic.abstracts.Page;
 import com.mtrilogic.classes.Listable;
@@ -9,11 +8,11 @@ import com.mtrilogic.classes.Listable;
 @SuppressWarnings({"unused", "EmptyMethod"})
 public interface FragmentableAdapterListener extends AdapterListener, OnMakeToastListener{
 
+    void onPositionChanged(@NonNull Fragmentable fragmentable, int position);
+
     @NonNull
-    Fragment getFragment(@NonNull Page page, int position);
+    Fragmentable getFragmentable(int viewType);
 
     @NonNull
     Listable<Page> getPageListable();
-
-    void onPositionChanged(int oldPosition, int position);
 }

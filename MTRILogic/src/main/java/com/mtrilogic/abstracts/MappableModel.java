@@ -9,6 +9,8 @@ import com.mtrilogic.classes.Mappable;
 @SuppressWarnings("unused")
 public abstract class MappableModel<M extends Model> extends Model{
 
+    private static final String MAPPABLE = "mappable";
+
     private Mappable<M> mappable;
 
     /*==============================================================================================
@@ -51,12 +53,12 @@ public abstract class MappableModel<M extends Model> extends Model{
     @Override
     protected void restoreFromData(@NonNull Bundle data) {
         super.restoreFromData(data);
-        mappable = new Mappable<>(data);
+        mappable = new Mappable<>(data, MAPPABLE);
     }
 
     @Override
     protected void saveToData(@NonNull Bundle data) {
         super.saveToData(data);
-        mappable.saveToData(data);
+        mappable.saveToData(data, MAPPABLE);
     }
 }
