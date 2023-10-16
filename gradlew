@@ -67,17 +67,13 @@ darwin=false
 nonstop=false
 case "`uname`" in
   CYGWIN* )
-    cygwin=true
-    ;
+    cygwin=true;
   Darwin* )
-    darwin=true
-    ;
+    darwin=true;
   MINGW* )
-    msys=true
-    ;
+    msys=true;
   NONSTOP* )
-    nonstop=true
-    ;
+    nonstop=true;
 esac
 
 CLASSPATH=$APP_HOME/gradle/wrapper/gradle-wrapper.jar
