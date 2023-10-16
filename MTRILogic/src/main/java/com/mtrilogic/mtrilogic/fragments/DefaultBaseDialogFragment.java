@@ -4,18 +4,18 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.mtrilogic.abstracts.BaseDialogFragment;
 import com.mtrilogic.mtrilogic.R;
+import com.mtrilogic.mtrilogic.databinding.FragmentDefaultBinding;
 import com.mtrilogic.mtrilogic.pages.DefaultPage;
 
 public class DefaultBaseDialogFragment extends BaseDialogFragment<DefaultPage> {
 
-    private TextView lblTitle;
+    private FragmentDefaultBinding binding;
 
     /*==============================================================================================
     PUBLIC OVERRIDE METHOD
@@ -24,10 +24,14 @@ public class DefaultBaseDialogFragment extends BaseDialogFragment<DefaultPage> {
     @NonNull
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_default, container, false);
-        lblTitle = view.findViewById(R.id.lblTitle);
+        binding = FragmentDefaultBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         onNewPosition();
-        return view;
     }
 
     /*==============================================================================================
@@ -36,6 +40,6 @@ public class DefaultBaseDialogFragment extends BaseDialogFragment<DefaultPage> {
 
     @Override
     protected void onNewPosition() {
-        lblTitle.setText(getString(R.string.default_fragment, page.getItemId(), position));
+        binding.lblTitle.setText(getString(R.string.default_fragment, page.getItemId(), position));
     }
 }

@@ -12,7 +12,6 @@ import com.mtrilogic.abstracts.Paginable;
 import com.mtrilogic.abstracts.Page;
 import com.mtrilogic.classes.Base;
 import com.mtrilogic.classes.Listable;
-import com.mtrilogic.interfaces.Fragmentable;
 import com.mtrilogic.interfaces.PaginableAdapterListener;
 
 import java.util.ArrayList;
@@ -90,14 +89,12 @@ public final class PaginableAdapter extends PagerAdapter {
 
     @Override
     public int getItemPosition(@NonNull Object object) {
-        Fragmentable fragmentable = (Fragmentable) object;
-        int oldPosition = fragmentable.getPosition();
-        Page page = fragmentable.getPage();
-        int position = getPageListable().getPosition(page);
-        if (oldPosition != position){
-            listener.onPositionChanged(oldPosition, position);
+        Paginable<? extends Page> paginable = (Paginable<? extends Page>) object;
+        int position = getPageListable().getPosition(paginable.getPage());
+        if (paginable.getPosition() != position){
+            listener.onPositionChanged(paginable, position);
             if (position > Base.INVALID_POSITION){
-                fragmentable.updatePosition(position);
+                paginable.updatePosition(position);
                 return position;
             }
             return POSITION_NONE;

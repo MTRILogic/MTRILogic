@@ -14,7 +14,7 @@ import com.mtrilogic.interfaces.FragmentableListener;
 @SuppressWarnings({"unused", "EmptyMethod"})
 public abstract class BaseDialogFragment<P extends Page> extends DialogFragment implements Fragmentable {
 
-    private static final String PAGINABLE = "paginable", POSITION = "position";
+    private static final String PAGE = "page", POSITION = "position";
 
     protected FragmentableListener listener;
     protected int position;
@@ -46,28 +46,28 @@ public abstract class BaseDialogFragment<P extends Page> extends DialogFragment 
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null){
-            page = savedInstanceState.getParcelable(PAGINABLE);
+            page = savedInstanceState.getParcelable(PAGE);
             position = savedInstanceState.getInt(POSITION);
         }else {
             Bundle args = getArguments();
             if (args != null){
-                page = args.getParcelable(PAGINABLE);
+                page = args.getParcelable(PAGE);
                 position = args.getInt(POSITION);
-            }
-        }
-        if (page != null && listener != null){
-            String tagName = page.getTagName();
-            String tag = getTag();
-            if (tag != null && !tag.equals(tagName)){
-                page.setTagName(tag);
-                listener.onNewTagName(tagName, tag);
+                if (page != null && listener != null){
+                    String tagName = page.getTagName();
+                    String tag = getTag();
+                    if (tag != null && !tag.equals(tagName)){
+                        page.setTagName(tag);
+                        listener.onNewTagName(tagName, tag);
+                    }
+                }
             }
         }
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
-        outState.putParcelable(PAGINABLE, page);
+        outState.putParcelable(PAGE, page);
         outState.putInt(POSITION, position);
         super.onSaveInstanceState(outState);
     }
@@ -81,7 +81,7 @@ public abstract class BaseDialogFragment<P extends Page> extends DialogFragment 
     @Override
     public void bindPage(@NonNull Page page, int position) {
         Bundle args = new Bundle();
-        args.putParcelable(PAGINABLE, page);
+        args.putParcelable(PAGE, page);
         args.putInt(POSITION, position);
         setArguments(args);
     }
@@ -126,27 +126,26 @@ public abstract class BaseDialogFragment<P extends Page> extends DialogFragment 
 
     /**
      * Schedule this fragment to be deleted on adapter update.
-     * <b>WARNING!!!</b>: use this method only if this fragment is in page mode, i.e. with
-     * FragmentableItemListener implemented.
      * @return true if page was deleted from list.
      */
     protected final boolean autoDelete(){
-        return getItemListener().getPageListable().delete(page);
+        if (this instanceof FragmentableItemListener){
+            return getItemListener().getPageListable().delete(page);
+        }
+        return false;
     }
 
     /**
      *  Notify the adapter that the listable has changed.
-     * <b>WARNING!!!</b>: use this method only if this fragment is in page mode, i.e. with
-     * FragmentableItemListener implemented.
      */
     protected final void notifyChanged(){
-        getItemListener().getFragmentableAdapter().notifyDataSetChanged();
+        if (this instanceof FragmentableItemListener){
+            getItemListener().getFragmentableAdapter().notifyDataSetChanged();
+        }
     }
 
     /**
      * Convenient method to get the FragmentableItemListener from the FrangmentableListener
-     * <b>WARNING!!!</b>: use this method only if this fragment is in page mode, i.e. with
-     * FragmentableItemListener implemented.
      */
     protected FragmentableItemListener getItemListener(){
         return (FragmentableItemListener) listener;

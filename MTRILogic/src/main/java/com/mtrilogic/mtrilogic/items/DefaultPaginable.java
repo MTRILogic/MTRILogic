@@ -2,26 +2,26 @@ package com.mtrilogic.mtrilogic.items;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
 import com.mtrilogic.abstracts.Paginable;
 import com.mtrilogic.interfaces.PaginableItemListener;
 import com.mtrilogic.mtrilogic.R;
+import com.mtrilogic.mtrilogic.databinding.FragmentDefaultBinding;
 import com.mtrilogic.mtrilogic.pages.DefaultPage;
 
 @SuppressWarnings("unused")
 public class DefaultPaginable extends Paginable<DefaultPage> {
 
-    private TextView lblTitle;
+    private FragmentDefaultBinding binding;
 
     /*==============================================================================================
     PUBLIC CONSTRUCTOR
     ==============================================================================================*/
 
     public DefaultPaginable(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent, @NonNull PaginableItemListener listener) {
-        super(DefaultPage.class, inflater.inflate(R.layout.fragment_default, parent, false), listener);
+        super(DefaultPage.class, FragmentDefaultBinding.inflate(inflater, parent, false).getRoot(), listener);
     }
 
     /*==============================================================================================
@@ -30,11 +30,11 @@ public class DefaultPaginable extends Paginable<DefaultPage> {
 
     @Override
     public void onBindItemView() {
-        lblTitle = itemView.findViewById(R.id.lblTitle);
+        binding = FragmentDefaultBinding.bind(itemView);
     }
 
     @Override
     public void onBindPage() {
-        lblTitle.setText(itemView.getContext().getString(R.string.default_page, page.getItemId(), position));
+        binding.lblTitle.setText(itemView.getContext().getString(R.string.default_page, page.getItemId(), position));
     }
 }

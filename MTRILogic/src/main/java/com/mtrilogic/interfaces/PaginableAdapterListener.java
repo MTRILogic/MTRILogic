@@ -15,8 +15,8 @@ public interface PaginableAdapterListener extends AdapterListener, OnMakeToastLi
     @NonNull
     Paginable<? extends Page> getPaginable(int viewType, @NonNull LayoutInflater inflater, @NonNull ViewGroup parent);
 
+    void onPositionChanged(@NonNull Paginable<? extends Page> paginable, int position);
+
     @NonNull
     Listable<Page> getPageListable();
-
-    void onPositionChanged(int oldPosition, int position);
 }

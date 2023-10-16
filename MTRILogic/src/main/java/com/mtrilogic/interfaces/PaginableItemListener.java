@@ -11,10 +11,10 @@ import com.mtrilogic.classes.Listable;
 public interface PaginableItemListener extends ItemListener, PaginableListener{
 
     @NonNull
-    Listable<Page> getPageListable();
+    PaginableAdapter getPaginableAdapter();
 
     @NonNull
-    PaginableAdapter getPaginableAdapter();
+    Listable<Page> getPageListable();
 
     @NonNull
     ViewPager getViewPager();

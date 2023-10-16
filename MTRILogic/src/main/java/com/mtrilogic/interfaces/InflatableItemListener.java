@@ -12,10 +12,10 @@ import com.mtrilogic.classes.Listable;
 public interface InflatableItemListener extends ItemListener, InflatableListener{
 
     @NonNull
-    Listable<Model> getModelListable();
+    InflatableAdapter getInflatableAdapter();
 
     @NonNull
-    InflatableAdapter getInflatableAdapter();
+    Listable<Model> getModelListable();
 
     @NonNull
     AbsListView getListView();

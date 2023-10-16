@@ -11,10 +11,10 @@ import com.mtrilogic.classes.Listable;
 public interface RecyclableItemListener extends ItemListener, RecyclableListener{
 
     @NonNull
-    Listable<Model> getModelListable();
+    RecyclableAdapter getRecyclableAdapter();
 
     @NonNull
-    RecyclableAdapter getRecyclableAdapter();
+    Listable<Model> getModelListable();
 
     @NonNull
     RecyclerView getRecyclerView();

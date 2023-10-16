@@ -11,10 +11,10 @@ import com.mtrilogic.classes.Listable;
 public interface FragmentableItemListener extends ItemListener, FragmentableListener{
 
     @NonNull
-    Listable<Page> getPageListable();
+    FragmentableAdapter getFragmentableAdapter();
 
     @NonNull
-    FragmentableAdapter getFragmentableAdapter();
+    Listable<Page> getPageListable();
 
     @NonNull
     ViewPager getViewPager();

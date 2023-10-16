@@ -8,7 +8,7 @@ import androidx.annotation.Nullable;
 
 import com.mtrilogic.abstracts.BaseDialog;
 import com.mtrilogic.interfaces.BaseDialogListener;
-import com.mtrilogic.mtrilogic.R;
+import com.mtrilogic.mtrilogic.databinding.FragmentDefaultBinding;
 import com.mtrilogic.mtrilogic.models.DefaultModel;
 
 @SuppressWarnings("unused")
@@ -33,6 +33,6 @@ public class DefaultBaseDialog extends BaseDialog<DefaultModel> {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_default);
+        setContentView(FragmentDefaultBinding.inflate(getLayoutInflater()).getRoot());
     }
 }

@@ -133,21 +133,22 @@ public abstract class BaseFragment<P extends Page> extends Fragment implements F
 
     /**
      * Schedule this fragment to be deleted on adapter update.
-     * <b>WARNING!!!</b>: use this method only if this fragment is in page mode, i.e. with
-     * FragmentableItemListener implemented.
      * @return true if page was deleted from list.
      */
     protected final boolean autoDelete(){
-        return getItemListener().getPageListable().delete(page);
+        if (this instanceof FragmentableItemListener){
+            return getItemListener().getPageListable().delete(page);
+        }
+        return false;
     }
 
     /**
      *  Notify the adapter that the listable has changed.
-     * <b>WARNING!!!</b>: use this method only if this fragment is in page mode, i.e. with
-     * FragmentableItemListener implemented.
      */
     protected final void notifyChanged(){
-        getItemListener().getFragmentableAdapter().notifyDataSetChanged();
+        if (this instanceof FragmentableItemListener){
+            getItemListener().getFragmentableAdapter().notifyDataSetChanged();
+        }
     }
 
     protected FragmentableItemListener getItemListener(){

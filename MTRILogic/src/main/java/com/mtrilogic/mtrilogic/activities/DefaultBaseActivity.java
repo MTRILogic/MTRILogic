@@ -5,7 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 
 import com.mtrilogic.abstracts.BaseActivity;
-import com.mtrilogic.mtrilogic.R;
+import com.mtrilogic.mtrilogic.databinding.ActivityDefaultBinding;
 
 @SuppressWarnings("unused")
 public class DefaultBaseActivity extends BaseActivity {
@@ -17,6 +17,6 @@ public class DefaultBaseActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_default);
+        setContentView(ActivityDefaultBinding.inflate(getLayoutInflater()).getRoot());
     }
 }

@@ -12,11 +12,11 @@ import com.mtrilogic.classes.Mappable;
 public interface ExpandableItemListener extends ItemListener, ExpandableListener{
 
     @NonNull
-    Mappable<Model> getModelMappable();
+    ExpandableListView getExpandableListView();
 
     @NonNull
     ExpandableAdapter getExpandableAdapter();
 
     @NonNull
-    ExpandableListView getExpandableListView();
+    Mappable<Model> getModelMappable();
 }

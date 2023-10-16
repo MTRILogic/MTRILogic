@@ -108,12 +108,18 @@ public final class Listable<M extends Model> {
     }
 
     public boolean append(@NonNull M item){
-        return !list.contains(item) && list.add(item);
+        return list.add(item);
+    }
+
+    public void appendItems(@NonNull OnNewModelListener<M> listener, int count){
+        for (int i = 0; i < count; i++){
+            appendItem(listener);
+        }
     }
 
     public void appendItem(@NonNull OnNewModelListener<M> listener){
         M item = listener.onNewModel(idx);
-        if (!list.contains(item) && list.add(item)){
+        if (append(item)){
             idx++;
         }
     }
@@ -125,17 +131,22 @@ public final class Listable<M extends Model> {
     }
 
     public boolean insert(int position, @NonNull M item){
-        if (isValidPosition(position) && !list.contains(item)){
+        if (isValidPosition(position)){
             list.add(position, item);
             return true;
         }
         return false;
     }
 
+    public void insertItems(int position, @NonNull OnNewModelListener<M> listener, int size){
+        for (int i = 0; i < size; i++){
+            insertItem(position, listener);
+        }
+    }
+
     public void insertItem(int position, @NonNull OnNewModelListener<M> listener){
         M item = listener.onNewModel(idx);
-        if (isValidPosition(position) && !list.contains(item)){
-            list.add(position, item);
+        if (insert(position, item)){
             idx++;
         }
     }
@@ -169,7 +180,7 @@ public final class Listable<M extends Model> {
     // SET =========================================================================================
 
     public boolean set(int position, @NonNull M item){
-        if (isValidPosition(position) && !list.contains(item)){
+        if (isValidPosition(position)){
             lastItem = list.set(position, item);
             return true;
         }

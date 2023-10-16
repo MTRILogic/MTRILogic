@@ -26,10 +26,15 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     namespace 'com.mtrilogic.mtrilogic'
+
+    // enabled viewbinding
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
-    //implementation project(':MTRILogic')
+    implementation project(':MTRILogic')
     //implementation 'com.github.MTRILogic:MTRILogic:0.30.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.10.0'
