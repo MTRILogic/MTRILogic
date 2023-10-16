@@ -1,4 +1,4 @@
-package com.mtrilogic.mtrilogic;
+package com.mtrilogic.sampleapplication;
 
 import org.junit.Test;
 

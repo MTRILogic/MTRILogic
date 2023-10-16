@@ -1,10 +1,10 @@
-package com.mtrilogic.mtrilogic;
+package com.mtrilogic.sampleapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-import com.mtrilogic.mtrilogic.databinding.ActivityMainBinding;
+import com.mtrilogic.sampleapplication.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
